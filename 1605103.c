@@ -992,7 +992,7 @@ YY_RULE_SETUP
 			appendToken("RCURL",yytext);
 			appendLog(lines,"RCURL",yytext);
 
-			st.insert(SymbolInfo(yytext,"RCURL"));
+			//st.insert(SymbolInfo(yytext,"RCURL"));
 		}
 	YY_BREAK
 case 25:
@@ -1001,7 +1001,7 @@ YY_RULE_SETUP
 {
 			appendToken("LTHIRD",yytext);
 			appendLog(lines,"LTHIRD",yytext);
-			st.insert(SymbolInfo(yytext,"LTHIRD"));
+			//st.insert(SymbolInfo(yytext,"LTHIRD"));
 		}
 	YY_BREAK
 case 26:
@@ -1010,7 +1010,7 @@ YY_RULE_SETUP
 {
 			appendToken("RTHIRD",yytext);
 			appendLog(lines,"RTHIRD",yytext);
-			st.insert(SymbolInfo(yytext,"RTHIRD"));
+			//st.insert(SymbolInfo(yytext,"RTHIRD"));
 		}
 	YY_BREAK
 case 27:
@@ -1019,7 +1019,7 @@ YY_RULE_SETUP
 {
 			appendToken("NOT",yytext);
 			appendLog(lines,"NOT",yytext);	
-			st.insert(SymbolInfo(yytext,"NOT"));
+			//st.insert(SymbolInfo(yytext,"NOT"));
 				
 		}
 	YY_BREAK
@@ -1029,7 +1029,7 @@ YY_RULE_SETUP
 {
 			appendToken("ADDOP",yytext);
 			appendLog(lines,"ADDOP",yytext);	
-			st.insert(SymbolInfo(yytext,"ADDOP"));
+			//st.insert(SymbolInfo(yytext,"ADDOP"));
 				
 		}
 	YY_BREAK
@@ -1039,7 +1039,7 @@ YY_RULE_SETUP
 {
 			appendToken("INCOP",yytext);
 			appendLog(lines,"INCOP",yytext);	
-			st.insert(SymbolInfo(yytext,"INCOP"));
+			//st.insert(SymbolInfo(yytext,"INCOP"));
 				
 		}
 	YY_BREAK
@@ -1049,7 +1049,7 @@ YY_RULE_SETUP
 {
 			appendToken("MULOP",yytext);
 			appendLog(lines,"MULOP",yytext);
-			st.Insert(yytext,"MULOP");
+			//st.insert(yytext,"MULOP");
 		}
 	YY_BREAK
 case 31:
@@ -1058,7 +1058,7 @@ YY_RULE_SETUP
 {
 					appendToken("RELOP",yytext);
 					appendLog(lines,"RELOP",yytext);
-					//s.Insert(yytext,"RELOP");
+					//st.insert(yytext,"RELOP");
 				}
 	YY_BREAK
 case 32:
@@ -1067,7 +1067,7 @@ YY_RULE_SETUP
 {
 			appendToken("ASSIGNOP",yytext);
 			appendLog(lines,"ASSIGNOP",yytext);
-			//s.Insert(yytext,"ASSIGNOP");
+			//st.insert(yytext,"ASSIGNOP");
 		}
 	YY_BREAK
 case 33:
@@ -1076,7 +1076,7 @@ YY_RULE_SETUP
 {
 			appendToken("LOGICOP",yytext);
 			appendLog(lines,"LOGICOP",yytext);
-			//s.Insert(yytext,"LOGICOP");
+			//st.insert(yytext,"LOGICOP");
 		}
 	YY_BREAK
 case 34:
@@ -1085,7 +1085,7 @@ YY_RULE_SETUP
 {
 					appendToken("BITOP",yytext);
 					appendLog(lines,"BITOP",yytext);
-					//s.Insert(yytext,"BITOP");
+					//st.insert(yytext,"BITOP");
 				}
 	YY_BREAK
 case 35:

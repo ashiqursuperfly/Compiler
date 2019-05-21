@@ -1,5 +1,11 @@
-+
--
-++
-+ ++
-+++
+{
+int,float,double;
+for while 
+do
+>= + ++ -- * % /
+switch
+[
+]
+(
+)
+}

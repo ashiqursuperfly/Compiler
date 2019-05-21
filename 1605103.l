@@ -132,62 +132,62 @@ NEWLINE [\n]
 			appendToken("RCURL",yytext);
 			appendLog(lines,"RCURL",yytext);
 
-			st.insert(SymbolInfo(yytext,"RCURL"));
+			//st.insert(SymbolInfo(yytext,"RCURL"));
 		}
 "["		{
 			appendToken("LTHIRD",yytext);
 			appendLog(lines,"LTHIRD",yytext);
-			st.insert(SymbolInfo(yytext,"LTHIRD"));
+			//st.insert(SymbolInfo(yytext,"LTHIRD"));
 		}
 "]"		{
 			appendToken("RTHIRD",yytext);
 			appendLog(lines,"RTHIRD",yytext);
-			st.insert(SymbolInfo(yytext,"RTHIRD"));
+			//st.insert(SymbolInfo(yytext,"RTHIRD"));
 		}
 "!"		{
 			appendToken("NOT",yytext);
 			appendLog(lines,"NOT",yytext);	
-			st.insert(SymbolInfo(yytext,"NOT"));
+			//st.insert(SymbolInfo(yytext,"NOT"));
 				
 		}
 "+"|"-"		{
 			appendToken("ADDOP",yytext);
 			appendLog(lines,"ADDOP",yytext);	
-			st.insert(SymbolInfo(yytext,"ADDOP"));
+			//st.insert(SymbolInfo(yytext,"ADDOP"));
 				
 		}
 
 "++"|"--"	{
 			appendToken("INCOP",yytext);
 			appendLog(lines,"INCOP",yytext);	
-			st.insert(SymbolInfo(yytext,"INCOP"));
+			//st.insert(SymbolInfo(yytext,"INCOP"));
 				
 		}
 "%"|"*"|"/"	{
 			appendToken("MULOP",yytext);
 			appendLog(lines,"MULOP",yytext);
-			st.insert(yytext,"MULOP");
+			//st.insert(yytext,"MULOP");
 		}
 
 "<"|">"|">="|"<="|"!="|"=="	{
 					appendToken("RELOP",yytext);
 					appendLog(lines,"RELOP",yytext);
-					//s.Insert(yytext,"RELOP");
+					//st.insert(yytext,"RELOP");
 				}
 "="		{
 			appendToken("ASSIGNOP",yytext);
 			appendLog(lines,"ASSIGNOP",yytext);
-			//s.Insert(yytext,"ASSIGNOP");
+			//st.insert(yytext,"ASSIGNOP");
 		}
 "&&"|"||"	{
 			appendToken("LOGICOP",yytext);
 			appendLog(lines,"LOGICOP",yytext);
-			//s.Insert(yytext,"LOGICOP");
+			//st.insert(yytext,"LOGICOP");
 		}
 "<<"|">>"|"^"|"&"|"|"		{
 					appendToken("BITOP",yytext);
 					appendLog(lines,"BITOP",yytext);
-					//s.Insert(yytext,"BITOP");
+					//st.insert(yytext,"BITOP");
 				}
 
 
