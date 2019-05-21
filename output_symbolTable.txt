@@ -1,0 +1,28 @@
+LookUp At : ScopeTable :0 Symbol<ADDOP> Not Found !
+
+Insert At : ScopeTable :0 Symbol<ADDOP,+> Position(7,0) Successful
+
+LookUp At : ScopeTable :0 Symbol<ADDOP> Not Found !
+
+Insert At : ScopeTable :0 Symbol<ADDOP,-> Position(7,1) Successful
+
+LookUp At : ScopeTable :0 Symbol<INCOP> Not Found !
+
+Insert At : ScopeTable :0 Symbol<INCOP,++> Position(4,0) Successful
+
+LookUp At : ScopeTable :0 Symbol<ADDOP> Not Found !
+
+Insert At : ScopeTable :0 Symbol<ADDOP,+> Position(7,2) Successful
+
+LookUp At : ScopeTable :0 Symbol<INCOP> Not Found !
+
+Insert At : ScopeTable :0 Symbol<INCOP,++> Position(4,1) Successful
+
+LookUp At : ScopeTable :0 Symbol<INCOP> Not Found !
+
+Insert At : ScopeTable :0 Symbol<INCOP,++> Position(4,2) Successful
+
+LookUp At : ScopeTable :0 Symbol<ADDOP> Not Found !
+
+Insert At : ScopeTable :0 Symbol<ADDOP,+> Position(7,3) Successful
+

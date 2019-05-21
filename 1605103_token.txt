@@ -1,0 +1,7 @@
+<ADDOP,+>
+<ADDOP,->
+<INCOP,++>
+<ADDOP,+>
+<INCOP,++>
+<INCOP,++>
+<ADDOP,+>

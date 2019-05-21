@@ -1,0 +1,4 @@
+chmod +x commands.txt
+flex -o 1605103.c 1605103.l
+g++ 1605103.c -lfl -o 1605103.out
+./1605103.out input.txt
