@@ -24,7 +24,7 @@ public:
         next = nullptr;
     }
 
-    SymbolInfo(const string &type,const string &name) :type(type), name(name) {
+    SymbolInfo(const string &name,const string &type) :name(name),type(type) {
         next = nullptr;
     }
 

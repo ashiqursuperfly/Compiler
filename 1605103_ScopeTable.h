@@ -133,16 +133,19 @@ public:
     }
 
     void print() {
-        printMessage("Print","SCOPE TABLE : " + to_string(id)+"\n");
-	appendLog("SCOPE TABLE : " + to_string(id)+"\n");
+        printMessage("Print","SCOPE TABLE #" + to_string(id)+"\n");
+	      appendLog("\n  SCOPE TABLE #" + to_string(id));
         for (int i = 0; i < size; ++i) {
             string output;
             if (hashtable[i] != nullptr){
                 output += hashtable[i]->printLinkedList();
+                printMessage("  "+to_string(i),output+"\n");
+                appendLog("  "+to_string(i)+":"+output);
             }
-            printMessage(""+to_string(i),output+"\n");
-	    appendLog(""+to_string(i)+":"+output+"\n");
+            // printMessage(""+to_string(i),output+"\n");
+	          // appendLog(""+to_string(i)+":"+output+"\n");
         }
+        appendLog("\n");
     }
 
     virtual ~ScopeTable() {

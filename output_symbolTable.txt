@@ -1,24 +1,152 @@
-LookUp At : ScopeTable :0 Symbol<LCURL> Not Found !
+LookUp At : ScopeTable :0 Symbol<main> Not Found !
 
-Insert At : ScopeTable :0 Symbol<LCURL,{> Position(3,0) Successful
+Insert At : ScopeTable :0 Symbol<main,ID> Position(8,0) Successful
 
-LookUp At : ScopeTable :0 Symbol<COMMA> Not Found !
+Print : SCOPE TABLE #0
 
-Insert At : ScopeTable :0 Symbol<COMMA,,> Position(2,0) Successful
+  8 : <main,ID>--
 
-LookUp At : ScopeTable :0 Symbol<COMMA> Not Found !
+LookUp At : ScopeTable :0 Symbol<0.321> Not Found !
 
-Insert At : ScopeTable :0 Symbol<COMMA,,> Position(2,1) Successful
+Insert At : ScopeTable :0 Symbol<0.321,CONST_FLOAT> Position(1,0) Successful
 
-LookUp At : ScopeTable :0 Symbol<SEMICOLON> Not Found !
+Print : SCOPE TABLE #0
 
-Insert At : ScopeTable :0 Symbol<SEMICOLON,;> Position(6,0) Successful
+  1 : <0.321,CONST_FLOAT>--
 
-LookUp At : ScopeTable :0 Symbol<LPAREN> Not Found !
+  8 : <main,ID>--
 
-Insert At : ScopeTable :0 Symbol<LPAREN,(> Position(5,0) Successful
+LookUp At : ScopeTable :0 Symbol<2.321321> Not Found !
 
-LookUp At : ScopeTable :0 Symbol<RPAREN> Not Found !
+Insert At : ScopeTable :0 Symbol<2.321321,CONST_FLOAT> Position(3,0) Successful
 
-Insert At : ScopeTable :0 Symbol<RPAREN,)> Position(1,0) Successful
+Print : SCOPE TABLE #0
+
+  1 : <0.321,CONST_FLOAT>--
+
+  3 : <2.321321,CONST_FLOAT>--
+
+  8 : <main,ID>--
+
+LookUp At : ScopeTable :0 Symbol<103121.321321> Not Found !
+
+Insert At : ScopeTable :0 Symbol<103121.321321,CONST_FLOAT> Position(9,0) Successful
+
+Print : SCOPE TABLE #0
+
+  1 : <0.321,CONST_FLOAT>--
+
+  3 : <2.321321,CONST_FLOAT>--
+
+  8 : <main,ID>--
+
+  9 : <103121.321321,CONST_FLOAT>--
+
+LookUp At : ScopeTable :0 Symbol<3.14159E-10> Not Found !
+
+Insert At : ScopeTable :0 Symbol<3.14159E-10,CONST_FLOAT> Position(1,1) Successful
+
+Print : SCOPE TABLE #0
+
+  1 : <0.321,CONST_FLOAT>--<3.14159E-10,CONST_FLOAT>--
+
+  3 : <2.321321,CONST_FLOAT>--
+
+  8 : <main,ID>--
+
+  9 : <103121.321321,CONST_FLOAT>--
+
+LookUp At : ScopeTable :0 Symbol<3.14159E10> Not Found !
+
+Insert At : ScopeTable :0 Symbol<3.14159E10,CONST_FLOAT> Position(0,0) Successful
+
+Print : SCOPE TABLE #0
+
+  0 : <3.14159E10,CONST_FLOAT>--
+
+  1 : <0.321,CONST_FLOAT>--<3.14159E-10,CONST_FLOAT>--
+
+  3 : <2.321321,CONST_FLOAT>--
+
+  8 : <main,ID>--
+
+  9 : <103121.321321,CONST_FLOAT>--
+
+LookUp At : ScopeTable :0 Symbol<1E10> Not Found !
+
+Insert At : ScopeTable :0 Symbol<1E10,CONST_FLOAT> Position(2,0) Successful
+
+Print : SCOPE TABLE #0
+
+  0 : <3.14159E10,CONST_FLOAT>--
+
+  1 : <0.321,CONST_FLOAT>--<3.14159E-10,CONST_FLOAT>--
+
+  2 : <1E10,CONST_FLOAT>--
+
+  3 : <2.321321,CONST_FLOAT>--
+
+  8 : <main,ID>--
+
+  9 : <103121.321321,CONST_FLOAT>--
+
+LookUp At : ScopeTable :0 Symbol<1E-10> Not Found !
+
+Insert At : ScopeTable :0 Symbol<1E-10,CONST_FLOAT> Position(7,0) Successful
+
+Print : SCOPE TABLE #0
+
+  0 : <3.14159E10,CONST_FLOAT>--
+
+  1 : <0.321,CONST_FLOAT>--<3.14159E-10,CONST_FLOAT>--
+
+  2 : <1E10,CONST_FLOAT>--
+
+  3 : <2.321321,CONST_FLOAT>--
+
+  7 : <1E-10,CONST_FLOAT>--
+
+  8 : <main,ID>--
+
+  9 : <103121.321321,CONST_FLOAT>--
+
+LookUp At : ScopeTable :0 Symbol<3.145E10> Not Found !
+
+Insert At : ScopeTable :0 Symbol<3.145E10,CONST_FLOAT> Position(8,1) Successful
+
+Print : SCOPE TABLE #0
+
+  0 : <3.14159E10,CONST_FLOAT>--
+
+  1 : <0.321,CONST_FLOAT>--<3.14159E-10,CONST_FLOAT>--
+
+  2 : <1E10,CONST_FLOAT>--
+
+  3 : <2.321321,CONST_FLOAT>--
+
+  7 : <1E-10,CONST_FLOAT>--
+
+  8 : <main,ID>--<3.145E10,CONST_FLOAT>--
+
+  9 : <103121.321321,CONST_FLOAT>--
+
+LookUp At : ScopeTable :0 Symbol<3.2E-9> Not Found !
+
+Insert At : ScopeTable :0 Symbol<3.2E-9,CONST_FLOAT> Position(7,1) Successful
+
+Print : SCOPE TABLE #0
+
+  0 : <3.14159E10,CONST_FLOAT>--
+
+  1 : <0.321,CONST_FLOAT>--<3.14159E-10,CONST_FLOAT>--
+
+  2 : <1E10,CONST_FLOAT>--
+
+  3 : <2.321321,CONST_FLOAT>--
+
+  7 : <1E-10,CONST_FLOAT>--<3.2E-9,CONST_FLOAT>--
+
+  8 : <main,ID>--<3.145E10,CONST_FLOAT>--
+
+  9 : <103121.321321,CONST_FLOAT>--
 

@@ -22,8 +22,8 @@ using namespace std;
 
 
 inline bool isFileExists (const string& name) {
-  struct stat buffer;   
-  return (stat (name.c_str(), &buffer) == 0); 
+  struct stat buffer;
+  return (stat (name.c_str(), &buffer) == 0);
 }
 
 void appendToFile(const string & data){
@@ -32,11 +32,17 @@ void appendToFile(const string & data){
     outfile.open(OUTPUT_FILE, std::ios_base::app);
     outfile << data;
 }
+void appendLogError(int line_no,const string & error_msg){
+    ofstream outfile;
+
+    outfile.open(LOG_FILE, std::ios_base::app);
+    outfile <<"Line No:"<<line_no<<" Error"<<":"<<error_msg<<endl;
+}
 void appendLog(const string & data){
     ofstream outfile;
 
     outfile.open(LOG_FILE, std::ios_base::app);
-    outfile << data;
+    outfile << data<<endl;
 }
 void appendLog(int line_no,const string & token,const string & lexeme){
     ofstream outfile;
@@ -48,13 +54,13 @@ void appendToken(const string & symbol){
     ofstream outfile;
 
     outfile.open(TOKEN_FILE, std::ios_base::app);
-     outfile <<"<"<<symbol<<">"<<endl;
+     outfile <<"< "<<symbol<<" >"<<endl;
 }
 void appendToken(const string & type,const string & symbol){
     ofstream outfile;
 
     outfile.open(TOKEN_FILE, std::ios_base::app);
-    outfile <<"<"<<type<<","<<symbol<<">"<<endl;
+    outfile <<"< "<<type<<" , "<<symbol<<" >"<<endl;
 }
 void clearFiles(){
 	if(isFileExists(OUTPUT_FILE))remove(OUTPUT_FILE);
@@ -73,7 +79,7 @@ template <class Container> void readAllFromFile(Container& container){
 }
 
 void printMessage(string tag,string msg){
-    cout<<tag<<" : "<<msg<<endl;
+    //cout<<tag<<" : "<<msg<<endl;
     appendToFile(tag + " : "+msg+"\n");
     fflush(stdout);
 }
@@ -90,5 +96,3 @@ template <class Container> void split(const std::string& str, Container& cont,
     }
     cont.push_back(str.substr(previous, current - previous));
 }
-
-

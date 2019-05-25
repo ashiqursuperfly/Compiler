@@ -1,23 +1,107 @@
+Line No:0 Token:INT Lexeme: int
+Line No:0 Token:ID Lexeme: main
+
+  SCOPE TABLE #0
+  8:<main,ID>--
+
+
+Line No:0 Token:LPAREN Lexeme: (
+Line No:0 Token:RPAREN Lexeme: )
 Line No:0 Token:LCURL Lexeme: {
-Line No:1 Token:INT Lexeme: int
-Line No:1 Token:COMMA Lexeme: ,
-Line No:1 Token:FLOAT Lexeme: float
-Line No:1 Token:COMMA Lexeme: ,
-Line No:1 Token:DOUBLE Lexeme: double
-Line No:1 Token:SEMICOLON Lexeme: ;
-Line No:2 Token:FOR Lexeme: for
-Line No:2 Token:WHILE Lexeme: while
-Line No:3 Token:DO Lexeme: do
-Line No:4 Token:RELOP Lexeme: >=
-Line No:4 Token:ADDOP Lexeme: +
-Line No:4 Token:INCOP Lexeme: ++
-Line No:4 Token:INCOP Lexeme: --
-Line No:4 Token:MULOP Lexeme: *
-Line No:4 Token:MULOP Lexeme: %
-Line No:4 Token:MULOP Lexeme: /
-Line No:5 Token:SWITCH Lexeme: switch
-Line No:6 Token:LTHIRD Lexeme: [
-Line No:7 Token:RTHIRD Lexeme: ]
-Line No:8 Token:LPAREN Lexeme: (
-Line No:9 Token:RPAREN Lexeme: )
-Line No:10 Token:RCURL Lexeme: }
+Line No:1 Error:Ill formed number! .90231
+Line No:2 Token:CONST_FLOAT Lexeme: 0.321
+
+  SCOPE TABLE #0
+  1:<0.321,CONST_FLOAT>--
+  8:<main,ID>--
+
+
+Line No:3 Token:CONST_FLOAT Lexeme: 2.321321
+
+  SCOPE TABLE #0
+  1:<0.321,CONST_FLOAT>--
+  3:<2.321321,CONST_FLOAT>--
+  8:<main,ID>--
+
+
+Line No:4 Token:CONST_FLOAT Lexeme: 103121.321321
+
+  SCOPE TABLE #0
+  1:<0.321,CONST_FLOAT>--
+  3:<2.321321,CONST_FLOAT>--
+  8:<main,ID>--
+  9:<103121.321321,CONST_FLOAT>--
+
+
+Line No:5 Token:CONST_FLOAT Lexeme: 3.14159E-10
+
+  SCOPE TABLE #0
+  1:<0.321,CONST_FLOAT>--<3.14159E-10,CONST_FLOAT>--
+  3:<2.321321,CONST_FLOAT>--
+  8:<main,ID>--
+  9:<103121.321321,CONST_FLOAT>--
+
+
+Line No:6 Token:CONST_FLOAT Lexeme: 3.14159E10
+
+  SCOPE TABLE #0
+  0:<3.14159E10,CONST_FLOAT>--
+  1:<0.321,CONST_FLOAT>--<3.14159E-10,CONST_FLOAT>--
+  3:<2.321321,CONST_FLOAT>--
+  8:<main,ID>--
+  9:<103121.321321,CONST_FLOAT>--
+
+
+Line No:7 Error:Invalid Suffix On Numeric Constant Or,Invalid Prefix on Identifier for Character Sequence
+Line No:8 Error:Too Many Decimal Points! 1.2.3.44
+Line No:9 Error:Too Many Decimal Points! .232.312
+Line No:10 Error:Too Many Decimal Points! 2.321.
+Line No:11 Token:CONST_FLOAT Lexeme: 1E10
+
+  SCOPE TABLE #0
+  0:<3.14159E10,CONST_FLOAT>--
+  1:<0.321,CONST_FLOAT>--<3.14159E-10,CONST_FLOAT>--
+  2:<1E10,CONST_FLOAT>--
+  3:<2.321321,CONST_FLOAT>--
+  8:<main,ID>--
+  9:<103121.321321,CONST_FLOAT>--
+
+
+Line No:12 Token:CONST_FLOAT Lexeme: 1E-10
+
+  SCOPE TABLE #0
+  0:<3.14159E10,CONST_FLOAT>--
+  1:<0.321,CONST_FLOAT>--<3.14159E-10,CONST_FLOAT>--
+  2:<1E10,CONST_FLOAT>--
+  3:<2.321321,CONST_FLOAT>--
+  7:<1E-10,CONST_FLOAT>--
+  8:<main,ID>--
+  9:<103121.321321,CONST_FLOAT>--
+
+
+Line No:13 Token:CONST_FLOAT Lexeme: 3.145E10
+
+  SCOPE TABLE #0
+  0:<3.14159E10,CONST_FLOAT>--
+  1:<0.321,CONST_FLOAT>--<3.14159E-10,CONST_FLOAT>--
+  2:<1E10,CONST_FLOAT>--
+  3:<2.321321,CONST_FLOAT>--
+  7:<1E-10,CONST_FLOAT>--
+  8:<main,ID>--<3.145E10,CONST_FLOAT>--
+  9:<103121.321321,CONST_FLOAT>--
+
+
+Line No:14 Token:CONST_FLOAT Lexeme: 3.2E-9
+
+  SCOPE TABLE #0
+  0:<3.14159E10,CONST_FLOAT>--
+  1:<0.321,CONST_FLOAT>--<3.14159E-10,CONST_FLOAT>--
+  2:<1E10,CONST_FLOAT>--
+  3:<2.321321,CONST_FLOAT>--
+  7:<1E-10,CONST_FLOAT>--<3.2E-9,CONST_FLOAT>--
+  8:<main,ID>--<3.145E10,CONST_FLOAT>--
+  9:<103121.321321,CONST_FLOAT>--
+
+
+Line No:15 Error:Ill formed number! 1E10.7
+Line No:17 Token:RCURL Lexeme: }

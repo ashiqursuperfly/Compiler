@@ -45,7 +45,10 @@ public:
     }
 
     bool insert(const SymbolInfo &si) {
-        return currentScope->insert(si);
+        bool retVal= currentScope->insert(si);
+        if(retVal)
+          printCurrentScopeTable();
+        return retVal;
     }
 
     bool deleteSymbol(const string &symbol_name) {
