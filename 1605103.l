@@ -41,8 +41,18 @@ ILL_FORMED_NUMBER ({FLOAT2}|{FLOAT1}|"")(".")(({FLOAT2}|{FLOAT1})("."))*({FLOAT2
 
 {INTEGER} {
 	appendLog(lines,"CONST_INT",yytext);
-	if(st.insert(SymbolInfo(yytext,"CONST_INT")))
+	if(st.insert(SymbolInfo(yytext,"CONST_INT"))){
 		appendToken("CONST_INT",yytext);
+	}
+	else appendLog("Symbol : "+string(yytext)+" already exists!");
+}
+
+{FLOAT1}|{FLOAT2} {
+	appendLog(lines,"CONST_FLOAT",yytext);
+	if(st.insert(SymbolInfo(yytext,"CONST_FLOAT"))){
+		appendToken("CONST_FLOAT",yytext);
+	}
+	else appendLog("Symbol : "+string(yytext)+" already exists!");
 }
 {TOO_MANY_DECIMAL_POINTS} {
 	appendLogError(lines,"Too Many Decimal Points! "+string(yytext));
@@ -52,13 +62,6 @@ ILL_FORMED_NUMBER ({FLOAT2}|{FLOAT1}|"")(".")(({FLOAT2}|{FLOAT1})("."))*({FLOAT2
 {ILL_FORMED_NUMBER} {
 	appendLogError(lines,"Ill formed number! "+string(yytext));
 	errors++;
-}
-
-
-{FLOAT1}|{FLOAT2} {
-	appendLog(lines,"CONST_FLOAT",yytext);
-	if(st.insert(SymbolInfo(yytext,"CONST_FLOAT")))
-		appendToken("CONST_FLOAT",yytext);
 }
 
 
@@ -223,12 +226,14 @@ ILL_FORMED_NUMBER ({FLOAT2}|{FLOAT1}|"")(".")(({FLOAT2}|{FLOAT1})("."))*({FLOAT2
 }
 {IDENTIFIER} {
 	appendLog(lines,"ID",yytext);
-	if(st.insert(SymbolInfo(yytext,"ID")))
+	if(st.insert(SymbolInfo(yytext,"ID"))){
 		appendToken("ID",yytext);
+	}
+	else appendLog("Symbol: "+string(yytext)+" Already Exits");
 
 }
 {INVALID_IDENTIFIER} {
-	appendLogError(lines,"Invalid Suffix On Numeric Constant Or,Invalid Prefix on Identifier for Character Sequence");
+	appendLogError(lines,"Invalid Suffix On Numeric Constant Or,Invalid Prefix on Identifier for Character Sequence"+string(yytext));
 	errors++;
 
 }

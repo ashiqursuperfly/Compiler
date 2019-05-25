@@ -364,19 +364,19 @@ struct yy_trans_info
 static const flex_int16_t yy_accept[132] =
     {   0,
         0,    0,   42,   41,    1,    2,   31,   34,   38,   25,
-       26,   32,   24,   32,    5,    3,   23,   35,   36,   35,
+       26,   32,   24,   32,    6,    3,   23,   35,   36,   35,
        39,   29,   30,   38,   39,   39,   39,   39,   39,   39,
        39,   39,   39,   39,   27,   38,   28,    1,   35,   37,
-       33,    0,    5,    0,    3,   40,   40,   38,   39,   39,
+       33,    0,    4,    0,    3,   40,   40,   38,   39,   39,
        39,   39,   39,   39,   14,   39,   39,   39,   12,   39,
-       39,   39,   39,   39,    5,    4,    0,    6,    0,    6,
+       39,   39,   39,   39,    6,    5,    0,    4,    0,    4,
        39,   39,   39,   39,   39,   39,   39,   39,   16,    7,
-       39,   39,   39,   39,    5,    0,    4,    0,    5,    4,
-        0,    6,    5,   39,   21,    8,   39,   39,   39,   13,
+       39,   39,   39,   39,    6,    0,    5,    0,    4,    5,
+        0,    4,    6,   39,   21,    8,   39,   39,   39,   13,
 
-       39,   39,   39,   11,   39,    5,    0,    5,    4,    5,
-        4,   17,   39,   39,   39,    9,   39,   39,   15,    4,
-       39,   39,   10,   19,   20,    4,   39,   22,    4,   18,
+       39,   39,   39,   11,   39,    6,    0,    6,    5,    6,
+        5,   17,   39,   39,   39,    9,   39,   39,   15,    5,
+       39,   39,   10,   19,   20,    5,   39,   22,    5,   18,
         0
     } ;
 
@@ -846,39 +846,43 @@ YY_RULE_SETUP
 #line 42 "1605103.l"
 {
 	appendLog(lines,"CONST_INT",yytext);
-	if(st.insert(SymbolInfo(yytext,"CONST_INT")))
+	if(st.insert(SymbolInfo(yytext,"CONST_INT"))){
 		appendToken("CONST_INT",yytext);
+	}
+	else appendLog("Symbol : "+string(yytext)+" already exists!");
 }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 47 "1605103.l"
+#line 50 "1605103.l"
+{
+	appendLog(lines,"CONST_FLOAT",yytext);
+	if(st.insert(SymbolInfo(yytext,"CONST_FLOAT"))){
+		appendToken("CONST_FLOAT",yytext);
+	}
+	else appendLog("Symbol : "+string(yytext)+" already exists!");
+}
+	YY_BREAK
+case 5:
+YY_RULE_SETUP
+#line 57 "1605103.l"
 {
 	appendLogError(lines,"Too Many Decimal Points! "+string(yytext));
 	errors++;
 
 }
 	YY_BREAK
-case 5:
+case 6:
 YY_RULE_SETUP
-#line 52 "1605103.l"
+#line 62 "1605103.l"
 {
 	appendLogError(lines,"Ill formed number! "+string(yytext));
 	errors++;
 }
 	YY_BREAK
-case 6:
-YY_RULE_SETUP
-#line 58 "1605103.l"
-{
-	appendLog(lines,"CONST_FLOAT",yytext);
-	if(st.insert(SymbolInfo(yytext,"CONST_FLOAT")))
-		appendToken("CONST_FLOAT",yytext);
-}
-	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 66 "1605103.l"
+#line 69 "1605103.l"
 {
 			appendToken("INT");
 			appendLog(lines,"INT",yytext);
@@ -886,7 +890,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 70 "1605103.l"
+#line 73 "1605103.l"
 {
 			appendToken("CHAR");
 			appendLog(lines,"CHAR",yytext);
@@ -894,7 +898,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 74 "1605103.l"
+#line 77 "1605103.l"
 {
 			appendToken("FLOAT");
 			appendLog(lines,"FLOAT",yytext);
@@ -902,7 +906,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 78 "1605103.l"
+#line 81 "1605103.l"
 {
 			appendToken("DOUBLE");
 			appendLog(lines,"DOUBLE",yytext);
@@ -910,7 +914,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 82 "1605103.l"
+#line 85 "1605103.l"
 {
 			appendToken("VOID");
 			appendLog(lines,"VOID",yytext);
@@ -918,7 +922,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 88 "1605103.l"
+#line 91 "1605103.l"
 {
 			appendToken("IF");
 			appendLog(lines,"IF",yytext);
@@ -927,7 +931,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 93 "1605103.l"
+#line 96 "1605103.l"
 {
 			appendToken("ELSE");
 			appendLog(lines,"ELSE",yytext);
@@ -935,7 +939,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 97 "1605103.l"
+#line 100 "1605103.l"
 {
 			appendToken("DO");
 			appendLog(lines,"DO",yytext);
@@ -943,7 +947,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 101 "1605103.l"
+#line 104 "1605103.l"
 {
 			appendToken("WHILE");
 			appendLog(lines,"WHILE",yytext);
@@ -951,7 +955,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 106 "1605103.l"
+#line 109 "1605103.l"
 {
 			appendToken("FOR");
 			appendLog(lines,"FOR",yytext);
@@ -959,7 +963,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 111 "1605103.l"
+#line 114 "1605103.l"
 {
 			appendToken("BREAK");
 			appendLog(lines,"BREAK",yytext);
@@ -967,7 +971,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 115 "1605103.l"
+#line 118 "1605103.l"
 {
 			appendToken("CONTINUE");
 			appendLog(lines,"CONTINUE",yytext);
@@ -975,7 +979,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 120 "1605103.l"
+#line 123 "1605103.l"
 {
 			appendToken("RETURN");
 			appendLog(lines,"RETURN",yytext);
@@ -983,7 +987,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 124 "1605103.l"
+#line 127 "1605103.l"
 {
 			appendToken("SWITCH");
 			appendLog(lines,"SWITCH",yytext);
@@ -991,7 +995,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 128 "1605103.l"
+#line 131 "1605103.l"
 {
 			appendToken("CASE");
 			appendLog(lines,"CASE",yytext);
@@ -999,7 +1003,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 132 "1605103.l"
+#line 135 "1605103.l"
 {
 			appendToken("DEFAULT");
 			appendLog(lines,"DEFAULT",yytext);
@@ -1007,7 +1011,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 136 "1605103.l"
+#line 139 "1605103.l"
 {
 			appendToken("SEMICOLON",yytext);
 			appendLog(lines,"SEMICOLON",yytext);
@@ -1016,7 +1020,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 142 "1605103.l"
+#line 145 "1605103.l"
 {
 			appendToken("COMMA",yytext);
 			appendLog(lines,"COMMA",yytext);
@@ -1025,7 +1029,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 149 "1605103.l"
+#line 152 "1605103.l"
 {
 			appendToken("LPAREN",yytext);
 			appendLog(lines,"LPAREN",yytext);
@@ -1034,7 +1038,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 154 "1605103.l"
+#line 157 "1605103.l"
 {
 			appendToken("RPAREN",yytext);
 			appendLog(lines,"RPAREN",yytext);
@@ -1043,7 +1047,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 159 "1605103.l"
+#line 162 "1605103.l"
 {
 			appendToken("LCURL",yytext);
 			appendLog(lines,"LCURL",yytext);
@@ -1052,7 +1056,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 164 "1605103.l"
+#line 167 "1605103.l"
 {
 			appendToken("RCURL",yytext);
 			appendLog(lines,"RCURL",yytext);
@@ -1062,7 +1066,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 170 "1605103.l"
+#line 173 "1605103.l"
 {
 			appendToken("LTHIRD",yytext);
 			appendLog(lines,"LTHIRD",yytext);
@@ -1071,7 +1075,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 175 "1605103.l"
+#line 178 "1605103.l"
 {
 			appendToken("RTHIRD",yytext);
 			appendLog(lines,"RTHIRD",yytext);
@@ -1080,7 +1084,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 180 "1605103.l"
+#line 183 "1605103.l"
 {
 			appendToken("NOT",yytext);
 			appendLog(lines,"NOT",yytext);
@@ -1090,7 +1094,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 186 "1605103.l"
+#line 189 "1605103.l"
 {
 			appendToken("ADDOP",yytext);
 			appendLog(lines,"ADDOP",yytext);
@@ -1100,7 +1104,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 193 "1605103.l"
+#line 196 "1605103.l"
 {
 			appendToken("INCOP",yytext);
 			appendLog(lines,"INCOP",yytext);
@@ -1109,7 +1113,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 198 "1605103.l"
+#line 201 "1605103.l"
 {
 			appendToken("MULOP",yytext);
 			appendLog(lines,"MULOP",yytext);
@@ -1118,7 +1122,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 204 "1605103.l"
+#line 207 "1605103.l"
 {
 					appendToken("RELOP",yytext);
 					appendLog(lines,"RELOP",yytext);
@@ -1127,7 +1131,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 209 "1605103.l"
+#line 212 "1605103.l"
 {
 			appendToken("ASSIGNOP",yytext);
 			appendLog(lines,"ASSIGNOP",yytext);
@@ -1136,7 +1140,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 214 "1605103.l"
+#line 217 "1605103.l"
 {
 			appendToken("LOGICOP",yytext);
 			appendLog(lines,"LOGICOP",yytext);
@@ -1145,7 +1149,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 219 "1605103.l"
+#line 222 "1605103.l"
 {
 					appendToken("BITOP",yytext);
 					appendLog(lines,"BITOP",yytext);
@@ -1154,29 +1158,31 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 224 "1605103.l"
+#line 227 "1605103.l"
 {
 	appendLog(lines,"ID",yytext);
-	if(st.insert(SymbolInfo(yytext,"ID")))
+	if(st.insert(SymbolInfo(yytext,"ID"))){
 		appendToken("ID",yytext);
+	}
+	else appendLog("Symbol: "+string(yytext)+" Already Exits");
 
 }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 230 "1605103.l"
+#line 235 "1605103.l"
 {
-	appendLogError(lines,"Invalid Suffix On Numeric Constant Or,Invalid Prefix on Identifier for Character Sequence");
+	appendLogError(lines,"Invalid Suffix On Numeric Constant Or,Invalid Prefix on Identifier for Character Sequence"+string(yytext));
 	errors++;
 
 }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 239 "1605103.l"
+#line 244 "1605103.l"
 ECHO;
 	YY_BREAK
-#line 1180 "1605103.c"
+#line 1186 "1605103.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2181,7 +2187,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 239 "1605103.l"
+#line 244 "1605103.l"
 
 /** End of Rules Section**/
 /**start of routine Section**/

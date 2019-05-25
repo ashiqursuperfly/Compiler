@@ -6,55 +6,31 @@ Print : SCOPE TABLE #0
 
   8 : <main,ID>--
 
-LookUp At : ScopeTable :0 Symbol<0.321> Not Found !
+LookUp At : ScopeTable :0 Symbol<.90231> Not Found !
 
-Insert At : ScopeTable :0 Symbol<0.321,CONST_FLOAT> Position(1,0) Successful
-
-Print : SCOPE TABLE #0
-
-  1 : <0.321,CONST_FLOAT>--
-
-  8 : <main,ID>--
-
-LookUp At : ScopeTable :0 Symbol<2.321321> Not Found !
-
-Insert At : ScopeTable :0 Symbol<2.321321,CONST_FLOAT> Position(3,0) Successful
+Insert At : ScopeTable :0 Symbol<.90231,CONST_FLOAT> Position(4,0) Successful
 
 Print : SCOPE TABLE #0
 
-  1 : <0.321,CONST_FLOAT>--
-
-  3 : <2.321321,CONST_FLOAT>--
+  4 : <.90231,CONST_FLOAT>--
 
   8 : <main,ID>--
 
-LookUp At : ScopeTable :0 Symbol<103121.321321> Not Found !
+LookUp At : ScopeTable :0 Found <.90231,CONST_FLOAT> Position(4,0)
 
-Insert At : ScopeTable :0 Symbol<103121.321321,CONST_FLOAT> Position(9,0) Successful
-
-Print : SCOPE TABLE #0
-
-  1 : <0.321,CONST_FLOAT>--
-
-  3 : <2.321321,CONST_FLOAT>--
-
-  8 : <main,ID>--
-
-  9 : <103121.321321,CONST_FLOAT>--
+Insert : Error ! Symbol Already Exists.
 
 LookUp At : ScopeTable :0 Symbol<3.14159E-10> Not Found !
 
-Insert At : ScopeTable :0 Symbol<3.14159E-10,CONST_FLOAT> Position(1,1) Successful
+Insert At : ScopeTable :0 Symbol<3.14159E-10,CONST_FLOAT> Position(1,0) Successful
 
 Print : SCOPE TABLE #0
 
-  1 : <0.321,CONST_FLOAT>--<3.14159E-10,CONST_FLOAT>--
+  1 : <3.14159E-10,CONST_FLOAT>--
 
-  3 : <2.321321,CONST_FLOAT>--
+  4 : <.90231,CONST_FLOAT>--
 
   8 : <main,ID>--
-
-  9 : <103121.321321,CONST_FLOAT>--
 
 LookUp At : ScopeTable :0 Symbol<3.14159E10> Not Found !
 
@@ -64,13 +40,11 @@ Print : SCOPE TABLE #0
 
   0 : <3.14159E10,CONST_FLOAT>--
 
-  1 : <0.321,CONST_FLOAT>--<3.14159E-10,CONST_FLOAT>--
+  1 : <3.14159E-10,CONST_FLOAT>--
 
-  3 : <2.321321,CONST_FLOAT>--
+  4 : <.90231,CONST_FLOAT>--
 
   8 : <main,ID>--
-
-  9 : <103121.321321,CONST_FLOAT>--
 
 LookUp At : ScopeTable :0 Symbol<1E10> Not Found !
 
@@ -80,15 +54,13 @@ Print : SCOPE TABLE #0
 
   0 : <3.14159E10,CONST_FLOAT>--
 
-  1 : <0.321,CONST_FLOAT>--<3.14159E-10,CONST_FLOAT>--
+  1 : <3.14159E-10,CONST_FLOAT>--
 
   2 : <1E10,CONST_FLOAT>--
 
-  3 : <2.321321,CONST_FLOAT>--
+  4 : <.90231,CONST_FLOAT>--
 
   8 : <main,ID>--
-
-  9 : <103121.321321,CONST_FLOAT>--
 
 LookUp At : ScopeTable :0 Symbol<1E-10> Not Found !
 
@@ -98,17 +70,15 @@ Print : SCOPE TABLE #0
 
   0 : <3.14159E10,CONST_FLOAT>--
 
-  1 : <0.321,CONST_FLOAT>--<3.14159E-10,CONST_FLOAT>--
+  1 : <3.14159E-10,CONST_FLOAT>--
 
   2 : <1E10,CONST_FLOAT>--
 
-  3 : <2.321321,CONST_FLOAT>--
+  4 : <.90231,CONST_FLOAT>--
 
   7 : <1E-10,CONST_FLOAT>--
 
   8 : <main,ID>--
-
-  9 : <103121.321321,CONST_FLOAT>--
 
 LookUp At : ScopeTable :0 Symbol<3.145E10> Not Found !
 
@@ -118,17 +88,15 @@ Print : SCOPE TABLE #0
 
   0 : <3.14159E10,CONST_FLOAT>--
 
-  1 : <0.321,CONST_FLOAT>--<3.14159E-10,CONST_FLOAT>--
+  1 : <3.14159E-10,CONST_FLOAT>--
 
   2 : <1E10,CONST_FLOAT>--
 
-  3 : <2.321321,CONST_FLOAT>--
+  4 : <.90231,CONST_FLOAT>--
 
   7 : <1E-10,CONST_FLOAT>--
 
   8 : <main,ID>--<3.145E10,CONST_FLOAT>--
-
-  9 : <103121.321321,CONST_FLOAT>--
 
 LookUp At : ScopeTable :0 Symbol<3.2E-9> Not Found !
 
@@ -138,15 +106,13 @@ Print : SCOPE TABLE #0
 
   0 : <3.14159E10,CONST_FLOAT>--
 
-  1 : <0.321,CONST_FLOAT>--<3.14159E-10,CONST_FLOAT>--
+  1 : <3.14159E-10,CONST_FLOAT>--
 
   2 : <1E10,CONST_FLOAT>--
 
-  3 : <2.321321,CONST_FLOAT>--
+  4 : <.90231,CONST_FLOAT>--
 
   7 : <1E-10,CONST_FLOAT>--<3.2E-9,CONST_FLOAT>--
 
   8 : <main,ID>--<3.145E10,CONST_FLOAT>--
-
-  9 : <103121.321321,CONST_FLOAT>--
 
