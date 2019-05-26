@@ -1,7 +1,11 @@
 Confusion:
-Operator and Constants pushed into SymbolTable means we cant push them again.Is it convenient ? i think so but wdyt. Is pushing operator convenient?
+
+1.Operator and Constants pushed into SymbolTable means we cant push them again.Is it convenient ? i think so but wdyt. Is pushing operator convenient?
+
+2.should we print tokens in token file even if the symbol is already pushed previously and we didnt push it in this step.
+
 TODO :
-Char Literals
+Char literals done bt need to know more about unrecognized char error
 Strings
 Comments
 & Related Errors

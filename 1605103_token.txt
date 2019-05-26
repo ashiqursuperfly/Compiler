@@ -1,13 +1,9 @@
-< INT >
-< ID , main >
-< LPAREN , ( >
-< RPAREN , ) >
-< LCURL , { >
-< CONST_FLOAT , .90231 >
-< CONST_FLOAT , 3.14159E-10 >
-< CONST_FLOAT , 3.14159E10 >
-< CONST_FLOAT , 1E10 >
-< CONST_FLOAT , 1E-10 >
-< CONST_FLOAT , 3.145E10 >
-< CONST_FLOAT , 3.2E-9 >
-< RCURL , } >
+< CONST_CHAR , 92 >
+< CONST_CHAR , 10 >
+< CONST_CHAR , 7 >
+< CONST_CHAR , 12 >
+< CONST_CHAR , 13 >
+< CONST_CHAR , 9 >
+< CONST_CHAR , 8 >
+< CONST_CHAR , 11 >
+< CONST_CHAR , 0 >

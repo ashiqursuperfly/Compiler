@@ -1,85 +1,79 @@
-Line No:0 Token:INT Lexeme: int
-Line No:0 Token:ID Lexeme: main
+Line No:0 Error:Multi Character Constant
+Line No:1 Token:CONST_CHAR Lexeme: '\\'
 
   SCOPE TABLE #0
-  8:<main,ID>--
+  4:<92,CONST_CHAR>--
 
 
-Line No:0 Token:LPAREN Lexeme: (
-Line No:0 Token:RPAREN Lexeme: )
-Line No:0 Token:LCURL Lexeme: {
-Line No:1 Token:CONST_FLOAT Lexeme: .90231
+Line No:2 Token:CONST_CHAR Lexeme: '\n'
 
   SCOPE TABLE #0
-  4:<.90231,CONST_FLOAT>--
-  8:<main,ID>--
+  4:<92,CONST_CHAR>--<10,CONST_CHAR>--
 
 
-Line No:2 Token:CONST_FLOAT Lexeme: .90231
-Symbol : .90231 already exists!
-Line No:3 Token:CONST_FLOAT Lexeme: 3.14159E-10
+Line No:3 Error:Unfinished Character Sequence
+Line No:4 Token:CONST_CHAR Lexeme: '\a'
 
   SCOPE TABLE #0
-  1:<3.14159E-10,CONST_FLOAT>--
-  4:<.90231,CONST_FLOAT>--
-  8:<main,ID>--
+  2:<7,CONST_CHAR>--
+  4:<92,CONST_CHAR>--<10,CONST_CHAR>--
 
 
-Line No:4 Token:CONST_FLOAT Lexeme: 3.14159E10
-
-  SCOPE TABLE #0
-  0:<3.14159E10,CONST_FLOAT>--
-  1:<3.14159E-10,CONST_FLOAT>--
-  4:<.90231,CONST_FLOAT>--
-  8:<main,ID>--
-
-
-Line No:5 Error:Invalid Suffix On Numeric Constant Or,Invalid Prefix on Identifier for Character Sequence12abc
-Line No:6 Error:Too Many Decimal Points! 1.2.3.44
-Line No:7 Error:Too Many Decimal Points! .232.312
-Line No:8 Error:Too Many Decimal Points! 2.321.
-Line No:9 Token:CONST_FLOAT Lexeme: 1E10
+Line No:5 Token:CONST_CHAR Lexeme: '\f'
 
   SCOPE TABLE #0
-  0:<3.14159E10,CONST_FLOAT>--
-  1:<3.14159E-10,CONST_FLOAT>--
-  2:<1E10,CONST_FLOAT>--
-  4:<.90231,CONST_FLOAT>--
-  8:<main,ID>--
+  2:<7,CONST_CHAR>--
+  4:<92,CONST_CHAR>--<10,CONST_CHAR>--
+  6:<12,CONST_CHAR>--
 
 
-Line No:10 Token:CONST_FLOAT Lexeme: 1E-10
+Line No:6 Token:CONST_CHAR Lexeme: '\r'
 
   SCOPE TABLE #0
-  0:<3.14159E10,CONST_FLOAT>--
-  1:<3.14159E-10,CONST_FLOAT>--
-  2:<1E10,CONST_FLOAT>--
-  4:<.90231,CONST_FLOAT>--
-  7:<1E-10,CONST_FLOAT>--
-  8:<main,ID>--
+  2:<7,CONST_CHAR>--
+  4:<92,CONST_CHAR>--<10,CONST_CHAR>--
+  6:<12,CONST_CHAR>--
+  7:<13,CONST_CHAR>--
 
 
-Line No:11 Token:CONST_FLOAT Lexeme: 3.145E10
+Line No:7 Token:CONST_CHAR Lexeme: '\t'
 
   SCOPE TABLE #0
-  0:<3.14159E10,CONST_FLOAT>--
-  1:<3.14159E-10,CONST_FLOAT>--
-  2:<1E10,CONST_FLOAT>--
-  4:<.90231,CONST_FLOAT>--
-  7:<1E-10,CONST_FLOAT>--
-  8:<main,ID>--<3.145E10,CONST_FLOAT>--
+  2:<7,CONST_CHAR>--
+  4:<92,CONST_CHAR>--<10,CONST_CHAR>--<9,CONST_CHAR>--
+  6:<12,CONST_CHAR>--
+  7:<13,CONST_CHAR>--
 
 
-Line No:12 Token:CONST_FLOAT Lexeme: 3.2E-9
+Line No:8 Token:CONST_CHAR Lexeme: '\b'
 
   SCOPE TABLE #0
-  0:<3.14159E10,CONST_FLOAT>--
-  1:<3.14159E-10,CONST_FLOAT>--
-  2:<1E10,CONST_FLOAT>--
-  4:<.90231,CONST_FLOAT>--
-  7:<1E-10,CONST_FLOAT>--<3.2E-9,CONST_FLOAT>--
-  8:<main,ID>--<3.145E10,CONST_FLOAT>--
+  2:<7,CONST_CHAR>--
+  3:<8,CONST_CHAR>--
+  4:<92,CONST_CHAR>--<10,CONST_CHAR>--<9,CONST_CHAR>--
+  6:<12,CONST_CHAR>--
+  7:<13,CONST_CHAR>--
 
 
-Line No:13 Error:Ill formed number! 1E10.7
-Line No:15 Token:RCURL Lexeme: }
+Line No:9 Token:CONST_CHAR Lexeme: '\v'
+
+  SCOPE TABLE #0
+  2:<7,CONST_CHAR>--
+  3:<8,CONST_CHAR>--
+  4:<92,CONST_CHAR>--<10,CONST_CHAR>--<9,CONST_CHAR>--
+  5:<11,CONST_CHAR>--
+  6:<12,CONST_CHAR>--
+  7:<13,CONST_CHAR>--
+
+
+Line No:10 Token:CONST_CHAR Lexeme: '\0'
+
+  SCOPE TABLE #0
+  2:<7,CONST_CHAR>--
+  3:<8,CONST_CHAR>--
+  4:<92,CONST_CHAR>--<10,CONST_CHAR>--<9,CONST_CHAR>--
+  5:<11,CONST_CHAR>--<0,CONST_CHAR>--
+  6:<12,CONST_CHAR>--
+  7:<13,CONST_CHAR>--
+
+

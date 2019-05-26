@@ -5,11 +5,11 @@ option noyywrap //Options Section inside Definitions Section
 %{
 
 #include "1605103_SymbolTable.h"
-
 SymbolTable st(10);
 int lines=0,errors=0;
 extern "C" int yylex();
-void appendFile(const string & data,const string & file_name);
+
+const string removeSingleQuote(string s);
 
 %}
 /**End Of C-Code Section Inside Definition Section ***/
@@ -23,12 +23,17 @@ DIGIT [0-9]
 IDENTIFIER (_|{LETTER})(_|{LETTER}|{DIGIT})*
 INVALID_IDENTIFIER {DIGIT}(_|{LETTER}|{DIGIT})*
 
+
 INTEGER ({DIGIT}+)
 FLOAT1 ({INTEGER}|"")(".")({INTEGER})
 FLOAT2 ({FLOAT1}|{INTEGER})("E")("-"|"")({INTEGER})
 TOO_MANY_DECIMAL_POINTS ({INTEGER}|"")(".")(({INTEGER})("."))+({INTEGER}|"")
 ILL_FORMED_NUMBER ({FLOAT2}|{FLOAT1}|"")(".")(({FLOAT2}|{FLOAT1})("."))*({FLOAT2}|{FLOAT1}|{INTEGER}|"")
-
+CHAR \'[ -~]{-}['\\]\'
+ESCAPE_CHAR \'\\['"?\\ntrvfab0]\'
+MULTI_CHAR \'([ -~]{-}['\\])([ -~]{-}['\\])+\'
+INVALID_CHAR_SEQUENCE \'({CHAR}|[\\])*\'
+UNFINISHED_CHAR_SEQUENCE \'({CHAR}|[\\])*[^'\n]?
 /**End Of Pattern-Definition Section Inside Definition Section**/
 /**End Of Definition Section**/
 
@@ -38,6 +43,35 @@ ILL_FORMED_NUMBER ({FLOAT2}|{FLOAT1}|"")(".")(({FLOAT2}|{FLOAT1})("."))*({FLOAT2
 {WHITESPACE} {}
 
 {NEWLINE} {lines++;}
+
+{CHAR} {
+	appendLog(lines,"CONST_CHAR",yytext);
+	string s = removeSingleQuote(yytext);
+	if(st.insert(SymbolInfo(s,"CONST_CHAR"))){
+		appendToken("CONST_CHAR",s);
+	}
+	else appendLog("Symbol : "+string(yytext)+" already exists!");
+}
+{ESCAPE_CHAR} {
+	appendLog(lines,"CONST_CHAR",yytext);
+	string s = removeSingleQuote(yytext);
+	if(st.insert(SymbolInfo(s,"CONST_CHAR"))){
+		appendToken("CONST_CHAR",s);
+	}
+	else appendLog("Symbol : "+string(yytext)+" already exists!");
+}
+{INVALID_CHAR_SEQUENCE} {
+	appendLogError(lines,"Invalid Character Sequence");
+	errors++;
+}
+{UNFINISHED_CHAR_SEQUENCE} {
+	appendLogError(lines,"Unfinished Character Sequence");
+	errors++;
+}
+{MULTI_CHAR} {
+	appendLogError(lines,"Multi Character Constant");
+	errors++;
+}
 
 {INTEGER} {
 	appendLog(lines,"CONST_INT",yytext);
@@ -54,17 +88,17 @@ ILL_FORMED_NUMBER ({FLOAT2}|{FLOAT1}|"")(".")(({FLOAT2}|{FLOAT1})("."))*({FLOAT2
 	}
 	else appendLog("Symbol : "+string(yytext)+" already exists!");
 }
+
 {TOO_MANY_DECIMAL_POINTS} {
 	appendLogError(lines,"Too Many Decimal Points! "+string(yytext));
 	errors++;
 
 }
+
 {ILL_FORMED_NUMBER} {
 	appendLogError(lines,"Ill formed number! "+string(yytext));
 	errors++;
 }
-
-
 
 "int"		{
 			appendToken("INT");
@@ -86,8 +120,6 @@ ILL_FORMED_NUMBER ({FLOAT2}|{FLOAT1}|"")(".")(({FLOAT2}|{FLOAT1})("."))*({FLOAT2
 			appendToken("VOID");
 			appendLog(lines,"VOID",yytext);
 }
-
-
 "if"		{
 			appendToken("IF");
 			appendLog(lines,"IF",yytext);
@@ -110,7 +142,6 @@ ILL_FORMED_NUMBER ({FLOAT2}|{FLOAT1}|"")(".")(({FLOAT2}|{FLOAT1})("."))*({FLOAT2
 			appendToken("FOR");
 			appendLog(lines,"FOR",yytext);
 }
-
 "break"		{
 			appendToken("BREAK");
 			appendLog(lines,"BREAK",yytext);
@@ -147,8 +178,6 @@ ILL_FORMED_NUMBER ({FLOAT2}|{FLOAT1}|"")(".")(({FLOAT2}|{FLOAT1})("."))*({FLOAT2
 			appendLog(lines,"COMMA",yytext);
 			//st.insert(SymbolInfo(yytext,"COMMA"));
 }
-
-
 "("		{
 			appendToken("LPAREN",yytext);
 			appendLog(lines,"LPAREN",yytext);
@@ -229,7 +258,7 @@ ILL_FORMED_NUMBER ({FLOAT2}|{FLOAT1}|"")(".")(({FLOAT2}|{FLOAT1})("."))*({FLOAT2
 	if(st.insert(SymbolInfo(yytext,"ID"))){
 		appendToken("ID",yytext);
 	}
-	else appendLog("Symbol: "+string(yytext)+" Already Exits");
+	else appendLog("Symbol "+string(yytext)+" Already Exits");
 
 }
 {INVALID_IDENTIFIER} {
@@ -266,5 +295,51 @@ int main(int argc,char *argv[]){
 	fclose(yyin);
 	return 0;
 }
+const string removeSingleQuote(string s){
+	if(s[1]!='\\'){
+		if(s[1] == ' ')
+		 return to_string(32);
+		string r;
+		r.push_back(s[1]);
+		return r;
+	}
+	else{
+		switch(s[2]){
+			case 'a':
+			 return to_string(7);
 
+			case 'b':
+			 return to_string(8);
+
+			case 't':
+			 return to_string(9);
+
+			case 'n':
+			 return to_string(10);
+
+			case 'v':
+			 return to_string(11);
+
+			case 'f':
+			 return to_string(12);
+
+			case 'r':
+			 return to_string(13);
+
+			case '\"':
+			 return to_string(34);
+
+      case '\'':
+			 return to_string(39);
+
+			case '\\':
+			 return to_string(92);
+
+			case '0':
+			 return to_string(0);
+
+
+		}
+	}
+}
 /**End Of Routine Section**/
