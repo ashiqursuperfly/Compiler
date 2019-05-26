@@ -5,7 +5,8 @@ Confusion:
 2.should we print tokens in token file even if the symbol is already pushed previously and we didnt push it in this step.
 
 TODO :
-Char literals done bt need to know more about unrecognized char error
+unrecognized char error ?
 Strings
 Comments
 & Related Errors
+Note: we have to modify comments as well to find total lines.

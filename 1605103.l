@@ -15,15 +15,12 @@ const string removeSingleQuote(string s);
 /**End Of C-Code Section Inside Definition Section ***/
 
 /**Start Of Pattern-Definition Section Inside Definition Section**/
-
 WHITESPACE  (\t|\f|\r|\v)+
 NEWLINE [\n]
 LETTER [a-zA-Z]
 DIGIT [0-9]
 IDENTIFIER (_|{LETTER})(_|{LETTER}|{DIGIT})*
 INVALID_IDENTIFIER {DIGIT}(_|{LETTER}|{DIGIT})*
-
-
 INTEGER ({DIGIT}+)
 FLOAT1 ({INTEGER}|"")(".")({INTEGER})
 FLOAT2 ({FLOAT1}|{INTEGER})("E")("-"|"")({INTEGER})
@@ -31,9 +28,12 @@ TOO_MANY_DECIMAL_POINTS ({INTEGER}|"")(".")(({INTEGER})("."))+({INTEGER}|"")
 ILL_FORMED_NUMBER ({FLOAT2}|{FLOAT1}|"")(".")(({FLOAT2}|{FLOAT1})("."))*({FLOAT2}|{FLOAT1}|{INTEGER}|"")
 CHAR \'[ -~]{-}['\\]\'
 ESCAPE_CHAR \'\\['"?\\ntrvfab0]\'
-MULTI_CHAR \'([ -~]{-}['\\])([ -~]{-}['\\])+\'
+MULTI_CHAR_ERROR \'([ -~]{-}['\\])([ -~]{-}['\\])+\'
 INVALID_CHAR_SEQUENCE \'({CHAR}|[\\])*\'
-UNFINISHED_CHAR_SEQUENCE \'({CHAR}|[\\])*[^'\n]?
+UNFINISHED_CHAR_SEQUENCE \'({CHAR}|[\\])*[^'\n]?|(\'\\\')
+STRING \"([^\"\n]|(\\[\n])|(\"))*\"
+UNFINISHED_STRING \"([^\"\n]|(\\[\n]))*
+
 /**End Of Pattern-Definition Section Inside Definition Section**/
 /**End Of Definition Section**/
 
@@ -44,49 +44,53 @@ UNFINISHED_CHAR_SEQUENCE \'({CHAR}|[\\])*[^'\n]?
 
 {NEWLINE} {lines++;}
 
+
+{STRING} {
+
+	appendLog(lines,"STRING",yytext);
+	appendToken("STRING",yytext);
+
+}
+{UNFINISHED_STRING} {
+	appendLogError(lines,"Unfinished String "+string(yytext));
+	errors++;
+}
 {CHAR} {
 	appendLog(lines,"CONST_CHAR",yytext);
 	string s = removeSingleQuote(yytext);
-	if(st.insert(SymbolInfo(s,"CONST_CHAR"))){
-		appendToken("CONST_CHAR",s);
-	}
-	else appendLog("Symbol : "+string(yytext)+" already exists!");
+	st.insert(SymbolInfo(s,"CONST_CHAR"));
+	appendToken("CONST_CHAR",s);
 }
 {ESCAPE_CHAR} {
 	appendLog(lines,"CONST_CHAR",yytext);
 	string s = removeSingleQuote(yytext);
-	if(st.insert(SymbolInfo(s,"CONST_CHAR"))){
-		appendToken("CONST_CHAR",s);
-	}
-	else appendLog("Symbol : "+string(yytext)+" already exists!");
+	appendToken("CONST_CHAR",s);
+	st.insert(SymbolInfo(s,"CONST_CHAR"));
 }
-{INVALID_CHAR_SEQUENCE} {
-	appendLogError(lines,"Invalid Character Sequence");
+{MULTI_CHAR_ERROR} {
+	appendLogError(lines,"Multi Character Constant " + string(yytext));
 	errors++;
 }
 {UNFINISHED_CHAR_SEQUENCE} {
-	appendLogError(lines,"Unfinished Character Sequence");
-	errors++;
-}
-{MULTI_CHAR} {
-	appendLogError(lines,"Multi Character Constant");
+	appendLogError(lines,"Unfinished Character "+string(yytext));
 	errors++;
 }
 
+{INVALID_CHAR_SEQUENCE} {
+	if(string(yytext)=="''")appendLogError(lines,"Empty Character Constant "+string(yytext));
+	else appendLogError(lines,"Invalid Character "+string(yytext));
+	errors++;
+}
 {INTEGER} {
 	appendLog(lines,"CONST_INT",yytext);
-	if(st.insert(SymbolInfo(yytext,"CONST_INT"))){
-		appendToken("CONST_INT",yytext);
-	}
-	else appendLog("Symbol : "+string(yytext)+" already exists!");
+	appendToken("CONST_INT",yytext);
+	st.insert(SymbolInfo(yytext,"CONST_INT"));
 }
 
 {FLOAT1}|{FLOAT2} {
 	appendLog(lines,"CONST_FLOAT",yytext);
-	if(st.insert(SymbolInfo(yytext,"CONST_FLOAT"))){
-		appendToken("CONST_FLOAT",yytext);
-	}
-	else appendLog("Symbol : "+string(yytext)+" already exists!");
+	appendToken("CONST_FLOAT",yytext);
+	st.insert(SymbolInfo(yytext,"CONST_FLOAT"));
 }
 
 {TOO_MANY_DECIMAL_POINTS} {
@@ -255,16 +259,12 @@ UNFINISHED_CHAR_SEQUENCE \'({CHAR}|[\\])*[^'\n]?
 }
 {IDENTIFIER} {
 	appendLog(lines,"ID",yytext);
-	if(st.insert(SymbolInfo(yytext,"ID"))){
-		appendToken("ID",yytext);
-	}
-	else appendLog("Symbol "+string(yytext)+" Already Exits");
-
+	appendToken("ID",yytext);
+	st.insert(SymbolInfo(yytext,"ID"));
 }
 {INVALID_IDENTIFIER} {
-	appendLogError(lines,"Invalid Suffix On Numeric Constant Or,Invalid Prefix on Identifier for Character Sequence"+string(yytext));
+	appendLogError(lines,"Invalid Suffix On Numeric Constant Or,Invalid Prefix on Identifier for Character Sequence "+string(yytext));
 	errors++;
-
 }
 
 
@@ -275,7 +275,6 @@ UNFINISHED_CHAR_SEQUENCE \'({CHAR}|[\\])*[^'\n]?
 /**start of routine Section**/
 
 int main(int argc,char *argv[]){
-
 
 	if(argc!=2){
 		printf("Invalid Input\n");
@@ -295,51 +294,45 @@ int main(int argc,char *argv[]){
 	fclose(yyin);
 	return 0;
 }
+
 const string removeSingleQuote(string s){
 	if(s[1]!='\\'){
-		if(s[1] == ' ')
-		 return to_string(32);
+		if(s[1] == ' ') return " ";
 		string r;
 		r.push_back(s[1]);
 		return r;
 	}
-	else{
-		switch(s[2]){
+	switch(s[2]){
 			case 'a':
-			 return to_string(7);
+			 return "\a";
 
 			case 'b':
-			 return to_string(8);
+			 return "\b";
 
 			case 't':
-			 return to_string(9);
+			 return "\t";
 
 			case 'n':
-			 return to_string(10);
+			 return "\n";
 
 			case 'v':
-			 return to_string(11);
+			 return "\v";
 
 			case 'f':
-			 return to_string(12);
+			 return "\f";
 
 			case 'r':
-			 return to_string(13);
+			 return "\r";
 
 			case '\"':
-			 return to_string(34);
-
-      case '\'':
-			 return to_string(39);
+			 return "\"";
 
 			case '\\':
-			 return to_string(92);
+			 return "\\";
 
 			case '0':
-			 return to_string(0);
+			 return "\0";
+    }
 
-
-		}
-	}
 }
 /**End Of Routine Section**/

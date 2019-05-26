@@ -1,118 +1,140 @@
-LookUp At : ScopeTable :0 Symbol<92> Not Found !
+LookUp At : ScopeTable :0 Symbol<main> Not Found !
 
-Insert At : ScopeTable :0 Symbol<92,CONST_CHAR> Position(4,0) Successful
-
-Print : SCOPE TABLE #0
-
-  4 : <92,CONST_CHAR>--
-
-LookUp At : ScopeTable :0 Symbol<10> Not Found !
-
-Insert At : ScopeTable :0 Symbol<10,CONST_CHAR> Position(4,1) Successful
+Insert At : ScopeTable :0 Symbol<main,ID> Position(8,0) Successful
 
 Print : SCOPE TABLE #0
 
-  4 : <92,CONST_CHAR>--<10,CONST_CHAR>--
+  8 : <main,ID>--
 
-LookUp At : ScopeTable :0 Symbol<7> Not Found !
+LookUp At : ScopeTable :0 Symbol<a> Not Found !
 
-Insert At : ScopeTable :0 Symbol<7,CONST_CHAR> Position(2,0) Successful
-
-Print : SCOPE TABLE #0
-
-  2 : <7,CONST_CHAR>--
-
-  4 : <92,CONST_CHAR>--<10,CONST_CHAR>--
-
-LookUp At : ScopeTable :0 Symbol<12> Not Found !
-
-Insert At : ScopeTable :0 Symbol<12,CONST_CHAR> Position(6,0) Successful
+Insert At : ScopeTable :0 Symbol<a,ID> Position(4,0) Successful
 
 Print : SCOPE TABLE #0
 
-  2 : <7,CONST_CHAR>--
+  4 : <a,ID>--
 
-  4 : <92,CONST_CHAR>--<10,CONST_CHAR>--
+  8 : <main,ID>--
 
-  6 : <12,CONST_CHAR>--
+LookUp At : ScopeTable :0 Symbol<b> Not Found !
 
-LookUp At : ScopeTable :0 Symbol<13> Not Found !
-
-Insert At : ScopeTable :0 Symbol<13,CONST_CHAR> Position(7,0) Successful
+Insert At : ScopeTable :0 Symbol<b,ID> Position(5,0) Successful
 
 Print : SCOPE TABLE #0
 
-  2 : <7,CONST_CHAR>--
+  4 : <a,ID>--
 
-  4 : <92,CONST_CHAR>--<10,CONST_CHAR>--
+  5 : <b,ID>--
 
-  6 : <12,CONST_CHAR>--
+  8 : <main,ID>--
 
-  7 : <13,CONST_CHAR>--
+LookUp At : ScopeTable :0 Found <a,ID> Position(4,0)
 
-LookUp At : ScopeTable :0 Symbol<9> Not Found !
+Insert : Error ! Symbol Already Exists.
 
-Insert At : ScopeTable :0 Symbol<9,CONST_CHAR> Position(4,2) Successful
+LookUp At : ScopeTable :0 Found <a,ID> Position(4,0)
 
-Print : SCOPE TABLE #0
+Insert : Error ! Symbol Already Exists.
 
-  2 : <7,CONST_CHAR>--
+LookUp At : ScopeTable :0 Symbol<1> Not Found !
 
-  4 : <92,CONST_CHAR>--<10,CONST_CHAR>--<9,CONST_CHAR>--
-
-  6 : <12,CONST_CHAR>--
-
-  7 : <13,CONST_CHAR>--
-
-LookUp At : ScopeTable :0 Symbol<8> Not Found !
-
-Insert At : ScopeTable :0 Symbol<8,CONST_CHAR> Position(3,0) Successful
+Insert At : ScopeTable :0 Symbol<1,CONST_INT> Position(6,0) Successful
 
 Print : SCOPE TABLE #0
 
-  2 : <7,CONST_CHAR>--
+  4 : <a,ID>--
 
-  3 : <8,CONST_CHAR>--
+  5 : <b,ID>--
 
-  4 : <92,CONST_CHAR>--<10,CONST_CHAR>--<9,CONST_CHAR>--
+  6 : <1,CONST_INT>--
 
-  6 : <12,CONST_CHAR>--
+  8 : <main,ID>--
 
-  7 : <13,CONST_CHAR>--
+LookUp At : ScopeTable :0 Symbol<ch> Not Found !
 
-LookUp At : ScopeTable :0 Symbol<11> Not Found !
-
-Insert At : ScopeTable :0 Symbol<11,CONST_CHAR> Position(5,0) Successful
+Insert At : ScopeTable :0 Symbol<ch,ID> Position(0,0) Successful
 
 Print : SCOPE TABLE #0
 
-  2 : <7,CONST_CHAR>--
+  0 : <ch,ID>--
 
-  3 : <8,CONST_CHAR>--
+  4 : <a,ID>--
 
-  4 : <92,CONST_CHAR>--<10,CONST_CHAR>--<9,CONST_CHAR>--
+  5 : <b,ID>--
 
-  5 : <11,CONST_CHAR>--
+  6 : <1,CONST_INT>--
 
-  6 : <12,CONST_CHAR>--
+  8 : <main,ID>--
 
-  7 : <13,CONST_CHAR>--
+LookUp At : ScopeTable :0 Found <a,ID> Position(4,0)
+
+Insert : Error ! Symbol Already Exists.
+
+LookUp At : ScopeTable :0 Found <ch,ID> Position(0,0)
+
+Insert : Error ! Symbol Already Exists.
+
+LookUp At : ScopeTable :0 Symbol<	> Not Found !
+
+Insert At : ScopeTable :0 Symbol<	,CONST_CHAR> Position(6,1) Successful
+
+Print : SCOPE TABLE #0
+
+  0 : <ch,ID>--
+
+  4 : <a,ID>--
+
+  5 : <b,ID>--
+
+  6 : <1,CONST_INT>--<	,CONST_CHAR>--
+
+  8 : <main,ID>--
+
+LookUp At : ScopeTable :0 Symbol<c> Not Found !
+
+Insert At : ScopeTable :0 Symbol<c,ID> Position(6,2) Successful
+
+Print : SCOPE TABLE #0
+
+  0 : <ch,ID>--
+
+  4 : <a,ID>--
+
+  5 : <b,ID>--
+
+  6 : <1,CONST_INT>--<	,CONST_CHAR>--<c,ID>--
+
+  8 : <main,ID>--
+
+LookUp At : ScopeTable :0 Symbol<printf> Not Found !
+
+Insert At : ScopeTable :0 Symbol<printf,ID> Position(4,1) Successful
+
+Print : SCOPE TABLE #0
+
+  0 : <ch,ID>--
+
+  4 : <a,ID>--<printf,ID>--
+
+  5 : <b,ID>--
+
+  6 : <1,CONST_INT>--<	,CONST_CHAR>--<c,ID>--
+
+  8 : <main,ID>--
 
 LookUp At : ScopeTable :0 Symbol<0> Not Found !
 
-Insert At : ScopeTable :0 Symbol<0,CONST_CHAR> Position(5,1) Successful
+Insert At : ScopeTable :0 Symbol<0,CONST_INT> Position(5,1) Successful
 
 Print : SCOPE TABLE #0
 
-  2 : <7,CONST_CHAR>--
+  0 : <ch,ID>--
 
-  3 : <8,CONST_CHAR>--
+  4 : <a,ID>--<printf,ID>--
 
-  4 : <92,CONST_CHAR>--<10,CONST_CHAR>--<9,CONST_CHAR>--
+  5 : <b,ID>--<0,CONST_INT>--
 
-  5 : <11,CONST_CHAR>--<0,CONST_CHAR>--
+  6 : <1,CONST_INT>--<	,CONST_CHAR>--<c,ID>--
 
-  6 : <12,CONST_CHAR>--
-
-  7 : <13,CONST_CHAR>--
+  8 : <main,ID>--
 

@@ -1,9 +1,43 @@
-< CONST_CHAR , 92 >
-< CONST_CHAR , 10 >
-< CONST_CHAR , 7 >
-< CONST_CHAR , 12 >
-< CONST_CHAR , 13 >
-< CONST_CHAR , 9 >
-< CONST_CHAR , 8 >
-< CONST_CHAR , 11 >
-< CONST_CHAR , 0 >
+< INT >
+< ID , main >
+< LPAREN , ( >
+< RPAREN , ) >
+< LCURL , { >
+< INT >
+< ID , a >
+< COMMA , , >
+< ID , b >
+< SEMICOLON , ; >
+< ID , a >
+< ASSIGNOP , = >
+< ID , a >
+< ADDOP , + >
+< CONST_INT , 1 >
+< SEMICOLON , ; >
+< CHAR >
+< ID , ch >
+< ASSIGNOP , = >
+< CONST_CHAR , a >
+< SEMICOLON , ; >
+< ID , ch >
+< ASSIGNOP , = >
+< CONST_CHAR , 	 >
+< SEMICOLON , ; >
+< CHAR >
+< ID , c >
+< LTHIRD , [ >
+< RTHIRD , ] >
+< ASSIGNOP , = >
+< STRING , "ab\td" >
+< SEMICOLON , ; >
+< ID , printf >
+< LPAREN , ( >
+< STRING , "abc\
+def\
+ghi" >
+< RPAREN , ) >
+< SEMICOLON , ; >
+< RETURN >
+< CONST_INT , 0 >
+< SEMICOLON , ; >
+< RCURL , } >

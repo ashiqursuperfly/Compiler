@@ -1,79 +1,114 @@
-Line No:0 Error:Multi Character Constant
-Line No:1 Token:CONST_CHAR Lexeme: '\\'
+Line No:0 Token:INT Lexeme: int
+Line No:0 Token:ID Lexeme: main
 
   SCOPE TABLE #0
-  4:<92,CONST_CHAR>--
+  8:<main,ID>--
 
 
-Line No:2 Token:CONST_CHAR Lexeme: '\n'
-
-  SCOPE TABLE #0
-  4:<92,CONST_CHAR>--<10,CONST_CHAR>--
-
-
-Line No:3 Error:Unfinished Character Sequence
-Line No:4 Token:CONST_CHAR Lexeme: '\a'
+Line No:0 Token:LPAREN Lexeme: (
+Line No:0 Token:RPAREN Lexeme: )
+Line No:0 Token:LCURL Lexeme: {
+Line No:1 Token:INT Lexeme: int
+Line No:1 Token:ID Lexeme: a
 
   SCOPE TABLE #0
-  2:<7,CONST_CHAR>--
-  4:<92,CONST_CHAR>--<10,CONST_CHAR>--
+  4:<a,ID>--
+  8:<main,ID>--
 
 
-Line No:5 Token:CONST_CHAR Lexeme: '\f'
-
-  SCOPE TABLE #0
-  2:<7,CONST_CHAR>--
-  4:<92,CONST_CHAR>--<10,CONST_CHAR>--
-  6:<12,CONST_CHAR>--
-
-
-Line No:6 Token:CONST_CHAR Lexeme: '\r'
+Line No:1 Token:COMMA Lexeme: ,
+Line No:1 Token:ID Lexeme: b
 
   SCOPE TABLE #0
-  2:<7,CONST_CHAR>--
-  4:<92,CONST_CHAR>--<10,CONST_CHAR>--
-  6:<12,CONST_CHAR>--
-  7:<13,CONST_CHAR>--
+  4:<a,ID>--
+  5:<b,ID>--
+  8:<main,ID>--
 
 
-Line No:7 Token:CONST_CHAR Lexeme: '\t'
-
-  SCOPE TABLE #0
-  2:<7,CONST_CHAR>--
-  4:<92,CONST_CHAR>--<10,CONST_CHAR>--<9,CONST_CHAR>--
-  6:<12,CONST_CHAR>--
-  7:<13,CONST_CHAR>--
-
-
-Line No:8 Token:CONST_CHAR Lexeme: '\b'
+Line No:1 Token:SEMICOLON Lexeme: ;
+Line No:2 Token:ID Lexeme: a
+Line No:2 Token:ASSIGNOP Lexeme: =
+Line No:2 Token:ID Lexeme: a
+Line No:2 Token:ADDOP Lexeme: +
+Line No:2 Token:CONST_INT Lexeme: 1
 
   SCOPE TABLE #0
-  2:<7,CONST_CHAR>--
-  3:<8,CONST_CHAR>--
-  4:<92,CONST_CHAR>--<10,CONST_CHAR>--<9,CONST_CHAR>--
-  6:<12,CONST_CHAR>--
-  7:<13,CONST_CHAR>--
+  4:<a,ID>--
+  5:<b,ID>--
+  6:<1,CONST_INT>--
+  8:<main,ID>--
 
 
-Line No:9 Token:CONST_CHAR Lexeme: '\v'
-
-  SCOPE TABLE #0
-  2:<7,CONST_CHAR>--
-  3:<8,CONST_CHAR>--
-  4:<92,CONST_CHAR>--<10,CONST_CHAR>--<9,CONST_CHAR>--
-  5:<11,CONST_CHAR>--
-  6:<12,CONST_CHAR>--
-  7:<13,CONST_CHAR>--
-
-
-Line No:10 Token:CONST_CHAR Lexeme: '\0'
+Line No:2 Token:SEMICOLON Lexeme: ;
+Line No:3 Token:CHAR Lexeme: char
+Line No:3 Token:ID Lexeme: ch
 
   SCOPE TABLE #0
-  2:<7,CONST_CHAR>--
-  3:<8,CONST_CHAR>--
-  4:<92,CONST_CHAR>--<10,CONST_CHAR>--<9,CONST_CHAR>--
-  5:<11,CONST_CHAR>--<0,CONST_CHAR>--
-  6:<12,CONST_CHAR>--
-  7:<13,CONST_CHAR>--
+  0:<ch,ID>--
+  4:<a,ID>--
+  5:<b,ID>--
+  6:<1,CONST_INT>--
+  8:<main,ID>--
 
 
+Line No:3 Token:ASSIGNOP Lexeme: =
+Line No:3 Token:CONST_CHAR Lexeme: 'a'
+Line No:3 Token:SEMICOLON Lexeme: ;
+Line No:4 Token:ID Lexeme: ch
+Line No:4 Token:ASSIGNOP Lexeme: =
+Line No:4 Token:CONST_CHAR Lexeme: '\t'
+
+  SCOPE TABLE #0
+  0:<ch,ID>--
+  4:<a,ID>--
+  5:<b,ID>--
+  6:<1,CONST_INT>--<	,CONST_CHAR>--
+  8:<main,ID>--
+
+
+Line No:4 Token:SEMICOLON Lexeme: ;
+Line No:5 Token:CHAR Lexeme: char
+Line No:5 Token:ID Lexeme: c
+
+  SCOPE TABLE #0
+  0:<ch,ID>--
+  4:<a,ID>--
+  5:<b,ID>--
+  6:<1,CONST_INT>--<	,CONST_CHAR>--<c,ID>--
+  8:<main,ID>--
+
+
+Line No:5 Token:LTHIRD Lexeme: [
+Line No:5 Token:RTHIRD Lexeme: ]
+Line No:5 Token:ASSIGNOP Lexeme: =
+Line No:5 Token:STRING Lexeme: "ab\td"
+Line No:5 Token:SEMICOLON Lexeme: ;
+Line No:6 Token:ID Lexeme: printf
+
+  SCOPE TABLE #0
+  0:<ch,ID>--
+  4:<a,ID>--<printf,ID>--
+  5:<b,ID>--
+  6:<1,CONST_INT>--<	,CONST_CHAR>--<c,ID>--
+  8:<main,ID>--
+
+
+Line No:6 Token:LPAREN Lexeme: (
+Line No:6 Token:STRING Lexeme: "abc\
+def\
+ghi"
+Line No:6 Token:RPAREN Lexeme: )
+Line No:6 Token:SEMICOLON Lexeme: ;
+Line No:7 Token:RETURN Lexeme: return
+Line No:7 Token:CONST_INT Lexeme: 0
+
+  SCOPE TABLE #0
+  0:<ch,ID>--
+  4:<a,ID>--<printf,ID>--
+  5:<b,ID>--<0,CONST_INT>--
+  6:<1,CONST_INT>--<	,CONST_CHAR>--<c,ID>--
+  8:<main,ID>--
+
+
+Line No:7 Token:SEMICOLON Lexeme: ;
+Line No:8 Token:RCURL Lexeme: }
