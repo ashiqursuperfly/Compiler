@@ -59,7 +59,7 @@ public:
     string printLinkedList() {
         if (this == nullptr)
             return "";
-        string output = this->toString() + "--";
+        string output = this->toString() + " - ";
         output += this->getNext()->printLinkedList();
         return output;
     }

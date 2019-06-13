@@ -9,6 +9,7 @@ SymbolTable st(10);
 int lines=0,errors=0;
 extern "C" int yylex();
 
+const string processString(string s);
 const string removeSingleQuote(string s);
 
 %}
@@ -17,22 +18,31 @@ const string removeSingleQuote(string s);
 /**Start Of Pattern-Definition Section Inside Definition Section**/
 WHITESPACE  (\t|\f|\r|\v)+
 NEWLINE [\n]
+
 LETTER [a-zA-Z]
 DIGIT [0-9]
+
 IDENTIFIER (_|{LETTER})(_|{LETTER}|{DIGIT})*
 INVALID_IDENTIFIER {DIGIT}(_|{LETTER}|{DIGIT})*
+
 INTEGER ({DIGIT}+)
 FLOAT1 ({INTEGER}|"")(".")({INTEGER})
 FLOAT2 ({FLOAT1}|{INTEGER})("E")("-"|"")({INTEGER})
 TOO_MANY_DECIMAL_POINTS ({INTEGER}|"")(".")(({INTEGER})("."))+({INTEGER}|"")
 ILL_FORMED_NUMBER ({FLOAT2}|{FLOAT1}|"")(".")(({FLOAT2}|{FLOAT1})("."))*({FLOAT2}|{FLOAT1}|{INTEGER}|"")
+
 CHAR \'[ -~]{-}['\\]\'
 ESCAPE_CHAR \'\\['"?\\ntrvfab0]\'
-MULTI_CHAR_ERROR \'([ -~]{-}['\\])([ -~]{-}['\\])+\'
-INVALID_CHAR_SEQUENCE \'({CHAR}|[\\])*\'
-UNFINISHED_CHAR_SEQUENCE \'({CHAR}|[\\])*[^'\n]?|(\'\\\')
+MULTI_CHAR_CONSTANT \'([ -~]{-}['\\])([ -~]{-}['\\])+\'
+INVALID_CHAR \'({CHAR}|[\\])*\'
+UNFINISHED_CHAR \'({CHAR}|[\\])*[^'\n]?|(\'\\\')
+
 STRING \"([^\"\n]|(\\[\n])|(\"))*\"
 UNFINISHED_STRING \"([^\"\n]|(\\[\n]))*
+
+DOUBLE_SLASH_COMMENT "//"((.*\\\n.*)|(.*))*
+BLOCK_COMMENT "/*"([^*]|("*"[^/]))*"*/"
+UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 
 /**End Of Pattern-Definition Section Inside Definition Section**/
 /**End Of Definition Section**/
@@ -41,64 +51,75 @@ UNFINISHED_STRING \"([^\"\n]|(\\[\n]))*
 %%
 
 {WHITESPACE} {}
-
 {NEWLINE} {lines++;}
 
-
-{STRING} {
-
-	appendLog(lines,"STRING",yytext);
-	appendToken("STRING",yytext);
-
+{DOUBLE_SLASH_COMMENT} {
+	int detectionLine = lines;
+	string processed = processString(yytext);
+	appendLog(detectionLine,"COMMENT",processed);
 }
-{UNFINISHED_STRING} {
-	appendLogError(lines,"Unfinished String "+string(yytext));
+{BLOCK_COMMENT} {
+	int detectionLine = lines;
+	string processed = processString(yytext);
+	appendLog(detectionLine,"COMMENT",processed);
+}
+{UNFINISHED_COMMENT} {
+	appendLogError(lines,"Unfinished Comment " + processString(yytext));
 	errors++;
 }
+
+{STRING} {
+	int detectionLine = lines;
+	string processed = processString(yytext);
+	appendLog(detectionLine,"STRING",processed);
+	appendToken("STRING",processed);
+}
+{UNFINISHED_STRING} {
+	appendLogError(lines,"Unfinished String " + processString(yytext));
+	errors++;
+}
+
 {CHAR} {
 	appendLog(lines,"CONST_CHAR",yytext);
 	string s = removeSingleQuote(yytext);
-	st.insert(SymbolInfo(s,"CONST_CHAR"));
 	appendToken("CONST_CHAR",s);
+	st.insert(SymbolInfo(yytext,"CONST_CHAR"));
 }
 {ESCAPE_CHAR} {
 	appendLog(lines,"CONST_CHAR",yytext);
 	string s = removeSingleQuote(yytext);
 	appendToken("CONST_CHAR",s);
-	st.insert(SymbolInfo(s,"CONST_CHAR"));
+	st.insert(SymbolInfo(yytext,"CONST_CHAR"));
 }
-{MULTI_CHAR_ERROR} {
+{MULTI_CHAR_CONSTANT} {
 	appendLogError(lines,"Multi Character Constant " + string(yytext));
 	errors++;
 }
-{UNFINISHED_CHAR_SEQUENCE} {
+{UNFINISHED_CHAR} {
 	appendLogError(lines,"Unfinished Character "+string(yytext));
 	errors++;
 }
-
-{INVALID_CHAR_SEQUENCE} {
+{INVALID_CHAR} {
 	if(string(yytext)=="''")appendLogError(lines,"Empty Character Constant "+string(yytext));
 	else appendLogError(lines,"Invalid Character "+string(yytext));
 	errors++;
 }
+
 {INTEGER} {
 	appendLog(lines,"CONST_INT",yytext);
 	appendToken("CONST_INT",yytext);
 	st.insert(SymbolInfo(yytext,"CONST_INT"));
 }
-
 {FLOAT1}|{FLOAT2} {
 	appendLog(lines,"CONST_FLOAT",yytext);
 	appendToken("CONST_FLOAT",yytext);
 	st.insert(SymbolInfo(yytext,"CONST_FLOAT"));
 }
-
 {TOO_MANY_DECIMAL_POINTS} {
 	appendLogError(lines,"Too Many Decimal Points! "+string(yytext));
 	errors++;
 
 }
-
 {ILL_FORMED_NUMBER} {
 	appendLogError(lines,"Ill formed number! "+string(yytext));
 	errors++;
@@ -291,10 +312,53 @@ int main(int argc,char *argv[]){
 
 	yylex(); //start scanning
 
+	appendLog("\nTotal Lines: "+to_string(lines)+" Total Error: "+to_string(errors));
+
 	fclose(yyin);
 	return 0;
 }
-
+const string processString(string s){
+	int len = s.size();
+	string x;
+	for(int i=0;i<len;i++){
+		if(s[i]=='\n')lines++;
+		if(s[i]=='\\' and s[i+1]=='\n')
+		continue;
+		int ok=0;
+		if(s[i]=='\\'){
+			if(s[i+1]=='n')
+				x.push_back('\n');
+			else if(s[i+1]=='t')
+				x.push_back('\t');
+			else if(s[i+1]=='\\')
+				x.push_back('\\');
+			else if(s[i+1]=='\'')
+				x.push_back('\'');
+			else if(s[i+1]=='\"')
+				x.push_back('\"');
+			else if(s[i+1]=='a')
+				x.push_back('\a');
+			else if(s[i+1]=='f')
+				x.push_back('\f');
+			else if(s[i+1]=='r')
+				x.push_back('\r');
+			else if(s[i+1]=='v')
+				x.push_back('\v');
+			else if(s[i+1]=='b')
+				x.push_back('\b');
+			else if(s[i+1]=='\0')
+				x.push_back('\0');
+		}
+		else if(s[i]=='\n' )
+			continue;
+		else{
+			ok=1;
+			x.push_back(s[i]);
+		}
+		if(ok==0) i++;
+	}
+	return x;
+}
 const string removeSingleQuote(string s){
 	if(s[1]!='\\'){
 		if(s[1] == ' ') return " ";

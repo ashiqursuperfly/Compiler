@@ -28,13 +28,11 @@
 < LTHIRD , [ >
 < RTHIRD , ] >
 < ASSIGNOP , = >
-< STRING , "ab\td" >
+< STRING , "ab	d" >
 < SEMICOLON , ; >
 < ID , printf >
 < LPAREN , ( >
-< STRING , "abc\
-def\
-ghi" >
+< STRING , "abcdefghi" >
 < RPAREN , ) >
 < SEMICOLON , ; >
 < RETURN >
