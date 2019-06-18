@@ -363,23 +363,23 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[165] =
     {   0,
-        0,    0,   52,   51,    1,    2,   41,    7,   44,   48,
-       11,   35,   36,   42,   34,   42,   16,   44,   13,   33,
-       45,   46,   45,   49,   39,   40,   48,   49,   49,   49,
-       49,   49,   49,   49,   49,   49,   49,   37,   48,   38,
-        1,   45,    7,    6,    7,   47,   11,   11,   12,   11,
-       43,    0,   14,    0,    3,    0,   13,   50,   50,   48,
-       49,   49,   49,   49,   49,   49,   24,   49,   49,   49,
-       22,   49,   49,   49,   49,   49,    0,    0,    0,    8,
-        0,   11,   11,   11,   16,   15,    0,    5,    0,    0,
-        3,    3,   14,    0,   14,   49,   49,   49,   49,   49,
+        0,    0,   52,   51,    1,    2,   43,   12,   47,   50,
+        9,   37,   38,   45,   36,   45,   16,   47,   13,   35,
+       48,   44,   48,   33,   41,   42,   50,   33,   33,   33,
+       33,   33,   33,   33,   33,   33,   33,   39,   50,   40,
+        1,   48,   12,   11,   12,   49,    9,    9,   10,    9,
+       46,    0,   14,    0,    3,    0,   13,   34,   34,   50,
+       33,   33,   33,   33,   33,   33,   24,   33,   33,   33,
+       22,   33,   33,   33,   33,   33,    0,    0,    0,    6,
+        0,    9,    9,    9,   16,   15,    0,    5,    0,    0,
+        3,    3,   14,    0,   14,   33,   33,   33,   33,   33,
 
-       49,   49,   49,   26,   17,   49,   49,   49,   49,   10,
-       11,    9,    9,   16,    0,   15,    0,   14,    4,    3,
-       15,    0,   14,   16,   49,   31,   18,   49,   49,   49,
-       23,   49,   49,   49,   21,   49,   16,    0,   16,   15,
-       16,    3,    3,   15,   27,   49,   49,   49,   19,   49,
-       49,   25,   15,   49,   49,   20,   29,   30,   15,   49,
+       33,   33,   33,   26,   17,   33,   33,   33,   33,    8,
+        9,    7,    7,   16,    0,   15,    0,   14,    4,    3,
+       15,    0,   14,   16,   33,   31,   18,   33,   33,   33,
+       23,   33,   33,   33,   21,   33,   16,    0,   16,   15,
+       16,    3,    3,   15,   27,   33,   33,   33,   19,   33,
+       33,   25,   15,   33,   33,   20,   29,   30,   15,   33,
        32,   15,   28,    0
     } ;
 
@@ -817,7 +817,7 @@ YY_DECL
 		}
 
 	{
-#line 51 "1605103.l"
+#line 58 "1605103.l"
 
 
 #line 824 "1605103.c"
@@ -879,19 +879,19 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 53 "1605103.l"
+#line 60 "1605103.l"
 {}
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 54 "1605103.l"
+#line 61 "1605103.l"
 {lines++;}
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 56 "1605103.l"
+#line 63 "1605103.l"
 {
 	int detectionLine = lines;
 	string processed = processString(yytext);
@@ -901,7 +901,7 @@ YY_RULE_SETUP
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 61 "1605103.l"
+#line 68 "1605103.l"
 {
 	int detectionLine = lines;
 	string processed = processString(yytext);
@@ -911,16 +911,63 @@ YY_RULE_SETUP
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 66 "1605103.l"
+#line 73 "1605103.l"
 {
 	appendLogError(lines,"Unfinished Comment " + processString(yytext));
 	errors++;
 }
 	YY_BREAK
 case 6:
-/* rule 6 can match eol */
 YY_RULE_SETUP
-#line 71 "1605103.l"
+#line 78 "1605103.l"
+{
+	appendLog(lines,"CONST_CHAR",yytext);
+	string s = removeSingleQuote(yytext);
+	appendToken("CONST_CHAR",s);
+	if(!st.insert(SymbolInfo(yytext,"CONST_CHAR")))
+	appendLog("Symbol Already Exists!");
+}
+	YY_BREAK
+case 7:
+YY_RULE_SETUP
+#line 85 "1605103.l"
+{
+	appendLog(lines,"CONST_CHAR",yytext);
+	string s = removeSingleQuote(yytext);
+	appendToken("CONST_CHAR",s);
+	if(!st.insert(SymbolInfo(yytext,"CONST_CHAR")))
+	appendLog("Symbol Already Exists!");
+}
+	YY_BREAK
+case 8:
+YY_RULE_SETUP
+#line 92 "1605103.l"
+{
+	appendLogError(lines,"Multi Character Constant " + string(yytext));
+	errors++;
+}
+	YY_BREAK
+case 9:
+YY_RULE_SETUP
+#line 96 "1605103.l"
+{
+	appendLogError(lines,"Unfinished Character "+string(yytext));
+	errors++;
+}
+	YY_BREAK
+case 10:
+YY_RULE_SETUP
+#line 100 "1605103.l"
+{
+	if(string(yytext)=="''")appendLogError(lines,"Empty Character Constant "+string(yytext));
+	else appendLogError(lines,"Invalid Character "+string(yytext));
+	errors++;
+}
+	YY_BREAK
+case 11:
+/* rule 11 can match eol */
+YY_RULE_SETUP
+#line 106 "1605103.l"
 {
 	int detectionLine = lines;
 	string processed = processString(yytext);
@@ -928,81 +975,38 @@ YY_RULE_SETUP
 	appendToken("STRING",processed);
 }
 	YY_BREAK
-case 7:
-/* rule 7 can match eol */
+case 12:
+/* rule 12 can match eol */
 YY_RULE_SETUP
-#line 77 "1605103.l"
+#line 112 "1605103.l"
 {
 	appendLogError(lines,"Unfinished String " + processString(yytext));
 	errors++;
 }
 	YY_BREAK
-case 8:
-YY_RULE_SETUP
-#line 82 "1605103.l"
-{
-	appendLog(lines,"CONST_CHAR",yytext);
-	string s = removeSingleQuote(yytext);
-	appendToken("CONST_CHAR",s);
-	st.insert(SymbolInfo(yytext,"CONST_CHAR"));
-}
-	YY_BREAK
-case 9:
-YY_RULE_SETUP
-#line 88 "1605103.l"
-{
-	appendLog(lines,"CONST_CHAR",yytext);
-	string s = removeSingleQuote(yytext);
-	appendToken("CONST_CHAR",s);
-	st.insert(SymbolInfo(yytext,"CONST_CHAR"));
-}
-	YY_BREAK
-case 10:
-YY_RULE_SETUP
-#line 94 "1605103.l"
-{
-	appendLogError(lines,"Multi Character Constant " + string(yytext));
-	errors++;
-}
-	YY_BREAK
-case 11:
-YY_RULE_SETUP
-#line 98 "1605103.l"
-{
-	appendLogError(lines,"Unfinished Character "+string(yytext));
-	errors++;
-}
-	YY_BREAK
-case 12:
-YY_RULE_SETUP
-#line 102 "1605103.l"
-{
-	if(string(yytext)=="''")appendLogError(lines,"Empty Character Constant "+string(yytext));
-	else appendLogError(lines,"Invalid Character "+string(yytext));
-	errors++;
-}
-	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 108 "1605103.l"
+#line 117 "1605103.l"
 {
 	appendLog(lines,"CONST_INT",yytext);
 	appendToken("CONST_INT",yytext);
-	st.insert(SymbolInfo(yytext,"CONST_INT"));
+	if(!st.insert(SymbolInfo(yytext,"CONST_INT")))
+	appendLog("Symbol Already Exists!");
 }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 113 "1605103.l"
+#line 123 "1605103.l"
 {
 	appendLog(lines,"CONST_FLOAT",yytext);
 	appendToken("CONST_FLOAT",yytext);
-	st.insert(SymbolInfo(yytext,"CONST_FLOAT"));
+	if(!st.insert(SymbolInfo(yytext,"CONST_FLOAT")))
+	appendLog("Symbol Already Exists!");
 }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 118 "1605103.l"
+#line 129 "1605103.l"
 {
 	appendLogError(lines,"Too Many Decimal Points! "+string(yytext));
 	errors++;
@@ -1011,7 +1015,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 123 "1605103.l"
+#line 134 "1605103.l"
 {
 	appendLogError(lines,"Ill formed number! "+string(yytext));
 	errors++;
@@ -1019,7 +1023,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 128 "1605103.l"
+#line 139 "1605103.l"
 {
 			appendToken("INT");
 			appendLog(lines,"INT",yytext);
@@ -1027,7 +1031,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 132 "1605103.l"
+#line 143 "1605103.l"
 {
 			appendToken("CHAR");
 			appendLog(lines,"CHAR",yytext);
@@ -1035,7 +1039,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 136 "1605103.l"
+#line 147 "1605103.l"
 {
 			appendToken("FLOAT");
 			appendLog(lines,"FLOAT",yytext);
@@ -1043,7 +1047,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 140 "1605103.l"
+#line 151 "1605103.l"
 {
 			appendToken("DOUBLE");
 			appendLog(lines,"DOUBLE",yytext);
@@ -1051,7 +1055,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 144 "1605103.l"
+#line 155 "1605103.l"
 {
 			appendToken("VOID");
 			appendLog(lines,"VOID",yytext);
@@ -1059,7 +1063,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 148 "1605103.l"
+#line 159 "1605103.l"
 {
 			appendToken("IF");
 			appendLog(lines,"IF",yytext);
@@ -1068,7 +1072,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 153 "1605103.l"
+#line 164 "1605103.l"
 {
 			appendToken("ELSE");
 			appendLog(lines,"ELSE",yytext);
@@ -1076,7 +1080,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 157 "1605103.l"
+#line 168 "1605103.l"
 {
 			appendToken("DO");
 			appendLog(lines,"DO",yytext);
@@ -1084,7 +1088,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 161 "1605103.l"
+#line 172 "1605103.l"
 {
 			appendToken("WHILE");
 			appendLog(lines,"WHILE",yytext);
@@ -1092,7 +1096,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 166 "1605103.l"
+#line 177 "1605103.l"
 {
 			appendToken("FOR");
 			appendLog(lines,"FOR",yytext);
@@ -1100,7 +1104,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 170 "1605103.l"
+#line 181 "1605103.l"
 {
 			appendToken("BREAK");
 			appendLog(lines,"BREAK",yytext);
@@ -1108,7 +1112,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 174 "1605103.l"
+#line 185 "1605103.l"
 {
 			appendToken("CONTINUE");
 			appendLog(lines,"CONTINUE",yytext);
@@ -1116,7 +1120,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 179 "1605103.l"
+#line 190 "1605103.l"
 {
 			appendToken("RETURN");
 			appendLog(lines,"RETURN",yytext);
@@ -1124,7 +1128,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 183 "1605103.l"
+#line 194 "1605103.l"
 {
 			appendToken("SWITCH");
 			appendLog(lines,"SWITCH",yytext);
@@ -1132,7 +1136,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 187 "1605103.l"
+#line 198 "1605103.l"
 {
 			appendToken("CASE");
 			appendLog(lines,"CASE",yytext);
@@ -1140,7 +1144,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 191 "1605103.l"
+#line 202 "1605103.l"
 {
 			appendToken("DEFAULT");
 			appendLog(lines,"DEFAULT",yytext);
@@ -1148,174 +1152,190 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 195 "1605103.l"
+#line 207 "1605103.l"
 {
-			appendToken("SEMICOLON",yytext);
-			appendLog(lines,"SEMICOLON",yytext);
-			//st.insert(SymbolInfo(yytext,"SEMICOLON"));
+	appendLog(lines,"ID",yytext);
+	appendToken("ID",yytext);
+	if(!st.insert(SymbolInfo(yytext,"ID")))
+		appendLog("Symbol Already Exists!");
 }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 201 "1605103.l"
-{
-			appendToken("COMMA",yytext);
-			appendLog(lines,"COMMA",yytext);
-			//st.insert(SymbolInfo(yytext,"COMMA"));
-}
-	YY_BREAK
-case 35:
-YY_RULE_SETUP
-#line 206 "1605103.l"
-{
-			appendToken("LPAREN",yytext);
-			appendLog(lines,"LPAREN",yytext);
-			//st.insert(SymbolInfo(yytext,"LPAREN"));
-}
-	YY_BREAK
-case 36:
-YY_RULE_SETUP
-#line 211 "1605103.l"
-{
-			appendToken("RPAREN",yytext);
-			appendLog(lines,"RPAREN",yytext);
-			//st.insert(SymbolInfo(yytext,"RPAREN"));
-}
-	YY_BREAK
-case 37:
-YY_RULE_SETUP
-#line 216 "1605103.l"
-{
-			appendToken("LCURL",yytext);
-			appendLog(lines,"LCURL",yytext);
-			//st.insert(SymbolInfo(yytext,"LCURL"));
-}
-	YY_BREAK
-case 38:
-YY_RULE_SETUP
-#line 221 "1605103.l"
-{
-			appendToken("RCURL",yytext);
-			appendLog(lines,"RCURL",yytext);
-
-			//st.insert(SymbolInfo(yytext,"RCURL"));
-}
-	YY_BREAK
-case 39:
-YY_RULE_SETUP
-#line 227 "1605103.l"
-{
-			appendToken("LTHIRD",yytext);
-			appendLog(lines,"LTHIRD",yytext);
-			//st.insert(SymbolInfo(yytext,"LTHIRD"));
-}
-	YY_BREAK
-case 40:
-YY_RULE_SETUP
-#line 232 "1605103.l"
-{
-			appendToken("RTHIRD",yytext);
-			appendLog(lines,"RTHIRD",yytext);
-			//st.insert(SymbolInfo(yytext,"RTHIRD"));
-}
-	YY_BREAK
-case 41:
-YY_RULE_SETUP
-#line 237 "1605103.l"
-{
-			appendToken("NOT",yytext);
-			appendLog(lines,"NOT",yytext);
-			//st.insert(SymbolInfo(yytext,"NOT"));
-
-}
-	YY_BREAK
-case 42:
-YY_RULE_SETUP
-#line 243 "1605103.l"
-{
-			appendToken("ADDOP",yytext);
-			appendLog(lines,"ADDOP",yytext);
-			//st.insert(SymbolInfo(yytext,"ADDOP"));
-
-}
-	YY_BREAK
-case 43:
-YY_RULE_SETUP
-#line 250 "1605103.l"
-{
-			appendToken("INCOP",yytext);
-			appendLog(lines,"INCOP",yytext);
-			//st.insert(SymbolInfo(yytext,"INCOP"));
-}
-	YY_BREAK
-case 44:
-YY_RULE_SETUP
-#line 255 "1605103.l"
-{
-			appendToken("MULOP",yytext);
-			appendLog(lines,"MULOP",yytext);
-			//st.insert(yytext,"MULOP");
-}
-	YY_BREAK
-case 45:
-YY_RULE_SETUP
-#line 261 "1605103.l"
-{
-					appendToken("RELOP",yytext);
-					appendLog(lines,"RELOP",yytext);
-					//st.insert(yytext,"RELOP");
-}
-	YY_BREAK
-case 46:
-YY_RULE_SETUP
-#line 266 "1605103.l"
-{
-			appendToken("ASSIGNOP",yytext);
-			appendLog(lines,"ASSIGNOP",yytext);
-			//st.insert(yytext,"ASSIGNOP");
-}
-	YY_BREAK
-case 47:
-YY_RULE_SETUP
-#line 271 "1605103.l"
-{
-			appendToken("LOGICOP",yytext);
-			appendLog(lines,"LOGICOP",yytext);
-			//st.insert(yytext,"LOGICOP");
-}
-	YY_BREAK
-case 48:
-YY_RULE_SETUP
-#line 276 "1605103.l"
-{
-					appendToken("BITOP",yytext);
-					appendLog(lines,"BITOP",yytext);
-					//st.insert(yytext,"BITOP");
-}
-	YY_BREAK
-case 49:
-YY_RULE_SETUP
-#line 281 "1605103.l"
-{
-	appendLog(lines,"ID",yytext);
-	appendToken("ID",yytext);
-	st.insert(SymbolInfo(yytext,"ID"));
-}
-	YY_BREAK
-case 50:
-YY_RULE_SETUP
-#line 286 "1605103.l"
+#line 213 "1605103.l"
 {
 	appendLogError(lines,"Invalid Suffix On Numeric Constant Or,Invalid Prefix on Identifier for Character Sequence "+string(yytext));
 	errors++;
 }
 	YY_BREAK
-case 51:
+case 35:
+YY_RULE_SETUP
+#line 218 "1605103.l"
+{
+			appendToken("SEMICOLON",yytext);
+			appendLog(lines,"SEMICOLON",yytext);
+			if(!st.insert(SymbolInfo(yytext,"SEMICOLON")))
+				appendLog("Symbol Already Exists!");
+}
+	YY_BREAK
+case 36:
+YY_RULE_SETUP
+#line 225 "1605103.l"
+{
+			appendToken("COMMA",yytext);
+			appendLog(lines,"COMMA",yytext);
+			if(!st.insert(SymbolInfo(yytext,"COMMA")))
+				appendLog("Symbol Already Exists!");
+}
+	YY_BREAK
+case 37:
+YY_RULE_SETUP
+#line 231 "1605103.l"
+{
+			appendToken("LPAREN",yytext);
+			appendLog(lines,"LPAREN",yytext);
+			if(!st.insert(SymbolInfo(yytext,"LPAREN")))
+				appendLog("Symbol Already Exists!");
+}
+	YY_BREAK
+case 38:
+YY_RULE_SETUP
+#line 237 "1605103.l"
+{
+			appendToken("RPAREN",yytext);
+			appendLog(lines,"RPAREN",yytext);
+			if(!st.insert(SymbolInfo(yytext,"RPAREN")))
+				appendLog("Symbol Already Exists!");
+}
+	YY_BREAK
+case 39:
+YY_RULE_SETUP
+#line 243 "1605103.l"
+{
+			appendToken("LCURL",yytext);
+			appendLog(lines,"LCURL",yytext);
+			if(!st.insert(SymbolInfo(yytext,"LCURL")))
+				appendLog("Symbol Already Exists!");
+}
+	YY_BREAK
+case 40:
+YY_RULE_SETUP
+#line 249 "1605103.l"
+{
+			appendToken("RCURL",yytext);
+			appendLog(lines,"RCURL",yytext);
+			if(!st.insert(SymbolInfo(yytext,"RCURL")))
+				appendLog("Symbol Already Exists!");
+}
+	YY_BREAK
+case 41:
+YY_RULE_SETUP
+#line 255 "1605103.l"
+{
+			appendToken("LTHIRD",yytext);
+			appendLog(lines,"LTHIRD",yytext);
+			if(!st.insert(SymbolInfo(yytext,"LTHIRD")))
+				appendLog("Symbol Already Exists!");
+}
+	YY_BREAK
+case 42:
+YY_RULE_SETUP
+#line 261 "1605103.l"
+{
+			appendToken("RTHIRD",yytext);
+			appendLog(lines,"RTHIRD",yytext);
+			if(!st.insert(SymbolInfo(yytext,"RTHIRD")))
+				appendLog("Symbol Already Exists!");
+}
+	YY_BREAK
+case 43:
+YY_RULE_SETUP
+#line 267 "1605103.l"
+{
+			appendToken("NOT",yytext);
+			appendLog(lines,"NOT",yytext);
+			if(!st.insert(SymbolInfo(yytext,"NOT")))
+				appendLog("Symbol Already Exists!");
+
+}
+	YY_BREAK
+case 44:
+YY_RULE_SETUP
+#line 274 "1605103.l"
+{
+			appendToken("ASSIGNOP",yytext);
+			appendLog(lines,"ASSIGNOP",yytext);
+			if(!st.insert(SymbolInfo(yytext,"ASSIGNOP")))
+				appendLog("Symbol Already Exists!");
+}
+	YY_BREAK
+case 45:
+YY_RULE_SETUP
+#line 281 "1605103.l"
+{
+			appendToken("ADDOP",yytext);
+			appendLog(lines,"ADDOP",yytext);
+			if(!st.insert(SymbolInfo(yytext,"ADDOP")))
+				appendLog("Symbol Already Exists!");
+
+}
+	YY_BREAK
+case 46:
+YY_RULE_SETUP
+#line 288 "1605103.l"
+{
+			appendToken("INCOP",yytext);
+			appendLog(lines,"INCOP",yytext);
+			if(!st.insert(SymbolInfo(yytext,"INCOP")))
+				appendLog("Symbol Already Exists!");
+}
+	YY_BREAK
+case 47:
 YY_RULE_SETUP
 #line 294 "1605103.l"
+{
+			appendToken("MULOP",yytext);
+			appendLog(lines,"MULOP",yytext);
+			if(!st.insert(SymbolInfo(yytext,"MULOP")))
+				appendLog("Symbol Already Exists!");
+}
+	YY_BREAK
+case 48:
+YY_RULE_SETUP
+#line 301 "1605103.l"
+{
+					appendToken("RELOP",yytext);
+					appendLog(lines,"RELOP",yytext);
+					if(!st.insert(SymbolInfo(yytext,"RELOP")))
+						appendLog("Symbol Already Exists!");
+}
+	YY_BREAK
+case 49:
+YY_RULE_SETUP
+#line 307 "1605103.l"
+{
+			appendToken("LOGICOP",yytext);
+			appendLog(lines,"LOGICOP",yytext);
+			if(!st.insert(SymbolInfo(yytext,"LOGICOP")))
+				appendLog("Symbol Already Exists!");
+}
+	YY_BREAK
+case 50:
+YY_RULE_SETUP
+#line 313 "1605103.l"
+{
+					appendToken("BITOP",yytext);
+					appendLog(lines,"BITOP",yytext);
+					if(!st.insert(SymbolInfo(yytext,"BITOP")))
+						appendLog("Symbol Already Exists!");
+}
+	YY_BREAK
+case 51:
+YY_RULE_SETUP
+#line 324 "1605103.l"
 ECHO;
 	YY_BREAK
-#line 1319 "1605103.c"
+#line 1339 "1605103.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2320,7 +2340,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 294 "1605103.l"
+#line 324 "1605103.l"
 
 /** End of Rules Section**/
 /**start of routine Section**/
@@ -2348,46 +2368,46 @@ int main(int argc,char *argv[]){
 	return 0;
 }
 const string processString(string s){
+	string result;
 	int len = s.size();
-	string x;
 	for(int i=0;i<len;i++){
 		if(s[i]=='\n')lines++;
 		if(s[i]=='\\' and s[i+1]=='\n')
 		continue;
-		int ok=0;
+		int state=0;
 		if(s[i]=='\\'){
 			if(s[i+1]=='n')
-				x.push_back('\n');
+				result.push_back('\n');
 			else if(s[i+1]=='t')
-				x.push_back('\t');
+				result.push_back('\t');
 			else if(s[i+1]=='\\')
-				x.push_back('\\');
+				result.push_back('\\');
 			else if(s[i+1]=='\'')
-				x.push_back('\'');
+				result.push_back('\'');
 			else if(s[i+1]=='\"')
-				x.push_back('\"');
+				result.push_back('\"');
 			else if(s[i+1]=='a')
-				x.push_back('\a');
+				result.push_back('\a');
 			else if(s[i+1]=='f')
-				x.push_back('\f');
+				result.push_back('\f');
 			else if(s[i+1]=='r')
-				x.push_back('\r');
+				result.push_back('\r');
 			else if(s[i+1]=='v')
-				x.push_back('\v');
+				result.push_back('\v');
 			else if(s[i+1]=='b')
-				x.push_back('\b');
+				result.push_back('\b');
 			else if(s[i+1]=='\0')
-				x.push_back('\0');
+				result.push_back('\0');
 		}
 		else if(s[i]=='\n' )
 			continue;
 		else{
-			ok=1;
-			x.push_back(s[i]);
+			state=1;
+			result.push_back(s[i]);
 		}
-		if(ok==0) i++;
+		if(state==0) i++;
 	}
-	return x;
+	return result;
 }
 const string removeSingleQuote(string s){
 	if(s[1]!='\\'){

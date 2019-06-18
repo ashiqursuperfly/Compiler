@@ -40,7 +40,7 @@ void appendLogError(int line_no,const string & error_msg){
 }
 void appendLog(const string & data){
     ofstream outfile;
-
+    
     outfile.open(LOG_FILE, std::ios_base::app);
     outfile << data<<endl;
 }

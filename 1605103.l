@@ -31,6 +31,13 @@ FLOAT2 ({FLOAT1}|{INTEGER})("E")("-"|"")({INTEGER})
 TOO_MANY_DECIMAL_POINTS ({INTEGER}|"")(".")(({INTEGER})("."))+({INTEGER}|"")
 ILL_FORMED_NUMBER ({FLOAT2}|{FLOAT1}|"")(".")(({FLOAT2}|{FLOAT1})("."))*({FLOAT2}|{FLOAT1}|{INTEGER}|"")
 
+RELOP "<"|">"|">="|"<="|"!="|"=="
+BITOP "<<"|">>"|"^"|"&"|"|"
+INCOP "++"|"--"
+MULOP "%"|"*"|"/"
+LOGICOP "&&"|"||"
+ADDOP "+"|"-"
+
 CHAR \'[ -~]{-}['\\]\'
 ESCAPE_CHAR \'\\['"?\\ntrvfab0]\'
 MULTI_CHAR_CONSTANT \'([ -~]{-}['\\])([ -~]{-}['\\])+\'
@@ -68,28 +75,19 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	errors++;
 }
 
-{STRING} {
-	int detectionLine = lines;
-	string processed = processString(yytext);
-	appendLog(detectionLine,"STRING",processed);
-	appendToken("STRING",processed);
-}
-{UNFINISHED_STRING} {
-	appendLogError(lines,"Unfinished String " + processString(yytext));
-	errors++;
-}
-
 {CHAR} {
 	appendLog(lines,"CONST_CHAR",yytext);
 	string s = removeSingleQuote(yytext);
 	appendToken("CONST_CHAR",s);
-	st.insert(SymbolInfo(yytext,"CONST_CHAR"));
+	if(!st.insert(SymbolInfo(yytext,"CONST_CHAR")))
+	appendLog("Symbol Already Exists!");
 }
 {ESCAPE_CHAR} {
 	appendLog(lines,"CONST_CHAR",yytext);
 	string s = removeSingleQuote(yytext);
 	appendToken("CONST_CHAR",s);
-	st.insert(SymbolInfo(yytext,"CONST_CHAR"));
+	if(!st.insert(SymbolInfo(yytext,"CONST_CHAR")))
+	appendLog("Symbol Already Exists!");
 }
 {MULTI_CHAR_CONSTANT} {
 	appendLogError(lines,"Multi Character Constant " + string(yytext));
@@ -105,15 +103,28 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	errors++;
 }
 
+{STRING} {
+	int detectionLine = lines;
+	string processed = processString(yytext);
+	appendLog(detectionLine,"STRING",processed);
+	appendToken("STRING",processed);
+}
+{UNFINISHED_STRING} {
+	appendLogError(lines,"Unfinished String " + processString(yytext));
+	errors++;
+}
+
 {INTEGER} {
 	appendLog(lines,"CONST_INT",yytext);
 	appendToken("CONST_INT",yytext);
-	st.insert(SymbolInfo(yytext,"CONST_INT"));
+	if(!st.insert(SymbolInfo(yytext,"CONST_INT")))
+	appendLog("Symbol Already Exists!");
 }
 {FLOAT1}|{FLOAT2} {
 	appendLog(lines,"CONST_FLOAT",yytext);
 	appendToken("CONST_FLOAT",yytext);
-	st.insert(SymbolInfo(yytext,"CONST_FLOAT"));
+	if(!st.insert(SymbolInfo(yytext,"CONST_FLOAT")))
+	appendLog("Symbol Already Exists!");
 }
 {TOO_MANY_DECIMAL_POINTS} {
 	appendLogError(lines,"Too Many Decimal Points! "+string(yytext));
@@ -192,101 +203,120 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 			appendToken("DEFAULT");
 			appendLog(lines,"DEFAULT",yytext);
 }
-";"		{
-			appendToken("SEMICOLON",yytext);
-			appendLog(lines,"SEMICOLON",yytext);
-			//st.insert(SymbolInfo(yytext,"SEMICOLON"));
-}
 
-","		{
-			appendToken("COMMA",yytext);
-			appendLog(lines,"COMMA",yytext);
-			//st.insert(SymbolInfo(yytext,"COMMA"));
-}
-"("		{
-			appendToken("LPAREN",yytext);
-			appendLog(lines,"LPAREN",yytext);
-			//st.insert(SymbolInfo(yytext,"LPAREN"));
-}
-")"		{
-			appendToken("RPAREN",yytext);
-			appendLog(lines,"RPAREN",yytext);
-			//st.insert(SymbolInfo(yytext,"RPAREN"));
-}
-"{"		{
-			appendToken("LCURL",yytext);
-			appendLog(lines,"LCURL",yytext);
-			//st.insert(SymbolInfo(yytext,"LCURL"));
-}
-"}"		{
-			appendToken("RCURL",yytext);
-			appendLog(lines,"RCURL",yytext);
-
-			//st.insert(SymbolInfo(yytext,"RCURL"));
-}
-"["		{
-			appendToken("LTHIRD",yytext);
-			appendLog(lines,"LTHIRD",yytext);
-			//st.insert(SymbolInfo(yytext,"LTHIRD"));
-}
-"]"		{
-			appendToken("RTHIRD",yytext);
-			appendLog(lines,"RTHIRD",yytext);
-			//st.insert(SymbolInfo(yytext,"RTHIRD"));
-}
-"!"		{
-			appendToken("NOT",yytext);
-			appendLog(lines,"NOT",yytext);
-			//st.insert(SymbolInfo(yytext,"NOT"));
-
-}
-"+"|"-"		{
-			appendToken("ADDOP",yytext);
-			appendLog(lines,"ADDOP",yytext);
-			//st.insert(SymbolInfo(yytext,"ADDOP"));
-
-}
-
-"++"|"--"	{
-			appendToken("INCOP",yytext);
-			appendLog(lines,"INCOP",yytext);
-			//st.insert(SymbolInfo(yytext,"INCOP"));
-}
-"%"|"*"|"/"	{
-			appendToken("MULOP",yytext);
-			appendLog(lines,"MULOP",yytext);
-			//st.insert(yytext,"MULOP");
-}
-
-"<"|">"|">="|"<="|"!="|"=="	{
-					appendToken("RELOP",yytext);
-					appendLog(lines,"RELOP",yytext);
-					//st.insert(yytext,"RELOP");
-}
-"="		{
-			appendToken("ASSIGNOP",yytext);
-			appendLog(lines,"ASSIGNOP",yytext);
-			//st.insert(yytext,"ASSIGNOP");
-}
-"&&"|"||"	{
-			appendToken("LOGICOP",yytext);
-			appendLog(lines,"LOGICOP",yytext);
-			//st.insert(yytext,"LOGICOP");
-}
-"<<"|">>"|"^"|"&"|"|"		{
-					appendToken("BITOP",yytext);
-					appendLog(lines,"BITOP",yytext);
-					//st.insert(yytext,"BITOP");
-}
 {IDENTIFIER} {
 	appendLog(lines,"ID",yytext);
 	appendToken("ID",yytext);
-	st.insert(SymbolInfo(yytext,"ID"));
+	if(!st.insert(SymbolInfo(yytext,"ID")))
+		appendLog("Symbol Already Exists!");
 }
 {INVALID_IDENTIFIER} {
 	appendLogError(lines,"Invalid Suffix On Numeric Constant Or,Invalid Prefix on Identifier for Character Sequence "+string(yytext));
 	errors++;
 }
+
+";"		{
+			appendToken("SEMICOLON",yytext);
+			appendLog(lines,"SEMICOLON",yytext);
+			if(!st.insert(SymbolInfo(yytext,"SEMICOLON")))
+				appendLog("Symbol Already Exists!");
+}
+
+","		{
+			appendToken("COMMA",yytext);
+			appendLog(lines,"COMMA",yytext);
+			if(!st.insert(SymbolInfo(yytext,"COMMA")))
+				appendLog("Symbol Already Exists!");
+}
+"("		{
+			appendToken("LPAREN",yytext);
+			appendLog(lines,"LPAREN",yytext);
+			if(!st.insert(SymbolInfo(yytext,"LPAREN")))
+				appendLog("Symbol Already Exists!");
+}
+")"		{
+			appendToken("RPAREN",yytext);
+			appendLog(lines,"RPAREN",yytext);
+			if(!st.insert(SymbolInfo(yytext,"RPAREN")))
+				appendLog("Symbol Already Exists!");
+}
+"{"		{
+			appendToken("LCURL",yytext);
+			appendLog(lines,"LCURL",yytext);
+			if(!st.insert(SymbolInfo(yytext,"LCURL")))
+				appendLog("Symbol Already Exists!");
+}
+"}"		{
+			appendToken("RCURL",yytext);
+			appendLog(lines,"RCURL",yytext);
+			if(!st.insert(SymbolInfo(yytext,"RCURL")))
+				appendLog("Symbol Already Exists!");
+}
+"["		{
+			appendToken("LTHIRD",yytext);
+			appendLog(lines,"LTHIRD",yytext);
+			if(!st.insert(SymbolInfo(yytext,"LTHIRD")))
+				appendLog("Symbol Already Exists!");
+}
+"]"		{
+			appendToken("RTHIRD",yytext);
+			appendLog(lines,"RTHIRD",yytext);
+			if(!st.insert(SymbolInfo(yytext,"RTHIRD")))
+				appendLog("Symbol Already Exists!");
+}
+"!"		{
+			appendToken("NOT",yytext);
+			appendLog(lines,"NOT",yytext);
+			if(!st.insert(SymbolInfo(yytext,"NOT")))
+				appendLog("Symbol Already Exists!");
+
+}
+"="		{
+			appendToken("ASSIGNOP",yytext);
+			appendLog(lines,"ASSIGNOP",yytext);
+			if(!st.insert(SymbolInfo(yytext,"ASSIGNOP")))
+				appendLog("Symbol Already Exists!");
+}
+
+{ADDOP}		{
+			appendToken("ADDOP",yytext);
+			appendLog(lines,"ADDOP",yytext);
+			if(!st.insert(SymbolInfo(yytext,"ADDOP")))
+				appendLog("Symbol Already Exists!");
+
+}
+{INCOP}	{
+			appendToken("INCOP",yytext);
+			appendLog(lines,"INCOP",yytext);
+			if(!st.insert(SymbolInfo(yytext,"INCOP")))
+				appendLog("Symbol Already Exists!");
+}
+{MULOP}	{
+			appendToken("MULOP",yytext);
+			appendLog(lines,"MULOP",yytext);
+			if(!st.insert(SymbolInfo(yytext,"MULOP")))
+				appendLog("Symbol Already Exists!");
+}
+
+{RELOP}	{
+					appendToken("RELOP",yytext);
+					appendLog(lines,"RELOP",yytext);
+					if(!st.insert(SymbolInfo(yytext,"RELOP")))
+						appendLog("Symbol Already Exists!");
+}
+{LOGICOP}	{
+			appendToken("LOGICOP",yytext);
+			appendLog(lines,"LOGICOP",yytext);
+			if(!st.insert(SymbolInfo(yytext,"LOGICOP")))
+				appendLog("Symbol Already Exists!");
+}
+{BITOP}		{
+					appendToken("BITOP",yytext);
+					appendLog(lines,"BITOP",yytext);
+					if(!st.insert(SymbolInfo(yytext,"BITOP")))
+						appendLog("Symbol Already Exists!");
+}
+
 
 
 
@@ -318,46 +348,46 @@ int main(int argc,char *argv[]){
 	return 0;
 }
 const string processString(string s){
+	string result;
 	int len = s.size();
-	string x;
 	for(int i=0;i<len;i++){
 		if(s[i]=='\n')lines++;
 		if(s[i]=='\\' and s[i+1]=='\n')
 		continue;
-		int ok=0;
+		int state=0;
 		if(s[i]=='\\'){
 			if(s[i+1]=='n')
-				x.push_back('\n');
+				result.push_back('\n');
 			else if(s[i+1]=='t')
-				x.push_back('\t');
+				result.push_back('\t');
 			else if(s[i+1]=='\\')
-				x.push_back('\\');
+				result.push_back('\\');
 			else if(s[i+1]=='\'')
-				x.push_back('\'');
+				result.push_back('\'');
 			else if(s[i+1]=='\"')
-				x.push_back('\"');
+				result.push_back('\"');
 			else if(s[i+1]=='a')
-				x.push_back('\a');
+				result.push_back('\a');
 			else if(s[i+1]=='f')
-				x.push_back('\f');
+				result.push_back('\f');
 			else if(s[i+1]=='r')
-				x.push_back('\r');
+				result.push_back('\r');
 			else if(s[i+1]=='v')
-				x.push_back('\v');
+				result.push_back('\v');
 			else if(s[i+1]=='b')
-				x.push_back('\b');
+				result.push_back('\b');
 			else if(s[i+1]=='\0')
-				x.push_back('\0');
+				result.push_back('\0');
 		}
 		else if(s[i]=='\n' )
 			continue;
 		else{
-			ok=1;
-			x.push_back(s[i]);
+			state=1;
+			result.push_back(s[i]);
 		}
-		if(ok==0) i++;
+		if(state==0) i++;
 	}
-	return x;
+	return result;
 }
 const string removeSingleQuote(string s){
 	if(s[1]!='\\'){
