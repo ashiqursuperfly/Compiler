@@ -23,19 +23,5 @@
 < ASSIGNOP , = >
 < CONST_CHAR , 	 >
 < SEMICOLON , ; >
-< CHAR >
-< ID , c >
-< LTHIRD , [ >
-< RTHIRD , ] >
-< ASSIGNOP , = >
-< STRING , "ab	d" >
-< SEMICOLON , ; >
-< ID , printf >
-< LPAREN , ( >
-< STRING , "abcdefghi" >
-< RPAREN , ) >
-< SEMICOLON , ; >
-< RETURN >
-< CONST_INT , 0 >
-< SEMICOLON , ; >
+< STRING , ":" >
 < RCURL , } >

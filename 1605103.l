@@ -16,7 +16,7 @@ const string removeSingleQuote(string s);
 /**End Of C-Code Section Inside Definition Section ***/
 
 /**Start Of Pattern-Definition Section Inside Definition Section**/
-WHITESPACE  (\t|\f|\r|\v)+
+WHITESPACE  (\t|\f|\r|\v|" ")+
 NEWLINE [\n]
 
 LETTER [a-zA-Z]
@@ -38,11 +38,13 @@ MULOP "%"|"*"|"/"
 LOGICOP "&&"|"||"
 ADDOP "+"|"-"
 
-CHAR \'[ -~]{-}['\\]\'
-ESCAPE_CHAR \'\\['"?\\ntrvfab0]\'
-MULTI_CHAR_CONSTANT \'([ -~]{-}['\\])([ -~]{-}['\\])+\'
-INVALID_CHAR \'({CHAR}|[\\])*\'
-UNFINISHED_CHAR \'({CHAR}|[\\])*[^'\n]?|(\'\\\')
+CHAR [ -~]{-}['\\]
+ESCAPE_CHAR \\["\\ntrvfab0]
+CONST_CHAR \'{CHAR}\'
+CONST_ESCAPE_CHAR \'{ESCAPE_CHAR}\'
+MULTI_CHAR_CONSTANT \'{CONST_CHAR}{CONST_CHAR}+\'|\'{ESCAPE_CHAR}{ESCAPE_CHAR}+\'
+INVALID_CHAR \'({CONST_CHAR}|[\\])*\'
+UNFINISHED_CHAR \'({CONST_CHAR}|[\\])*[^'\n]?|(\'\\\')
 
 STRING \"([^\"\n]|(\\[\n])|(\"))*\"
 UNFINISHED_STRING \"([^\"\n]|(\\[\n]))*
@@ -50,6 +52,7 @@ UNFINISHED_STRING \"([^\"\n]|(\\[\n]))*
 DOUBLE_SLASH_COMMENT "//"((.*\\\n.*)|(.*))*
 BLOCK_COMMENT "/*"([^*]|("*"[^/]))*"*/"
 UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
+
 
 /**End Of Pattern-Definition Section Inside Definition Section**/
 /**End Of Definition Section**/
@@ -75,14 +78,14 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	errors++;
 }
 
-{CHAR} {
+{CONST_CHAR} {
 	appendLog(lines,"CONST_CHAR",yytext);
 	string s = removeSingleQuote(yytext);
 	appendToken("CONST_CHAR",s);
 	if(!st.insert(SymbolInfo(yytext,"CONST_CHAR")))
 	appendLog("Symbol Already Exists!");
 }
-{ESCAPE_CHAR} {
+{CONST_ESCAPE_CHAR} {
 	appendLog(lines,"CONST_CHAR",yytext);
 	string s = removeSingleQuote(yytext);
 	appendToken("CONST_CHAR",s);
@@ -316,9 +319,9 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 					if(!st.insert(SymbolInfo(yytext,"BITOP")))
 						appendLog("Symbol Already Exists!");
 }
-
-
-
+. {
+	appendLogError(lines,"Unrecognized Character "+string(yytext));
+}
 
 
 %%
