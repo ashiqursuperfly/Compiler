@@ -6,7 +6,7 @@ option noyywrap //Options Section inside Definitions Section
 
 #include "1605103_SymbolTable.h"
 SymbolTable st(10);
-int lines=0,errors=0;
+int lines=1,errors=0;
 extern "C" int yylex();
 
 const string processString(string s);
@@ -39,12 +39,12 @@ LOGICOP "&&"|"||"
 ADDOP "+"|"-"
 
 CHAR [ -~]{-}['\\]
-ESCAPE_CHAR \\["\\ntrvfab0]
+ESCAPE_CHAR \\["'\\ntrvfab0]
 CONST_CHAR \'{CHAR}\'
 CONST_ESCAPE_CHAR \'{ESCAPE_CHAR}\'
-MULTI_CHAR_CONSTANT \'{CONST_CHAR}{CONST_CHAR}+\'|\'{ESCAPE_CHAR}{ESCAPE_CHAR}+\'
-INVALID_CHAR \'({CONST_CHAR}|[\\])*\'
-UNFINISHED_CHAR \'({CONST_CHAR}|[\\])*[^'\n]?|(\'\\\')
+MULTI_CHAR_CONSTANT \'{CHAR}{CHAR}+\'|\'{ESCAPE_CHAR}{ESCAPE_CHAR}+\'
+INVALID_CHAR \'({CHAR}|[\\])*\'
+UNFINISHED_CHAR \'({CHAR}|[\\])*[^'\n]?|(\'\\\')
 
 STRING \"([^\"\n]|(\\[\n])|(\"))*\"
 UNFINISHED_STRING \"([^\"\n]|(\\[\n]))*
@@ -78,19 +78,30 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	errors++;
 }
 
+{STRING} {
+	int detectionLine = lines;
+	string processed = processString(yytext);
+	appendLog(detectionLine,"STRING",processed);
+	appendToken("STRING",processed);
+}
+{UNFINISHED_STRING} {
+	appendLogError(lines,"Unfinished String " + processString(yytext));
+	errors++;
+}
+
 {CONST_CHAR} {
 	appendLog(lines,"CONST_CHAR",yytext);
 	string s = removeSingleQuote(yytext);
 	appendToken("CONST_CHAR",s);
 	if(!st.insert(SymbolInfo(yytext,"CONST_CHAR")))
-	appendLog("Symbol Already Exists!");
+	appendLog("Line:"+to_string(lines)+" Symbol Already Exists!");
 }
 {CONST_ESCAPE_CHAR} {
 	appendLog(lines,"CONST_CHAR",yytext);
 	string s = removeSingleQuote(yytext);
 	appendToken("CONST_CHAR",s);
 	if(!st.insert(SymbolInfo(yytext,"CONST_CHAR")))
-	appendLog("Symbol Already Exists!");
+	appendLog("Line:"+to_string(lines)+" Symbol Already Exists!");
 }
 {MULTI_CHAR_CONSTANT} {
 	appendLogError(lines,"Multi Character Constant " + string(yytext));
@@ -106,28 +117,17 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	errors++;
 }
 
-{STRING} {
-	int detectionLine = lines;
-	string processed = processString(yytext);
-	appendLog(detectionLine,"STRING",processed);
-	appendToken("STRING",processed);
-}
-{UNFINISHED_STRING} {
-	appendLogError(lines,"Unfinished String " + processString(yytext));
-	errors++;
-}
-
 {INTEGER} {
 	appendLog(lines,"CONST_INT",yytext);
 	appendToken("CONST_INT",yytext);
 	if(!st.insert(SymbolInfo(yytext,"CONST_INT")))
-	appendLog("Symbol Already Exists!");
+	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
 {FLOAT1}|{FLOAT2} {
 	appendLog(lines,"CONST_FLOAT",yytext);
 	appendToken("CONST_FLOAT",yytext);
 	if(!st.insert(SymbolInfo(yytext,"CONST_FLOAT")))
-	appendLog("Symbol Already Exists!");
+	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
 {TOO_MANY_DECIMAL_POINTS} {
 	appendLogError(lines,"Too Many Decimal Points! "+string(yytext));
@@ -207,119 +207,121 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 			appendLog(lines,"DEFAULT",yytext);
 }
 
-{IDENTIFIER} {
-	appendLog(lines,"ID",yytext);
-	appendToken("ID",yytext);
-	if(!st.insert(SymbolInfo(yytext,"ID")))
-		appendLog("Symbol Already Exists!");
-}
-{INVALID_IDENTIFIER} {
-	appendLogError(lines,"Invalid Suffix On Numeric Constant Or,Invalid Prefix on Identifier for Character Sequence "+string(yytext));
-	errors++;
-}
-
 ";"		{
 			appendToken("SEMICOLON",yytext);
 			appendLog(lines,"SEMICOLON",yytext);
 			if(!st.insert(SymbolInfo(yytext,"SEMICOLON")))
-				appendLog("Symbol Already Exists!");
+				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
 
 ","		{
 			appendToken("COMMA",yytext);
 			appendLog(lines,"COMMA",yytext);
 			if(!st.insert(SymbolInfo(yytext,"COMMA")))
-				appendLog("Symbol Already Exists!");
+				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
 "("		{
 			appendToken("LPAREN",yytext);
 			appendLog(lines,"LPAREN",yytext);
 			if(!st.insert(SymbolInfo(yytext,"LPAREN")))
-				appendLog("Symbol Already Exists!");
+				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
 ")"		{
 			appendToken("RPAREN",yytext);
 			appendLog(lines,"RPAREN",yytext);
 			if(!st.insert(SymbolInfo(yytext,"RPAREN")))
-				appendLog("Symbol Already Exists!");
+				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
 "{"		{
 			appendToken("LCURL",yytext);
 			appendLog(lines,"LCURL",yytext);
 			if(!st.insert(SymbolInfo(yytext,"LCURL")))
-				appendLog("Symbol Already Exists!");
+				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
 "}"		{
 			appendToken("RCURL",yytext);
 			appendLog(lines,"RCURL",yytext);
 			if(!st.insert(SymbolInfo(yytext,"RCURL")))
-				appendLog("Symbol Already Exists!");
+				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
 "["		{
 			appendToken("LTHIRD",yytext);
 			appendLog(lines,"LTHIRD",yytext);
 			if(!st.insert(SymbolInfo(yytext,"LTHIRD")))
-				appendLog("Symbol Already Exists!");
+				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
 "]"		{
 			appendToken("RTHIRD",yytext);
 			appendLog(lines,"RTHIRD",yytext);
 			if(!st.insert(SymbolInfo(yytext,"RTHIRD")))
-				appendLog("Symbol Already Exists!");
+				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
 "!"		{
 			appendToken("NOT",yytext);
 			appendLog(lines,"NOT",yytext);
 			if(!st.insert(SymbolInfo(yytext,"NOT")))
-				appendLog("Symbol Already Exists!");
+				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 
 }
 "="		{
 			appendToken("ASSIGNOP",yytext);
 			appendLog(lines,"ASSIGNOP",yytext);
 			if(!st.insert(SymbolInfo(yytext,"ASSIGNOP")))
-				appendLog("Symbol Already Exists!");
+				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
 
 {ADDOP}		{
 			appendToken("ADDOP",yytext);
 			appendLog(lines,"ADDOP",yytext);
 			if(!st.insert(SymbolInfo(yytext,"ADDOP")))
-				appendLog("Symbol Already Exists!");
+				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 
 }
 {INCOP}	{
 			appendToken("INCOP",yytext);
 			appendLog(lines,"INCOP",yytext);
 			if(!st.insert(SymbolInfo(yytext,"INCOP")))
-				appendLog("Symbol Already Exists!");
+				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
 {MULOP}	{
 			appendToken("MULOP",yytext);
 			appendLog(lines,"MULOP",yytext);
 			if(!st.insert(SymbolInfo(yytext,"MULOP")))
-				appendLog("Symbol Already Exists!");
+				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
 
 {RELOP}	{
 					appendToken("RELOP",yytext);
 					appendLog(lines,"RELOP",yytext);
 					if(!st.insert(SymbolInfo(yytext,"RELOP")))
-						appendLog("Symbol Already Exists!");
+						appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
 {LOGICOP}	{
 			appendToken("LOGICOP",yytext);
 			appendLog(lines,"LOGICOP",yytext);
 			if(!st.insert(SymbolInfo(yytext,"LOGICOP")))
-				appendLog("Symbol Already Exists!");
+				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
 {BITOP}		{
 					appendToken("BITOP",yytext);
 					appendLog(lines,"BITOP",yytext);
 					if(!st.insert(SymbolInfo(yytext,"BITOP")))
-						appendLog("Symbol Already Exists!");
+						appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
+
+{IDENTIFIER} {
+	appendLog(lines,"ID",yytext);
+	appendToken("ID",yytext);
+	if(!st.insert(SymbolInfo(yytext,"ID")))
+		appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+}
+{INVALID_IDENTIFIER} {
+	appendLogError(lines,"Invalid Suffix On Numeric Constant Or,Invalid Prefix on Identifier for Character Sequence "+string(yytext));
+	errors++;
+}
+
 . {
+	//if it cant match any rule above,it will match this.
 	appendLogError(lines,"Unrecognized Character "+string(yytext));
 }
 
@@ -423,6 +425,9 @@ const string removeSingleQuote(string s){
 
 			case '\"':
 			 return "\"";
+
+			case '\'':
+			 return "\'";
 
 			case '\\':
 			 return "\\";

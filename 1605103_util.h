@@ -36,11 +36,11 @@ void appendLogError(int line_no,const string & error_msg){
     ofstream outfile;
 
     outfile.open(LOG_FILE, std::ios_base::app);
-    outfile <<"Line No:"<<line_no<<" Error"<<": "<<error_msg<<endl;
+    outfile <<"Line:"<<line_no<<" Error"<<": "<<error_msg<<endl;
 }
 void appendLog(const string & data){
     ofstream outfile;
-    
+
     outfile.open(LOG_FILE, std::ios_base::app);
     outfile << data<<endl;
 }
@@ -48,19 +48,19 @@ void appendLog(int line_no,const string & token,const string & lexeme){
     ofstream outfile;
 
     outfile.open(LOG_FILE, std::ios_base::app);
-    outfile << "Line No:"<<line_no<<" Token: "<<token<<" Lexeme: "<<lexeme<<endl;;
+    outfile << "Line:"<<line_no<<" Token: "<<token<<" Lexeme: "<<lexeme<<endl;;
 }
 void appendToken(const string & symbol){
     ofstream outfile;
 
     outfile.open(TOKEN_FILE, std::ios_base::app);
-     outfile <<"< "<<symbol<<" >"<<endl;
+     outfile <<"<"<<symbol<<">"<<endl;
 }
 void appendToken(const string & type,const string & symbol){
     ofstream outfile;
 
     outfile.open(TOKEN_FILE, std::ios_base::app);
-    outfile <<"< "<<type<<" , "<<symbol<<" >"<<endl;
+    outfile <<"<"<<type<<","<<symbol<<">"<<endl;
 }
 void appendToken(const string & type,char symbol){
     ofstream outfile;

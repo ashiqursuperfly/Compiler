@@ -1,25 +1,25 @@
-Line No:0 Token: INT Lexeme: int
-Line No:0 Token: ID Lexeme: main
+Line:1 Token: INT Lexeme: int
+Line:1 Token: ID Lexeme: main
 
   SCOPE TABLE #0
   8:<main,ID> - 
 
 
-Line No:0 Token: LPAREN Lexeme: (
+Line:1 Token: LPAREN Lexeme: (
 
   SCOPE TABLE #0
   7:<(,LPAREN> - 
   8:<main,ID> - 
 
 
-Line No:0 Token: RPAREN Lexeme: )
+Line:1 Token: RPAREN Lexeme: )
 
   SCOPE TABLE #0
   7:<(,LPAREN> - 
   8:<main,ID> - <),RPAREN> - 
 
 
-Line No:0 Token: LCURL Lexeme: {
+Line:1 Token: LCURL Lexeme: {
 
   SCOPE TABLE #0
   0:<{,LCURL> - 
@@ -27,8 +27,8 @@ Line No:0 Token: LCURL Lexeme: {
   8:<main,ID> - <),RPAREN> - 
 
 
-Line No:1 Token: INT Lexeme: int
-Line No:1 Token: ID Lexeme: a
+Line:2 Token: INT Lexeme: int
+Line:2 Token: ID Lexeme: a
 
   SCOPE TABLE #0
   0:<{,LCURL> - 
@@ -37,7 +37,7 @@ Line No:1 Token: ID Lexeme: a
   8:<main,ID> - <),RPAREN> - 
 
 
-Line No:1 Token: COMMA Lexeme: ,
+Line:2 Token: COMMA Lexeme: ,
 
   SCOPE TABLE #0
   0:<{,LCURL> - 
@@ -47,7 +47,7 @@ Line No:1 Token: COMMA Lexeme: ,
   8:<main,ID> - <),RPAREN> - 
 
 
-Line No:1 Token: ID Lexeme: b
+Line:2 Token: ID Lexeme: b
 
   SCOPE TABLE #0
   0:<{,LCURL> - 
@@ -58,7 +58,7 @@ Line No:1 Token: ID Lexeme: b
   8:<main,ID> - <),RPAREN> - 
 
 
-Line No:1 Token: SEMICOLON Lexeme: ;
+Line:2 Token: SEMICOLON Lexeme: ;
 
   SCOPE TABLE #0
   0:<{,LCURL> - 
@@ -70,9 +70,9 @@ Line No:1 Token: SEMICOLON Lexeme: ;
   8:<main,ID> - <),RPAREN> - 
 
 
-Line No:2 Token: ID Lexeme: a
-Symbol Already Exists!
-Line No:2 Token: ASSIGNOP Lexeme: =
+Line:3 Token: ID Lexeme: a
+Line:3 Symbol a Already Exists
+Line:3 Token: ASSIGNOP Lexeme: =
 
   SCOPE TABLE #0
   0:<{,LCURL> - 
@@ -84,9 +84,9 @@ Line No:2 Token: ASSIGNOP Lexeme: =
   8:<main,ID> - <),RPAREN> - <=,ASSIGNOP> - 
 
 
-Line No:2 Token: ID Lexeme: a
-Symbol Already Exists!
-Line No:2 Token: ADDOP Lexeme: +
+Line:3 Token: ID Lexeme: a
+Line:3 Symbol a Already Exists
+Line:3 Token: ADDOP Lexeme: +
 
   SCOPE TABLE #0
   0:<{,LCURL> - <+,ADDOP> - 
@@ -98,7 +98,7 @@ Line No:2 Token: ADDOP Lexeme: +
   8:<main,ID> - <),RPAREN> - <=,ASSIGNOP> - 
 
 
-Line No:2 Token: CONST_INT Lexeme: 1
+Line:3 Token: CONST_INT Lexeme: 1
 
   SCOPE TABLE #0
   0:<{,LCURL> - <+,ADDOP> - 
@@ -110,10 +110,10 @@ Line No:2 Token: CONST_INT Lexeme: 1
   8:<main,ID> - <),RPAREN> - <=,ASSIGNOP> - 
 
 
-Line No:2 Token: SEMICOLON Lexeme: ;
-Symbol Already Exists!
-Line No:3 Token: CHAR Lexeme: char
-Line No:3 Token: ID Lexeme: ch
+Line:3 Token: SEMICOLON Lexeme: ;
+Line:3 Symbol ; Already Exists
+Line:4 Token: CHAR Lexeme: char
+Line:4 Token: ID Lexeme: ch
 
   SCOPE TABLE #0
   0:<{,LCURL> - <+,ADDOP> - <ch,ID> - 
@@ -125,9 +125,9 @@ Line No:3 Token: ID Lexeme: ch
   8:<main,ID> - <),RPAREN> - <=,ASSIGNOP> - 
 
 
-Line No:3 Token: ASSIGNOP Lexeme: =
-Symbol Already Exists!
-Line No:3 Token: CONST_CHAR Lexeme: 'a'
+Line:4 Token: ASSIGNOP Lexeme: =
+Line:4 Symbol = Already Exists
+Line:4 Token: CONST_CHAR Lexeme: 'a'
 
   SCOPE TABLE #0
   0:<{,LCURL> - <+,ADDOP> - <ch,ID> - 
@@ -140,13 +140,13 @@ Line No:3 Token: CONST_CHAR Lexeme: 'a'
   8:<main,ID> - <),RPAREN> - <=,ASSIGNOP> - 
 
 
-Line No:3 Token: SEMICOLON Lexeme: ;
-Symbol Already Exists!
-Line No:4 Token: ID Lexeme: ch
-Symbol Already Exists!
-Line No:4 Token: ASSIGNOP Lexeme: =
-Symbol Already Exists!
-Line No:4 Token: CONST_CHAR Lexeme: '\t'
+Line:4 Token: SEMICOLON Lexeme: ;
+Line:4 Symbol ; Already Exists
+Line:5 Token: ID Lexeme: ch
+Line:5 Symbol ch Already Exists
+Line:5 Token: ASSIGNOP Lexeme: =
+Line:5 Symbol = Already Exists
+Line:5 Token: CONST_CHAR Lexeme: '\t'
 
   SCOPE TABLE #0
   0:<{,LCURL> - <+,ADDOP> - <ch,ID> - 
@@ -160,24 +160,109 @@ Line No:4 Token: CONST_CHAR Lexeme: '\t'
   8:<main,ID> - <),RPAREN> - <=,ASSIGNOP> - 
 
 
-Line No:4 Token: SEMICOLON Lexeme: ;
-Symbol Already Exists!
-Line No:5 Token: STRING Lexeme: ":"
-Line No:6 Error: Unfinished Character ':
-Line No:7 Error: Unrecognized Character ~
-Line No:8 Token: RCURL Lexeme: }
+Line:5 Token: SEMICOLON Lexeme: ;
+Line:5 Symbol ; Already Exists
+Line:6 Token: CHAR Lexeme: char
+Line:6 Token: ID Lexeme: c
 
   SCOPE TABLE #0
   0:<{,LCURL> - <+,ADDOP> - <ch,ID> - 
+  1:<,,COMMA> - 
+  2:<'a',CONST_CHAR> - 
+  3:<'\t',CONST_CHAR> - 
+  4:<a,ID> - 
+  5:<b,ID> - 
+  6:<;,SEMICOLON> - <1,CONST_INT> - <c,ID> - 
+  7:<(,LPAREN> - 
+  8:<main,ID> - <),RPAREN> - <=,ASSIGNOP> - 
+
+
+Line:6 Token: LTHIRD Lexeme: [
+
+  SCOPE TABLE #0
+  0:<{,LCURL> - <+,ADDOP> - <ch,ID> - 
+  1:<,,COMMA> - 
+  2:<'a',CONST_CHAR> - 
+  3:<'\t',CONST_CHAR> - 
+  4:<a,ID> - 
+  5:<b,ID> - 
+  6:<;,SEMICOLON> - <1,CONST_INT> - <c,ID> - 
+  7:<(,LPAREN> - 
+  8:<main,ID> - <),RPAREN> - <=,ASSIGNOP> - <[,LTHIRD> - 
+
+
+Line:6 Token: RTHIRD Lexeme: ]
+
+  SCOPE TABLE #0
+  0:<{,LCURL> - <+,ADDOP> - <ch,ID> - <],RTHIRD> - 
+  1:<,,COMMA> - 
+  2:<'a',CONST_CHAR> - 
+  3:<'\t',CONST_CHAR> - 
+  4:<a,ID> - 
+  5:<b,ID> - 
+  6:<;,SEMICOLON> - <1,CONST_INT> - <c,ID> - 
+  7:<(,LPAREN> - 
+  8:<main,ID> - <),RPAREN> - <=,ASSIGNOP> - <[,LTHIRD> - 
+
+
+Line:6 Token: ASSIGNOP Lexeme: =
+Line:6 Symbol = Already Exists
+Line:6 Token: STRING Lexeme: "ab	d"
+Line:6 Token: SEMICOLON Lexeme: ;
+Line:6 Symbol ; Already Exists
+Line:7 Token: ID Lexeme: printf
+
+  SCOPE TABLE #0
+  0:<{,LCURL> - <+,ADDOP> - <ch,ID> - <],RTHIRD> - 
+  1:<,,COMMA> - 
+  2:<'a',CONST_CHAR> - 
+  3:<'\t',CONST_CHAR> - 
+  4:<a,ID> - <printf,ID> - 
+  5:<b,ID> - 
+  6:<;,SEMICOLON> - <1,CONST_INT> - <c,ID> - 
+  7:<(,LPAREN> - 
+  8:<main,ID> - <),RPAREN> - <=,ASSIGNOP> - <[,LTHIRD> - 
+
+
+Line:7 Token: LPAREN Lexeme: (
+Line:7 Symbol ( Already Exists
+Line:7 Token: STRING Lexeme: "abcdefghi"
+Line:9 Token: RPAREN Lexeme: )
+Line:9 Symbol ) Already Exists
+Line:9 Token: SEMICOLON Lexeme: ;
+Line:9 Symbol ; Already Exists
+Line:10 Token: COMMENT Lexeme: // a comment
+Line:11 Token: COMMENT Lexeme: /** another*** comment ***/
+Line:13 Token: RETURN Lexeme: return
+Line:13 Token: CONST_INT Lexeme: 0
+
+  SCOPE TABLE #0
+  0:<{,LCURL> - <+,ADDOP> - <ch,ID> - <],RTHIRD> - 
+  1:<,,COMMA> - 
+  2:<'a',CONST_CHAR> - 
+  3:<'\t',CONST_CHAR> - 
+  4:<a,ID> - <printf,ID> - 
+  5:<b,ID> - <0,CONST_INT> - 
+  6:<;,SEMICOLON> - <1,CONST_INT> - <c,ID> - 
+  7:<(,LPAREN> - 
+  8:<main,ID> - <),RPAREN> - <=,ASSIGNOP> - <[,LTHIRD> - 
+
+
+Line:13 Token: SEMICOLON Lexeme: ;
+Line:13 Symbol ; Already Exists
+Line:14 Token: RCURL Lexeme: }
+
+  SCOPE TABLE #0
+  0:<{,LCURL> - <+,ADDOP> - <ch,ID> - <],RTHIRD> - 
   1:<,,COMMA> - 
   2:<'a',CONST_CHAR> - <},RCURL> - 
   3:<'\t',CONST_CHAR> - 
-  4:<a,ID> - 
-  5:<b,ID> - 
-  6:<;,SEMICOLON> - <1,CONST_INT> - 
+  4:<a,ID> - <printf,ID> - 
+  5:<b,ID> - <0,CONST_INT> - 
+  6:<;,SEMICOLON> - <1,CONST_INT> - <c,ID> - 
   7:<(,LPAREN> - 
-  8:<main,ID> - <),RPAREN> - <=,ASSIGNOP> - 
+  8:<main,ID> - <),RPAREN> - <=,ASSIGNOP> - <[,LTHIRD> - 
 
 
 
-Total Lines: 9 Total Error: 1
+Total Lines: 15 Total Error: 0
