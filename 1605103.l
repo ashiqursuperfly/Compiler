@@ -347,6 +347,7 @@ int main(int argc,char *argv[]){
 
 	yylex(); //start scanning
 
+	st.printAllScopeTables();
 	appendLog("\nTotal Lines: "+to_string(lines)+" Total Error: "+to_string(errors));
 
 	fclose(yyin);
