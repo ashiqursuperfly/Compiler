@@ -54,19 +54,19 @@ void appendToken(const string & symbol){
     ofstream outfile;
 
     outfile.open(TOKEN_FILE, std::ios_base::app);
-     outfile <<"<"<<symbol<<">"<<endl;
+     outfile <<"<"<<symbol<<"> ";
 }
 void appendToken(const string & type,const string & symbol){
     ofstream outfile;
 
     outfile.open(TOKEN_FILE, std::ios_base::app);
-    outfile <<"<"<<type<<","<<symbol<<">"<<endl;
+    outfile <<"<"<<type<<", "<<symbol<<"> ";
 }
 void appendToken(const string & type,char symbol){
     ofstream outfile;
 
     outfile.open(TOKEN_FILE, std::ios_base::app);
-    outfile <<"< "<<type<<" , "<<symbol<<" >"<<endl;
+    outfile <<"<"<<type<<", "<<symbol<<"> ";
 }
 void clearFiles(){
 	if(isFileExists(OUTPUT_FILE))remove(OUTPUT_FILE);

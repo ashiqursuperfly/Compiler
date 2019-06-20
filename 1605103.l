@@ -9,8 +9,8 @@ SymbolTable st(10);
 int lines=1,errors=0;
 extern "C" int yylex();
 
-const string processString(string s);
 const string removeSingleQuote(string s);
+const string processString(string s);
 
 %}
 /**End Of C-Code Section Inside Definition Section ***/
@@ -139,174 +139,174 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	errors++;
 }
 
-"int"		{
-			appendToken("INT");
-			appendLog(lines,"INT",yytext);
+"int" {
+	appendToken("INT");
+	appendLog(lines,"INT",yytext);
 }
-"char"		{
-			appendToken("CHAR");
-			appendLog(lines,"CHAR",yytext);
+"char" {
+	appendToken("CHAR");
+	appendLog(lines,"CHAR",yytext);
 }
-"float"		{
-			appendToken("FLOAT");
-			appendLog(lines,"FLOAT",yytext);
+"float"	{
+	appendToken("FLOAT");
+	appendLog(lines,"FLOAT",yytext);
 }
-"double"		{
-			appendToken("DOUBLE");
-			appendLog(lines,"DOUBLE",yytext);
+"double" {
+	appendToken("DOUBLE");
+	appendLog(lines,"DOUBLE",yytext);
 }
-"void"		{
-			appendToken("VOID");
-			appendLog(lines,"VOID",yytext);
+"void" {
+	appendToken("VOID");
+	appendLog(lines,"VOID",yytext);
 }
-"if"		{
-			appendToken("IF");
-			appendLog(lines,"IF",yytext);
+"if" {
+	appendToken("IF");
+	appendLog(lines,"IF",yytext);
 
 }
-"else"		{
-			appendToken("ELSE");
-			appendLog(lines,"ELSE",yytext);
+"else" {
+	appendToken("ELSE");
+	appendLog(lines,"ELSE",yytext);
 }
-"do"		{
-			appendToken("DO");
-			appendLog(lines,"DO",yytext);
+"do" {
+	appendToken("DO");
+	appendLog(lines,"DO",yytext);
 }
-"while"		{
-			appendToken("WHILE");
-			appendLog(lines,"WHILE",yytext);
-}
-
-"for"		{
-			appendToken("FOR");
-			appendLog(lines,"FOR",yytext);
-}
-"break"		{
-			appendToken("BREAK");
-			appendLog(lines,"BREAK",yytext);
-}
-"continue"	{
-			appendToken("CONTINUE");
-			appendLog(lines,"CONTINUE",yytext);
+"while"	{
+	appendToken("WHILE");
+	appendLog(lines,"WHILE",yytext);
 }
 
-"return"		{
-			appendToken("RETURN");
-			appendLog(lines,"RETURN",yytext);
+"for" {
+	appendToken("FOR");
+	appendLog(lines,"FOR",yytext);
 }
-"switch"		{
-			appendToken("SWITCH");
-			appendLog(lines,"SWITCH",yytext);
+"break" {
+	appendToken("BREAK");
+	appendLog(lines,"BREAK",yytext);
 }
-"case"		{
-			appendToken("CASE");
-			appendLog(lines,"CASE",yytext);
+"continue" {
+	appendToken("CONTINUE");
+	appendLog(lines,"CONTINUE",yytext);
+}
+
+"return" {
+	appendToken("RETURN");
+	appendLog(lines,"RETURN",yytext);
+}
+"switch" {
+	appendToken("SWITCH");
+	appendLog(lines,"SWITCH",yytext);
+}
+"case" {
+	appendToken("CASE");
+	appendLog(lines,"CASE",yytext);
 		}
-"default"		{
-			appendToken("DEFAULT");
-			appendLog(lines,"DEFAULT",yytext);
+"default" {
+	appendToken("DEFAULT");
+	appendLog(lines,"DEFAULT",yytext);
 }
 
-";"		{
-			appendToken("SEMICOLON",yytext);
-			appendLog(lines,"SEMICOLON",yytext);
-			if(!st.insert(SymbolInfo(yytext,"SEMICOLON")))
-				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+";" {
+	appendToken("SEMICOLON",yytext);
+	appendLog(lines,"SEMICOLON",yytext);
+	//if(!st.insert(SymbolInfo(yytext,"SEMICOLON")))
+	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
 
-","		{
-			appendToken("COMMA",yytext);
-			appendLog(lines,"COMMA",yytext);
-			if(!st.insert(SymbolInfo(yytext,"COMMA")))
-				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+"," {
+	appendToken("COMMA",yytext);
+	appendLog(lines,"COMMA",yytext);
+	//if(!st.insert(SymbolInfo(yytext,"COMMA")))
+	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
-"("		{
-			appendToken("LPAREN",yytext);
-			appendLog(lines,"LPAREN",yytext);
-			if(!st.insert(SymbolInfo(yytext,"LPAREN")))
-				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+"(" {
+	appendToken("LPAREN",yytext);
+	appendLog(lines,"LPAREN",yytext);
+	//if(!st.insert(SymbolInfo(yytext,"LPAREN")))
+	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
-")"		{
-			appendToken("RPAREN",yytext);
-			appendLog(lines,"RPAREN",yytext);
-			if(!st.insert(SymbolInfo(yytext,"RPAREN")))
-				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+")" {
+	appendToken("RPAREN",yytext);
+	appendLog(lines,"RPAREN",yytext);
+	//if(!st.insert(SymbolInfo(yytext,"RPAREN")))
+	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
-"{"		{
-			appendToken("LCURL",yytext);
-			appendLog(lines,"LCURL",yytext);
-			if(!st.insert(SymbolInfo(yytext,"LCURL")))
-				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+"{" {
+	appendToken("LCURL",yytext);
+	appendLog(lines,"LCURL",yytext);
+	//if(!st.insert(SymbolInfo(yytext,"LCURL")))
+	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
-"}"		{
-			appendToken("RCURL",yytext);
-			appendLog(lines,"RCURL",yytext);
-			if(!st.insert(SymbolInfo(yytext,"RCURL")))
-				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+"}" {
+	appendToken("RCURL",yytext);
+	appendLog(lines,"RCURL",yytext);
+	//if(!st.insert(SymbolInfo(yytext,"RCURL")))
+	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
-"["		{
-			appendToken("LTHIRD",yytext);
-			appendLog(lines,"LTHIRD",yytext);
-			if(!st.insert(SymbolInfo(yytext,"LTHIRD")))
-				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+"[" {
+	appendToken("LTHIRD",yytext);
+	appendLog(lines,"LTHIRD",yytext);
+	//if(!st.insert(SymbolInfo(yytext,"LTHIRD")))
+	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
-"]"		{
-			appendToken("RTHIRD",yytext);
-			appendLog(lines,"RTHIRD",yytext);
-			if(!st.insert(SymbolInfo(yytext,"RTHIRD")))
-				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+"]" {
+	appendToken("RTHIRD",yytext);
+	appendLog(lines,"RTHIRD",yytext);
+	//if(!st.insert(SymbolInfo(yytext,"RTHIRD")))
+	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
-"!"		{
-			appendToken("NOT",yytext);
-			appendLog(lines,"NOT",yytext);
-			if(!st.insert(SymbolInfo(yytext,"NOT")))
-				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+"!" {
+	appendToken("NOT",yytext);
+	appendLog(lines,"NOT",yytext);
+	//if(!st.insert(SymbolInfo(yytext,"NOT")))
+	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 
 }
-"="		{
-			appendToken("ASSIGNOP",yytext);
-			appendLog(lines,"ASSIGNOP",yytext);
-			if(!st.insert(SymbolInfo(yytext,"ASSIGNOP")))
-				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+"=" {
+	appendToken("ASSIGNOP",yytext);
+	appendLog(lines,"ASSIGNOP",yytext);
+	//if(!st.insert(SymbolInfo(yytext,"ASSIGNOP")))
+	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
 
-{ADDOP}		{
-			appendToken("ADDOP",yytext);
-			appendLog(lines,"ADDOP",yytext);
-			if(!st.insert(SymbolInfo(yytext,"ADDOP")))
-				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+{ADDOP} {
+	appendToken("ADDOP",yytext);
+	appendLog(lines,"ADDOP",yytext);
+	//if(!st.insert(SymbolInfo(yytext,"ADDOP")))
+	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 
 }
 {INCOP}	{
-			appendToken("INCOP",yytext);
-			appendLog(lines,"INCOP",yytext);
-			if(!st.insert(SymbolInfo(yytext,"INCOP")))
-				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+	appendToken("INCOP",yytext);
+	appendLog(lines,"INCOP",yytext);
+	//if(!st.insert(SymbolInfo(yytext,"INCOP")))
+	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
 {MULOP}	{
-			appendToken("MULOP",yytext);
-			appendLog(lines,"MULOP",yytext);
-			if(!st.insert(SymbolInfo(yytext,"MULOP")))
-				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+	appendToken("MULOP",yytext);
+	appendLog(lines,"MULOP",yytext);
+	//if(!st.insert(SymbolInfo(yytext,"MULOP")))
+	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
 
 {RELOP}	{
-					appendToken("RELOP",yytext);
-					appendLog(lines,"RELOP",yytext);
-					if(!st.insert(SymbolInfo(yytext,"RELOP")))
-						appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+	appendToken("RELOP",yytext);
+	appendLog(lines,"RELOP",yytext);
+	//if(!st.insert(SymbolInfo(yytext,"RELOP")))
+	//  appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
-{LOGICOP}	{
-			appendToken("LOGICOP",yytext);
-			appendLog(lines,"LOGICOP",yytext);
-			if(!st.insert(SymbolInfo(yytext,"LOGICOP")))
-				appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+{LOGICOP} {
+	appendToken("LOGICOP",yytext);
+	appendLog(lines,"LOGICOP",yytext);
+	//if(!st.insert(SymbolInfo(yytext,"LOGICOP")))
+	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
-{BITOP}		{
-					appendToken("BITOP",yytext);
-					appendLog(lines,"BITOP",yytext);
-					if(!st.insert(SymbolInfo(yytext,"BITOP")))
-						appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+{BITOP} {
+	appendToken("BITOP",yytext);
+	appendLog(lines,"BITOP",yytext);
+	//if(!st.insert(SymbolInfo(yytext,"BITOP")))
+	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
 }
 
 {IDENTIFIER} {
@@ -352,48 +352,7 @@ int main(int argc,char *argv[]){
 	fclose(yyin);
 	return 0;
 }
-const string processString(string s){
-	string result;
-	int len = s.size();
-	for(int i=0;i<len;i++){
-		if(s[i]=='\n')lines++;
-		if(s[i]=='\\' and s[i+1]=='\n')
-		continue;
-		int state=0;
-		if(s[i]=='\\'){
-			if(s[i+1]=='n')
-				result.push_back('\n');
-			else if(s[i+1]=='t')
-				result.push_back('\t');
-			else if(s[i+1]=='\\')
-				result.push_back('\\');
-			else if(s[i+1]=='\'')
-				result.push_back('\'');
-			else if(s[i+1]=='\"')
-				result.push_back('\"');
-			else if(s[i+1]=='a')
-				result.push_back('\a');
-			else if(s[i+1]=='f')
-				result.push_back('\f');
-			else if(s[i+1]=='r')
-				result.push_back('\r');
-			else if(s[i+1]=='v')
-				result.push_back('\v');
-			else if(s[i+1]=='b')
-				result.push_back('\b');
-			else if(s[i+1]=='\0')
-				result.push_back('\0');
-		}
-		else if(s[i]=='\n' )
-			continue;
-		else{
-			state=1;
-			result.push_back(s[i]);
-		}
-		if(state==0) i++;
-	}
-	return result;
-}
+
 const string removeSingleQuote(string s){
 	if(s[1]!='\\'){
 		if(s[1] == ' ') return " ";
@@ -436,5 +395,47 @@ const string removeSingleQuote(string s){
 			 return "\0";
     }
 
+}
+const string processString(string s){
+	string result;
+	int len = s.size();
+	for(int i=0;i<len;i++){
+		if(s[i]=='\n')lines++;
+		if(s[i]=='\\' and s[i+1]=='\n')
+		continue;
+		int state=0;
+		if(s[i]=='\\'){
+			if(s[i+1]=='n')
+				result.push_back('\n');
+			else if(s[i+1]=='t')
+				result.push_back('\t');
+			else if(s[i+1]=='\\')
+				result.push_back('\\');
+			else if(s[i+1]=='\'')
+				result.push_back('\'');
+			else if(s[i+1]=='\"')
+				result.push_back('\"');
+			else if(s[i+1]=='a')
+				result.push_back('\a');
+			else if(s[i+1]=='f')
+				result.push_back('\f');
+			else if(s[i+1]=='r')
+				result.push_back('\r');
+			else if(s[i+1]=='v')
+				result.push_back('\v');
+			else if(s[i+1]=='b')
+				result.push_back('\b');
+			else if(s[i+1]=='\0')
+				result.push_back('\0');
+		}
+		else if(s[i]=='\n' )
+			continue;
+		else{
+			state=1;
+			result.push_back(s[i]);
+		}
+		if(state==0) i++;
+	}
+	return result;
 }
 /**End Of Routine Section**/

@@ -6,67 +6,15 @@ Print : SCOPE TABLE #0
 
   8 : <main,ID> - 
 
-LookUp At : ScopeTable :0 Symbol<(> Not Found !
-
-Insert At : ScopeTable :0 Symbol<(,LPAREN> Position(7,0) Successful
-
-Print : SCOPE TABLE #0
-
-  7 : <(,LPAREN> - 
-
-  8 : <main,ID> - 
-
-LookUp At : ScopeTable :0 Symbol<)> Not Found !
-
-Insert At : ScopeTable :0 Symbol<),RPAREN> Position(8,1) Successful
-
-Print : SCOPE TABLE #0
-
-  7 : <(,LPAREN> - 
-
-  8 : <main,ID> - <),RPAREN> - 
-
-LookUp At : ScopeTable :0 Symbol<{> Not Found !
-
-Insert At : ScopeTable :0 Symbol<{,LCURL> Position(0,0) Successful
-
-Print : SCOPE TABLE #0
-
-  0 : <{,LCURL> - 
-
-  7 : <(,LPAREN> - 
-
-  8 : <main,ID> - <),RPAREN> - 
-
 LookUp At : ScopeTable :0 Symbol<a> Not Found !
 
 Insert At : ScopeTable :0 Symbol<a,ID> Position(4,0) Successful
 
 Print : SCOPE TABLE #0
 
-  0 : <{,LCURL> - 
-
   4 : <a,ID> - 
 
-  7 : <(,LPAREN> - 
-
-  8 : <main,ID> - <),RPAREN> - 
-
-LookUp At : ScopeTable :0 Symbol<,> Not Found !
-
-Insert At : ScopeTable :0 Symbol<,,COMMA> Position(1,0) Successful
-
-Print : SCOPE TABLE #0
-
-  0 : <{,LCURL> - 
-
-  1 : <,,COMMA> - 
-
-  4 : <a,ID> - 
-
-  7 : <(,LPAREN> - 
-
-  8 : <main,ID> - <),RPAREN> - 
+  8 : <main,ID> - 
 
 LookUp At : ScopeTable :0 Symbol<b> Not Found !
 
@@ -74,133 +22,49 @@ Insert At : ScopeTable :0 Symbol<b,ID> Position(5,0) Successful
 
 Print : SCOPE TABLE #0
 
-  0 : <{,LCURL> - 
-
-  1 : <,,COMMA> - 
-
   4 : <a,ID> - 
 
   5 : <b,ID> - 
 
-  7 : <(,LPAREN> - 
-
-  8 : <main,ID> - <),RPAREN> - 
-
-LookUp At : ScopeTable :0 Symbol<;> Not Found !
-
-Insert At : ScopeTable :0 Symbol<;,SEMICOLON> Position(6,0) Successful
-
-Print : SCOPE TABLE #0
-
-  0 : <{,LCURL> - 
-
-  1 : <,,COMMA> - 
-
-  4 : <a,ID> - 
-
-  5 : <b,ID> - 
-
-  6 : <;,SEMICOLON> - 
-
-  7 : <(,LPAREN> - 
-
-  8 : <main,ID> - <),RPAREN> - 
+  8 : <main,ID> - 
 
 LookUp At : ScopeTable :0 Found <a,ID> Position(4,0)
 
 Insert : Error ! Symbol Already Exists.
 
-LookUp At : ScopeTable :0 Symbol<=> Not Found !
-
-Insert At : ScopeTable :0 Symbol<=,ASSIGNOP> Position(8,2) Successful
-
-Print : SCOPE TABLE #0
-
-  0 : <{,LCURL> - 
-
-  1 : <,,COMMA> - 
-
-  4 : <a,ID> - 
-
-  5 : <b,ID> - 
-
-  6 : <;,SEMICOLON> - 
-
-  7 : <(,LPAREN> - 
-
-  8 : <main,ID> - <),RPAREN> - <=,ASSIGNOP> - 
-
 LookUp At : ScopeTable :0 Found <a,ID> Position(4,0)
 
 Insert : Error ! Symbol Already Exists.
-
-LookUp At : ScopeTable :0 Symbol<+> Not Found !
-
-Insert At : ScopeTable :0 Symbol<+,ADDOP> Position(0,1) Successful
-
-Print : SCOPE TABLE #0
-
-  0 : <{,LCURL> - <+,ADDOP> - 
-
-  1 : <,,COMMA> - 
-
-  4 : <a,ID> - 
-
-  5 : <b,ID> - 
-
-  6 : <;,SEMICOLON> - 
-
-  7 : <(,LPAREN> - 
-
-  8 : <main,ID> - <),RPAREN> - <=,ASSIGNOP> - 
 
 LookUp At : ScopeTable :0 Symbol<1> Not Found !
 
-Insert At : ScopeTable :0 Symbol<1,CONST_INT> Position(6,1) Successful
+Insert At : ScopeTable :0 Symbol<1,CONST_INT> Position(6,0) Successful
 
 Print : SCOPE TABLE #0
-
-  0 : <{,LCURL> - <+,ADDOP> - 
-
-  1 : <,,COMMA> - 
 
   4 : <a,ID> - 
 
   5 : <b,ID> - 
 
-  6 : <;,SEMICOLON> - <1,CONST_INT> - 
+  6 : <1,CONST_INT> - 
 
-  7 : <(,LPAREN> - 
-
-  8 : <main,ID> - <),RPAREN> - <=,ASSIGNOP> - 
-
-LookUp At : ScopeTable :0 Found <;,SEMICOLON> Position(6,0)
-
-Insert : Error ! Symbol Already Exists.
+  8 : <main,ID> - 
 
 LookUp At : ScopeTable :0 Symbol<ch> Not Found !
 
-Insert At : ScopeTable :0 Symbol<ch,ID> Position(0,2) Successful
+Insert At : ScopeTable :0 Symbol<ch,ID> Position(0,0) Successful
 
 Print : SCOPE TABLE #0
 
-  0 : <{,LCURL> - <+,ADDOP> - <ch,ID> - 
-
-  1 : <,,COMMA> - 
+  0 : <ch,ID> - 
 
   4 : <a,ID> - 
 
   5 : <b,ID> - 
 
-  6 : <;,SEMICOLON> - <1,CONST_INT> - 
+  6 : <1,CONST_INT> - 
 
-  7 : <(,LPAREN> - 
-
-  8 : <main,ID> - <),RPAREN> - <=,ASSIGNOP> - 
-
-LookUp At : ScopeTable :0 Found <=,ASSIGNOP> Position(8,2)
-
-Insert : Error ! Symbol Already Exists.
+  8 : <main,ID> - 
 
 LookUp At : ScopeTable :0 Symbol<'a'> Not Found !
 
@@ -208,9 +72,7 @@ Insert At : ScopeTable :0 Symbol<'a',CONST_CHAR> Position(2,0) Successful
 
 Print : SCOPE TABLE #0
 
-  0 : <{,LCURL> - <+,ADDOP> - <ch,ID> - 
-
-  1 : <,,COMMA> - 
+  0 : <ch,ID> - 
 
   2 : <'a',CONST_CHAR> - 
 
@@ -218,21 +80,11 @@ Print : SCOPE TABLE #0
 
   5 : <b,ID> - 
 
-  6 : <;,SEMICOLON> - <1,CONST_INT> - 
+  6 : <1,CONST_INT> - 
 
-  7 : <(,LPAREN> - 
+  8 : <main,ID> - 
 
-  8 : <main,ID> - <),RPAREN> - <=,ASSIGNOP> - 
-
-LookUp At : ScopeTable :0 Found <;,SEMICOLON> Position(6,0)
-
-Insert : Error ! Symbol Already Exists.
-
-LookUp At : ScopeTable :0 Found <ch,ID> Position(0,2)
-
-Insert : Error ! Symbol Already Exists.
-
-LookUp At : ScopeTable :0 Found <=,ASSIGNOP> Position(8,2)
+LookUp At : ScopeTable :0 Found <ch,ID> Position(0,0)
 
 Insert : Error ! Symbol Already Exists.
 
@@ -242,9 +94,7 @@ Insert At : ScopeTable :0 Symbol<'\t',CONST_CHAR> Position(3,0) Successful
 
 Print : SCOPE TABLE #0
 
-  0 : <{,LCURL> - <+,ADDOP> - <ch,ID> - 
-
-  1 : <,,COMMA> - 
+  0 : <ch,ID> - 
 
   2 : <'a',CONST_CHAR> - 
 
@@ -254,25 +104,17 @@ Print : SCOPE TABLE #0
 
   5 : <b,ID> - 
 
-  6 : <;,SEMICOLON> - <1,CONST_INT> - 
+  6 : <1,CONST_INT> - 
 
-  7 : <(,LPAREN> - 
-
-  8 : <main,ID> - <),RPAREN> - <=,ASSIGNOP> - 
-
-LookUp At : ScopeTable :0 Found <;,SEMICOLON> Position(6,0)
-
-Insert : Error ! Symbol Already Exists.
+  8 : <main,ID> - 
 
 LookUp At : ScopeTable :0 Symbol<c> Not Found !
 
-Insert At : ScopeTable :0 Symbol<c,ID> Position(6,2) Successful
+Insert At : ScopeTable :0 Symbol<c,ID> Position(6,1) Successful
 
 Print : SCOPE TABLE #0
 
-  0 : <{,LCURL> - <+,ADDOP> - <ch,ID> - 
-
-  1 : <,,COMMA> - 
+  0 : <ch,ID> - 
 
   2 : <'a',CONST_CHAR> - 
 
@@ -282,67 +124,9 @@ Print : SCOPE TABLE #0
 
   5 : <b,ID> - 
 
-  6 : <;,SEMICOLON> - <1,CONST_INT> - <c,ID> - 
+  6 : <1,CONST_INT> - <c,ID> - 
 
-  7 : <(,LPAREN> - 
-
-  8 : <main,ID> - <),RPAREN> - <=,ASSIGNOP> - 
-
-LookUp At : ScopeTable :0 Symbol<[> Not Found !
-
-Insert At : ScopeTable :0 Symbol<[,LTHIRD> Position(8,3) Successful
-
-Print : SCOPE TABLE #0
-
-  0 : <{,LCURL> - <+,ADDOP> - <ch,ID> - 
-
-  1 : <,,COMMA> - 
-
-  2 : <'a',CONST_CHAR> - 
-
-  3 : <'\t',CONST_CHAR> - 
-
-  4 : <a,ID> - 
-
-  5 : <b,ID> - 
-
-  6 : <;,SEMICOLON> - <1,CONST_INT> - <c,ID> - 
-
-  7 : <(,LPAREN> - 
-
-  8 : <main,ID> - <),RPAREN> - <=,ASSIGNOP> - <[,LTHIRD> - 
-
-LookUp At : ScopeTable :0 Symbol<]> Not Found !
-
-Insert At : ScopeTable :0 Symbol<],RTHIRD> Position(0,3) Successful
-
-Print : SCOPE TABLE #0
-
-  0 : <{,LCURL> - <+,ADDOP> - <ch,ID> - <],RTHIRD> - 
-
-  1 : <,,COMMA> - 
-
-  2 : <'a',CONST_CHAR> - 
-
-  3 : <'\t',CONST_CHAR> - 
-
-  4 : <a,ID> - 
-
-  5 : <b,ID> - 
-
-  6 : <;,SEMICOLON> - <1,CONST_INT> - <c,ID> - 
-
-  7 : <(,LPAREN> - 
-
-  8 : <main,ID> - <),RPAREN> - <=,ASSIGNOP> - <[,LTHIRD> - 
-
-LookUp At : ScopeTable :0 Found <=,ASSIGNOP> Position(8,2)
-
-Insert : Error ! Symbol Already Exists.
-
-LookUp At : ScopeTable :0 Found <;,SEMICOLON> Position(6,0)
-
-Insert : Error ! Symbol Already Exists.
+  8 : <main,ID> - 
 
 LookUp At : ScopeTable :0 Symbol<printf> Not Found !
 
@@ -350,9 +134,7 @@ Insert At : ScopeTable :0 Symbol<printf,ID> Position(4,1) Successful
 
 Print : SCOPE TABLE #0
 
-  0 : <{,LCURL> - <+,ADDOP> - <ch,ID> - <],RTHIRD> - 
-
-  1 : <,,COMMA> - 
+  0 : <ch,ID> - 
 
   2 : <'a',CONST_CHAR> - 
 
@@ -362,23 +144,9 @@ Print : SCOPE TABLE #0
 
   5 : <b,ID> - 
 
-  6 : <;,SEMICOLON> - <1,CONST_INT> - <c,ID> - 
+  6 : <1,CONST_INT> - <c,ID> - 
 
-  7 : <(,LPAREN> - 
-
-  8 : <main,ID> - <),RPAREN> - <=,ASSIGNOP> - <[,LTHIRD> - 
-
-LookUp At : ScopeTable :0 Found <(,LPAREN> Position(7,0)
-
-Insert : Error ! Symbol Already Exists.
-
-LookUp At : ScopeTable :0 Found <),RPAREN> Position(8,1)
-
-Insert : Error ! Symbol Already Exists.
-
-LookUp At : ScopeTable :0 Found <;,SEMICOLON> Position(6,0)
-
-Insert : Error ! Symbol Already Exists.
+  8 : <main,ID> - 
 
 LookUp At : ScopeTable :0 Symbol<0> Not Found !
 
@@ -386,9 +154,7 @@ Insert At : ScopeTable :0 Symbol<0,CONST_INT> Position(5,1) Successful
 
 Print : SCOPE TABLE #0
 
-  0 : <{,LCURL> - <+,ADDOP> - <ch,ID> - <],RTHIRD> - 
-
-  1 : <,,COMMA> - 
+  0 : <ch,ID> - 
 
   2 : <'a',CONST_CHAR> - 
 
@@ -398,37 +164,7 @@ Print : SCOPE TABLE #0
 
   5 : <b,ID> - <0,CONST_INT> - 
 
-  6 : <;,SEMICOLON> - <1,CONST_INT> - <c,ID> - 
+  6 : <1,CONST_INT> - <c,ID> - 
 
-  7 : <(,LPAREN> - 
-
-  8 : <main,ID> - <),RPAREN> - <=,ASSIGNOP> - <[,LTHIRD> - 
-
-LookUp At : ScopeTable :0 Found <;,SEMICOLON> Position(6,0)
-
-Insert : Error ! Symbol Already Exists.
-
-LookUp At : ScopeTable :0 Symbol<}> Not Found !
-
-Insert At : ScopeTable :0 Symbol<},RCURL> Position(2,1) Successful
-
-Print : SCOPE TABLE #0
-
-  0 : <{,LCURL> - <+,ADDOP> - <ch,ID> - <],RTHIRD> - 
-
-  1 : <,,COMMA> - 
-
-  2 : <'a',CONST_CHAR> - <},RCURL> - 
-
-  3 : <'\t',CONST_CHAR> - 
-
-  4 : <a,ID> - <printf,ID> - 
-
-  5 : <b,ID> - <0,CONST_INT> - 
-
-  6 : <;,SEMICOLON> - <1,CONST_INT> - <c,ID> - 
-
-  7 : <(,LPAREN> - 
-
-  8 : <main,ID> - <),RPAREN> - <=,ASSIGNOP> - <[,LTHIRD> - 
+  8 : <main,ID> - 
 
