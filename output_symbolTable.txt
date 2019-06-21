@@ -168,3 +168,19 @@ Print : SCOPE TABLE #0
 
   8 : <main,ID> - 
 
+Print : SCOPE TABLE #0
+
+  0 : <ch,ID> - 
+
+  2 : <'a',CONST_CHAR> - 
+
+  3 : <'\t',CONST_CHAR> - 
+
+  4 : <a,ID> - <printf,ID> - 
+
+  5 : <b,ID> - <0,CONST_INT> - 
+
+  6 : <1,CONST_INT> - <c,ID> - 
+
+  8 : <main,ID> - 
+

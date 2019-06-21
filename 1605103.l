@@ -46,7 +46,7 @@ MULTI_CHAR_CONSTANT \'{CHAR}{CHAR}+\'|\'{ESCAPE_CHAR}{ESCAPE_CHAR}+\'
 INVALID_CHAR \'({CHAR}|[\\])*\'
 UNFINISHED_CHAR \'({CHAR}|[\\])*[^'\n]?|(\'\\\')
 
-STRING \"([^\"\n]|(\\[\n])|(\"))*\"
+STRING \"([^\"\n\\]|(\\\n)|(\")|{ESCAPE_CHAR})*\"
 UNFINISHED_STRING \"([^\"\n]|(\\[\n]))*
 
 DOUBLE_SLASH_COMMENT "//"((.*\\\n.*)|(.*))*
@@ -81,11 +81,11 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 {STRING} {
 	int detectionLine = lines;
 	string processed = processString(yytext);
-	appendLog(detectionLine,"STRING",processed);
+	appendLog(detectionLine,"STRING",string(yytext));
 	appendToken("STRING",processed);
 }
 {UNFINISHED_STRING} {
-	appendLogError(lines,"Unfinished String " + processString(yytext));
+	appendLogError(lines,"Unfinished String " +string(yytext));
 	errors++;
 }
 
@@ -410,12 +410,6 @@ const string processString(string s){
 				result.push_back('\n');
 			else if(s[i+1]=='t')
 				result.push_back('\t');
-			else if(s[i+1]=='\\')
-				result.push_back('\\');
-			else if(s[i+1]=='\'')
-				result.push_back('\'');
-			else if(s[i+1]=='\"')
-				result.push_back('\"');
 			else if(s[i+1]=='a')
 				result.push_back('\a');
 			else if(s[i+1]=='f')
@@ -428,6 +422,13 @@ const string processString(string s){
 				result.push_back('\b');
 			else if(s[i+1]=='\0')
 				result.push_back('\0');
+			else if(s[i+1]=='\\')
+				result.push_back('\\');
+			else if(s[i+1]=='\'')
+				result.push_back('\'');
+			else if(s[i+1]=='\"')
+				result.push_back('\"');
+
 		}
 		else if(s[i]=='\n' )
 			continue;

@@ -98,7 +98,7 @@ Line:6 Token: ID Lexeme: c
 Line:6 Token: LTHIRD Lexeme: [
 Line:6 Token: RTHIRD Lexeme: ]
 Line:6 Token: ASSIGNOP Lexeme: =
-Line:6 Token: STRING Lexeme: "ab	d"
+Line:6 Token: STRING Lexeme: "ab\td"
 Line:6 Token: SEMICOLON Lexeme: ;
 Line:7 Token: ID Lexeme: printf
 
@@ -113,7 +113,9 @@ Line:7 Token: ID Lexeme: printf
 
 
 Line:7 Token: LPAREN Lexeme: (
-Line:7 Token: STRING Lexeme: "abcdefghi"
+Line:7 Token: STRING Lexeme: "abc\
+def\
+ghi"
 Line:9 Token: RPAREN Lexeme: )
 Line:9 Token: SEMICOLON Lexeme: ;
 Line:10 Token: COMMENT Lexeme: // a comment
@@ -133,5 +135,16 @@ Line:13 Token: CONST_INT Lexeme: 0
 
 Line:13 Token: SEMICOLON Lexeme: ;
 Line:14 Token: RCURL Lexeme: }
+
+  SCOPE TABLE #0
+  0:<ch,ID> - 
+  2:<'a',CONST_CHAR> - 
+  3:<'\t',CONST_CHAR> - 
+  4:<a,ID> - <printf,ID> - 
+  5:<b,ID> - <0,CONST_INT> - 
+  6:<1,CONST_INT> - <c,ID> - 
+  8:<main,ID> - 
+
+
 
 Total Lines: 15 Total Error: 0
