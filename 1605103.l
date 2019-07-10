@@ -5,12 +5,21 @@ option noyywrap //Options Section inside Definitions Section
 %{
 
 #include "1605103_SymbolTable.h"
-SymbolTable st(10);
-int lines=1,errors=0;
+#include "y.tab.h"
+
+extern YYSTYPE yylval;
+extern SymbolTable st(10);
+extern int lines=1,errors=0;
 extern "C" int yylex();
 
 const string removeSingleQuote(string s);
 const string processString(string s);
+
+extern FILE *error;
+extern string currentid;
+void yyerror(char *);
+
+extern vector<SymbolInfo*>para_list;
 
 %}
 /**End Of C-Code Section Inside Definition Section ***/
@@ -63,15 +72,10 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 {WHITESPACE} {}
 {NEWLINE} {lines++;}
 
-{DOUBLE_SLASH_COMMENT} {
+{DOUBLE_SLASH_COMMENT}|{BLOCK_COMMENT}  {
 	int detectionLine = lines;
 	string processed = processString(yytext);
-	appendLog(detectionLine,"COMMENT",processed);
-}
-{BLOCK_COMMENT} {
-	int detectionLine = lines;
-	string processed = processString(yytext);
-	appendLog(detectionLine,"COMMENT",processed);
+	lexerLog(detectionLine,"COMMENT",processed);
 }
 {UNFINISHED_COMMENT} {
 	appendLogError(lines,"Unfinished Comment " + processString(yytext));
@@ -81,27 +85,28 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 {STRING} {
 	int detectionLine = lines;
 	string processed = processString(yytext);
-	appendLog(detectionLine,"STRING",string(yytext));
+	lexerLog(detectionLine,"STRING",string(yytext));
 	appendToken("STRING",processed);
+
+	SymbolInfo *s= new  SymbolInfo(processed, "STRING");
+	yylval.symbolinfo =s;
+
+	return STRING;
 }
 {UNFINISHED_STRING} {
 	appendLogError(lines,"Unfinished String " +string(yytext));
 	errors++;
 }
 
-{CONST_CHAR} {
-	appendLog(lines,"CONST_CHAR",yytext);
+{CONST_CHAR}|{CONST_ESCAPE_CHAR} {
+	lexerLog(lines,"CONST_CHAR",yytext);
 	string s = removeSingleQuote(yytext);
 	appendToken("CONST_CHAR",s);
-	if(!st.insert(SymbolInfo(yytext,"CONST_CHAR")))
-	appendLog("Line:"+to_string(lines)+" Symbol Already Exists!");
-}
-{CONST_ESCAPE_CHAR} {
-	appendLog(lines,"CONST_CHAR",yytext);
-	string s = removeSingleQuote(yytext);
-	appendToken("CONST_CHAR",s);
-	if(!st.insert(SymbolInfo(yytext,"CONST_CHAR")))
-	appendLog("Line:"+to_string(lines)+" Symbol Already Exists!");
+
+	SymbolInfo *s= new  SymbolInfo(yytext, "CONST_CHAR");
+	yylval.symbolinfo= s;
+
+	return CONST_CHAR;
 }
 {MULTI_CHAR_CONSTANT} {
 	appendLogError(lines,"Multi Character Constant " + string(yytext));
@@ -118,16 +123,22 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 }
 
 {INTEGER} {
-	appendLog(lines,"CONST_INT",yytext);
+	lexerLog(lines,"CONST_INT",yytext);
 	appendToken("CONST_INT",yytext);
-	if(!st.insert(SymbolInfo(yytext,"CONST_INT")))
-	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+
+	SymbolInfo *s= new  SymbolInfo(yytext, "CONST_INT");
+	yylval.symbolinfo= s;
+	
+	return CONST_INT;
 }
 {FLOAT1}|{FLOAT2} {
-	appendLog(lines,"CONST_FLOAT",yytext);
+	lexerLog(lines,"CONST_FLOAT",yytext);
 	appendToken("CONST_FLOAT",yytext);
-	if(!st.insert(SymbolInfo(yytext,"CONST_FLOAT")))
-	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+	
+	SymbolInfo *s= new  SymbolInfo(yytext, "CONST_FLOAT");
+	yylval.symbolinfo = s;
+	
+	return CONST_FLOAT;
 }
 {TOO_MANY_DECIMAL_POINTS} {
 	appendLogError(lines,"Too Many Decimal Points! "+string(yytext));
@@ -140,180 +151,173 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 }
 
 "int" {
-	appendToken("INT");
-	appendLog(lines,"INT",yytext);
+	return INT;
 }
 "char" {
-	appendToken("CHAR");
-	appendLog(lines,"CHAR",yytext);
+	return CHAR;	
 }
 "float"	{
-	appendToken("FLOAT");
-	appendLog(lines,"FLOAT",yytext);
+	return FLOAT;
 }
 "double" {
-	appendToken("DOUBLE");
-	appendLog(lines,"DOUBLE",yytext);
+	return DOUBLE;
 }
 "void" {
-	appendToken("VOID");
-	appendLog(lines,"VOID",yytext);
+	return VOID;
 }
 "if" {
-	appendToken("IF");
-	appendLog(lines,"IF",yytext);
-
+	return IF;
 }
 "else" {
-	appendToken("ELSE");
-	appendLog(lines,"ELSE",yytext);
+	return ELSE;
 }
 "do" {
-	appendToken("DO");
-	appendLog(lines,"DO",yytext);
+	return DO;
 }
 "while"	{
-	appendToken("WHILE");
-	appendLog(lines,"WHILE",yytext);
+	return WHILE;	
 }
 
 "for" {
-	appendToken("FOR");
-	appendLog(lines,"FOR",yytext);
+	return FOR;
 }
 "break" {
-	appendToken("BREAK");
-	appendLog(lines,"BREAK",yytext);
-}
-"continue" {
-	appendToken("CONTINUE");
-	appendLog(lines,"CONTINUE",yytext);
+	return BREAK;
 }
 
 "return" {
-	appendToken("RETURN");
-	appendLog(lines,"RETURN",yytext);
-}
-"switch" {
-	appendToken("SWITCH");
-	appendLog(lines,"SWITCH",yytext);
-}
-"case" {
-	appendToken("CASE");
-	appendLog(lines,"CASE",yytext);
-		}
-"default" {
-	appendToken("DEFAULT");
-	appendLog(lines,"DEFAULT",yytext);
+	return RETURN;
 }
 
 ";" {
 	appendToken("SEMICOLON",yytext);
-	appendLog(lines,"SEMICOLON",yytext);
-	//if(!st.insert(SymbolInfo(yytext,"SEMICOLON")))
-	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+	lexerLog(lines,"SEMICOLON",yytext);
+
+	return SEMICOLON;
 }
 
 "," {
 	appendToken("COMMA",yytext);
-	appendLog(lines,"COMMA",yytext);
-	//if(!st.insert(SymbolInfo(yytext,"COMMA")))
-	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+	lexerLog(lines,"COMMA",yytext);
+
+	return COMMA;
 }
 "(" {
 	appendToken("LPAREN",yytext);
-	appendLog(lines,"LPAREN",yytext);
-	//if(!st.insert(SymbolInfo(yytext,"LPAREN")))
-	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+	lexerLog(lines,"LPAREN",yytext);
+
+	return LPAREN;
 }
 ")" {
 	appendToken("RPAREN",yytext);
-	appendLog(lines,"RPAREN",yytext);
-	//if(!st.insert(SymbolInfo(yytext,"RPAREN")))
-	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+	lexerLog(lines,"RPAREN",yytext);
+
+	return RPAREN;
 }
 "{" {
 	appendToken("LCURL",yytext);
-	appendLog(lines,"LCURL",yytext);
-	//if(!st.insert(SymbolInfo(yytext,"LCURL")))
-	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+	lexerLog(lines,"LCURL",yytext);
+
+	return LCURL;
 }
 "}" {
 	appendToken("RCURL",yytext);
-	appendLog(lines,"RCURL",yytext);
-	//if(!st.insert(SymbolInfo(yytext,"RCURL")))
-	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+	lexerLog(lines,"RCURL",yytext);
+
+	return RCURL;
 }
 "[" {
 	appendToken("LTHIRD",yytext);
-	appendLog(lines,"LTHIRD",yytext);
-	//if(!st.insert(SymbolInfo(yytext,"LTHIRD")))
-	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+	lexerLog(lines,"LTHIRD",yytext);
+
+	return RTHIRD;
 }
 "]" {
 	appendToken("RTHIRD",yytext);
-	appendLog(lines,"RTHIRD",yytext);
-	//if(!st.insert(SymbolInfo(yytext,"RTHIRD")))
-	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+	lexerLog(lines,"RTHIRD",yytext);
+
+	return LTHIRD;
 }
 "!" {
 	appendToken("NOT",yytext);
-	appendLog(lines,"NOT",yytext);
-	//if(!st.insert(SymbolInfo(yytext,"NOT")))
-	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+	lexerLog(lines,"NOT",yytext);
+
+	return NOT;
 
 }
 "=" {
 	appendToken("ASSIGNOP",yytext);
-	appendLog(lines,"ASSIGNOP",yytext);
-	//if(!st.insert(SymbolInfo(yytext,"ASSIGNOP")))
-	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+	lexerLog(lines,"ASSIGNOP",yytext);
+
+	return ASSIGNOP;
 }
 
 {ADDOP} {
 	appendToken("ADDOP",yytext);
-	appendLog(lines,"ADDOP",yytext);
-	//if(!st.insert(SymbolInfo(yytext,"ADDOP")))
-	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+	lexerLog(lines,"ADDOP",yytext);
+	
+	SymbolInfo *s= new SymbolInfo(yytext,"ADDOP");
+	yylval.symbolinfo =s;
+
+	return ADDOP;
+	
 
 }
 {INCOP}	{
 	appendToken("INCOP",yytext);
-	appendLog(lines,"INCOP",yytext);
-	//if(!st.insert(SymbolInfo(yytext,"INCOP")))
-	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+	lexerLog(lines,"INCOP",yytext);
+	
+	SymbolInfo *s= new SymbolInfo(yytext,"INCOP");
+	yylval.symbolinfo =s;
+
+	return INCOP;
 }
 {MULOP}	{
 	appendToken("MULOP",yytext);
-	appendLog(lines,"MULOP",yytext);
-	//if(!st.insert(SymbolInfo(yytext,"MULOP")))
-	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
-}
+	lexerLog(lines,"MULOP",yytext);
 
+	SymbolInfo *s= new SymbolInfo(yytext,"MULOP");
+	yylval.symbolinfo =s;
+
+	return MULOP;
+}
 {RELOP}	{
 	appendToken("RELOP",yytext);
-	appendLog(lines,"RELOP",yytext);
-	//if(!st.insert(SymbolInfo(yytext,"RELOP")))
-	//  appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+	lexerLog(lines,"RELOP",yytext);
+	
+	SymbolInfo *s= new SymbolInfo(yytext,"RELOP");
+	yylval.symbolinfo =s;
+
+	return RELOP;
 }
 {LOGICOP} {
 	appendToken("LOGICOP",yytext);
-	appendLog(lines,"LOGICOP",yytext);
-	//if(!st.insert(SymbolInfo(yytext,"LOGICOP")))
-	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+	lexerLog(lines,"LOGICOP",yytext);
+
+	SymbolInfo *s= new SymbolInfo(yytext,"LOGICOP");
+	yylval.symbolinfo =s;
+
+	return LOGICOP;
 }
 {BITOP} {
 	appendToken("BITOP",yytext);
-	appendLog(lines,"BITOP",yytext);
-	//if(!st.insert(SymbolInfo(yytext,"BITOP")))
-	//	appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+	lexerLog(lines,"BITOP",yytext);
+	
+	SymbolInfo *s= new SymbolInfo(yytext,"BITOP");
+	yylval.symbolinfo =s;
+
+	return BITOP;
 }
 
 {IDENTIFIER} {
-	appendLog(lines,"ID",yytext);
+	lexerLog(lines,"ID",yytext);
 	appendToken("ID",yytext);
-	if(!st.insert(SymbolInfo(yytext,"ID")))
-		appendLog("Line:"+to_string(lines)+" Symbol " + string(yytext) +" Already Exists");
+
+	SymbolInfo *s= new SymbolInfo(yytext,"ID");
+	yylval.symbolinfo =s;
+	
+	return ID;
+
 }
 {INVALID_IDENTIFIER} {
 	appendLogError(lines,"Invalid Suffix On Numeric Constant Or,Invalid Prefix on Identifier for Character Sequence "+string(yytext));
@@ -330,29 +334,29 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 /** End of Rules Section**/
 /**start of routine Section**/
 
-int main(int argc,char *argv[]){
+// int main(int argc,char *argv[]){
 
-	if(argc!=2){
-		printf("Invalid Input\n");
-		return 0;
-	}
-	clearFiles();
-	FILE *inputFile=fopen(argv[1],"r");
-	if(inputFile==NULL){
-		printf("Cant open file\n");
-		return 0;
-	}
+// 	if(argc!=2){
+// 		printf("Invalid Input\n");
+// 		return 0;
+// 	}
+// 	clearFiles();
+// 	FILE *inputFile=fopen(argv[1],"r");
+// 	if(inputFile==NULL){
+// 		printf("Cant open file\n");
+// 		return 0;
+// 	}
 
-	yyin= inputFile;
+// 	yyin= inputFile;
 
-	yylex(); //start scanning
+// 	yylex(); //start scanning
 
-	st.printAllScopeTables();
-	appendLog("\nTotal Lines: "+to_string(lines)+" Total Error: "+to_string(errors));
+// 	st.printAllScopeTables();
+// 	lexerLog("\nTotal Lines: "+to_string(lines)+" Total Error: "+to_string(errors));
 
-	fclose(yyin);
-	return 0;
-}
+// 	fclose(yyin);
+// 	return 0;
+// }
 
 const string removeSingleQuote(string s){
 	if(s[1]!='\\'){

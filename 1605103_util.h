@@ -12,42 +12,36 @@
 #include <fstream>
 #include <sys/stat.h>
 #include <unistd.h>
+
 using namespace std;
 
 #define OUTPUT_FILE "output_symbolTable.txt"
 #define INPUT_FILE "input_symbolTable.txt"
 
-#define LOG_FILE "1605103_log.txt"
-#define TOKEN_FILE "1605103_token.txt"
+#define LEXER_LOG "1exer_log.txt"
+#define TOKEN_FILE "token.txt"
+#define ERROR_FILE "error.txt"
+#define PARSER_LOG "log.txt"
 
 
-inline bool isFileExists (const string& name) {
-  struct stat buffer;
-  return (stat (name.c_str(), &buffer) == 0);
-}
 
-void appendToFile(const string & data){
-    ofstream outfile;
 
-    outfile.open(OUTPUT_FILE, std::ios_base::app);
-    outfile << data;
-}
 void appendLogError(int line_no,const string & error_msg){
     ofstream outfile;
 
-    outfile.open(LOG_FILE, std::ios_base::app);
+    outfile.open(ERROR_FILE, std::ios_base::app);
     outfile <<"Line:"<<line_no<<" Error"<<": "<<error_msg<<endl;
 }
-void appendLog(const string & data){
+void lexerLog(const string & data){
     ofstream outfile;
 
-    outfile.open(LOG_FILE, std::ios_base::app);
+    outfile.open(LEXER_LOG, std::ios_base::app);
     outfile << data<<endl;
 }
-void appendLog(int line_no,const string & token,const string & lexeme){
+void lexerLog(int line_no,const string & token,const string & lexeme){
     ofstream outfile;
 
-    outfile.open(LOG_FILE, std::ios_base::app);
+    outfile.open(LEXER_LOG, std::ios_base::app);
     outfile << "Line:"<<line_no<<" Token: "<<token<<" Lexeme: "<<lexeme<<endl;;
 }
 void appendToken(const string & symbol){
@@ -70,9 +64,12 @@ void appendToken(const string & type,char symbol){
 }
 void clearFiles(){
 	if(isFileExists(OUTPUT_FILE))remove(OUTPUT_FILE);
-	if(isFileExists(LOG_FILE))remove(LOG_FILE);
+	if(isFileExists(LEXER_LOG))remove(LEXER_LOG);
 	if(isFileExists(TOKEN_FILE))remove(TOKEN_FILE);
 }
+
+
+
 
 
 template <class Container> void readAllFromFile(Container& container){
@@ -83,13 +80,11 @@ template <class Container> void readAllFromFile(Container& container){
         container.push_back(line);
     }
 }
-
 void printMessage(string tag,string msg){
     //cout<<tag<<" : "<<msg<<endl;
     appendToFile(tag + " : "+msg+"\n");
     fflush(stdout);
 }
-
 template <class Container> void split(const std::string& str, Container& cont,
             char delim = ' ')
 {
@@ -101,4 +96,14 @@ template <class Container> void split(const std::string& str, Container& cont,
         current = str.find(delim, previous);
     }
     cont.push_back(str.substr(previous, current - previous));
+}
+inline bool isFileExists (const string& name) {
+  struct stat buffer;
+  return (stat (name.c_str(), &buffer) == 0);
+}
+void appendToFile(const string & data){
+    ofstream outfile;
+
+    outfile.open(OUTPUT_FILE, std::ios_base::app);
+    outfile << data;
 }

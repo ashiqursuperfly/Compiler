@@ -1,150 +1,29 @@
-Line:1 Token: INT Lexeme: int
-Line:1 Token: ID Lexeme: main
+Line:1 Token: CONST_FLOAT Lexeme: 1.2E-3
 
   SCOPE TABLE #0
-  8:<main,ID> - 
+  5:<1.2E-3,CONST_FLOAT> - 
 
 
-Line:1 Token: LPAREN Lexeme: (
-Line:1 Token: RPAREN Lexeme: )
-Line:1 Token: LCURL Lexeme: {
-Line:2 Token: INT Lexeme: int
-Line:2 Token: ID Lexeme: a
+Line:2 Token: ADDOP Lexeme: -
+Line:2 Token: CONST_FLOAT Lexeme: 2E03
 
   SCOPE TABLE #0
-  4:<a,ID> - 
-  8:<main,ID> - 
+  5:<1.2E-3,CONST_FLOAT> - <2E03,CONST_FLOAT> - 
 
 
-Line:2 Token: COMMA Lexeme: ,
-Line:2 Token: ID Lexeme: b
-
-  SCOPE TABLE #0
-  4:<a,ID> - 
-  5:<b,ID> - 
-  8:<main,ID> - 
-
-
-Line:2 Token: SEMICOLON Lexeme: ;
-Line:3 Token: ID Lexeme: a
-Line:3 Symbol a Already Exists
-Line:3 Token: ASSIGNOP Lexeme: =
-Line:3 Token: ID Lexeme: a
-Line:3 Symbol a Already Exists
-Line:3 Token: ADDOP Lexeme: +
-Line:3 Token: CONST_INT Lexeme: 1
+Line:3 Token: ADDOP Lexeme: -
+Line:3 Token: CONST_FLOAT Lexeme: .2E03
 
   SCOPE TABLE #0
-  4:<a,ID> - 
-  5:<b,ID> - 
-  6:<1,CONST_INT> - 
-  8:<main,ID> - 
+  1:<.2E03,CONST_FLOAT> - 
+  5:<1.2E-3,CONST_FLOAT> - <2E03,CONST_FLOAT> - 
 
 
-Line:3 Token: SEMICOLON Lexeme: ;
-Line:4 Token: CHAR Lexeme: char
-Line:4 Token: ID Lexeme: ch
 
   SCOPE TABLE #0
-  0:<ch,ID> - 
-  4:<a,ID> - 
-  5:<b,ID> - 
-  6:<1,CONST_INT> - 
-  8:<main,ID> - 
-
-
-Line:4 Token: ASSIGNOP Lexeme: =
-Line:4 Token: CONST_CHAR Lexeme: 'a'
-
-  SCOPE TABLE #0
-  0:<ch,ID> - 
-  2:<'a',CONST_CHAR> - 
-  4:<a,ID> - 
-  5:<b,ID> - 
-  6:<1,CONST_INT> - 
-  8:<main,ID> - 
-
-
-Line:4 Token: SEMICOLON Lexeme: ;
-Line:5 Token: ID Lexeme: ch
-Line:5 Symbol ch Already Exists
-Line:5 Token: ASSIGNOP Lexeme: =
-Line:5 Token: CONST_CHAR Lexeme: '\t'
-
-  SCOPE TABLE #0
-  0:<ch,ID> - 
-  2:<'a',CONST_CHAR> - 
-  3:<'\t',CONST_CHAR> - 
-  4:<a,ID> - 
-  5:<b,ID> - 
-  6:<1,CONST_INT> - 
-  8:<main,ID> - 
-
-
-Line:5 Token: SEMICOLON Lexeme: ;
-Line:6 Token: CHAR Lexeme: char
-Line:6 Token: ID Lexeme: c
-
-  SCOPE TABLE #0
-  0:<ch,ID> - 
-  2:<'a',CONST_CHAR> - 
-  3:<'\t',CONST_CHAR> - 
-  4:<a,ID> - 
-  5:<b,ID> - 
-  6:<1,CONST_INT> - <c,ID> - 
-  8:<main,ID> - 
-
-
-Line:6 Token: LTHIRD Lexeme: [
-Line:6 Token: RTHIRD Lexeme: ]
-Line:6 Token: ASSIGNOP Lexeme: =
-Line:6 Token: STRING Lexeme: "ab\td"
-Line:6 Token: SEMICOLON Lexeme: ;
-Line:7 Token: ID Lexeme: printf
-
-  SCOPE TABLE #0
-  0:<ch,ID> - 
-  2:<'a',CONST_CHAR> - 
-  3:<'\t',CONST_CHAR> - 
-  4:<a,ID> - <printf,ID> - 
-  5:<b,ID> - 
-  6:<1,CONST_INT> - <c,ID> - 
-  8:<main,ID> - 
-
-
-Line:7 Token: LPAREN Lexeme: (
-Line:7 Token: STRING Lexeme: "abc\
-def\
-ghi"
-Line:9 Token: RPAREN Lexeme: )
-Line:9 Token: SEMICOLON Lexeme: ;
-Line:10 Token: COMMENT Lexeme: // a comment
-Line:11 Token: COMMENT Lexeme: /** another*** comment ***/
-Line:13 Token: RETURN Lexeme: return
-Line:13 Token: CONST_INT Lexeme: 0
-
-  SCOPE TABLE #0
-  0:<ch,ID> - 
-  2:<'a',CONST_CHAR> - 
-  3:<'\t',CONST_CHAR> - 
-  4:<a,ID> - <printf,ID> - 
-  5:<b,ID> - <0,CONST_INT> - 
-  6:<1,CONST_INT> - <c,ID> - 
-  8:<main,ID> - 
-
-
-Line:13 Token: SEMICOLON Lexeme: ;
-Line:14 Token: RCURL Lexeme: }
-
-  SCOPE TABLE #0
-  0:<ch,ID> - 
-  2:<'a',CONST_CHAR> - 
-  3:<'\t',CONST_CHAR> - 
-  4:<a,ID> - <printf,ID> - 
-  5:<b,ID> - <0,CONST_INT> - 
-  6:<1,CONST_INT> - <c,ID> - 
-  8:<main,ID> - 
+  1:<.2E03,CONST_FLOAT> - 
+  5:<1.2E-3,CONST_FLOAT> - <2E03,CONST_FLOAT> - 
 
 
 
-Total Lines: 15 Total Error: 0
+Total Lines: 4 Total Error: 0
