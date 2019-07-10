@@ -188,6 +188,9 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 "return" {
 	return RETURN;
 }
+"println" {
+	return PRINTLN;
+}
 
 ";" {
 	appendToken("SEMICOLON",yytext);
