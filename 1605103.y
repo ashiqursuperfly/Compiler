@@ -63,11 +63,11 @@ start: program {	}
 
 
 program: program unit {
-			$<symbolinfo>$=new SymbolInfo();
-			fprintf(parsertext,"Line at %d : program->program unit\n\n",lines);
-			fprintf(parsertext,"%s %s\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>2->get_name().c_str()); 
-			$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+$<symbolinfo>2->get_name());
-		}
+		$<symbolinfo>$=new SymbolInfo();
+		fprintf(parsertext,"Line at %d : program->program unit\n\n",lines);
+		fprintf(parsertext,"%s %s\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>2->get_name().c_str()); 
+		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+$<symbolinfo>2->get_name());
+	}
 
 	| unit {
 		$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : program->unit\n\n",lines);
@@ -99,46 +99,46 @@ unit: var_declaration {
 	;
 
 
-func_declaration: type_specifier ID  LPAREN  parameter_list RPAREN SEMICOLON {
+func_declaration: type_specifier ID LPAREN parameter_list RPAREN SEMICOLON {
 		$<symbolinfo>$=new SymbolInfo();
 		fprintf(parsertext,"Line at %d : func_declaration->type_specifier ID LPAREN parameter_list RPAREN SEMICOLON\n\n",line_count);
 		fprintf(parsertext,"%s %s(%s);\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>2->get_name().c_str(),$<symbolinfo>4->get_name().c_str());
 		SymbolInfo *s=table->lookup($<symbolinfo>2->get_name());
-			if(s==0){
-				table->Insert($<symbolinfo>2->get_name(),"ID","Function");
-				s=table->lookup($<symbolinfo>2->get_name());
-				s->set_isFunction();
-				for(int i=0;i<para_list.size();i++){
-					s->get_isFunction()->add_number_of_parameter(para_list[i]->get_name(),para_list[i]->get_dectype());
-					//cout<<para_list[i]->get_dectype()<<endl;
-				}
-				para_list.clear();s->get_isFunction()->set_return_type($<symbolinfo>1->get_name());
-			} 
-			else{
-				int num=s->get_isFunction()->get_number_of_parameter();
-				
-				if(num!=para_list.size()){
-					error_count++;
-					fprintf(error,"Error at Line No. %d :  Invalid number of parameters \n\n",line_count);
-				}else{
-					vector<string>para_type=s->get_isFunction()->get_paratype();
-					for(int i=0;i<para_list.size();i++){
-						if(para_list[i]->get_dectype()!=para_type[i]){
-							error_count++;
-							fprintf(error,"Error at Line No.%d : Type Mismatch \n\n",line_count);
-							break;
-							}
-						}
-						if(s->get_isFunction()->get_return_type()!=$<symbolinfo>1->get_name()){
-								error_count++;
-								fprintf(error,"Error at Line No. %d : Return Type Mismatch \n\n",line_count);
-						}
-						para_list.clear();
-					}
+		if(s==0){
+			table->Insert($<symbolinfo>2->get_name(),"ID","Function");
+			s=table->lookup($<symbolinfo>2->get_name());
+			s->set_isFunction();
+			for(int i=0;i<para_list.size();i++){
+				s->get_isFunction()->add_number_of_parameter(para_list[i]->get_name(),para_list[i]->get_dectype());
+				//cout<<para_list[i]->get_dectype()<<endl;
 			}
-			$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+" "+$<symbolinfo>2->get_name()+"("+$<symbolinfo>4->get_name()+");");
+			para_list.clear();s->get_isFunction()->set_return_type($<symbolinfo>1->get_name());
+		} 
+		else{
+			int num=s->get_isFunction()->get_number_of_parameter();
+			
+			if(num!=para_list.size()){
+				error_count++;
+				fprintf(error,"Error at Line No. %d :  Invalid number of parameters \n\n",line_count);
+			}else{
+				vector<string>para_type=s->get_isFunction()->get_paratype();
+				for(int i=0;i<para_list.size();i++){
+					if(para_list[i]->get_dectype()!=para_type[i]){
+						error_count++;
+						fprintf(error,"Error at Line No.%d : Type Mismatch \n\n",line_count);
+						break;
+						}
+					}
+					if(s->get_isFunction()->get_return_type()!=$<symbolinfo>1->get_name()){
+							error_count++;
+							fprintf(error,"Error at Line No. %d : Return Type Mismatch \n\n",line_count);
+					}
+					para_list.clear();
+				}
 		}
-		| type_specifier ID LPAREN RPAREN SEMICOLON {
+		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+" "+$<symbolinfo>2->get_name()+"("+$<symbolinfo>4->get_name()+");");
+	}
+	| type_specifier ID LPAREN RPAREN SEMICOLON {
 			$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : func_declaration->type_specifier ID LPAREN RPAREN SEMICOLON\n\n",line_count);
 			fprintf(parsertext,"%s %s();\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>2->get_name().c_str());
 			SymbolInfo *s=table->lookup($<symbolinfo>2->get_name());
@@ -159,10 +159,10 @@ func_declaration: type_specifier ID  LPAREN  parameter_list RPAREN SEMICOLON {
 
 			}
 			$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+" "+$<symbolinfo>2->get_name()+"();");
-		}
+	}
 	;
 
-func_definition: type_specifier ID  LPAREN  parameter_list RPAREN {
+func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 		$<symbolinfo>$=new SymbolInfo(); 
 		SymbolInfo *s=table->lookup($<symbolinfo>2->get_name()); 
 
