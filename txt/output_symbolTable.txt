@@ -1,0 +1,784 @@
+Enter Scope : Entering New Scope : ID 1
+LookUp At : ScopeTable :1 Symbol<func> Not Found !
+
+LookUp At : ScopeTable :0 Symbol<func> Not Found !
+
+LookUp At : ScopeTable :1 Symbol<func> Not Found !
+
+Insert At : ScopeTable :1 Symbol<func,ID> Position(75,0) Successful
+
+Print : SCOPE TABLE #1
+
+  75 : <func,ID> - 
+
+LookUp At : ScopeTable :1 Found <func,ID> Position(75,0)
+
+Enter Scope : Entering New Scope : ID 2
+LookUp At : ScopeTable :2 Symbol<a> Not Found !
+
+Insert At : ScopeTable :2 Symbol<a,ID> Position(14,0) Successful
+
+Print : SCOPE TABLE #2
+
+  14 : <a,ID> - 
+
+LookUp At : ScopeTable :2 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :2 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :2 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :2 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :2 Found <a,ID> Position(14,0)
+
+Print : SCOPE TABLE #2
+
+  14 : <a,ID> - 
+
+Print : SCOPE TABLE #1
+
+  75 : <func,ID> - 
+
+Print : SCOPE TABLE #0
+
+Exiting Scope : 2
+LookUp At : ScopeTable :1 Symbol<main> Not Found !
+
+LookUp At : ScopeTable :0 Symbol<main> Not Found !
+
+LookUp At : ScopeTable :1 Symbol<main> Not Found !
+
+Insert At : ScopeTable :1 Symbol<main,ID> Position(48,0) Successful
+
+Print : SCOPE TABLE #1
+
+  48 : <main,ID> - 
+
+  75 : <func,ID> - 
+
+LookUp At : ScopeTable :1 Found <main,ID> Position(48,0)
+
+Enter Scope : Entering New Scope : ID 2
+Print : SCOPE TABLE #2
+
+Print : SCOPE TABLE #1
+
+  48 : <main,ID> - 
+
+  75 : <func,ID> - 
+
+Print : SCOPE TABLE #0
+
+LookUp At : ScopeTable :0 Symbol<func> Not Found !
+
+LookUp At : ScopeTable :0 Symbol<func> Not Found !
+
+Insert At : ScopeTable :0 Symbol<func,ID> Position(75,0) Successful
+
+Print : SCOPE TABLE #0
+
+  75 : <func,ID> - 
+
+LookUp At : ScopeTable :0 Found <func,ID> Position(75,0)
+
+Enter Scope : Entering New Scope : ID 1
+LookUp At : ScopeTable :1 Symbol<a> Not Found !
+
+Insert At : ScopeTable :1 Symbol<a,ID> Position(14,0) Successful
+
+Print : SCOPE TABLE #1
+
+  14 : <a,ID> - 
+
+LookUp At : ScopeTable :1 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :1 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :1 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :1 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :1 Found <a,ID> Position(14,0)
+
+Print : SCOPE TABLE #1
+
+  14 : <a,ID> - 
+
+Print : SCOPE TABLE #0
+
+  75 : <func,ID> - 
+
+Exiting Scope : 1
+LookUp At : ScopeTable :0 Symbol<main> Not Found !
+
+LookUp At : ScopeTable :0 Symbol<main> Not Found !
+
+Insert At : ScopeTable :0 Symbol<main,ID> Position(48,0) Successful
+
+Print : SCOPE TABLE #0
+
+  48 : <main,ID> - 
+
+  75 : <func,ID> - 
+
+LookUp At : ScopeTable :0 Found <main,ID> Position(48,0)
+
+Enter Scope : Entering New Scope : ID 1
+Print : SCOPE TABLE #1
+
+Print : SCOPE TABLE #0
+
+  48 : <main,ID> - 
+
+  75 : <func,ID> - 
+
+LookUp At : ScopeTable :0 Symbol<func> Not Found !
+
+LookUp At : ScopeTable :0 Symbol<func> Not Found !
+
+Insert At : ScopeTable :0 Symbol<func,ID> Position(75,0) Successful
+
+Print : SCOPE TABLE #0
+
+  75 : <func,ID> - 
+
+LookUp At : ScopeTable :0 Found <func,ID> Position(75,0)
+
+Enter Scope : Entering New Scope : ID 1
+LookUp At : ScopeTable :1 Symbol<a> Not Found !
+
+Insert At : ScopeTable :1 Symbol<a,ID> Position(14,0) Successful
+
+Print : SCOPE TABLE #1
+
+  14 : <a,ID> - 
+
+LookUp At : ScopeTable :1 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :1 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :1 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :1 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :1 Found <a,ID> Position(14,0)
+
+Print : SCOPE TABLE #1
+
+  14 : <a,ID> - 
+
+Print : SCOPE TABLE #0
+
+  75 : <func,ID> - 
+
+Exiting Scope : 1
+LookUp At : ScopeTable :0 Symbol<main> Not Found !
+
+LookUp At : ScopeTable :0 Symbol<main> Not Found !
+
+Insert At : ScopeTable :0 Symbol<main,ID> Position(48,0) Successful
+
+Print : SCOPE TABLE #0
+
+  48 : <main,ID> - 
+
+  75 : <func,ID> - 
+
+LookUp At : ScopeTable :0 Found <main,ID> Position(48,0)
+
+Enter Scope : Entering New Scope : ID 1
+Print : SCOPE TABLE #1
+
+Print : SCOPE TABLE #0
+
+  48 : <main,ID> - 
+
+  75 : <func,ID> - 
+
+LookUp At : ScopeTable :0 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Symbol<x> Not Found !
+
+Insert At : ScopeTable :0 Symbol<x,ID> Position(37,0) Successful
+
+Print : SCOPE TABLE #0
+
+  37 : <x,ID> - 
+
+LookUp At : ScopeTable :0 Symbol<y> Not Found !
+
+LookUp At : ScopeTable :0 Symbol<y> Not Found !
+
+Insert At : ScopeTable :0 Symbol<y,ID> Position(38,0) Successful
+
+Print : SCOPE TABLE #0
+
+  37 : <x,ID> - 
+
+  38 : <y,ID> - 
+
+LookUp At : ScopeTable :0 Symbol<z> Not Found !
+
+LookUp At : ScopeTable :0 Symbol<z> Not Found !
+
+Insert At : ScopeTable :0 Symbol<z,ID> Position(39,0) Successful
+
+Print : SCOPE TABLE #0
+
+  37 : <x,ID> - 
+
+  38 : <y,ID> - 
+
+  39 : <z,ID> - 
+
+LookUp At : ScopeTable :0 Symbol<a> Not Found !
+
+LookUp At : ScopeTable :0 Symbol<a> Not Found !
+
+Insert At : ScopeTable :0 Symbol<a,ID> Position(14,0) Successful
+
+Print : SCOPE TABLE #0
+
+  14 : <a,ID> - 
+
+  37 : <x,ID> - 
+
+  38 : <y,ID> - 
+
+  39 : <z,ID> - 
+
+LookUp At : ScopeTable :0 Symbol<foo> Not Found !
+
+LookUp At : ScopeTable :0 Symbol<foo> Not Found !
+
+Insert At : ScopeTable :0 Symbol<foo,ID> Position(11,0) Successful
+
+Print : SCOPE TABLE #0
+
+  11 : <foo,ID> - 
+
+  14 : <a,ID> - 
+
+  37 : <x,ID> - 
+
+  38 : <y,ID> - 
+
+  39 : <z,ID> - 
+
+LookUp At : ScopeTable :0 Found <foo,ID> Position(11,0)
+
+LookUp At : ScopeTable :0 Symbol<var> Not Found !
+
+LookUp At : ScopeTable :0 Symbol<var> Not Found !
+
+Insert At : ScopeTable :0 Symbol<var,ID> Position(56,0) Successful
+
+Print : SCOPE TABLE #0
+
+  11 : <foo,ID> - 
+
+  14 : <a,ID> - 
+
+  37 : <x,ID> - 
+
+  38 : <y,ID> - 
+
+  39 : <z,ID> - 
+
+  56 : <var,ID> - 
+
+LookUp At : ScopeTable :0 Found <var,ID> Position(56,0)
+
+Enter Scope : Entering New Scope : ID 1
+LookUp At : ScopeTable :1 Symbol<a> Not Found !
+
+Insert At : ScopeTable :1 Symbol<a,ID> Position(14,0) Successful
+
+Print : SCOPE TABLE #1
+
+  14 : <a,ID> - 
+
+LookUp At : ScopeTable :1 Symbol<b> Not Found !
+
+Insert At : ScopeTable :1 Symbol<b,ID> Position(15,0) Successful
+
+Print : SCOPE TABLE #1
+
+  14 : <a,ID> - 
+
+  15 : <b,ID> - 
+
+LookUp At : ScopeTable :1 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :1 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :1 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :1 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :1 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :1 Found <b,ID> Position(15,0)
+
+LookUp At : ScopeTable :1 Found <b,ID> Position(15,0)
+
+LookUp At : ScopeTable :1 Found <b,ID> Position(15,0)
+
+LookUp At : ScopeTable :1 Found <b,ID> Position(15,0)
+
+LookUp At : ScopeTable :1 Found <b,ID> Position(15,0)
+
+Print : SCOPE TABLE #1
+
+  14 : <a,ID> - 
+
+  15 : <b,ID> - 
+
+Print : SCOPE TABLE #0
+
+  11 : <foo,ID> - 
+
+  14 : <a,ID> - 
+
+  37 : <x,ID> - 
+
+  38 : <y,ID> - 
+
+  39 : <z,ID> - 
+
+  56 : <var,ID> - 
+
+Exiting Scope : 1
+LookUp At : ScopeTable :0 Found <foo,ID> Position(11,0)
+
+Enter Scope : Entering New Scope : ID 1
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<y> Not Found !
+
+LookUp At : ScopeTable :0 Found <y,ID> Position(38,0)
+
+LookUp At : ScopeTable :1 Symbol<y> Not Found !
+
+LookUp At : ScopeTable :0 Found <y,ID> Position(38,0)
+
+LookUp At : ScopeTable :1 Symbol<y> Not Found !
+
+LookUp At : ScopeTable :0 Found <y,ID> Position(38,0)
+
+LookUp At : ScopeTable :1 Symbol<y> Not Found !
+
+LookUp At : ScopeTable :0 Found <y,ID> Position(38,0)
+
+LookUp At : ScopeTable :1 Symbol<y> Not Found !
+
+LookUp At : ScopeTable :0 Found <y,ID> Position(38,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<y> Not Found !
+
+LookUp At : ScopeTable :0 Found <y,ID> Position(38,0)
+
+LookUp At : ScopeTable :1 Symbol<y> Not Found !
+
+LookUp At : ScopeTable :0 Found <y,ID> Position(38,0)
+
+Print : SCOPE TABLE #1
+
+Print : SCOPE TABLE #0
+
+  11 : <foo,ID> - 
+
+  14 : <a,ID> - 
+
+  37 : <x,ID> - 
+
+  38 : <y,ID> - 
+
+  39 : <z,ID> - 
+
+  56 : <var,ID> - 
+
+Exiting Scope : 1
+LookUp At : ScopeTable :0 Symbol<main> Not Found !
+
+LookUp At : ScopeTable :0 Symbol<main> Not Found !
+
+Insert At : ScopeTable :0 Symbol<main,ID> Position(48,0) Successful
+
+Print : SCOPE TABLE #0
+
+  11 : <foo,ID> - 
+
+  14 : <a,ID> - 
+
+  37 : <x,ID> - 
+
+  38 : <y,ID> - 
+
+  39 : <z,ID> - 
+
+  48 : <main,ID> - 
+
+  56 : <var,ID> - 
+
+LookUp At : ScopeTable :0 Found <main,ID> Position(48,0)
+
+Enter Scope : Entering New Scope : ID 1
+Print : SCOPE TABLE #1
+
+Print : SCOPE TABLE #0
+
+  11 : <foo,ID> - 
+
+  14 : <a,ID> - 
+
+  37 : <x,ID> - 
+
+  38 : <y,ID> - 
+
+  39 : <z,ID> - 
+
+  48 : <main,ID> - 
+
+  56 : <var,ID> - 
+
+LookUp At : ScopeTable :0 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Symbol<x> Not Found !
+
+Insert At : ScopeTable :0 Symbol<x,ID> Position(37,0) Successful
+
+Print : SCOPE TABLE #0
+
+  37 : <x,ID> - 
+
+LookUp At : ScopeTable :0 Symbol<y> Not Found !
+
+LookUp At : ScopeTable :0 Symbol<y> Not Found !
+
+Insert At : ScopeTable :0 Symbol<y,ID> Position(38,0) Successful
+
+Print : SCOPE TABLE #0
+
+  37 : <x,ID> - 
+
+  38 : <y,ID> - 
+
+LookUp At : ScopeTable :0 Symbol<z> Not Found !
+
+LookUp At : ScopeTable :0 Symbol<z> Not Found !
+
+Insert At : ScopeTable :0 Symbol<z,ID> Position(39,0) Successful
+
+Print : SCOPE TABLE #0
+
+  37 : <x,ID> - 
+
+  38 : <y,ID> - 
+
+  39 : <z,ID> - 
+
+LookUp At : ScopeTable :0 Symbol<a> Not Found !
+
+LookUp At : ScopeTable :0 Symbol<a> Not Found !
+
+Insert At : ScopeTable :0 Symbol<a,ID> Position(14,0) Successful
+
+Print : SCOPE TABLE #0
+
+  14 : <a,ID> - 
+
+  37 : <x,ID> - 
+
+  38 : <y,ID> - 
+
+  39 : <z,ID> - 
+
+LookUp At : ScopeTable :0 Symbol<foo> Not Found !
+
+LookUp At : ScopeTable :0 Symbol<foo> Not Found !
+
+Insert At : ScopeTable :0 Symbol<foo,ID> Position(11,0) Successful
+
+Print : SCOPE TABLE #0
+
+  11 : <foo,ID> - 
+
+  14 : <a,ID> - 
+
+  37 : <x,ID> - 
+
+  38 : <y,ID> - 
+
+  39 : <z,ID> - 
+
+LookUp At : ScopeTable :0 Found <foo,ID> Position(11,0)
+
+LookUp At : ScopeTable :0 Symbol<var> Not Found !
+
+LookUp At : ScopeTable :0 Symbol<var> Not Found !
+
+Insert At : ScopeTable :0 Symbol<var,ID> Position(56,0) Successful
+
+Print : SCOPE TABLE #0
+
+  11 : <foo,ID> - 
+
+  14 : <a,ID> - 
+
+  37 : <x,ID> - 
+
+  38 : <y,ID> - 
+
+  39 : <z,ID> - 
+
+  56 : <var,ID> - 
+
+LookUp At : ScopeTable :0 Found <var,ID> Position(56,0)
+
+Enter Scope : Entering New Scope : ID 1
+LookUp At : ScopeTable :1 Symbol<a> Not Found !
+
+Insert At : ScopeTable :1 Symbol<a,ID> Position(14,0) Successful
+
+Print : SCOPE TABLE #1
+
+  14 : <a,ID> - 
+
+LookUp At : ScopeTable :1 Symbol<b> Not Found !
+
+Insert At : ScopeTable :1 Symbol<b,ID> Position(15,0) Successful
+
+Print : SCOPE TABLE #1
+
+  14 : <a,ID> - 
+
+  15 : <b,ID> - 
+
+LookUp At : ScopeTable :1 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :1 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :1 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :1 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :1 Found <a,ID> Position(14,0)
+
+LookUp At : ScopeTable :1 Found <b,ID> Position(15,0)
+
+LookUp At : ScopeTable :1 Found <b,ID> Position(15,0)
+
+LookUp At : ScopeTable :1 Found <b,ID> Position(15,0)
+
+LookUp At : ScopeTable :1 Found <b,ID> Position(15,0)
+
+LookUp At : ScopeTable :1 Found <b,ID> Position(15,0)
+
+Print : SCOPE TABLE #1
+
+  14 : <a,ID> - 
+
+  15 : <b,ID> - 
+
+Print : SCOPE TABLE #0
+
+  11 : <foo,ID> - 
+
+  14 : <a,ID> - 
+
+  37 : <x,ID> - 
+
+  38 : <y,ID> - 
+
+  39 : <z,ID> - 
+
+  56 : <var,ID> - 
+
+Exiting Scope : 1
+LookUp At : ScopeTable :0 Found <foo,ID> Position(11,0)
+
+Enter Scope : Entering New Scope : ID 1
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<y> Not Found !
+
+LookUp At : ScopeTable :0 Found <y,ID> Position(38,0)
+
+LookUp At : ScopeTable :1 Symbol<y> Not Found !
+
+LookUp At : ScopeTable :0 Found <y,ID> Position(38,0)
+
+LookUp At : ScopeTable :1 Symbol<y> Not Found !
+
+LookUp At : ScopeTable :0 Found <y,ID> Position(38,0)
+
+LookUp At : ScopeTable :1 Symbol<y> Not Found !
+
+LookUp At : ScopeTable :0 Found <y,ID> Position(38,0)
+
+LookUp At : ScopeTable :1 Symbol<y> Not Found !
+
+LookUp At : ScopeTable :0 Found <y,ID> Position(38,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :0 Found <x,ID> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<y> Not Found !
+
+LookUp At : ScopeTable :0 Found <y,ID> Position(38,0)
+
+LookUp At : ScopeTable :1 Symbol<y> Not Found !
+
+LookUp At : ScopeTable :0 Found <y,ID> Position(38,0)
+
+Print : SCOPE TABLE #1
+
+Print : SCOPE TABLE #0
+
+  11 : <foo,ID> - 
+
+  14 : <a,ID> - 
+
+  37 : <x,ID> - 
+
+  38 : <y,ID> - 
+
+  39 : <z,ID> - 
+
+  56 : <var,ID> - 
+
+Exiting Scope : 1
+LookUp At : ScopeTable :0 Symbol<main> Not Found !
+
+LookUp At : ScopeTable :0 Symbol<main> Not Found !
+
+Insert At : ScopeTable :0 Symbol<main,ID> Position(48,0) Successful
+
+Print : SCOPE TABLE #0
+
+  11 : <foo,ID> - 
+
+  14 : <a,ID> - 
+
+  37 : <x,ID> - 
+
+  38 : <y,ID> - 
+
+  39 : <z,ID> - 
+
+  48 : <main,ID> - 
+
+  56 : <var,ID> - 
+
+LookUp At : ScopeTable :0 Found <main,ID> Position(48,0)
+
+Enter Scope : Entering New Scope : ID 1
+Print : SCOPE TABLE #1
+
+Print : SCOPE TABLE #0
+
+  11 : <foo,ID> - 
+
+  14 : <a,ID> - 
+
+  37 : <x,ID> - 
+
+  38 : <y,ID> - 
+
+  39 : <z,ID> - 
+
+  48 : <main,ID> - 
+
+  56 : <var,ID> - 
+

@@ -5,9 +5,8 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include "1605103_Util.h"
 #include "1605103_Function.h"
-#include "1605103_util.h"
-
 using namespace std;
 
 /**@class SymbolInfo is basically a Symbol LinkedList */
@@ -101,7 +100,7 @@ public:
         return "<" + getName() + "," + getType() + ">";
     }
 
-    friend istream &operator>>(istream &in, SymbolInfo &si);
+    //friend istream &operator>>(istream &in, SymbolInfo &si);
 
     virtual ~SymbolInfo()
     {
@@ -109,11 +108,11 @@ public:
     }
 };
 
-istream &operator>>(istream &in, SymbolInfo &si)
-{
-    cout << "Enter Symbol Name :" << endl;
-    in >> si.name;
-    cout << "Enter Symbol Type :" << endl;
-    in >> si.type;
-    return in;
-}
+// istream &operator>>(istream &in, SymbolInfo &si)
+// {
+//     cout << "Enter Symbol Name :" << endl;
+//     in >> si.name;
+//     cout << "Enter Symbol Type :" << endl;
+//     in >> si.type;
+//     return in;
+// }

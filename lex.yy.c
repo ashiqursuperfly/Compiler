@@ -592,34 +592,28 @@ int yy_flex_debug = 0;
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
 #line 1 "1605103.l"
-/**Start Of Definition Section**/
-/**Start Of C-Code Section Inside Definition Section**/
-#line 6 "1605103.l"
-
-#include "1605103_SymbolTable.h"
+#line 3 "1605103.l"
+#include "headers/1605103_SymbolTable.h"
 #include "y.tab.h"
 
+
 extern YYSTYPE yylval;
-extern SymbolTable st(10);
-extern int lines=1,errors=0;
-extern "C" int yylex();
+extern "C" int yylex(void);
 
 const string removeSingleQuote(string s);
 const string processString(string s);
 
-extern FILE *error;
 extern string currentid;
-void yyerror(char *);
-
+extern int lines,errors;
 extern vector<SymbolInfo*>para_list;
 
-#line 617 "lex.yy.c"
+#line 611 "lex.yy.c"
 /**End Of C-Code Section Inside Definition Section ***/
 /**Start Of Pattern-Definition Section Inside Definition Section**/
 /**End Of Pattern-Definition Section Inside Definition Section**/
 /**End Of Definition Section**/
 /** Start of Rules Section**/
-#line 623 "lex.yy.c"
+#line 617 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -836,10 +830,10 @@ YY_DECL
 		}
 
 	{
-#line 70 "1605103.l"
+#line 63 "1605103.l"
 
 
-#line 843 "lex.yy.c"
+#line 837 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -898,43 +892,43 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 72 "1605103.l"
+#line 65 "1605103.l"
 {}
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 73 "1605103.l"
+#line 66 "1605103.l"
 {lines++;}
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 75 "1605103.l"
+#line 68 "1605103.l"
 {
 	int detectionLine = lines;
 	string processed = processString(yytext);
-	lexerLog(detectionLine,"COMMENT",processed);
+	Util::lexerLog(detectionLine,"COMMENT",processed);
 }
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 80 "1605103.l"
+#line 73 "1605103.l"
 {
-	appendLogError(lines,"Unfinished Comment " + processString(yytext));
+	Util::appendLogError(lines,"Unfinished Comment " + processString(yytext));
 	errors++;
 }
 	YY_BREAK
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 85 "1605103.l"
+#line 78 "1605103.l"
 {
 	int detectionLine = lines;
 	string processed = processString(yytext);
-	lexerLog(detectionLine,"STRING",string(yytext));
-	appendToken("STRING",processed);
+	Util::lexerLog(detectionLine,"STRING",string(yytext));
+	Util::appendToken("STRING",processed);
 
 	SymbolInfo *s= new  SymbolInfo(processed, "STRING");
 	yylval.symbolinfo =s;
@@ -945,19 +939,19 @@ YY_RULE_SETUP
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 96 "1605103.l"
+#line 89 "1605103.l"
 {
-	appendLogError(lines,"Unfinished String " +string(yytext));
+	Util::appendLogError(lines,"Unfinished String " +string(yytext));
 	errors++;
 }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 101 "1605103.l"
+#line 94 "1605103.l"
 {
-	lexerLog(lines,"CONST_CHAR",yytext);
+	Util::lexerLog(lines,"CONST_CHAR",yytext);
 	string s = removeSingleQuote(yytext);
-	appendToken("CONST_CHAR",s);
+	Util::appendToken("CONST_CHAR",s);
 
 	SymbolInfo *sm= new  SymbolInfo(yytext, "CONST_CHAR");
 	yylval.symbolinfo= sm;
@@ -967,35 +961,35 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 111 "1605103.l"
+#line 104 "1605103.l"
 {
-	appendLogError(lines,"Multi Character Constant " + string(yytext));
+	Util::appendLogError(lines,"Multi Character Constant " + string(yytext));
 	errors++;
 }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 115 "1605103.l"
+#line 108 "1605103.l"
 {
-	appendLogError(lines,"Unfinished Character "+string(yytext));
+	Util::appendLogError(lines,"Unfinished Character "+string(yytext));
 	errors++;
 }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 119 "1605103.l"
+#line 112 "1605103.l"
 {
-	if(string(yytext)=="''")appendLogError(lines,"Empty Character Constant "+string(yytext));
-	else appendLogError(lines,"Invalid Character "+string(yytext));
+	if(string(yytext)=="''")Util::appendLogError(lines,"Empty Character Constant "+string(yytext));
+	else Util::appendLogError(lines,"Invalid Character "+string(yytext));
 	errors++;
 }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 125 "1605103.l"
+#line 118 "1605103.l"
 {
-	lexerLog(lines,"CONST_INT",yytext);
-	appendToken("CONST_INT",yytext);
+	Util::lexerLog(lines,"CONST_INT",yytext);
+	Util::appendToken("CONST_INT",yytext);
 
 	SymbolInfo *s= new  SymbolInfo(yytext, "CONST_INT");
 	yylval.symbolinfo= s;
@@ -1005,10 +999,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 134 "1605103.l"
+#line 127 "1605103.l"
 {
-	lexerLog(lines,"CONST_FLOAT",yytext);
-	appendToken("CONST_FLOAT",yytext);
+	Util::lexerLog(lines,"CONST_FLOAT",yytext);
+	Util::appendToken("CONST_FLOAT",yytext);
 	
 	SymbolInfo *s= new  SymbolInfo(yytext, "CONST_FLOAT");
 	yylval.symbolinfo = s;
@@ -1018,198 +1012,198 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 143 "1605103.l"
+#line 136 "1605103.l"
 {
-	appendLogError(lines,"Too Many Decimal Points! "+string(yytext));
+	Util::appendLogError(lines,"Too Many Decimal Points! "+string(yytext));
 	errors++;
 
 }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 148 "1605103.l"
+#line 141 "1605103.l"
 {
-	appendLogError(lines,"Ill formed number! "+string(yytext));
+	Util::appendLogError(lines,"Ill formed number! "+string(yytext));
 	errors++;
 }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 153 "1605103.l"
+#line 146 "1605103.l"
 {
 	return INT;
 }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 156 "1605103.l"
+#line 149 "1605103.l"
 {
 	return CHAR;	
 }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 159 "1605103.l"
+#line 152 "1605103.l"
 {
 	return FLOAT;
 }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 162 "1605103.l"
+#line 155 "1605103.l"
 {
 	return DOUBLE;
 }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 165 "1605103.l"
+#line 158 "1605103.l"
 {
 	return VOID;
 }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 168 "1605103.l"
+#line 161 "1605103.l"
 {
 	return IF;
 }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 171 "1605103.l"
+#line 164 "1605103.l"
 {
 	return ELSE;
 }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 174 "1605103.l"
+#line 167 "1605103.l"
 {
 	return DO;
 }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 177 "1605103.l"
+#line 170 "1605103.l"
 {
 	return WHILE;	
 }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 181 "1605103.l"
+#line 174 "1605103.l"
 {
 	return FOR;
 }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 184 "1605103.l"
+#line 177 "1605103.l"
 {
 	return BREAK;
 }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 188 "1605103.l"
+#line 181 "1605103.l"
 {
 	return RETURN;
 }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 191 "1605103.l"
+#line 184 "1605103.l"
 {
 	return PRINTLN;
 }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 195 "1605103.l"
+#line 188 "1605103.l"
 {
-	appendToken("SEMICOLON",yytext);
-	lexerLog(lines,"SEMICOLON",yytext);
+	Util::appendToken("SEMICOLON",yytext);
+	Util::lexerLog(lines,"SEMICOLON",yytext);
 
 	return SEMICOLON;
 }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 202 "1605103.l"
+#line 195 "1605103.l"
 {
-	appendToken("COMMA",yytext);
-	lexerLog(lines,"COMMA",yytext);
+	Util::appendToken("COMMA",yytext);
+	Util::lexerLog(lines,"COMMA",yytext);
 
 	return COMMA;
 }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 208 "1605103.l"
+#line 201 "1605103.l"
 {
-	appendToken("LPAREN",yytext);
-	lexerLog(lines,"LPAREN",yytext);
+	Util::appendToken("LPAREN",yytext);
+	Util::lexerLog(lines,"LPAREN",yytext);
 
 	return LPAREN;
 }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 214 "1605103.l"
+#line 207 "1605103.l"
 {
-	appendToken("RPAREN",yytext);
-	lexerLog(lines,"RPAREN",yytext);
+	Util::appendToken("RPAREN",yytext);
+	Util::lexerLog(lines,"RPAREN",yytext);
 
 	return RPAREN;
 }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 220 "1605103.l"
+#line 213 "1605103.l"
 {
-	appendToken("LCURL",yytext);
-	lexerLog(lines,"LCURL",yytext);
+	Util::appendToken("LCURL",yytext);
+	Util::lexerLog(lines,"LCURL",yytext);
 
 	return LCURL;
 }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 226 "1605103.l"
+#line 219 "1605103.l"
 {
-	appendToken("RCURL",yytext);
-	lexerLog(lines,"RCURL",yytext);
+	Util::appendToken("RCURL",yytext);
+	Util::lexerLog(lines,"RCURL",yytext);
 
 	return RCURL;
 }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 232 "1605103.l"
+#line 225 "1605103.l"
 {
-	appendToken("LTHIRD",yytext);
-	lexerLog(lines,"LTHIRD",yytext);
+	Util::appendToken("LTHIRD",yytext);
+	Util::lexerLog(lines,"LTHIRD",yytext);
 
 	return RTHIRD;
 }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 238 "1605103.l"
+#line 231 "1605103.l"
 {
-	appendToken("RTHIRD",yytext);
-	lexerLog(lines,"RTHIRD",yytext);
+	Util::appendToken("RTHIRD",yytext);
+	Util::lexerLog(lines,"RTHIRD",yytext);
 
 	return LTHIRD;
 }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 244 "1605103.l"
+#line 237 "1605103.l"
 {
-	appendToken("NOT",yytext);
-	lexerLog(lines,"NOT",yytext);
+	Util::appendToken("NOT",yytext);
+	Util::lexerLog(lines,"NOT",yytext);
 
 	return NOT;
 
@@ -1217,20 +1211,20 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 251 "1605103.l"
+#line 244 "1605103.l"
 {
-	appendToken("ASSIGNOP",yytext);
-	lexerLog(lines,"ASSIGNOP",yytext);
+	Util::appendToken("ASSIGNOP",yytext);
+	Util::lexerLog(lines,"ASSIGNOP",yytext);
 
 	return ASSIGNOP;
 }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 258 "1605103.l"
+#line 251 "1605103.l"
 {
-	appendToken("ADDOP",yytext);
-	lexerLog(lines,"ADDOP",yytext);
+	Util::appendToken("ADDOP",yytext);
+	Util::lexerLog(lines,"ADDOP",yytext);
 	
 	SymbolInfo *s= new SymbolInfo(yytext,"ADDOP");
 	yylval.symbolinfo =s;
@@ -1242,10 +1236,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 269 "1605103.l"
+#line 262 "1605103.l"
 {
-	appendToken("INCOP",yytext);
-	lexerLog(lines,"INCOP",yytext);
+	Util::appendToken("INCOP",yytext);
+	Util::lexerLog(lines,"INCOP",yytext);
 	
 	SymbolInfo *s= new SymbolInfo(yytext,"INCOP");
 	yylval.symbolinfo =s;
@@ -1255,10 +1249,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 278 "1605103.l"
+#line 271 "1605103.l"
 {
-	appendToken("MULOP",yytext);
-	lexerLog(lines,"MULOP",yytext);
+	Util::appendToken("MULOP",yytext);
+	Util::lexerLog(lines,"MULOP",yytext);
 
 	SymbolInfo *s= new SymbolInfo(yytext,"MULOP");
 	yylval.symbolinfo =s;
@@ -1268,10 +1262,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 287 "1605103.l"
+#line 280 "1605103.l"
 {
-	appendToken("RELOP",yytext);
-	lexerLog(lines,"RELOP",yytext);
+	Util::appendToken("RELOP",yytext);
+	Util::lexerLog(lines,"RELOP",yytext);
 	
 	SymbolInfo *s= new SymbolInfo(yytext,"RELOP");
 	yylval.symbolinfo =s;
@@ -1281,10 +1275,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 296 "1605103.l"
+#line 289 "1605103.l"
 {
-	appendToken("LOGICOP",yytext);
-	lexerLog(lines,"LOGICOP",yytext);
+	Util::appendToken("LOGICOP",yytext);
+	Util::lexerLog(lines,"LOGICOP",yytext);
 
 	SymbolInfo *s= new SymbolInfo(yytext,"LOGICOP");
 	yylval.symbolinfo =s;
@@ -1294,10 +1288,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 305 "1605103.l"
+#line 298 "1605103.l"
 {
-	appendToken("BITOP",yytext);
-	lexerLog(lines,"BITOP",yytext);
+	Util::appendToken("BITOP",yytext);
+	Util::lexerLog(lines,"BITOP",yytext);
 	
 	SymbolInfo *s= new SymbolInfo(yytext,"BITOP");
 	yylval.symbolinfo =s;
@@ -1307,10 +1301,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 315 "1605103.l"
+#line 308 "1605103.l"
 {
-	lexerLog(lines,"ID",yytext);
-	appendToken("ID",yytext);
+	Util::lexerLog(lines,"ID",yytext);
+	Util::appendToken("ID",yytext);
 
 	SymbolInfo *s= new SymbolInfo(yytext,"ID");
 	yylval.symbolinfo =s;
@@ -1321,26 +1315,26 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 325 "1605103.l"
+#line 318 "1605103.l"
 {
-	appendLogError(lines,"Invalid Suffix On Numeric Constant Or,Invalid Prefix on Identifier for Character Sequence "+string(yytext));
+	Util::appendLogError(lines,"Invalid Suffix On Numeric Constant Or,Invalid Prefix on Identifier for Character Sequence "+string(yytext));
 	errors++;
 }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 330 "1605103.l"
+#line 323 "1605103.l"
 {
 	//if it cant match any rule above,it will match this.
-	appendLogError(lines,"Unrecognized Character "+string(yytext));
+	Util::appendLogError(lines,"Unrecognized Character "+string(yytext));
 }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 336 "1605103.l"
+#line 329 "1605103.l"
 ECHO;
 	YY_BREAK
-#line 1344 "lex.yy.c"
+#line 1338 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2345,34 +2339,8 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 336 "1605103.l"
+#line 329 "1605103.l"
 
-/** End of Rules Section**/
-/**start of routine Section**/
-
-// int main(int argc,char *argv[]){
-
-// 	if(argc!=2){
-// 		printf("Invalid Input\n");
-// 		return 0;
-// 	}
-// 	clearFiles();
-// 	FILE *inputFile=fopen(argv[1],"r");
-// 	if(inputFile==NULL){
-// 		printf("Cant open file\n");
-// 		return 0;
-// 	}
-
-// 	yyin= inputFile;
-
-// 	yylex(); //start scanning
-
-// 	st.printAllScopeTables();
-// 	lexerLog("\nTotal Lines: "+to_string(lines)+" Total Error: "+to_string(errors));
-
-// 	fclose(yyin);
-// 	return 0;
-// }
 
 const string removeSingleQuote(string s){
 	if(s[1]!='\\'){

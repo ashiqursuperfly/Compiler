@@ -1,24 +1,17 @@
-/**Start Of Definition Section**/
-option noyywrap //Options Section inside Definitions Section
 
-/**Start Of C-Code Section Inside Definition Section**/
 %{
-
-#include "1605103_SymbolTable.h"
+#include "headers/1605103_SymbolTable.h"
 #include "y.tab.h"
 
+
 extern YYSTYPE yylval;
-extern SymbolTable st(10);
-extern int lines=1,errors=0;
-extern "C" int yylex();
+extern "C" int yylex(void);
 
 const string removeSingleQuote(string s);
 const string processString(string s);
 
-extern FILE *error;
 extern string currentid;
-void yyerror(char *);
-
+extern int lines,errors;
 extern vector<SymbolInfo*>para_list;
 
 %}
@@ -75,18 +68,18 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 {DOUBLE_SLASH_COMMENT}|{BLOCK_COMMENT}  {
 	int detectionLine = lines;
 	string processed = processString(yytext);
-	lexerLog(detectionLine,"COMMENT",processed);
+	Util::lexerLog(detectionLine,"COMMENT",processed);
 }
 {UNFINISHED_COMMENT} {
-	appendLogError(lines,"Unfinished Comment " + processString(yytext));
+	Util::appendLogError(lines,"Unfinished Comment " + processString(yytext));
 	errors++;
 }
 
 {STRING} {
 	int detectionLine = lines;
 	string processed = processString(yytext);
-	lexerLog(detectionLine,"STRING",string(yytext));
-	appendToken("STRING",processed);
+	Util::lexerLog(detectionLine,"STRING",string(yytext));
+	Util::appendToken("STRING",processed);
 
 	SymbolInfo *s= new  SymbolInfo(processed, "STRING");
 	yylval.symbolinfo =s;
@@ -94,14 +87,14 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	return STRING;
 }
 {UNFINISHED_STRING} {
-	appendLogError(lines,"Unfinished String " +string(yytext));
+	Util::appendLogError(lines,"Unfinished String " +string(yytext));
 	errors++;
 }
 
 {CONST_CHAR}|{CONST_ESCAPE_CHAR} {
-	lexerLog(lines,"CONST_CHAR",yytext);
+	Util::lexerLog(lines,"CONST_CHAR",yytext);
 	string s = removeSingleQuote(yytext);
-	appendToken("CONST_CHAR",s);
+	Util::appendToken("CONST_CHAR",s);
 
 	SymbolInfo *sm= new  SymbolInfo(yytext, "CONST_CHAR");
 	yylval.symbolinfo= sm;
@@ -109,22 +102,22 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	return CONST_CHAR;
 }
 {MULTI_CHAR_CONSTANT} {
-	appendLogError(lines,"Multi Character Constant " + string(yytext));
+	Util::appendLogError(lines,"Multi Character Constant " + string(yytext));
 	errors++;
 }
 {UNFINISHED_CHAR} {
-	appendLogError(lines,"Unfinished Character "+string(yytext));
+	Util::appendLogError(lines,"Unfinished Character "+string(yytext));
 	errors++;
 }
 {INVALID_CHAR} {
-	if(string(yytext)=="''")appendLogError(lines,"Empty Character Constant "+string(yytext));
-	else appendLogError(lines,"Invalid Character "+string(yytext));
+	if(string(yytext)=="''")Util::appendLogError(lines,"Empty Character Constant "+string(yytext));
+	else Util::appendLogError(lines,"Invalid Character "+string(yytext));
 	errors++;
 }
 
 {INTEGER} {
-	lexerLog(lines,"CONST_INT",yytext);
-	appendToken("CONST_INT",yytext);
+	Util::lexerLog(lines,"CONST_INT",yytext);
+	Util::appendToken("CONST_INT",yytext);
 
 	SymbolInfo *s= new  SymbolInfo(yytext, "CONST_INT");
 	yylval.symbolinfo= s;
@@ -132,8 +125,8 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	return CONST_INT;
 }
 {FLOAT1}|{FLOAT2} {
-	lexerLog(lines,"CONST_FLOAT",yytext);
-	appendToken("CONST_FLOAT",yytext);
+	Util::lexerLog(lines,"CONST_FLOAT",yytext);
+	Util::appendToken("CONST_FLOAT",yytext);
 	
 	SymbolInfo *s= new  SymbolInfo(yytext, "CONST_FLOAT");
 	yylval.symbolinfo = s;
@@ -141,12 +134,12 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	return CONST_FLOAT;
 }
 {TOO_MANY_DECIMAL_POINTS} {
-	appendLogError(lines,"Too Many Decimal Points! "+string(yytext));
+	Util::appendLogError(lines,"Too Many Decimal Points! "+string(yytext));
 	errors++;
 
 }
 {ILL_FORMED_NUMBER} {
-	appendLogError(lines,"Ill formed number! "+string(yytext));
+	Util::appendLogError(lines,"Ill formed number! "+string(yytext));
 	errors++;
 }
 
@@ -193,71 +186,71 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 }
 
 ";" {
-	appendToken("SEMICOLON",yytext);
-	lexerLog(lines,"SEMICOLON",yytext);
+	Util::appendToken("SEMICOLON",yytext);
+	Util::lexerLog(lines,"SEMICOLON",yytext);
 
 	return SEMICOLON;
 }
 
 "," {
-	appendToken("COMMA",yytext);
-	lexerLog(lines,"COMMA",yytext);
+	Util::appendToken("COMMA",yytext);
+	Util::lexerLog(lines,"COMMA",yytext);
 
 	return COMMA;
 }
 "(" {
-	appendToken("LPAREN",yytext);
-	lexerLog(lines,"LPAREN",yytext);
+	Util::appendToken("LPAREN",yytext);
+	Util::lexerLog(lines,"LPAREN",yytext);
 
 	return LPAREN;
 }
 ")" {
-	appendToken("RPAREN",yytext);
-	lexerLog(lines,"RPAREN",yytext);
+	Util::appendToken("RPAREN",yytext);
+	Util::lexerLog(lines,"RPAREN",yytext);
 
 	return RPAREN;
 }
 "{" {
-	appendToken("LCURL",yytext);
-	lexerLog(lines,"LCURL",yytext);
+	Util::appendToken("LCURL",yytext);
+	Util::lexerLog(lines,"LCURL",yytext);
 
 	return LCURL;
 }
 "}" {
-	appendToken("RCURL",yytext);
-	lexerLog(lines,"RCURL",yytext);
+	Util::appendToken("RCURL",yytext);
+	Util::lexerLog(lines,"RCURL",yytext);
 
 	return RCURL;
 }
 "[" {
-	appendToken("LTHIRD",yytext);
-	lexerLog(lines,"LTHIRD",yytext);
+	Util::appendToken("LTHIRD",yytext);
+	Util::lexerLog(lines,"LTHIRD",yytext);
 
 	return RTHIRD;
 }
 "]" {
-	appendToken("RTHIRD",yytext);
-	lexerLog(lines,"RTHIRD",yytext);
+	Util::appendToken("RTHIRD",yytext);
+	Util::lexerLog(lines,"RTHIRD",yytext);
 
 	return LTHIRD;
 }
 "!" {
-	appendToken("NOT",yytext);
-	lexerLog(lines,"NOT",yytext);
+	Util::appendToken("NOT",yytext);
+	Util::lexerLog(lines,"NOT",yytext);
 
 	return NOT;
 
 }
 "=" {
-	appendToken("ASSIGNOP",yytext);
-	lexerLog(lines,"ASSIGNOP",yytext);
+	Util::appendToken("ASSIGNOP",yytext);
+	Util::lexerLog(lines,"ASSIGNOP",yytext);
 
 	return ASSIGNOP;
 }
 
 {ADDOP} {
-	appendToken("ADDOP",yytext);
-	lexerLog(lines,"ADDOP",yytext);
+	Util::appendToken("ADDOP",yytext);
+	Util::lexerLog(lines,"ADDOP",yytext);
 	
 	SymbolInfo *s= new SymbolInfo(yytext,"ADDOP");
 	yylval.symbolinfo =s;
@@ -267,8 +260,8 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 
 }
 {INCOP}	{
-	appendToken("INCOP",yytext);
-	lexerLog(lines,"INCOP",yytext);
+	Util::appendToken("INCOP",yytext);
+	Util::lexerLog(lines,"INCOP",yytext);
 	
 	SymbolInfo *s= new SymbolInfo(yytext,"INCOP");
 	yylval.symbolinfo =s;
@@ -276,8 +269,8 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	return INCOP;
 }
 {MULOP}	{
-	appendToken("MULOP",yytext);
-	lexerLog(lines,"MULOP",yytext);
+	Util::appendToken("MULOP",yytext);
+	Util::lexerLog(lines,"MULOP",yytext);
 
 	SymbolInfo *s= new SymbolInfo(yytext,"MULOP");
 	yylval.symbolinfo =s;
@@ -285,8 +278,8 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	return MULOP;
 }
 {RELOP}	{
-	appendToken("RELOP",yytext);
-	lexerLog(lines,"RELOP",yytext);
+	Util::appendToken("RELOP",yytext);
+	Util::lexerLog(lines,"RELOP",yytext);
 	
 	SymbolInfo *s= new SymbolInfo(yytext,"RELOP");
 	yylval.symbolinfo =s;
@@ -294,8 +287,8 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	return RELOP;
 }
 {LOGICOP} {
-	appendToken("LOGICOP",yytext);
-	lexerLog(lines,"LOGICOP",yytext);
+	Util::appendToken("LOGICOP",yytext);
+	Util::lexerLog(lines,"LOGICOP",yytext);
 
 	SymbolInfo *s= new SymbolInfo(yytext,"LOGICOP");
 	yylval.symbolinfo =s;
@@ -303,8 +296,8 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	return LOGICOP;
 }
 {BITOP} {
-	appendToken("BITOP",yytext);
-	lexerLog(lines,"BITOP",yytext);
+	Util::appendToken("BITOP",yytext);
+	Util::lexerLog(lines,"BITOP",yytext);
 	
 	SymbolInfo *s= new SymbolInfo(yytext,"BITOP");
 	yylval.symbolinfo =s;
@@ -313,8 +306,8 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 }
 
 {IDENTIFIER} {
-	lexerLog(lines,"ID",yytext);
-	appendToken("ID",yytext);
+	Util::lexerLog(lines,"ID",yytext);
+	Util::appendToken("ID",yytext);
 
 	SymbolInfo *s= new SymbolInfo(yytext,"ID");
 	yylval.symbolinfo =s;
@@ -323,43 +316,17 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 
 }
 {INVALID_IDENTIFIER} {
-	appendLogError(lines,"Invalid Suffix On Numeric Constant Or,Invalid Prefix on Identifier for Character Sequence "+string(yytext));
+	Util::appendLogError(lines,"Invalid Suffix On Numeric Constant Or,Invalid Prefix on Identifier for Character Sequence "+string(yytext));
 	errors++;
 }
 
 . {
 	//if it cant match any rule above,it will match this.
-	appendLogError(lines,"Unrecognized Character "+string(yytext));
+	Util::appendLogError(lines,"Unrecognized Character "+string(yytext));
 }
 
 
 %%
-/** End of Rules Section**/
-/**start of routine Section**/
-
-// int main(int argc,char *argv[]){
-
-// 	if(argc!=2){
-// 		printf("Invalid Input\n");
-// 		return 0;
-// 	}
-// 	clearFiles();
-// 	FILE *inputFile=fopen(argv[1],"r");
-// 	if(inputFile==NULL){
-// 		printf("Cant open file\n");
-// 		return 0;
-// 	}
-
-// 	yyin= inputFile;
-
-// 	yylex(); //start scanning
-
-// 	st.printAllScopeTables();
-// 	lexerLog("\nTotal Lines: "+to_string(lines)+" Total Error: "+to_string(errors));
-
-// 	fclose(yyin);
-// 	return 0;
-// }
 
 const string removeSingleQuote(string s){
 	if(s[1]!='\\'){
