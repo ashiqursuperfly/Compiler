@@ -66,6 +66,13 @@ public:
         }
         return nullptr;
     }
+    SymbolInfo *lookUpLocal(const string &symbol_name) {
+        if(currentScope != nullptr)
+            return currentScope->lookUp(symbol_name);
+            
+        return nullptr;
+    }
+    
 
     void printCurrentScopeTable() {
         currentScope->print();

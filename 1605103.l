@@ -103,8 +103,8 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	string s = removeSingleQuote(yytext);
 	appendToken("CONST_CHAR",s);
 
-	SymbolInfo *s= new  SymbolInfo(yytext, "CONST_CHAR");
-	yylval.symbolinfo= s;
+	SymbolInfo *sm= new  SymbolInfo(yytext, "CONST_CHAR");
+	yylval.symbolinfo= sm;
 
 	return CONST_CHAR;
 }

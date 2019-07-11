@@ -4,6 +4,7 @@
 #include<cstdlib>
 #include<cstring>
 #include<cmath>
+
 #include "1605103_SymbolTable.h"
 //#define YYSTYPE SymbolInfo*
 
@@ -13,19 +14,19 @@ int yyparse(void);
 int yylex(void);
 extern FILE *yyin;
 FILE *fp;
-FILE *error=fopen("error.txt","w");
-FILE *parsertext= fopen("parsertext.txt","w");
+
 int lines=1;
 int errors=0;
 
-SymbolTable *table=new SymbolTable(100);
-vector<SymbolInfo*>para_list;
-vector<SymbolInfo*>dec_list;
+SymbolTable *symbolTable=new SymbolTable(100);
+
+vector<SymbolInfo*>param_list;
+vector<SymbolInfo*>declaration_list;
 vector<SymbolInfo*>arg_list;
 
 
 void yyerror(char *s){
-	fprintf(stderr,"Line no %d : %s\n",lines,s);
+	fprintf(stderr,"Line no %d : %s\n",s);
 }
 
 
@@ -57,197 +58,243 @@ void yyerror(char *s){
 
 
 %%
+//@DONE
 start: program {	}
 	;
 
 
 
+
+//@DONE
 program: program unit {
-		$<symbolinfo>$=new SymbolInfo();
-		fprintf(parsertext,"Line at %d : program->program unit\n\n",lines);
-		fprintf(parsertext,"%s %s\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>2->get_name().c_str()); 
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+$<symbolinfo>2->get_name());
+		
+		$<symbolinfo>$ = new SymbolInfo();
+		parserLog(lines,"program->program unit");
+		parserLog($<symbolinfo>1->getName()+" "+$<symbolinfo>2->getName()); 
+		
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+$<symbolinfo>2->getName());
 	}
 
 	| unit {
-		$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : program->unit\n\n",lines);
-		fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str());
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name());
+
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"program->unit");
+		parserLog($<symbolinfo>1->getName());
+
+		$<symbolinfo>$->setName($<symbolinfo>1->getName());
 	}
 	
 	;
 
 
+//@DONE
 unit: var_declaration {
-		$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : unit->var_declaration\n\n",lines);
-		fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str()); 
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+"\n");
+
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"unit->var_declaration");
+		parserLog($<symbolinfo>1->getName()); 
+
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+"\n");
 	}
 	
 	| func_declaration {
-		$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : unit->func_declaration\n\n",lines);
-		fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str()); 
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+"\n");
+
+		$<symbolinfo>$ = new SymbolInfo();
+		parserLog(lines,"unit->func_declaration");
+		parserLog($<symbolinfo>1->getName()); 
+
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+"\n");
 	}
     
 	| func_definition { 
-		$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : unit->func_definition\n\n",lines);
-		fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str());
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+"\n");
+
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"unit->func_definition");
+		parserLog($<symbolinfo>1->getName());
+
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+"\n");
 	}
 	
 	;
 
 
 func_declaration: type_specifier ID LPAREN parameter_list RPAREN SEMICOLON {
+
 		$<symbolinfo>$=new SymbolInfo();
-		fprintf(parsertext,"Line at %d : func_declaration->type_specifier ID LPAREN parameter_list RPAREN SEMICOLON\n\n",line_count);
-		fprintf(parsertext,"%s %s(%s);\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>2->get_name().c_str(),$<symbolinfo>4->get_name().c_str());
-		SymbolInfo *s=table->lookup($<symbolinfo>2->get_name());
-		if(s==0){
-			table->Insert($<symbolinfo>2->get_name(),"ID","Function");
-			s=table->lookup($<symbolinfo>2->get_name());
+		parserLog(lines,"func_declaration->type_specifier ID LPAREN parameter_list RPAREN SEMICOLON");
+		parserLog($<symbolinfo>1->getName()+" "+$<symbolinfo>2->getName()+"("+$<symbolinfo>4->getName()+")");
+		
+		SymbolInfo *s = symbolTable->lookUp($<symbolinfo>2->getName());
+		
+		if(s == nullptr){
+			
+			//TODO : Function
+			symbolTable->insert(SymbolInfo($<symbolinfo>2->getName(),"ID","Function"));
+
+			s = symbolTable->lookUp($<symbolinfo>2->getName());
+
 			s->set_isFunction();
-			for(int i=0;i<para_list.size();i++){
-				s->get_isFunction()->add_number_of_parameter(para_list[i]->get_name(),para_list[i]->get_dectype());
-				//cout<<para_list[i]->get_dectype()<<endl;
+			
+			for(int i=0 ;i < param_list.size() ; i++){
+			
+				s->get_isFunction()->add_number_of_parameter(param_list[i]->getName(),param_list[i]->getDeclarationType());
+				//cout<<param_list[i]->getDeclarationType()<<endl;
 			}
-			para_list.clear();s->get_isFunction()->set_return_type($<symbolinfo>1->get_name());
+			param_list.clear();
+			s->get_isFunction()->set_return_type($<symbolinfo>1->getName());
 		} 
 		else{
 			int num=s->get_isFunction()->get_number_of_parameter();
 			
-			if(num!=para_list.size()){
-				error_count++;
-				fprintf(error,"Error at Line No. %d :  Invalid number of parameters \n\n",line_count);
+			if(num!=param_list.size()){
+			
+				errors++;
+				appendLogError(lines,"Invalid number of parameters ");
+			
 			}else{
 				vector<string>para_type=s->get_isFunction()->get_paratype();
-				for(int i=0;i<para_list.size();i++){
-					if(para_list[i]->get_dectype()!=para_type[i]){
-						error_count++;
-						fprintf(error,"Error at Line No.%d : Type Mismatch \n\n",line_count);
+				for( int i=0;i < param_list.size(); i++){
+					if(param_list[i]->getDeclarationType()!=para_type[i]){
+						errors++;
+						appendLogError(lines,"Type Mismatch ! Expected "+param_list[i]->getDeclarationType()+" Found "+ para_type[i] +" for "+to_string(i)+"th parameter");
 						break;
-						}
 					}
-					if(s->get_isFunction()->get_return_type()!=$<symbolinfo>1->get_name()){
-							error_count++;
-							fprintf(error,"Error at Line No. %d : Return Type Mismatch \n\n",line_count);
-					}
-					para_list.clear();
 				}
+				if(s->get_isFunction()->get_return_type()!=$<symbolinfo>1->getName()){
+					errors++;
+					appendLogError(lines,"Return Type Mismatch ! Expected "+s->get_isFunction()->get_return_type()+ " Found " + $<symbolinfo>1->getName());
+				}
+				param_list.clear();
+			}
 		}
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+" "+$<symbolinfo>2->get_name()+"("+$<symbolinfo>4->get_name()+");");
+
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+" "+$<symbolinfo>2->getName()+"("+$<symbolinfo>4->getName()+");");
+
 	}
 	| type_specifier ID LPAREN RPAREN SEMICOLON {
-			$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : func_declaration->type_specifier ID LPAREN RPAREN SEMICOLON\n\n",line_count);
-			fprintf(parsertext,"%s %s();\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>2->get_name().c_str());
-			SymbolInfo *s=table->lookup($<symbolinfo>2->get_name());
-			if(s==0){
-				table->Insert($<symbolinfo>2->get_name(),"ID","Function");
-				s=table->lookup($<symbolinfo>2->get_name());
-				s->set_isFunction();s->get_isFunction()->set_return_type($<symbolinfo>1->get_name());
+
+			$<symbolinfo>$ = new SymbolInfo();
+			
+			parserLog(lines,"func_declaration->type_specifier ID LPAREN RPAREN SEMICOLON");
+			parserLog($<symbolinfo>1->getName()+" "+$<symbolinfo>2->getName()+"();");
+			
+			SymbolInfo *s=symbolTable->lookUp($<symbolinfo>2->getName());
+			
+			if(s == nullptr){
+
+				//TODO : Function
+				symbolTable->insert(SymbolInfo($<symbolinfo>2->getName(),"ID","Function"));
+				s=symbolTable->lookUp($<symbolinfo>2->getName());
+				s->set_isFunction();
+				s->get_isFunction()->set_return_type($<symbolinfo>1->getName());
+			
 			}
 			else{
+
 				if(s->get_isFunction()->get_number_of_parameter()!=0){
-					error_count++;
-					fprintf(error,"Error at Line No.%d :  Invalid number of parameters \n\n",line_count);
+					errors++;
+					appendLogError(lines,"Invalid number of parameters ");
+		
 				}
-				if(s->get_isFunction()->get_return_type()!=$<symbolinfo>1->get_name()){
-					error_count++;
-					fprintf(error,"Error at Line No.%d : Return Type Mismatch \n\n",line_count);
+				if(s->get_isFunction()->get_return_type()!=$<symbolinfo>1->getName()){
+					errors++;
+					appendLogError(lines," Return Type Mismatch ! Expected "+s->get_isFunction()->get_return_type()+ " Found " +$<symbolinfo>1->getName());
 				}
 
 			}
-			$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+" "+$<symbolinfo>2->get_name()+"();");
+			$<symbolinfo>$->setName($<symbolinfo>1->getName()+" "+$<symbolinfo>2->getName()+"();");
 	}
 	;
 
 func_definition: type_specifier ID LPAREN parameter_list RPAREN {
+		
 		$<symbolinfo>$=new SymbolInfo(); 
-		SymbolInfo *s=table->lookup($<symbolinfo>2->get_name()); 
+		SymbolInfo *s=symbolTable->lookUp($<symbolinfo>2->getName()); 
 
 		if(s!=0){ 
 			if(s->get_isFunction()->get_isdefined()==0){
-				int num=s->get_isFunction()->get_number_of_parameter();
-				if(num!=para_list.size()){
+				int num = s->get_isFunction()->get_number_of_parameter();
+				if(num != param_list.size()){
 					errors++;
-					fprintf(error,"Error at Line No.%d :  Invalid number of parameters \n\n",lines);
+					appendLogError(lines," Invalid number of parameters ");
 				} else{
 					vector<string>para_type=s->get_isFunction()->get_paratype();
-					for(int i=0;i<para_list.size();i++){
-						if(para_list[i]->get_dectype()!=para_type[i]){
+					for(int i=0;i<param_list.size();i++){
+						if(param_list[i]->getDeclarationType()!=para_type[i]){
 							errors++;
-							fprintf(error,"Error at Line No.%d : Type Mismatch \n\n",lines);
+							appendLogError(lines,"Type Mismatch Expected! "+param_list[i]->getDeclarationType()+" Found "+para_type[i]+" for "+ to_string(i)+"th "+"Parameter");
 							break;
 						}
 					}
-					if(s->get_isFunction()->get_return_type()!=$<symbolinfo>1->get_name()){
+					if(s->get_isFunction()->get_return_type() != $<symbolinfo>1->getName()){
 						errors++;
-						fprintf(error,"Error at Line No.%d :  Return Type Mismatch1 \n\n",lines);
+						appendLogError(lines,"Return Type Mismatch ! Expected "+s->get_isFunction()->get_return_type()+ " Found " + $<symbolinfo>1->getName());
 					}	
 				}
 				s->get_isFunction()->set_isdefined();
 			}
 			else{
 				errors++;
-				fprintf(error,"Error at Line No.%d :  Multiple defination of function %s\n\n",lines,$<symbolinfo>2->get_name().c_str());
+				appendLogError(lines,"Multiple defination of function "+$<symbolinfo>2->getName());
 			}
 		}
 		else{ 
-			//cout<<para_list.size()<<" "<<lines<<endl;
-			table->Insert($<symbolinfo>2->get_name(),"ID","Function");
-			s=table->lookup($<symbolinfo>2->get_name());
+			//cout<<param_list.size()<<" "<<lines<<endl;
+			symbolTable->insert(SymbolInfo($<symbolinfo>2->getName(),"ID","Function"));
+			s=symbolTable->lookUp($<symbolinfo>2->getName());
 			s->set_isFunction();
 			//cout<<s->get_isFunction()->get_number_of_parameter()<<endl;
 			s->get_isFunction()->set_isdefined();
 			
-			for(int i=0;i<para_list.size();i++){
-				s->get_isFunction()->add_number_of_parameter(para_list[i]->get_name(),para_list[i]->get_dectype());
-				//	cout<<para_list[i]->get_dectype()<<para_list[i]->get_name()<<endl;
+			for(int i=0;i<param_list.size();i++){
+				s->get_isFunction()->add_number_of_parameter(param_list[i]->getName(),param_list[i]->getDeclarationType());
+				//	cout<<param_list[i]->getDeclarationType()<<param_list[i]->getName()<<endl;
 			}
-			//	para_list.clear();
-			s->get_isFunction()->set_return_type($<symbolinfo>1->get_name());
+			//	param_list.clear();
+			s->get_isFunction()->set_return_type($<symbolinfo>1->getName());
 			//cout<<lines<<" "<<s->get_isFunction()->get_return_type()<<endl;
 		}
 
 	}
 	compound_statement {
-		fprintf(parsertext,"Line at %d : func_definition->type_specifier ID LPAREN parameter_list RPAREN compound_statement \n\n",lines);
-		fprintf(parsertext,"%s %s(%s) %s \n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>2->get_name().c_str(),$<symbolinfo>4->get_name().c_str(),$<symbolinfo>7->get_name().c_str());
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+" "+$<symbolinfo>2->get_name()+"("+$<symbolinfo>4->get_name()+")"+$<symbolinfo>7->get_name());
+		parserLog("func_definition->type_specifier ID LPAREN parameter_list RPAREN compound_statement ");
+		parserLog($<symbolinfo>1->getName()+" "+$<symbolinfo>2->getName()+"("
+		+$<symbolinfo>4->getName()+")"+ $<symbolinfo>7->getName());
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+" "+$<symbolinfo>2->getName()+"("+$<symbolinfo>4->getName()+")"+$<symbolinfo>7->getName());
 	}
 	| type_specifier ID LPAREN RPAREN { 
-		$<symbolinfo>$=new SymbolInfo(); SymbolInfo *s=table->lookup($<symbolinfo>2->get_name());
+		$<symbolinfo>$=new SymbolInfo();
+		SymbolInfo *s = symbolTable->lookUp($<symbolinfo>2->getName());
 		if(s==0){
-			table->Insert($<symbolinfo>2->get_name(),"ID","Function");
-			s=table->lookup($<symbolinfo>2->get_name());
-			s->set_isFunction();
-			s->get_isFunction()->set_isdefined();
-			s->get_isFunction()->set_return_type($<symbolinfo>1->get_name());
+			symbolTable->insert(SymbolInfo($<symbolinfo>2->getName(),"ID","Function"));
+			s = symbolTable->lookUp($<symbolinfo>2->getName());
+			s -> set_isFunction();
+			s -> get_isFunction()->set_isdefined();
+			s -> get_isFunction()->set_return_type($<symbolinfo>1->getName());
 			//	cout<<lines<<" "<<s->get_isFunction()->get_return_type()<<endl;
 		}
 		else if(s->get_isFunction()->get_isdefined()==0){
 			if(s->get_isFunction()->get_number_of_parameter()!=0){
 				errors++;
-				fprintf(error,"Error at Line No.%d :  Invalid number of parameters \n\n",lines);
+				appendLogError(lines," Invalid number of parameters ");
 			}
-			if(s->get_isFunction()->get_return_type()!=$<symbolinfo>1->get_name()){
+			if(s->get_isFunction()->get_return_type()!=$<symbolinfo>1->getName()){
 				errors++;
-				fprintf(error,"Error at Line No.%d : Return Type Mismatch \n\n",lines);
+				appendLogError(lines,"Return Type Mismatch ");
 			}
 
 			s->get_isFunction()->set_isdefined();
 		}
 		else{
 			errors++;
-			fprintf(error,"Error at Line No.%d :  Multiple defination of function %s\n\n",lines,$<symbolinfo>2->get_name().c_str());
+			appendLogError(lines,"Multiple defination of function "+$<symbolinfo>2->getName());
 		}
 											
-		$<symbolinfo>1->set_name($<symbolinfo>1->get_name()+" "+$<symbolinfo>2->get_name()+"()");
+		$<symbolinfo>1->setName($<symbolinfo>1->getName()+" "+$<symbolinfo>2->getName()+"()");
 	} compound_statement {
-		fprintf(parsertext,"Line at %d : func_definition->type_specifier ID LPAREN RPAREN compound_statement\n\n",lines);
-		fprintf(parsertext,"%s %s\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>6->get_name().c_str());
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+$<symbolinfo>6->get_name());
+		parserLog("func_definition->type_specifier ID LPAREN RPAREN compound_statement");
+		parserLog($<symbolinfo>1->getName()+" "+$<symbolinfo>6->getName());
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+$<symbolinfo>6->getName());
 			
 	}
 	;
@@ -255,483 +302,544 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 
 
 
+//@DONE
 parameter_list: parameter_list COMMA type_specifier ID {
-		$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : parameter_list->parameter_list COMMA type_specifier ID\n\n",lines);
-		fprintf(parsertext,"%s,%s %s\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>3->get_name().c_str(),$<symbolinfo>4->get_name().c_str());
-		para_list.push_back(new SymbolInfo($<symbolinfo>4->get_name(),"ID",$<symbolinfo>3->get_name()));
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+","+$<symbolinfo>3->get_name()+" "+$<symbolinfo>4->get_name());
+		
+		$<symbolinfo>$ = new SymbolInfo();
+		parserLog(lines,"parameter_list -> parameter_list COMMA type_specifier ID");
+		parserLog($<symbolinfo>1->getName()+","+$<symbolinfo>3->getName()+" "+$<symbolinfo>4->getName());
+		
+		param_list.push_back(new SymbolInfo($<symbolinfo>4->getName(),"ID",$<symbolinfo>3->getName()));
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+","+$<symbolinfo>3->getName()+" "+$<symbolinfo>4->getName());
 	}
 	| parameter_list COMMA type_specifier {
-		$<symbolinfo>$=new SymbolInfo();
-		fprintf(parsertext,"Line at %d : parameter_list->parameter_list COMMA type_specifier\n\n",lines);
-		fprintf(parsertext,"%s,%s\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>3->get_name().c_str());
-		para_list.push_back(new SymbolInfo("","ID",$<symbolinfo>3->get_name()));
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+","+$<symbolinfo>3->get_name());
+		
+		$<symbolinfo>$ = new SymbolInfo();
+		parserLog(lines,"parameter_list->parameter_list COMMA type_specifier");
+		parserLog($<symbolinfo>1->getName()+","+$<symbolinfo>3->getName());
+		
+		param_list.push_back(new SymbolInfo("","ID",$<symbolinfo>3->getName()));
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+","+$<symbolinfo>3->getName());
 
 	}
 	| type_specifier ID {
-		$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : parameter_list->type_specifier ID\n\n",lines);
-		fprintf(parsertext,"%s %s\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>2->get_name().c_str());
-		para_list.push_back(new SymbolInfo($<symbolinfo>2->get_name(),"ID",$<symbolinfo>1->get_name()));
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+" "+$<symbolinfo>2->get_name());
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"parameter_list -> type_specifier ID");
+		parserLog($<symbolinfo>1->getName()+" "+$<symbolinfo>2->getName());
+		param_list.push_back(new SymbolInfo($<symbolinfo>2->getName(),"ID",$<symbolinfo>1->getName()));
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+" "+$<symbolinfo>2->getName());
 	}
-	| type_specifier {$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : parameter_list->type_specifier\n\n",lines);
-		fprintf(parsertext,"%s \n\n",$<symbolinfo>1->get_name().c_str());
-		para_list.push_back(new SymbolInfo("","ID",$<symbolinfo>1->get_name()));
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+" ");
+	| type_specifier {
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"parameter_list -> type_specifier");
+		parserLog($<symbolinfo>1->getName());
+		param_list.push_back(new SymbolInfo("","ID",$<symbolinfo>1->getName()));
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+" ");
 	}
 	;
 
 
+//@DONE
 compound_statement: LCURL {
-	table->Enter_Scope();
-	//	cout<<lines<<" "<<para_list.size()<<endl;
-	for(int i=0;i<para_list.size();i++)
-		table->Insert(para_list[i]->get_name(),"ID",para_list[i]->get_dectype());
-		//table->printcurrent();
-	para_list.clear();
+	symbolTable->enterScope();
+	//	cout<<lines<<" "<<param_list.size()<<endl;
+	for(int i=0;i<param_list.size();i++)
+		symbolTable->insert(SymbolInfo(param_list[i]->getName(),"ID",param_list[i]->getDeclarationType()));
+		//symbolTable->printcurrent();
+	param_list.clear();
 	} statements RCURL {
 		$<symbolinfo>$=new SymbolInfo();
-		fprintf(parsertext,"Line at %d : compound_statement->LCURL statements RCURL\n\n",lines);
-		fprintf(parsertext,"{%s}\n\n",$<symbolinfo>3->get_name().c_str());
-		$<symbolinfo>$->set_name("{\n"+$<symbolinfo>3->get_name()+"\n}");
-		table->printall();
-		table->Exit_Scope();
+		parserLog(lines,"compound_statement -> LCURL statements RCURL");
+		parserLog("{$<symbolinfo>3->getName()}");
+		$<symbolinfo>$->setName("{\n"+$<symbolinfo>3->getName()+"\n}");
+		symbolTable->printAllScopeTables();
+		symbolTable->exitScope();
 	}
 	| LCURL RCURL {
-		table->Enter_Scope();
-		for(int i=0;i<para_list.size();i++)
-			table->Insert(para_list[i]->get_name(),"ID",para_list[i]->get_dectype());
-		//table->printcurrent();
-		para_list.clear();
-		$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : compound_statement->LCURL RCURL\n\n",lines);
-		fprintf(parsertext,"{}\n\n");
-		$<symbolinfo>$->set_name("{}");
-		table->printall();
-		table->Exit_Scope();
+		symbolTable->enterScope();
+		for(int i=0;i<param_list.size();i++)
+			symbolTable->insert(SymbolInfo(param_list[i]->getName(),"ID",param_list[i]->getDeclarationType()));
+		//symbolTable->printcurrent();
+		param_list.clear();
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"compound_statement->LCURL RCURL");
+		parserLog("{}");
+		$<symbolinfo>$->setName("{}");
+		symbolTable->printAllScopeTables();
+		symbolTable->exitScope();
 	}
 	;
 
+//@DONE
 var_declaration: type_specifier declaration_list SEMICOLON {
 		$<symbolinfo>$=new SymbolInfo();
-		fprintf(parsertext,"Line at %d : var_declaration->type_specifier declaration_list SEMICOLON\n\n",lines);
-		fprintf(parsertext,"%s %s;\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>2->get_name().c_str());
-		if($<symbolinfo>1->get_name()=="void "){
+		parserLog(lines,"var_declaration -> type_specifier declaration_list SEMICOLON");
+		parserLog($<symbolinfo>1->getName()+" "+$<symbolinfo>2->getName()+";");
+		if($<symbolinfo>1->getName()=="void "){
 			errors++;
-			fprintf(error,"Error at Line No.%d : TYpe specifier can not be void \n\n",lines);																
+			appendLogError(lines,"Cannot Declare void Type");																
 		}
 		else{
-			for(int i=0;i<dec_list.size();i++){
-				if(table->lookupcurrent(dec_list[i]->get_name())){
+			for(int i=0;i < declaration_list.size() ; i++){
+				if(symbolTable->lookUpLocal(declaration_list[i]->getName())){
 					errors++;
-					fprintf(error,"Error at Line No.%d :  Multiple Declaration of %s \n\n",lines,dec_list[i]->get_name().c_str());
+					appendLogError(lines," Multiple Declaration of " + declaration_list[i]->getName());
 					continue;
 				}
-				if(dec_list[i]->get_type().size()==3){
-					dec_list[i]->set_type(dec_list[i]->get_type().substr(0,dec_list[i]->get_type().size () - 1));
-					table->Insert(dec_list[i]->get_name(),dec_list[i]->get_type(),$<symbolinfo>1->get_name()+"array");
-				} else table->Insert(dec_list[i]->get_name(),dec_list[i]->get_type(),$<symbolinfo>1->get_name());
+				if(declaration_list[i]->getType().size()==3){
+					declaration_list[i]->setType(declaration_list[i]->getType().substr(0,declaration_list[i]->getType().size () - 1));
+					symbolTable->insert(SymbolInfo(declaration_list[i]->getName(),declaration_list[i]->getType(),$<symbolinfo>1->getName()+"array"));
+				} else symbolTable->insert(SymbolInfo(declaration_list[i]->getName(),declaration_list[i]->getType(),$<symbolinfo>1->getName()));
 			}
 		}
-		dec_list.clear();
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+" "+$<symbolinfo>2->get_name()+";");
+		declaration_list.clear();
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+" "+$<symbolinfo>2->getName()+";");
 	}
 	;
 
+//@DONE
 type_specifier: INT {
-		$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : type_specifier	: INT\n\n",lines);fprintf(parsertext,"int \n\n");
-		$<symbolinfo>$->set_name("int ");
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"type_specifier -> INT");
+		parserLog("int ");
+		$<symbolinfo>$->setName("int ");
 	}
 	| FLOAT  {
-		$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : type_specifier	: FLOAT\n\n",lines);fprintf(parsertext,"float \n\n");
-		$<symbolinfo>$->set_name("float ");
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"type_specifier -> FLOAT");
+		parserLog("float ");
+		$<symbolinfo>$->setName("float ");
 	}
 	| VOID  {
-		$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : type_specifier	: VOID\n\n",lines);fprintf(parsertext,"void \n\n");
-		$<symbolinfo>$->set_name("void ");
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"type_specifier -> VOID");
+		parserLog("void ");
+		$<symbolinfo>$->setName("void ");
 	}
 	;
 
+
+//@DONE
 declaration_list: declaration_list COMMA ID {
-		$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : declaration_list->declaration_list COMMA ID\n\n",lines);
-		fprintf(parsertext,"%s,%s\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>3->get_name().c_str());
-		dec_list.push_back(new SymbolInfo($<symbolinfo>3->get_name(),"ID"));
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+","+$<symbolinfo>3->get_name());
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"declaration_list -> declaration_list COMMA ID");
+		parserLog($<symbolinfo>1->getName()+","+$<symbolinfo>3->getName());
+		declaration_list.push_back(new SymbolInfo($<symbolinfo>3->getName(),"ID"));
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+","+$<symbolinfo>3->getName());
 	}
 	| declaration_list COMMA ID LTHIRD CONST_INT RTHIRD {
-		$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : declaration_list->declaration_list COMMA ID LTHIRD CONST_INT RTHIRD\n\n",lines);
-		fprintf(parsertext,"%s,%s[%s]\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>3->get_name().c_str(),$<symbolinfo>5->get_name().c_str());
-		dec_list.push_back(new SymbolInfo($<symbolinfo>3->get_name(),"IDa"));
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+","+$<symbolinfo>3->get_name()+"["+$<symbolinfo>5->get_name()+"]");
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"declaration_list -> declaration_list COMMA ID LTHIRD CONST_INT RTHIRD");
+		parserLog($<symbolinfo>1->getName()+","+$<symbolinfo>3->getName()+"["+$<symbolinfo>5->getName()+"]");
+		
+		declaration_list.push_back(new SymbolInfo($<symbolinfo>3->getName(),"IDa")); //TODO : why IDa ?
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+","+$<symbolinfo>3->getName()+"["+$<symbolinfo>5->getName()+"]");
 	}
 	| ID {
-		$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : declaration_list->ID\n\n",lines);
-		fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str());
-		dec_list.push_back(new SymbolInfo($<symbolinfo>1->get_name(),"ID"));
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name());
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"declaration_list -> ID");
+		parserLog($<symbolinfo>1->getName());
+		declaration_list.push_back(new SymbolInfo($<symbolinfo>1->getName(),"ID"));
+		$<symbolinfo>$->setName($<symbolinfo>1->getName());
 	}
 	| ID LTHIRD CONST_INT RTHIRD {
-		$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : declaration_list->ID LTHIRD CONST_INT RTHIRD\n\n",lines);
-		fprintf(parsertext,"%s[%s]\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>3->get_name().c_str());
-		dec_list.push_back(new SymbolInfo($<symbolinfo>1->get_name(),"IDa"));
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+"["+$<symbolinfo>3->get_name()+"]");
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"declaration_list -> ID LTHIRD CONST_INT RTHIRD");
+		parserLog($<symbolinfo>1->getName()+"["+$<symbolinfo>3->getName()+"]");
+		declaration_list.push_back(new SymbolInfo($<symbolinfo>1->getName(),"IDa"));
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+"["+$<symbolinfo>3->getName()+"]");
 	}
 	;
 
+//@DONE
 statements: statement {
-		$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : statements->statement\n\n",lines);
-		fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str()); 
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name());
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"statements -> statement");
+		parserLog($<symbolinfo>1->getName()); 
+		$<symbolinfo>$->setName($<symbolinfo>1->getName());
 	}
 	| statements statement {
-		$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : statements->statements statement\n\n",lines);
-		fprintf(parsertext,"%s %s\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>2->get_name().c_str()); 
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+"\n"+$<symbolinfo>2->get_name()); 
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"statements -> statements statement");
+		parserLog($<symbolinfo>1->getName()+" "+$<symbolinfo>2->getName()); 
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+"\n"+$<symbolinfo>2->getName()); 
 	}
 	;
 
 statement: var_declaration {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : statement -> var_declaration\n\n",lines);
-		fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str());
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()); 
+		$<symbolinfo>$ = new SymbolInfo();
+		parserLog(lines,"statement -> var_declaration");
+		parserLog($<symbolinfo>1->getName());
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()); 
 	}
 	| expression_statement {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : statement -> expression_statement\n\n",lines);
-		fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str()); 
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()); 
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"statement -> expression_statement");
+		parserLog($<symbolinfo>1->getName()); 
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()); 
 	}
 	| compound_statement {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : statement->compound_statement\n\n",lines);
-		fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str()); 
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()); 
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"statement -> compound_statement");
+		parserLog($<symbolinfo>1->getName()); 
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()); 
 	}
 	| FOR LPAREN expression_statement expression_statement expression RPAREN statement {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : statement ->FOR LPAREN expression_statement expression_statement expression RPAREN statement\n\n",lines);
-		fprintf(parsertext,"for(%s %s %s)\n%s \n\n",$<symbolinfo>3->get_name().c_str(),$<symbolinfo>4->get_name().c_str(),$<symbolinfo>5->get_name().c_str(),$<symbolinfo>7->get_name().c_str());
-		if($<symbolinfo>3->get_dectype()=="void "){
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"statement -> FOR LPAREN expression_statement expression_statement expression RPAREN statement");
+		parserLog("for("+$<symbolinfo>3->getName()+" "+$<symbolinfo>4->getName()+" "+
+		$<symbolinfo>5->getName()+")\n"+$<symbolinfo>7->getName());
+		
+		if($<symbolinfo>3->getDeclarationType()=="void "){
 			errors++;
-			fprintf(error,"Error at Line No.%d :  Type Mismatch \n\n",lines);
-			//$<symbolinfo>$->set_dectype("int "); 
+			appendLogError(lines,"Type Mismatch! Variable Cannot Be Declared void ");
+			//$<symbolinfo>$->setDeclarationType("int "); 
 		}
-		$<symbolinfo>$->set_name("for("+$<symbolinfo>3->get_name()+$<symbolinfo>4->get_name()+$<symbolinfo>5->get_name()+")\n"+$<symbolinfo>5->get_name()); 
+		$<symbolinfo>$->setName("for("+$<symbolinfo>3->getName()+$<symbolinfo>4->getName()+$<symbolinfo>5->getName()+")\n"+$<symbolinfo>5->getName()); 
 	}
 	| IF LPAREN expression RPAREN statement %prec LOWER_THAN_ELSE {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : statement->IF LPAREN expression RPAREN statement\n\n",lines);
-		fprintf(parsertext,"if(%s)\n%s\n\n",$<symbolinfo>3->get_name().c_str(),$<symbolinfo>5->get_name().c_str());
-		if($<symbolinfo>3->get_dectype()=="void "){
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"statement->IF LPAREN expression RPAREN statement");
+		parserLog("if("+$<symbolinfo>3->getName()+")\n"+$<symbolinfo>5->getName());
+		
+		if($<symbolinfo>3->getDeclarationType()=="void "){
 			errors++;
-			fprintf(error,"Error at Line No.%d :  Type Mismatch \n\n",lines);
-			//$<symbolinfo>$->set_dectype("int "); 
+			appendLogError(lines,"Type Mismatch! Variable Cannot Be Declared void ");
+			//$<symbolinfo>$->setDeclarationType("int "); 
 		}
-		$<symbolinfo>$->set_name("if("+$<symbolinfo>3->get_name()+")\n"+$<symbolinfo>5->get_name()); 
+		$<symbolinfo>$->setName("if("+$<symbolinfo>3->getName()+")\n"+$<symbolinfo>5->getName()); 
 
 	}
 	| IF LPAREN expression RPAREN statement ELSE statement {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : statement->IF LPAREN expression RPAREN statement ELSE statement\n\n",lines);
-		fprintf(parsertext,"if(%s)\n%s\n else \n %s\n\n",$<symbolinfo>3->get_name().c_str(),$<symbolinfo>5->get_name().c_str(),$<symbolinfo>7->get_name().c_str());
-		if($<symbolinfo>3->get_dectype()=="void "){
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"statement->IF LPAREN expression RPAREN statement ELSE statement");
+		parserLog("if("+$<symbolinfo>3->getName()+")\n"+$<symbolinfo>5->getName()+"else\n"+$<symbolinfo>7->getName());
+		if($<symbolinfo>3->getDeclarationType()=="void "){
 			errors++;
-			fprintf(error,"Error at Line No.%d :  Type Mismatch \n\n",lines);
-			//$<symbolinfo>$->set_dectype("int "); 
+			appendLogError(lines," Type Mismatch ");
+			//$<symbolinfo>$->setDeclarationType("int "); 
 		}
-		$<symbolinfo>$->set_name("if("+$<symbolinfo>3->get_name()+")\n"+$<symbolinfo>5->get_name()+" else \n"+$<symbolinfo>7->get_name()); 
+		$<symbolinfo>$->setName("if("+$<symbolinfo>3->getName()+")\n"+$<symbolinfo>5->getName()+" else \n"+$<symbolinfo>7->getName()); 
 	}
 
 	| WHILE LPAREN expression RPAREN statement {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : statement->WHILE LPAREN expression RPAREN statement\n\n",lines);
-		fprintf(parsertext,"while(%s)\n%s\n\n",$<symbolinfo>3->get_name().c_str(),$<symbolinfo>5->get_name().c_str());
-		if($<symbolinfo>3->get_dectype()=="void "){
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"statement->WHILE LPAREN expression RPAREN statement");
+		parserLog("while("+$<symbolinfo>3->getName()+")\n"+$<symbolinfo>5->getName());
+
+		if($<symbolinfo>3->getDeclarationType()=="void "){
 			errors++;
-			fprintf(error,"Error at Line No.%d :  Type Mismatch \n\n",lines);
-			//	$<symbolinfo>$->set_dectype("int "); 
+			appendLogError(lines," Type Mismatch ");
+			//	$<symbolinfo>$->setDeclarationType("int "); 
 		}
-		$<symbolinfo>$->set_name("while("+$<symbolinfo>3->get_name()+")\n"+$<symbolinfo>5->get_name()); 
+		$<symbolinfo>$->setName("while("+$<symbolinfo>3->getName()+")\n"+$<symbolinfo>5->getName()); 
 	}
 	| PRINTLN LPAREN ID RPAREN SEMICOLON {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : statement->PRINTLN LPAREN ID RPAREN SEMICOLON\n\n",lines);
-		fprintf(parsertext,"\n (%s);\n\n",$<symbolinfo>3->get_name().c_str());
-		$<symbolinfo>$->set_name("\n("+$<symbolinfo>3->get_name()+")"); 
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"statement->PRINTLN LPAREN ID RPAREN SEMICOLON");
+		parserLog("\n ("+$<symbolinfo>3->getName()+")");
+		$<symbolinfo>$->setName("\n("+$<symbolinfo>3->getName()+")"); 
 	}
 	| RETURN expression SEMICOLON {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : statement->RETURN expression SEMICOLON\n\n",lines);
-		fprintf(parsertext,"return %s;\n\n",$<symbolinfo>2->get_name().c_str());
-		if($<symbolinfo>2->get_dectype()=="void "){
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"statement->RETURN expression SEMICOLON");
+		parserLog("return "+$<symbolinfo>2->getName());
+		if($<symbolinfo>2->getDeclarationType()=="void "){
 			errors++;
-			fprintf(error,"Error at Line No.%d :  Type Mismatch \n\n",lines);
-			$<symbolinfo>$->set_dectype("int "); 
+			appendLogError(lines," Type Mismatch ");
+			$<symbolinfo>$->setDeclarationType("int "); 
 		}
-		$<symbolinfo>$->set_name("return "+$<symbolinfo>2->get_name()+";"); 
+		$<symbolinfo>$->setName("return "+$<symbolinfo>2->getName()+";"); 
 	}
 	;
 
 expression_statement: SEMICOLON	{
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : expression_statement->SEMICOLON\n\n",lines);
-		fprintf(parsertext,";\n\n"); 
-		$<symbolinfo>$->set_name(";"); 
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"expression_statement->SEMICOLON");
+		parserLog(";"); 
+		$<symbolinfo>$->setName(";"); 
 	}
 	| expression SEMICOLON {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : expression_statement->expression SEMICOLON\n\n",lines);
-		fprintf(parsertext,"%s;\n\n",$<symbolinfo>1->get_name().c_str());
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+";"); 
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"expression_statement->expression SEMICOLON");
+		//TODO :Uncomment? parserLog($<symbolinfo>1->getName()+";")
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+";"); 
 	}
 	;
 
 variable: ID {
 		$<symbolinfo>$=new SymbolInfo();
-		fprintf(parsertext,"Line at %d : variable->ID\n\n",lines);
-		fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str());
-		if(table->lookup($<symbolinfo>1->get_name())==0){
+		parserLog(lines,"variable->ID");
+		parserLog($<symbolinfo>1->getName());
+		if(symbolTable->lookUp($<symbolinfo>1->getName())==0){
 			errors++;
-			fprintf(error,"Error at Line No.%d :  Undeclared Variable: %s \n\n",lines,$<symbolinfo>1->get_name().c_str());
+			appendLogError(lines," Undeclared Variable: "+$<symbolinfo>1->getName());
 		}
-		else if(table->lookup($<symbolinfo>1->get_name())->get_dectype()=="int array" || table->lookup($<symbolinfo>1->get_name())->get_dectype()=="float array"){
+		else if(symbolTable->lookUp($<symbolinfo>1->getName())->getDeclarationType()=="int array" || symbolTable->lookUp($<symbolinfo>1->getName())->getDeclarationType()=="float array"){
 			errors++;
-			fprintf(error,"Error at Line No.%d :  Not an array: %s \n\n",lines,$<symbolinfo>1->get_name().c_str());
+			appendLogError(lines," Not an array: "+$<symbolinfo>1->getName());
 		}
-		if(table->lookup($<symbolinfo>1->get_name())!=0){
-			//cout<<lines<<" "<<$<symbolinfo>1->get_name()<<" "<<table->lookup($<symbolinfo>1->get_name())->get_dectype()<<endl;
-			$<symbolinfo>$->set_dectype(table->lookup($<symbolinfo>1->get_name())->get_dectype()); 
+		if(symbolTable->lookUp($<symbolinfo>1->getName())!=0){
+			//cout<<lines<<" "<<$<symbolinfo>1->getName()<<" "<<symbolTable->lookUp($<symbolinfo>1->getName())->getDeclarationType()<<endl;
+			$<symbolinfo>$->setDeclarationType(symbolTable->lookUp($<symbolinfo>1->getName())->getDeclarationType()); 
 		}
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()); 
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()); 
 												
 	}
 	| ID LTHIRD expression RTHIRD  {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : variable->ID LTHIRD expression RTHIRD\n\n",lines);
-		fprintf(parsertext,"%s[%s]\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>3->get_name().c_str());
-		if(table->lookup($<symbolinfo>1->get_name())==0){
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"variable->ID LTHIRD expression RTHIRD");
+		parserLog($<symbolinfo>1->getName()+"["+$<symbolinfo>3->getName()+"]");
+		if(symbolTable->lookUp($<symbolinfo>1->getName())==0){
 			errors++;
-			fprintf(error,"Error at Line No.%d :  Undeclared Variable : %s \n\n",lines, $<symbolinfo>1->get_name().c_str());
+			appendLogError(lines,"Undeclared Variable :"+ $<symbolinfo>1->getName());
 		}
-		//cout<<lines<<" "<<$<symbolinfo>3->get_dectype()<<endl;
-		if($<symbolinfo>3->get_dectype()=="float "||$<symbolinfo>3->get_dectype()=="void "){
+		//cout<<lines<<" "<<$<symbolinfo>3->getDeclarationType()<<endl;
+		if($<symbolinfo>3->getDeclarationType()=="float "||$<symbolinfo>3->getDeclarationType()=="void "){
 			errors++;
-			fprintf(error,"Error at Line No.%d :  Non-integer Array Index  \n\n",lines);
+			appendLogError(lines," Non-integer Array Index  ");
 		}
-		if(table->lookup($<symbolinfo>1->get_name())!=0){
-			//cout<<lines<<" "<<table->lookup($<symbolinfo>1->get_name())->get_dectype()<<endl;
-			if(table->lookup($<symbolinfo>1->get_name())->get_dectype()!="int array" && table->lookup($<symbolinfo>1->get_name())->get_dectype()!="float array"){
+		if(symbolTable->lookUp($<symbolinfo>1->getName())!=0){
+			//cout<<lines<<" "<<symbolTable->lookUp($<symbolinfo>1->getName())->getDeclarationType()<<endl;
+			if(symbolTable->lookUp($<symbolinfo>1->getName())->getDeclarationType()!="int array" && symbolTable->lookUp($<symbolinfo>1->getName())->getDeclarationType()!="float array"){
 				errors++;
-				fprintf(error,"Error at Line No.%d :  Type Mismatch \n\n",lines);	
+				appendLogError(lines," Type Mismatch ");	
 			}
-			if(table->lookup($<symbolinfo>1->get_name())->get_dectype()=="int array"){
-				$<symbolinfo>1->set_dectype("int ");
+			if(symbolTable->lookUp($<symbolinfo>1->getName())->getDeclarationType()=="int array"){
+				$<symbolinfo>1->setDeclarationType("int ");
 			}
-			if(table->lookup($<symbolinfo>1->get_name())->get_dectype()=="float array"){
-				$<symbolinfo>1->set_dectype("float ");
+			if(symbolTable->lookUp($<symbolinfo>1->getName())->getDeclarationType()=="float array"){
+				$<symbolinfo>1->setDeclarationType("float ");
 			}
-			$<symbolinfo>$->set_dectype($<symbolinfo>1->get_dectype()); 
+			$<symbolinfo>$->setDeclarationType($<symbolinfo>1->getDeclarationType()); 
 			
 		}
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+"["+$<symbolinfo>3->get_name()+"]");  
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+"["+$<symbolinfo>3->getName()+"]");  
 		
 	}
 	;
 expression: logic_expression {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : expression->logic_expression\n\n",lines);
-		fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str());
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()); 
-		$<symbolinfo>$->set_dectype($<symbolinfo>1->get_dectype()); 
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"expression->logic_expression");
+		parserLog($<symbolinfo>1->getName());
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()); 
+		$<symbolinfo>$->setDeclarationType($<symbolinfo>1->getDeclarationType()); 
 	}
 	| variable ASSIGNOP logic_expression {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : expression->variable ASSIGNOP logic_expression\n\n",lines);
-	   	fprintf(parsertext,"%s=%s\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>3->get_name().c_str());
-		if($<symbolinfo>3->get_dectype()=="void "){
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"expression->variable ASSIGNOP logic_expression");
+	   	parserLog($<symbolinfo>1->getName()+"="+$<symbolinfo>3->getName());
+		
+		if($<symbolinfo>3->getDeclarationType()=="void "){
 			errors++;
-			fprintf(error,"Error at Line No.%d :  Type Mismatch \n\n",lines);
-			$<symbolinfo>$->set_dectype("int "); 
-		}else if(table->lookup($<symbolinfo>1->get_name())!=0) {
-			//cout<<lines<<" "<<table->lookup($<symbolinfo>1->get_name())->get_dectype()<<""<<$<symbolinfo>3->get_dectype()<<endl;
-			if(table->lookup($<symbolinfo>1->get_name())->get_dectype()!=$<symbolinfo>3->get_dectype()){
+			appendLogError(lines," Type Mismatch ");
+			$<symbolinfo>$->setDeclarationType("int "); 
+		}else if(symbolTable->lookUp($<symbolinfo>1->getName())!=0) {
+			//cout<<lines<<" "<<symbolTable->lookUp($<symbolinfo>1->getName())->getDeclarationType()<<""<<$<symbolinfo>3->getDeclarationType()<<endl;
+			if(symbolTable->lookUp($<symbolinfo>1->getName())->getDeclarationType()!=$<symbolinfo>3->getDeclarationType()){
 				errors++;
-				fprintf(error,"Error at Line No.%d : Type Mismatch \n\n",lines);
+				appendLogError(lines,"Type Mismatch ");
 			}
 		}
-		$<symbolinfo>$->set_dectype($<symbolinfo>1->get_dectype()); 
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+"="+$<symbolinfo>3->get_name());  
+		$<symbolinfo>$->setDeclarationType($<symbolinfo>1->getDeclarationType()); 
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+"="+$<symbolinfo>3->getName());  
 
 	}
 	;
 logic_expression: rel_expression {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : logic_expression->rel_expression\n\n",lines);
-		fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str());
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()); 
-		$<symbolinfo>$->set_dectype($<symbolinfo>1->get_dectype()); 
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"logic_expression->rel_expression");
+		parserLog($<symbolinfo>1->getName());
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()); 
+		$<symbolinfo>$->setDeclarationType($<symbolinfo>1->getDeclarationType()); 
 	}
 	| rel_expression LOGICOP rel_expression {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : logic_expression->rel_expression LOGICOP rel_expression\n\n",lines);
-		fprintf(parsertext,"%s%s%s\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>2->get_name().c_str(),$<symbolinfo>3->get_name().c_str());
-		if($<symbolinfo>1->get_dectype()=="void "||$<symbolinfo>3->get_dectype()=="void "){
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"logic_expression->rel_expression LOGICOP rel_expression");
+		parserLog($<symbolinfo>1->getName()+$<symbolinfo>2->getName()+$<symbolinfo>3->getName());
+		
+		if($<symbolinfo>1->getDeclarationType()=="void "||$<symbolinfo>3->getDeclarationType()=="void "){
 			errors++;
-			fprintf(error,"Error at Line No.%d :  Type Mismatch \n\n",lines);
-			$<symbolinfo>$->set_dectype("int "); 
+			appendLogError(lines," Type Mismatch ");
+			$<symbolinfo>$->setDeclarationType("int "); 
 		}
-		$<symbolinfo>$->set_dectype("int "); 
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+$<symbolinfo>2->get_name()+$<symbolinfo>3->get_name());  
+		$<symbolinfo>$->setDeclarationType("int "); 
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+$<symbolinfo>2->getName()+$<symbolinfo>3->getName());  
 
 	}
 	;
 
 rel_expression: simple_expression {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : rel_expression->simple_expression\n\n",lines);
-		fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str());
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()); 
-		$<symbolinfo>$->set_dectype($<symbolinfo>1->get_dectype()); 
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"rel_expression->simple_expression");
+		parserLog($<symbolinfo>1->getName());
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()); 
+		$<symbolinfo>$->setDeclarationType($<symbolinfo>1->getDeclarationType()); 
 	}
 	| simple_expression RELOP simple_expression	 {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : rel_expression->simple_expression RELOP simple_expression\n\n",lines);
-			fprintf(parsertext,"%s%s%s\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>2->get_name().c_str(),$<symbolinfo>3->get_name().c_str());
-			if($<symbolinfo>1->get_dectype()=="void "||$<symbolinfo>3->get_dectype()=="void "){
+		$<symbolinfo>$=new SymbolInfo();
+			parserLog(lines,"rel_expression->simple_expression RELOP simple_expression");
+			parserLog($<symbolinfo>1->getName()+$<symbolinfo>2->getName()+$<symbolinfo>3->getName());
+			if($<symbolinfo>1->getDeclarationType()=="void "||$<symbolinfo>3->getDeclarationType()=="void "){
 				errors++;
-				fprintf(error,"Error at Line No.%d :  Type Mismatch \n\n",lines);
-				$<symbolinfo>$->set_dectype("int "); 
+				appendLogError(lines," Type Mismatch! ");
+				$<symbolinfo>$->setDeclarationType("int "); 
 			}
-			$<symbolinfo>$->set_dectype("int "); 
+			$<symbolinfo>$->setDeclarationType("int "); 
 			
-			$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+$<symbolinfo>2->get_name()+$<symbolinfo>3->get_name());  
+			$<symbolinfo>$->setName($<symbolinfo>1->getName()+$<symbolinfo>2->getName()+$<symbolinfo>3->getName());  
 		}
 	;
 
 simple_expression: term {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : simple_expression->term\n\n",lines);
-		fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str());
-		$<symbolinfo>$->set_dectype($<symbolinfo>1->get_dectype());
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name());  
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"simple_expression->term");
+		parserLog($<symbolinfo>1->getName());
+		$<symbolinfo>$->setDeclarationType($<symbolinfo>1->getDeclarationType());
+		$<symbolinfo>$->setName($<symbolinfo>1->getName());  
 	}
 	| simple_expression ADDOP term {
 		$<symbolinfo>$=new SymbolInfo(); 
-		fprintf(parsertext,"Line at %d : simple_expression->simple_expression ADDOP term\n\n",lines);
-		fprintf(parsertext,"%s%s%s\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>2->get_name().c_str(),$<symbolinfo>3->get_name().c_str());
-		//cout<<$<symbolinfo>3->get_dectype()<<endl;
-		if($<symbolinfo>1->get_dectype()=="void "||$<symbolinfo>3->get_dectype()=="void "){
+		parserLog(lines,"simple_expression->simple_expression ADDOP term");
+		parserLog($<symbolinfo>1->getName()+$<symbolinfo>2->getName()+$<symbolinfo>3->getName());
+		//cout<<$<symbolinfo>3->getDeclarationType()<<endl;
+		if($<symbolinfo>1->getDeclarationType()=="void "||$<symbolinfo>3->getDeclarationType()=="void "){
 			errors++;
-			fprintf(error,"Error at Line No.%d :  Type Mismatch \n\n",lines);
-			$<symbolinfo>$->set_dectype("int "); 
-		}else if($<symbolinfo>1->get_dectype()=="float " ||$<symbolinfo>3->get_dectype()=="float ")
-			$<symbolinfo>$->set_dectype("float ");
-			else  $<symbolinfo>$->set_dectype("int ");
-			$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+$<symbolinfo>2->get_name()+$<symbolinfo>3->get_name());  
+			appendLogError(lines," Type Mismatch ");
+			$<symbolinfo>$->setDeclarationType("int "); 
+		}else if($<symbolinfo>1->getDeclarationType()=="float " ||$<symbolinfo>3->getDeclarationType()=="float ")
+			$<symbolinfo>$->setDeclarationType("float ");
+			else  $<symbolinfo>$->setDeclarationType("int ");
+			$<symbolinfo>$->setName($<symbolinfo>1->getName()+$<symbolinfo>2->getName()+$<symbolinfo>3->getName());  
 	}
 	;
 
 term: unary_expression {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : term->unary_expression\n\n",lines);
-		fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str()); 
-		$<symbolinfo>$->set_dectype($<symbolinfo>1->get_dectype()); 
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()); 
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"term->unary_expression");
+		parserLog($<symbolinfo>1->getName()); 
+		$<symbolinfo>$->setDeclarationType($<symbolinfo>1->getDeclarationType()); 
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()); 
 	}
     | term MULOP unary_expression {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : term->term MULOP unary_expression\n\n",lines);
-		fprintf(parsertext,"%s%s%s\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>2->get_name().c_str(),$<symbolinfo>3->get_name().c_str());
-		if($<symbolinfo>1->get_dectype()=="void "||$<symbolinfo>3->get_dectype()=="void "){
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"term->term MULOP unary_expression");
+		parserLog($<symbolinfo>1->getName()+$<symbolinfo>2->getName()+$<symbolinfo>3->getName());
+		if($<symbolinfo>1->getDeclarationType()=="void "||$<symbolinfo>3->getDeclarationType()=="void "){
 			errors++;
-			fprintf(error,"Error at Line No.%d :  Type Mismatch \n\n",lines);
-			$<symbolinfo>$->set_dectype("int "); 
-		}else if($<symbolinfo>2->get_name()=="%"){
-			if($<symbolinfo>1->get_dectype()!="int " ||$<symbolinfo>3->get_dectype()!="int "){
+			appendLogError(lines," Type Mismatch ");
+			$<symbolinfo>$->setDeclarationType("int "); 
+		}else if($<symbolinfo>2->getName()=="%"){
+			if($<symbolinfo>1->getDeclarationType()!="int " ||$<symbolinfo>3->getDeclarationType()!="int "){
 			errors++;
-			fprintf(error,"Error at Line No.%d :  Integer operand on modulus operator  \n\n",lines);
+			appendLogError(lines," Integer operand on modulus operator  ");
 
 			} 
-			$<symbolinfo>$->set_dectype("int "); 
+			$<symbolinfo>$->setDeclarationType("int "); 
 		}
-		else if($<symbolinfo>2->get_name()=="/"){
-			if($<symbolinfo>1->get_dectype()=="void "||$<symbolinfo>3->get_dectype()=="void "){
+		else if($<symbolinfo>2->getName()=="/"){
+			if($<symbolinfo>1->getDeclarationType()=="void "||$<symbolinfo>3->getDeclarationType()=="void "){
 				errors++;
-				fprintf(error,"Error at Line No.%d :  Type Mismatch \n\n",lines);
-				$<symbolinfo>$->set_dectype("int "); 
+				appendLogError(lines," Type Mismatch ");
+				$<symbolinfo>$->setDeclarationType("int "); 
 			}
-			else  if($<symbolinfo>1->get_dectype()=="int " && $<symbolinfo>3->get_dectype()=="int ")$<symbolinfo>$->set_dectype("int "); 
-			else $<symbolinfo>$->set_dectype("float "); 
+			else  if($<symbolinfo>1->getDeclarationType()=="int " && $<symbolinfo>3->getDeclarationType()=="int ")$<symbolinfo>$->setDeclarationType("int "); 
+			else $<symbolinfo>$->setDeclarationType("float "); 
 			
 		}
 		else{
-			if($<symbolinfo>1->get_dectype()=="void "||$<symbolinfo>3->get_dectype()=="void "){
+			if($<symbolinfo>1->getDeclarationType()=="void "||$<symbolinfo>3->getDeclarationType()=="void "){
 				errors++;
-				fprintf(error,"Error at Line No.%d :  Type Mismatch \n\n",lines);
-				$<symbolinfo>$->set_dectype("int "); 
+				appendLogError(lines," Type Mismatch!");
+				$<symbolinfo>$->setDeclarationType("int "); 
 			}
-			else  if($<symbolinfo>1->get_dectype()=="float " || $<symbolinfo>3->get_dectype()=="float ") $<symbolinfo>$->set_dectype("float "); 
-			else $<symbolinfo>$->set_dectype("int "); 
+			else  if($<symbolinfo>1->getDeclarationType()=="float " || $<symbolinfo>3->getDeclarationType()=="float ") $<symbolinfo>$->setDeclarationType("float "); 
+			else $<symbolinfo>$->setDeclarationType("int "); 
 		}
 	
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+$<symbolinfo>2->get_name()+$<symbolinfo>3->get_name()); 
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+$<symbolinfo>2->getName()+$<symbolinfo>3->getName()); 
 								
 	}
     ;
 
 unary_expression: ADDOP unary_expression {
-	$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : unary_expression->ADDOP unary_expression\n\n",lines);
-	fprintf(parsertext,"%s%s\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>2->get_name().c_str());
-	if($<symbolinfo>2->get_dectype()=="void "){
+	$<symbolinfo>$=new SymbolInfo();
+	parserLog(lines,"unary_expression->ADDOP unary_expression");
+	parserLog($<symbolinfo>1->getName()+$<symbolinfo>2->getName());
+	if($<symbolinfo>2->getDeclarationType()=="void "){
 		errors++;
-		fprintf(error,"Error at Line No.%d :  Type Mismatch \n\n",lines);
-		$<symbolinfo>$->set_dectype("int "); 
+		appendLogError(lines," Type Mismatch ");
+		$<symbolinfo>$->setDeclarationType("int "); 
 	}else 
-		$<symbolinfo>$->set_dectype($<symbolinfo>2->get_dectype()); 	
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+$<symbolinfo>2->get_name()); 
+		$<symbolinfo>$->setDeclarationType($<symbolinfo>2->getDeclarationType()); 	
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+$<symbolinfo>2->getName()); 
 
 	}
 	| NOT unary_expression {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : unary_expression->NOT unary_expression\n\n",lines);
-		fprintf(parsertext,"!%s\n\n",$<symbolinfo>2->get_name().c_str()); 
-		if($<symbolinfo>2->get_dectype()=="void "){
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"unary_expression->NOT unary_expression");
+		parserLog("!"+$<symbolinfo>2->getName()); 
+		if($<symbolinfo>2->getDeclarationType()=="void "){
 			errors++;
-			fprintf(error,"Error at Line No.%d :  Type Mismatch \n\n",lines);
-			$<symbolinfo>$->set_dectype("int "); 
+			appendLogError(lines," Type Mismatch ");
+			$<symbolinfo>$->setDeclarationType("int "); 
 		}else 
-			$<symbolinfo>$->set_dectype($<symbolinfo>2->get_dectype());  
-			$<symbolinfo>$->set_name("!"+$<symbolinfo>2->get_name()); 
+			$<symbolinfo>$->setDeclarationType($<symbolinfo>2->getDeclarationType());  
+			$<symbolinfo>$->setName("!"+$<symbolinfo>2->getName()); 
 	}
 	| factor {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : unary_expression->factor\n\n",lines);
-		fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str()); 
-		// cout<<$<symbolinfo>1->get_dectype()<<endl;
-		$<symbolinfo>$->set_dectype($<symbolinfo>1->get_dectype()); 
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()); 
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"unary_expression->factor");
+		parserLog($<symbolinfo>1->getName()); 
+		// cout<<$<symbolinfo>1->getDeclarationType()<<endl;
+		$<symbolinfo>$->setDeclarationType($<symbolinfo>1->getDeclarationType()); 
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()); 
 				
 	}
 	;
 
 factor: variable {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : factor->variable\n\n",lines);
-		fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str());
-		$<symbolinfo>$->set_dectype($<symbolinfo>1->get_dectype()); 
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()); 
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"factor->variable");
+		parserLog($<symbolinfo>1->getName());
+		$<symbolinfo>$->setDeclarationType($<symbolinfo>1->getDeclarationType()); 
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()); 
 	}
 	| ID LPAREN argument_list RPAREN {
-		$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : factor->ID LPAREN argument_list RPAREN\n\n",lines);
-		fprintf(parsertext,"%s(%s)\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>3->get_name().c_str());
-		SymbolInfo* s=table->lookup($<symbolinfo>1->get_name());
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"factor->ID LPAREN argument_list RPAREN");
+		parserLog($<symbolinfo>1->getName()+"("+$<symbolinfo>3->getName()+")");
+		SymbolInfo* s=symbolTable->lookUp($<symbolinfo>1->getName());
 		if(s==0){
 			errors++;
-			fprintf(error,"Error at Line No.%d :  Undefined Function \n\n",lines);
-			$<symbolinfo>$->set_dectype("int "); 
+			appendLogError(lines," Undefined Function ");
+			$<symbolinfo>$->setDeclarationType("int "); 
 		}
 		else if(s->get_isFunction()==0){
 			errors++;
-			fprintf(error,"Error at Line No.%d :  Not A Function \n\n",lines);
-			$<symbolinfo>$->set_dectype("int "); 
+			appendLogError(lines," Not A Function ");
+			$<symbolinfo>$->setDeclarationType("int "); 
 		}
 		else {
 			if(s->get_isFunction()->get_isdefined()==0){
 				errors++;
-				fprintf(error,"Error at Line No.%d :  Undeclared Function \n\n",lines);
+				appendLogError(lines," Undeclared Function ");
 			}
 			int num=s->get_isFunction()->get_number_of_parameter();
 			//cout<<lines<<" "<<arg_list.size()<<endl;
-			$<symbolinfo>$->set_dectype(s->get_isFunction()->get_return_type());
+			$<symbolinfo>$->setDeclarationType(s->get_isFunction()->get_return_type());
 			if(num!=arg_list.size()){
 				errors++;
-				fprintf(error,"Error at Line No.%d :  Invalid number of arguments \n\n",lines);
+				appendLogError(lines," Invalid number of arguments ");
 			}
 			else{
 				//cout<<s->get_isFunction()->get_return_type()<<endl;
-				vector<string>para_list=s->get_isFunction()->get_paralist();
+				vector<string>param_list=s->get_isFunction()->get_paralist();
 				vector<string>para_type=s->get_isFunction()->get_paratype();
 				for(int i=0;i<arg_list.size();i++){
-					if(arg_list[i]->get_dectype()!=para_type[i]){
+					if(arg_list[i]->getDeclarationType()!=para_type[i]){
 						errors++;
-						fprintf(error,"Error at Line No.%d : Type Mismatch \n\n",lines);
+						appendLogError(lines,"Type Mismatch ");
 						break;
 					}
 				}
@@ -739,65 +847,82 @@ factor: variable {
 			}
 		}
 		arg_list.clear();
-		//cout<<lines<<" "<<$<symbolinfo>$->get_dectype()<<endl;
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+"("+$<symbolinfo>3->get_name()+")"); 
+		//cout<<lines<<" "<<$<symbolinfo>$->getDeclarationType()<<endl;
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+"("+$<symbolinfo>3->getName()+")"); 
 	}
-	| LPAREN expression RPAREN {$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : factor->LPAREN expression RPAREN\n\n",lines);
-								fprintf(parsertext,"(%s)\n\n",$<symbolinfo>2->get_name().c_str()); 
-								$<symbolinfo>$->set_dectype($<symbolinfo>2->get_dectype()); 
-								$<symbolinfo>$->set_name("("+$<symbolinfo>2->get_name()+")"); 
-								}
-	| CONST_INT { $<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : factor->CONST_INT\n\n",lines);
-				fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str());
-				$<symbolinfo>$->set_dectype("int "); 	
-				$<symbolinfo>$->set_name($<symbolinfo>1->get_name()); 
+	| LPAREN expression RPAREN {
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"factor->LPAREN expression RPAREN");
+		parserLog("("+$<symbolinfo>2->getName()+")"); 
+		$<symbolinfo>$->setDeclarationType($<symbolinfo>2->getDeclarationType()); 
+		$<symbolinfo>$->setName("("+$<symbolinfo>2->getName()+")"); 
+	}
+	| CONST_INT { 
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"factor->CONST_INT");
+		parserLog($<symbolinfo>1->getName());
+		$<symbolinfo>$->setDeclarationType("int "); 	
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()); 
 			
-				}
-	| CONST_FLOAT {$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : factor->CONST_FLOAT\n\n",lines);
-					fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str()); 
-					$<symbolinfo>$->set_dectype("float "); 	
-					$<symbolinfo>$->set_name($<symbolinfo>1->get_name()); 
+	}
+	| CONST_FLOAT {
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"factor->CONST_FLOAT");
+		parserLog($<symbolinfo>1->getName()); 
+		$<symbolinfo>$->setDeclarationType("float "); 	
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()); 
 				
-					}
-	| variable INCOP {$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : factor->variable INCOP\n\n",lines);
-					fprintf(parsertext,"%s++\n\n",$<symbolinfo>1->get_name().c_str()); 
-					$<symbolinfo>$->set_dectype($<symbolinfo>1->get_dectype());
-					$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+"++"); 
+	}
+	| variable INCOP {
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"factor->variable INCOP");
+		parserLog($<symbolinfo>1->getName()+"++"); 
+		$<symbolinfo>$->setDeclarationType($<symbolinfo>1->getDeclarationType());
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+"++"); 
 					 
-					 }
-	| variable DECOP {$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : factor->variable DECOP\n\n",lines);
-					fprintf(parsertext,"%s--\n\n",$<symbolinfo>1->get_name().c_str());
-					  $<symbolinfo>$->set_dectype($<symbolinfo>1->get_dectype()); 
-					  $<symbolinfo>$->set_name($<symbolinfo>1->get_name()+"--"); 
+	}
+	| variable DECOP {
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"factor->variable DECOP");
+		parserLog($<symbolinfo>1->getName()+"--");
+		$<symbolinfo>$->setDeclarationType($<symbolinfo>1->getDeclarationType()); 
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+"--"); 
 					 
-					 }
+	}
 	;
 
 argument_list: arguments {
-		$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : argument_list->arguments\n\n",lines);
-		fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str());
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name());
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"argument_list->arguments");
+		parserLog($<symbolinfo>1->getName());
+		$<symbolinfo>$->setName($<symbolinfo>1->getName());
 	}
 	| %empty {
-		$<symbolinfo>$=new SymbolInfo(); fprintf(parsertext,"Line at %d : argument_list-> \n\n",lines);$<symbolinfo>$->set_name("");}
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"argument_list-> ");
+		$<symbolinfo>$->setName("");}
 	;
 
 arguments: arguments COMMA logic_expression {
-		$<symbolinfo>$=new SymbolInfo();fprintf(parsertext,"Line at %d : arguments->arguments COMMA logic_expression \n\n",lines);
-		fprintf(parsertext,"%s,%s\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>3->get_name().c_str());
+		$<symbolinfo>$=new SymbolInfo();
+		parserLog(lines,"arguments->arguments COMMA logic_expression ");
+		parserLog($<symbolinfo>1->getName()+","+$<symbolinfo>3->getName());
 		arg_list.push_back($<symbolinfo>3);
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name()+","+$<symbolinfo>3->get_name());
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+","+$<symbolinfo>3->getName());
 	}
 	| logic_expression {
 		$<symbolinfo>$=new SymbolInfo();
-		fprintf(parsertext,"Line at %d : arguments->logic_expression\n\n",lines);
-		fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str()); 
-		arg_list.push_back(new SymbolInfo($<symbolinfo>1->get_name(),$<symbolinfo>1->get_type(),$<symbolinfo>1->get_dectype()));
-		// cout<<$<symbolinfo>1->get_dectype()<<endl;
-		$<symbolinfo>$->set_name($<symbolinfo>1->get_name());					
+		parserLog(lines,"arguments->logic_expression");
+		parserLog($<symbolinfo>1->getName()); 
+		arg_list.push_back(new SymbolInfo($<symbolinfo>1->getName(),$<symbolinfo>1->getType(),$<symbolinfo>1->getDeclarationType()));
+		// cout<<$<symbolinfo>1->getDeclarationType()<<endl;
+		$<symbolinfo>$->setName($<symbolinfo>1->getName());					
 	}
 	;
  %%
+
+
+
 int main(int argc,char *argv[])
 {
 
@@ -807,18 +932,16 @@ int main(int argc,char *argv[])
 		return 0;
 	}
 	yyin=fp;
-	table->Enter_Scope();
+	symbolTable->enterScope();
 	yyparse();
-	fprintf(parsertext," Symbol Table : \n\n");
-	table->printall();
-	fprintf(parsertext,"Total Lines : %d \n\n",lines);
-	fprintf(parsertext,"Total Errors : %d \n\n",errors);
-	fprintf(error,"Total Errors : %d \n\n",errors);
+	parserLog(" Symbol symbolTable : ");
+	symbolTable->printAllScopeTables();
+	parserLog("Total Lines :"+lines);
+	parserLog("Total Errors :"+errors);
+	// appendLogError("Total Errors : %d,errors);
 
 	fclose(fp);
-	fclose(parsertext);
-	fclose(error);
-
+	
 	return 0;
 }
 

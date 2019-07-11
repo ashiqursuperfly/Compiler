@@ -18,11 +18,15 @@ using namespace std;
 #define OUTPUT_FILE "output_symbolTable.txt"
 #define INPUT_FILE "input_symbolTable.txt"
 
-#define LEXER_LOG "1exer_log.txt"
-#define TOKEN_FILE "token.txt"
-#define ERROR_FILE "error.txt"
-#define PARSER_LOG "log.txt"
+#define LEXER_LOG "1605103_1exer_log.txt"
+#define TOKEN_FILE "1605103_token.txt"
+#define ERROR_FILE "1605103_error.txt"
+#define PARSER_LOG "1605103_log.txt"
 
+inline bool isFileExists (const string& name) {
+  struct stat buffer;
+  return (stat (name.c_str(), &buffer) == 0);
+}
 
 
 
@@ -43,6 +47,18 @@ void lexerLog(int line_no,const string & token,const string & lexeme){
 
     outfile.open(LEXER_LOG, std::ios_base::app);
     outfile << "Line:"<<line_no<<" Token: "<<token<<" Lexeme: "<<lexeme<<endl;;
+}
+void parserLog(const string & data){
+    ofstream outfile;
+
+    outfile.open(PARSER_LOG, std::ios_base::app);
+    outfile << data<<endl;
+}
+void parserLog(int line_no,const string & rule){
+    ofstream outfile;
+
+    outfile.open(PARSER_LOG, std::ios_base::app);
+    outfile << "Line:"<<line_no<<"  "<<rule<<endl;;
 }
 void appendToken(const string & symbol){
     ofstream outfile;
@@ -80,11 +96,7 @@ template <class Container> void readAllFromFile(Container& container){
         container.push_back(line);
     }
 }
-void printMessage(string tag,string msg){
-    //cout<<tag<<" : "<<msg<<endl;
-    appendToFile(tag + " : "+msg+"\n");
-    fflush(stdout);
-}
+
 template <class Container> void split(const std::string& str, Container& cont,
             char delim = ' ')
 {
@@ -97,13 +109,15 @@ template <class Container> void split(const std::string& str, Container& cont,
     }
     cont.push_back(str.substr(previous, current - previous));
 }
-inline bool isFileExists (const string& name) {
-  struct stat buffer;
-  return (stat (name.c_str(), &buffer) == 0);
-}
+
 void appendToFile(const string & data){
     ofstream outfile;
 
     outfile.open(OUTPUT_FILE, std::ios_base::app);
     outfile << data;
+}
+void printMessage(string tag,string msg){
+    //cout<<tag<<" : "<<msg<<endl;
+    appendToFile(tag + " : "+msg+"\n");
+    fflush(stdout);
 }
