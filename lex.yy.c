@@ -931,7 +931,7 @@ YY_RULE_SETUP
 	Util::appendToken("STRING",processed);
 
 	SymbolInfo *s= new  SymbolInfo(processed, "STRING");
-	yylval.symbolinfo =s;
+	yylval.symbolinfo = s;
 
 	return STRING;
 }
@@ -992,7 +992,7 @@ YY_RULE_SETUP
 	Util::appendToken("CONST_INT",yytext);
 
 	SymbolInfo *s= new  SymbolInfo(yytext, "CONST_INT");
-	yylval.symbolinfo= s;
+	yylval.symbolinfo = s;
 	
 	return CONST_INT;
 }
@@ -1185,7 +1185,7 @@ YY_RULE_SETUP
 	Util::appendToken("LTHIRD",yytext);
 	Util::lexerLog(lines,"LTHIRD",yytext);
 
-	return RTHIRD;
+	return LTHIRD;
 }
 	YY_BREAK
 case 35:
@@ -1195,7 +1195,7 @@ YY_RULE_SETUP
 	Util::appendToken("RTHIRD",yytext);
 	Util::lexerLog(lines,"RTHIRD",yytext);
 
-	return LTHIRD;
+	return RTHIRD;
 }
 	YY_BREAK
 case 36:
@@ -1327,14 +1327,15 @@ YY_RULE_SETUP
 {
 	//if it cant match any rule above,it will match this.
 	Util::appendLogError(lines,"Unrecognized Character "+string(yytext));
+	errors++;
 }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 329 "1605103.l"
+#line 330 "1605103.l"
 ECHO;
 	YY_BREAK
-#line 1338 "lex.yy.c"
+#line 1339 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2339,7 +2340,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 329 "1605103.l"
+#line 330 "1605103.l"
 
 
 const string removeSingleQuote(string s){

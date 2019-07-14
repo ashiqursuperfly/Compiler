@@ -15,7 +15,6 @@ using namespace std;
 
 #define OUTPUT_FILE "txt/output_symbolTable.txt"
 #define INPUT_FILE "txt/input_symbolTable.txt"
-
 #define LEXER_LOG "txt/1605103_lexer_log.txt"
 #define TOKEN_FILE "txt/1605103_token.txt"
 #define ERROR_FILE "txt/1605103_error.txt"
@@ -80,6 +79,9 @@ public:
         if(isFileExists(OUTPUT_FILE))remove(OUTPUT_FILE);
         if(isFileExists(LEXER_LOG))remove(LEXER_LOG);
         if(isFileExists(TOKEN_FILE))remove(TOKEN_FILE);
+        if(isFileExists(PARSER_LOG))remove(PARSER_LOG);
+        if(isFileExists(ERROR_FILE))remove(ERROR_FILE);
+        
     }
 
 

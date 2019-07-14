@@ -51,7 +51,7 @@ public:
     {
         bool retVal = currentScope->insert(si);
         if (retVal)
-            printCurrentScopeTable();
+            //printCurrentScopeTable();
         return retVal;
     }
 

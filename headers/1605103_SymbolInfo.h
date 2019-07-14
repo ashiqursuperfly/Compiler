@@ -97,7 +97,7 @@ public:
 
     string toString() const
     {
-        return "<" + getName() + "," + getType() + ">";
+        return "<" + getType() + "," + getName() + ">";
     }
 
     //friend istream &operator>>(istream &in, SymbolInfo &si);

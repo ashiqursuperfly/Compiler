@@ -82,7 +82,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	Util::appendToken("STRING",processed);
 
 	SymbolInfo *s= new  SymbolInfo(processed, "STRING");
-	yylval.symbolinfo =s;
+	yylval.symbolinfo = s;
 
 	return STRING;
 }
@@ -120,7 +120,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	Util::appendToken("CONST_INT",yytext);
 
 	SymbolInfo *s= new  SymbolInfo(yytext, "CONST_INT");
-	yylval.symbolinfo= s;
+	yylval.symbolinfo = s;
 	
 	return CONST_INT;
 }
@@ -226,13 +226,13 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	Util::appendToken("LTHIRD",yytext);
 	Util::lexerLog(lines,"LTHIRD",yytext);
 
-	return RTHIRD;
+	return LTHIRD;
 }
 "]" {
 	Util::appendToken("RTHIRD",yytext);
 	Util::lexerLog(lines,"RTHIRD",yytext);
 
-	return LTHIRD;
+	return RTHIRD;
 }
 "!" {
 	Util::appendToken("NOT",yytext);
@@ -323,6 +323,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 . {
 	//if it cant match any rule above,it will match this.
 	Util::appendLogError(lines,"Unrecognized Character "+string(yytext));
+	errors++;
 }
 
 
