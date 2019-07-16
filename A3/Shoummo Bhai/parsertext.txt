@@ -1,0 +1,114 @@
+Line at 1 : type_specifier	: VOID
+
+void 
+
+ New ScopeTable with id 2 created
+
+Line at 2 : type_specifier	: INT
+
+int 
+
+Line at 2 : declaration_list->ID
+
+x
+
+Line at 2 : var_declaration->type_specifier declaration_list SEMICOLON
+
+int  x;
+
+Line at 2 : statement -> var_declaration
+
+int  x;
+
+Line at 2 : statements->statement
+
+int  x;
+
+Line at 3 : variable->ID
+
+x
+
+Line at 3 : factor->CONST_INT
+
+2
+
+Line at 3 : unary_expression->factor
+
+2
+
+Line at 3 : term->unary_expression
+
+2
+
+Line at 3 : simple_expression->term
+
+2
+
+Line at 3 : rel_expression->simple_expression
+
+2
+
+Line at 3 : logic_expression->rel_expression
+
+2
+
+Line at 3 : expression->variable ASSIGNOP logic_expression
+
+x=2
+
+Line at 3 : expression_statement->expression SEMICOLON
+
+x=2;
+
+Line at 3 : statement -> expression_statement
+
+x=2;
+
+Line at 3 : statements->statements statement
+
+int  x; x=2;
+
+Line at 4 : compound_statement->LCURL statements RCURL
+
+{int  x;
+x=2;}
+
+ ScopeTable# 2 
+ 74  --> < ID : x > 
+
+ ScopeTable# 1 
+ 21  --> < ID : foo > 
+
+ ScopeTable with id 2 removed
+
+Line at 4 : func_definition->type_specifier ID LPAREN RPAREN compound_statement
+
+void  foo() {
+int  x;
+x=2;
+}
+
+Line at 4 : unit->func_definition
+
+void  foo(){
+int  x;
+x=2;
+}
+
+Line at 4 : program->unit
+
+void  foo(){
+int  x;
+x=2;
+}
+
+
+ Symbol Table : 
+
+ ScopeTable# 1 
+ 21  --> < ID : foo > 
+
+Total Lines : 5 
+
+Total Errors : 0 
+

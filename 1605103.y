@@ -42,14 +42,12 @@ void yyerror(char *s){
 %left RELOP LOGICOP BITOP 
 %left ADDOP 
 %left MULOP
- 
 
 %nonassoc LOWER_THAN_ELSE
 %nonassoc ELSE
 
 %union{
 	SymbolInfo* symbolinfo;
-	vector<string>*s;
 }
 
 %type <s>start
@@ -370,7 +368,7 @@ var_declaration: type_specifier declaration_list SEMICOLON {
 		$<symbolinfo>$=new SymbolInfo();
 		LOG(lines,"var_declaration -> type_specifier declaration_list SEMICOLON");
 		LOG($<symbolinfo>1->getName()+" "+$<symbolinfo>2->getName()+";");
-		if($<symbolinfo>1->getName()=="void "){ // TODO : "void" ?
+		if($<symbolinfo>1->getName()=="void "){ 
 			errors++;
 			ERROR(lines,"Cannot Declare void Type");																
 		}
@@ -378,10 +376,10 @@ var_declaration: type_specifier declaration_list SEMICOLON {
 			for(int i=0;i < declaration_list.size() ; i++){
 				if(symbolTable->lookUpLocal(declaration_list[i]->getName()) != nullptr){
 					errors++;
-					ERROR(lines," Multiple Declaration of " + declaration_list[i]->getName());
+					ERROR(lines,"Multiple Declaration of " + declaration_list[i]->getName());
 					continue;
 				}
-				if(declaration_list[i]->getType().size()==3){
+				if(declaration_list[i]->getType().size()==3){ //"IDa"
 					declaration_list[i]->setType(declaration_list[i]->getType().substr(0,declaration_list[i]->getType().size () - 1));
 					symbolTable->insert(SymbolInfo(declaration_list[i]->getName(),declaration_list[i]->getType(),$<symbolinfo>1->getName()+"array"));
 				} else symbolTable->insert(SymbolInfo(declaration_list[i]->getName(),declaration_list[i]->getType(),$<symbolinfo>1->getName()));
@@ -424,19 +422,11 @@ declaration_list: declaration_list COMMA ID {
 	}
 	| declaration_list COMMA ID LTHIRD CONST_INT RTHIRD {
 		$<symbolinfo>$=new SymbolInfo();
-		LOG(lines,"declaration_list -> declaration_list COMMA ID LTHIRD CONST_INT RTHIRD");
 		LOG($<symbolinfo>1->getName()+","+$<symbolinfo>3->getName()+"["+$<symbolinfo>5->getName()+"]");
+		LOG(lines,"declaration_list -> declaration_list COMMA ID LTHIRD CONST_INT RTHIRD");
 		
 		declaration_list.push_back(new SymbolInfo($<symbolinfo>3->getName(),"IDa")); //TODO : why IDa ?
 		$<symbolinfo>$->setName($<symbolinfo>1->getName()+","+$<symbolinfo>3->getName()+"["+$<symbolinfo>5->getName()+"]");
-	}
-	
-	| ID LTHIRD CONST_INT RTHIRD {
-		$<symbolinfo>$=new SymbolInfo();
-		LOG(lines,"declaration_list -> ID LTHIRD CONST_INT RTHIRD");
-		LOG($<symbolinfo>1->getName()+"["+$<symbolinfo>3->getName()+"]");
-		declaration_list.push_back(new SymbolInfo($<symbolinfo>1->getName(),"IDa"));
-		$<symbolinfo>$->setName($<symbolinfo>1->getName()+"["+$<symbolinfo>3->getName()+"]");
 	}
 	| ID {
 		$<symbolinfo>$=new SymbolInfo();
@@ -445,6 +435,14 @@ declaration_list: declaration_list COMMA ID {
 		declaration_list.push_back(new SymbolInfo($<symbolinfo>1->getName(),"ID"));
 		$<symbolinfo>$->setName($<symbolinfo>1->getName());
 	}
+	| ID LTHIRD CONST_INT RTHIRD {
+		$<symbolinfo>$=new SymbolInfo();
+		LOG(lines,"declaration_list -> ID LTHIRD CONST_INT RTHIRD");
+		LOG($<symbolinfo>1->getName()+"["+$<symbolinfo>3->getName()+"]");
+		declaration_list.push_back(new SymbolInfo($<symbolinfo>1->getName(),"IDa"));
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+"["+$<symbolinfo>3->getName()+"]");
+	}
+	
 	;
 
 //@DONE
@@ -489,19 +487,17 @@ statement: var_declaration {
 		if($<symbolinfo>3->getDeclarationType()=="void "){
 			errors++;
 			ERROR(lines,"Type Mismatch! Variable Cannot Be Declared void ");
-			//$<symbolinfo>$->setDeclarationType("int "); 
 		}
 		$<symbolinfo>$->setName("for("+$<symbolinfo>3->getName()+$<symbolinfo>4->getName()+$<symbolinfo>5->getName()+")\n"+$<symbolinfo>5->getName()); 
 	}
 	| IF LPAREN expression RPAREN statement %prec LOWER_THAN_ELSE {
 		$<symbolinfo>$=new SymbolInfo();
-		LOG(lines,"statement->IF LPAREN expression RPAREN statement");
+		LOG(lines,"statement -> IF LPAREN expression RPAREN statement");
 		LOG("if("+$<symbolinfo>3->getName()+")\n"+$<symbolinfo>5->getName());
 		
 		if($<symbolinfo>3->getDeclarationType()=="void "){
 			errors++;
 			ERROR(lines,"Type Mismatch! Variable Cannot Be Declared void ");
-			//$<symbolinfo>$->setDeclarationType("int "); 
 		}
 		$<symbolinfo>$->setName("if("+$<symbolinfo>3->getName()+")\n"+$<symbolinfo>5->getName()); 
 
@@ -512,8 +508,7 @@ statement: var_declaration {
 		LOG("if("+$<symbolinfo>3->getName()+")\n"+$<symbolinfo>5->getName()+"else\n"+$<symbolinfo>7->getName());
 		if($<symbolinfo>3->getDeclarationType()=="void "){
 			errors++;
-			ERROR(lines," Type Mismatch ");
-			//$<symbolinfo>$->setDeclarationType("int "); 
+			ERROR(lines," Type Mismatch 1");
 		}
 		$<symbolinfo>$->setName("if("+$<symbolinfo>3->getName()+")\n"+$<symbolinfo>5->getName()+" else \n"+$<symbolinfo>7->getName()); 
 	}
@@ -525,8 +520,7 @@ statement: var_declaration {
 
 		if($<symbolinfo>3->getDeclarationType()=="void "){
 			errors++;
-			ERROR(lines," Type Mismatch ");
-			//	$<symbolinfo>$->setDeclarationType("int "); 
+			ERROR(lines," Type Mismatch 2");
 		}
 		$<symbolinfo>$->setName("while("+$<symbolinfo>3->getName()+")\n"+$<symbolinfo>5->getName()); 
 	}
@@ -542,7 +536,7 @@ statement: var_declaration {
 		LOG("return "+$<symbolinfo>2->getName());
 		if($<symbolinfo>2->getDeclarationType()=="void "){
 			errors++;
-			ERROR(lines," Type Mismatch ");
+			ERROR(lines," Type Mismatch 3");
 			$<symbolinfo>$->setDeclarationType("int "); 
 		}
 		$<symbolinfo>$->setName("return "+$<symbolinfo>2->getName()+";"); 
@@ -577,7 +571,7 @@ variable: ID {
 			ERROR(lines," Not an array: "+$<symbolinfo>1->getName());
 		}
 		if(symbolTable->lookUp($<symbolinfo>1->getName())!=nullptr){
-			//cout<<lines<<" "<<$<symbolinfo>1->getName()<<" "<<symbolTable->lookUp($<symbolinfo>1->getName())->getDeclarationType()<<endl;
+			cout<<lines<<" "<<$<symbolinfo>1->toString()<<" "<<symbolTable->lookUp($<symbolinfo>1->getName())->getDeclarationType()<<endl;
 			$<symbolinfo>$->setDeclarationType(symbolTable->lookUp($<symbolinfo>1->getName())->getDeclarationType()); 
 		}
 		$<symbolinfo>$->setName($<symbolinfo>1->getName()); 
@@ -597,10 +591,10 @@ variable: ID {
 			ERROR(lines," Non-integer Array Index  ");
 		}
 		if(symbolTable->lookUp($<symbolinfo>1->getName())!=nullptr){
-			//cout<<lines<<" "<<symbolTable->lookUp($<symbolinfo>1->getName())->getDeclarationType()<<endl;
+			cout<<lines<<" "<<symbolTable->lookUp($<symbolinfo>1->getName())->toString()<<endl;
 			if(symbolTable->lookUp($<symbolinfo>1->getName())->getDeclarationType()!="int array" && symbolTable->lookUp($<symbolinfo>1->getName())->getDeclarationType()!="float array"){
 				errors++;
-				ERROR(lines," Type Mismatch ");	
+				ERROR(lines," Type Mismatch 4");	
 			}
 			if(symbolTable->lookUp($<symbolinfo>1->getName())->getDeclarationType()=="int array"){
 				$<symbolinfo>1->setDeclarationType("int ");
@@ -629,13 +623,15 @@ expression: logic_expression {
 		
 		if($<symbolinfo>3->getDeclarationType()=="void "){
 			errors++;
-			ERROR(lines," Type Mismatch ");
+			ERROR(lines," Type Mismatch 5");
 			$<symbolinfo>$->setDeclarationType("int "); 
-		}else if(symbolTable->lookUp($<symbolinfo>1->getName())!=nullptr) {
-			//cout<<lines<<" "<<symbolTable->lookUp($<symbolinfo>1->getName())->getDeclarationType()<<""<<$<symbolinfo>3->getDeclarationType()<<endl;
+		}else if(symbolTable->lookUp($<symbolinfo>1->getName()) != nullptr) {
+			cout<<lines<<" "<<symbolTable->lookUp($<symbolinfo>1->getName())->toString()<<""<<$<symbolinfo>3->toString()<<endl;
 			if(symbolTable->lookUp($<symbolinfo>1->getName())->getDeclarationType()!=$<symbolinfo>3->getDeclarationType()){
 				errors++;
-				ERROR(lines,"Type Mismatch ");
+				ERROR(lines,"Type Mismatch 6");
+
+				LOG(lines,"Type Mismatch 6");
 			}
 		}
 		$<symbolinfo>$->setDeclarationType($<symbolinfo>1->getDeclarationType()); 
@@ -657,7 +653,7 @@ logic_expression: rel_expression {
 		
 		if($<symbolinfo>1->getDeclarationType()=="void "||$<symbolinfo>3->getDeclarationType()=="void "){
 			errors++;
-			ERROR(lines," Type Mismatch ");
+			ERROR(lines," Type Mismatch 7");
 			$<symbolinfo>$->setDeclarationType("int "); 
 		}
 		$<symbolinfo>$->setDeclarationType("int "); 
@@ -675,39 +671,40 @@ rel_expression: simple_expression {
 	}
 	| simple_expression RELOP simple_expression	 {
 		$<symbolinfo>$=new SymbolInfo();
-			LOG(lines,"rel_expression->simple_expression RELOP simple_expression");
-			LOG($<symbolinfo>1->getName()+$<symbolinfo>2->getName()+$<symbolinfo>3->getName());
-			if($<symbolinfo>1->getDeclarationType()=="void "||$<symbolinfo>3->getDeclarationType()=="void "){
-				errors++;
-				ERROR(lines," Type Mismatch! ");
-				$<symbolinfo>$->setDeclarationType("int "); 
-			}
+		LOG(lines,"rel_expression->simple_expression RELOP simple_expression");
+		LOG($<symbolinfo>1->getName()+$<symbolinfo>2->getName()+$<symbolinfo>3->getName());
+		if($<symbolinfo>1->getDeclarationType()=="void "||$<symbolinfo>3->getDeclarationType()=="void "){
+			errors++;
+			ERROR(lines," Type Mismatch! 8");
 			$<symbolinfo>$->setDeclarationType("int "); 
-			
-			$<symbolinfo>$->setName($<symbolinfo>1->getName()+$<symbolinfo>2->getName()+$<symbolinfo>3->getName());  
+		}
+		$<symbolinfo>$->setDeclarationType("int "); 	
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+$<symbolinfo>2->getName()+$<symbolinfo>3->getName());  
 		}
 	;
 
 simple_expression: term {
 		$<symbolinfo>$=new SymbolInfo();
-		LOG(lines,"simple_expression->term");
+		LOG(lines,"simple_expression -> term");
 		LOG($<symbolinfo>1->getName());
+		cout<<$<symbolinfo>1->toString()<<endl;
 		$<symbolinfo>$->setDeclarationType($<symbolinfo>1->getDeclarationType());
 		$<symbolinfo>$->setName($<symbolinfo>1->getName());  
 	}
 	| simple_expression ADDOP term {
 		$<symbolinfo>$=new SymbolInfo(); 
-		LOG(lines,"simple_expression->simple_expression ADDOP term");
+		LOG(lines,"simple_expression -> simple_expression ADDOP term");
 		LOG($<symbolinfo>1->getName()+$<symbolinfo>2->getName()+$<symbolinfo>3->getName());
 		//cout<<$<symbolinfo>3->getDeclarationType()<<endl;
 		if($<symbolinfo>1->getDeclarationType()=="void "||$<symbolinfo>3->getDeclarationType()=="void "){
 			errors++;
-			ERROR(lines," Type Mismatch ");
+			ERROR(lines,"Type Mismatch 9");
 			$<symbolinfo>$->setDeclarationType("int "); 
-		}else if($<symbolinfo>1->getDeclarationType()=="float " ||$<symbolinfo>3->getDeclarationType()=="float ")
+		}else if($<symbolinfo>1->getDeclarationType()=="float " || $<symbolinfo>3->getDeclarationType()=="float ")
 			$<symbolinfo>$->setDeclarationType("float ");
-			else  $<symbolinfo>$->setDeclarationType("int ");
-			$<symbolinfo>$->setName($<symbolinfo>1->getName()+$<symbolinfo>2->getName()+$<symbolinfo>3->getName());  
+		else $<symbolinfo>$->setDeclarationType("int ");
+		
+		$<symbolinfo>$->setName($<symbolinfo>1->getName()+$<symbolinfo>2->getName()+$<symbolinfo>3->getName());  
 	}
 	;
 
@@ -715,6 +712,7 @@ term: unary_expression {
 		$<symbolinfo>$=new SymbolInfo();
 		LOG(lines,"term->unary_expression");
 		LOG($<symbolinfo>1->getName()); 
+		cout<<$<symbolinfo>1->toString()<<endl;
 		$<symbolinfo>$->setDeclarationType($<symbolinfo>1->getDeclarationType()); 
 		$<symbolinfo>$->setName($<symbolinfo>1->getName()); 
 	}
@@ -724,12 +722,12 @@ term: unary_expression {
 		LOG($<symbolinfo>1->getName()+$<symbolinfo>2->getName()+$<symbolinfo>3->getName());
 		if($<symbolinfo>1->getDeclarationType()=="void "||$<symbolinfo>3->getDeclarationType()=="void "){
 			errors++;
-			ERROR(lines," Type Mismatch ");
+			ERROR(lines," Type Mismatch 10");
 			$<symbolinfo>$->setDeclarationType("int "); 
 		}else if($<symbolinfo>2->getName()=="%"){
 			if($<symbolinfo>1->getDeclarationType()!="int " ||$<symbolinfo>3->getDeclarationType()!="int "){
 			errors++;
-			ERROR(lines," Integer operand on modulus operator  ");
+			ERROR(lines," Integer operand on modulus(%) operator  ");
 
 			} 
 			$<symbolinfo>$->setDeclarationType("int "); 
@@ -737,10 +735,11 @@ term: unary_expression {
 		else if($<symbolinfo>2->getName()=="/"){
 			if($<symbolinfo>1->getDeclarationType()=="void "||$<symbolinfo>3->getDeclarationType()=="void "){
 				errors++;
-				ERROR(lines," Type Mismatch ");
+				ERROR(lines," Type Mismatch 11");
 				$<symbolinfo>$->setDeclarationType("int "); 
 			}
-			else  if($<symbolinfo>1->getDeclarationType()=="int " && $<symbolinfo>3->getDeclarationType()=="int ")$<symbolinfo>$->setDeclarationType("int "); 
+			else  if($<symbolinfo>1->getDeclarationType()=="int " && $<symbolinfo>3->getDeclarationType()=="int ")
+				$<symbolinfo>$->setDeclarationType("int "); 
 			else $<symbolinfo>$->setDeclarationType("float "); 
 			
 		}
@@ -760,17 +759,15 @@ term: unary_expression {
     ;
 
 unary_expression: ADDOP unary_expression {
-	$<symbolinfo>$=new SymbolInfo();
+	$<symbolinfo>$ = new SymbolInfo();
 	LOG(lines,"unary_expression->ADDOP unary_expression");
 	LOG($<symbolinfo>1->getName()+$<symbolinfo>2->getName());
 	if($<symbolinfo>2->getDeclarationType()=="void "){
 		errors++;
-		ERROR(lines," Type Mismatch ");
+		ERROR(lines," Type Mismatch 12");
 		$<symbolinfo>$->setDeclarationType("int "); 
-	}else 
-		$<symbolinfo>$->setDeclarationType($<symbolinfo>2->getDeclarationType()); 	
-		$<symbolinfo>$->setName($<symbolinfo>1->getName()+$<symbolinfo>2->getName()); 
-
+	}else $<symbolinfo>$->setDeclarationType($<symbolinfo>2->getDeclarationType()); 	
+	$<symbolinfo>$->setName($<symbolinfo>1->getName()+$<symbolinfo>2->getName()); 
 	}
 	| NOT unary_expression {
 		$<symbolinfo>$=new SymbolInfo();
@@ -778,17 +775,16 @@ unary_expression: ADDOP unary_expression {
 		LOG("!"+$<symbolinfo>2->getName()); 
 		if($<symbolinfo>2->getDeclarationType()=="void "){
 			errors++;
-			ERROR(lines," Type Mismatch ");
+			ERROR(lines," Type Mismatch 13");
 			$<symbolinfo>$->setDeclarationType("int "); 
-		}else 
-			$<symbolinfo>$->setDeclarationType($<symbolinfo>2->getDeclarationType());  
-			$<symbolinfo>$->setName("!"+$<symbolinfo>2->getName()); 
+		}else $<symbolinfo>$->setDeclarationType($<symbolinfo>2->getDeclarationType());  
+		$<symbolinfo>$->setName("!"+$<symbolinfo>2->getName()); 
 	}
 	| factor {
 		$<symbolinfo>$=new SymbolInfo();
 		LOG(lines,"unary_expression->factor");
 		LOG($<symbolinfo>1->getName()); 
-		// cout<<$<symbolinfo>1->getDeclarationType()<<endl;
+		cout<<$<symbolinfo>1->toString()<<endl;
 		$<symbolinfo>$->setDeclarationType($<symbolinfo>1->getDeclarationType()); 
 		$<symbolinfo>$->setName($<symbolinfo>1->getName()); 
 				
@@ -836,7 +832,7 @@ factor: variable {
 				for(int i=0;i<arg_list.size();i++){
 					if(arg_list[i]->getDeclarationType()!=para_type[i]){
 						errors++;
-						ERROR(lines,"Type Mismatch ");
+						ERROR(lines,"Type Mismatch 14");
 						break;
 					}
 				}
@@ -856,8 +852,9 @@ factor: variable {
 	}
 	| CONST_INT { 
 		$<symbolinfo>$=new SymbolInfo();
-		LOG(lines,"factor->CONST_INT");
+		LOG(lines,"factor -> CONST_INT");
 		LOG($<symbolinfo>1->getName());
+		cout<<$<symbolinfo>1->toString()<<endl;
 		$<symbolinfo>$->setDeclarationType("int "); 	
 		$<symbolinfo>$->setName($<symbolinfo>1->getName()); 
 			

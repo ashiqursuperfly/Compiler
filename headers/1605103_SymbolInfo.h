@@ -27,11 +27,19 @@ public:
         isFunction = nullptr;
     }
 
-    SymbolInfo(const string &name, const string &type, string decType = "")
-        : name(name), type(type), declarationType(decType)
+    SymbolInfo(const string &name, const string &type, string decType)
     {
-        next = nullptr;
-        isFunction = nullptr;
+        this->name = name;
+        this->type = type;
+        this->declarationType = decType;
+        this->next = nullptr;
+    }
+    SymbolInfo(const string &name, const string &type)
+    {
+        this->name = name;
+        this->type = type;
+        this->declarationType = "";
+        this->next = nullptr;
     }
 
     const string &getName() const
@@ -41,7 +49,7 @@ public:
 
     void setName(const string &name)
     {
-        SymbolInfo::name = name;
+        this->name = name;
     }
 
     const string &getType() const
@@ -51,7 +59,7 @@ public:
 
     void setType(const string &type)
     {
-        SymbolInfo::type = type;
+        this->type = type;
     }
 
     const string &getDeclarationType() const
@@ -61,7 +69,7 @@ public:
 
     void setDeclarationType(const string &type)
     {
-        SymbolInfo::declarationType = type;
+        this->declarationType = type;
     }
 
     SymbolInfo *getNext() const
@@ -71,7 +79,7 @@ public:
 
     void setNext(SymbolInfo *next)
     {
-        SymbolInfo::next = next;
+        this->next = next;
     }
     void set_isFunction()
     {
@@ -97,7 +105,7 @@ public:
 
     string toString() const
     {
-        return "<" + getType() + "," + getName() + ">";
+        return "<" + getType() + "," + getDeclarationType()+ "," + getName()+">";
     }
 
     //friend istream &operator>>(istream &in, SymbolInfo &si);

@@ -1,0 +1,32 @@
+Error at Line No.17:  Multiple Declaration of c 
+
+Error at Line No.18: Type Mismatch 
+
+Error at Line No.19:  Non-integer Array Index  
+
+Error at Line No.20:  Integer operand on modulus operator  
+
+Error at Line No.21:  Integer operand on modulus operator  
+
+Error at Line No.22:  Not an array: a 
+
+Error at Line No.22: Type Mismatch 
+
+Error at Line No.23:  Type Mismatch 
+
+Error at Line No.25:  Undeclared Variable: b 
+
+Error at Line No.26:  Not an array: a 
+
+Error at Line No.26: Type Mismatch 
+
+Error at Line No.27:  Type Mismatch 
+
+Error at Line No.28:  Invalid number of arguments 
+
+Error at Line No.29:  Not A Function 
+
+Error at Line No.33: Type Mismatch 
+
+Total Errors : 15 
+

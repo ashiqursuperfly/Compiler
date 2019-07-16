@@ -1,9 +1,1 @@
-Line:10 Error: Type Mismatch 
-Line:11 Error: Type Mismatch 
-Line:16 Error:  Type Mismatch 
-Line:17 Error:  Type Mismatch 
-Line:18 Error:  Type Mismatch 
-Line:18 Error:  Type Mismatch 
-Line:18 Error: Type Mismatch 
-Line:19 Error: Type Mismatch 
-Line:20 Error: Type Mismatch 
+Line:3 Error: Type Mismatch 6
