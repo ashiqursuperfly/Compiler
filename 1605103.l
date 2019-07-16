@@ -1,18 +1,19 @@
-
+%option noyywrap
 %{
 #include "headers/1605103_SymbolTable.h"
 #include "y.tab.h"
 
 
 extern YYSTYPE yylval;
-extern "C" int yylex(void);
-
+void yyerror(char *);
 const string removeSingleQuote(string s);
 const string processString(string s);
 
-extern string currentid;
+
 extern int lines,errors;
 extern vector<SymbolInfo*>para_list;
+extern SymbolTable *symbolTable;
+
 
 %}
 /**End Of C-Code Section Inside Definition Section ***/
@@ -71,7 +72,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	Util::lexerLog(detectionLine,"COMMENT",processed);
 }
 {UNFINISHED_COMMENT} {
-	Util::appendLogError(lines,"Unfinished Comment " + processString(yytext));
+	Util::appendLogError(lines,"Unfinished Comment " + processString(yytext),LEXER);
 	errors++;
 }
 
@@ -87,7 +88,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	return STRING;
 }
 {UNFINISHED_STRING} {
-	Util::appendLogError(lines,"Unfinished String " +string(yytext));
+	Util::appendLogError(lines,"Unfinished String " +string(yytext),LEXER);
 	errors++;
 }
 
@@ -102,16 +103,16 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	return CONST_CHAR;
 }
 {MULTI_CHAR_CONSTANT} {
-	Util::appendLogError(lines,"Multi Character Constant " + string(yytext));
+	Util::appendLogError(lines,"Multi Character Constant " + string(yytext),LEXER);
 	errors++;
 }
 {UNFINISHED_CHAR} {
-	Util::appendLogError(lines,"Unfinished Character "+string(yytext));
+	Util::appendLogError(lines,"Unfinished Character "+string(yytext),LEXER);
 	errors++;
 }
 {INVALID_CHAR} {
-	if(string(yytext)=="''")Util::appendLogError(lines,"Empty Character Constant "+string(yytext));
-	else Util::appendLogError(lines,"Invalid Character "+string(yytext));
+	if(string(yytext)=="''")Util::appendLogError(lines,"Empty Character Constant "+string(yytext),LEXER);
+	else Util::appendLogError(lines,"Invalid Character "+string(yytext),LEXER);
 	errors++;
 }
 
@@ -134,12 +135,12 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	return CONST_FLOAT;
 }
 {TOO_MANY_DECIMAL_POINTS} {
-	Util::appendLogError(lines,"Too Many Decimal Points! "+string(yytext));
+	Util::appendLogError(lines,"Too Many Decimal Points! "+string(yytext),LEXER);
 	errors++;
 
 }
 {ILL_FORMED_NUMBER} {
-	Util::appendLogError(lines,"Ill formed number! "+string(yytext));
+	Util::appendLogError(lines,"Ill formed number! "+string(yytext),LEXER);
 	errors++;
 }
 
@@ -316,13 +317,13 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 
 }
 {INVALID_IDENTIFIER} {
-	Util::appendLogError(lines,"Invalid Suffix On Numeric Constant Or,Invalid Prefix on Identifier for Character Sequence "+string(yytext));
+	Util::appendLogError(lines,"Invalid Suffix On Numeric Constant Or,Invalid Prefix on Identifier for Character Sequence "+string(yytext),LEXER);
 	errors++;
 }
 
 . {
 	//if it cant match any rule above,it will match this.
-	Util::appendLogError(lines,"Unrecognized Character "+string(yytext));
+	Util::appendLogError(lines,"Unrecognized Character "+string(yytext),LEXER);
 	errors++;
 }
 

@@ -12,13 +12,15 @@
 #include <unistd.h>
 
 using namespace std;
-
+#define LEXER 0
+#define PARSER 1
 #define OUTPUT_FILE "logs/output_symbolTable.txt"
+#define TOKEN_FILE "logs/1605103_token.txt"
 #define INPUT_FILE "logs/input_symbolTable.txt"
 #define LEXER_LOG "logs/1605103_lexer_log.txt"
-#define TOKEN_FILE "logs/1605103_token.txt"
-#define ERROR_FILE "logs/1605103_error.txt"
 #define PARSER_LOG "logs/1605103_log.txt"
+#define LEXER_ERROR_FILE "logs/1605103_error.txt"
+#define PARSER_ERROR_FILE "logs/1605103_error.txt"
 
 class Util{
 public:
@@ -27,11 +29,16 @@ public:
         return (stat (name.c_str(), &buffer) == 0);
     }
 
-    static void appendLogError(int line_no,const string & error_msg){
+    static void appendLogError(int line_no,const string & error_msg,int type){
         ofstream outfile;
-
-        outfile.open(ERROR_FILE, std::ios_base::app);
-        outfile <<"Line:"<<line_no<<" Error"<<": "<<error_msg<<endl;
+        if(type == LEXER){
+            outfile.open(LEXER_ERROR_FILE, std::ios_base::app);
+            outfile <<"Line:"<<line_no<<" Error"<<": "<<error_msg<<endl;
+        }
+        else if(type == PARSER){
+            outfile.open(PARSER_ERROR_FILE, std::ios_base::app);
+            outfile <<"Line:"<<line_no<<" Error"<<": "<<error_msg<<endl;
+        }
     }
     static void lexerLog(const string & data){
         ofstream outfile;
@@ -77,16 +84,12 @@ public:
     }
     static void clearFiles(){
         if(isFileExists(OUTPUT_FILE))remove(OUTPUT_FILE);
+        if(isFileExists(TOKEN_FILE))remove(TOKEN_FILE); 
         if(isFileExists(LEXER_LOG))remove(LEXER_LOG);
-        if(isFileExists(TOKEN_FILE))remove(TOKEN_FILE);
         if(isFileExists(PARSER_LOG))remove(PARSER_LOG);
-        if(isFileExists(ERROR_FILE))remove(ERROR_FILE);
-        
+        if(isFileExists(LEXER_ERROR_FILE))remove(LEXER_ERROR_FILE);
+        if(isFileExists(PARSER_ERROR_FILE))remove(PARSER_ERROR_FILE);
     }
-
-
-
-
 
     template <class Container> static void readAllFromFile(Container& container){
         ifstream inFile(INPUT_FILE);
