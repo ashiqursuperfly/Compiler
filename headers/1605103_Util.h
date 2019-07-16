@@ -13,12 +13,12 @@
 
 using namespace std;
 
-#define OUTPUT_FILE "txt/output_symbolTable.txt"
-#define INPUT_FILE "txt/input_symbolTable.txt"
-#define LEXER_LOG "txt/1605103_lexer_log.txt"
-#define TOKEN_FILE "txt/1605103_token.txt"
-#define ERROR_FILE "txt/1605103_error.txt"
-#define PARSER_LOG "txt/1605103_log.txt"
+#define OUTPUT_FILE "logs/output_symbolTable.txt"
+#define INPUT_FILE "logs/input_symbolTable.txt"
+#define LEXER_LOG "logs/1605103_lexer_log.txt"
+#define TOKEN_FILE "logs/1605103_token.txt"
+#define ERROR_FILE "logs/1605103_error.txt"
+#define PARSER_LOG "logs/1605103_log.txt"
 
 class Util{
 public:

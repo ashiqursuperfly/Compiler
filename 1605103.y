@@ -1,6 +1,7 @@
 %{
 #include<iostream>
 #include "headers/1605103_SymbolTable.h"
+
 #define ERROR Util::appendLogError
 #define LOG Util::parserLog
 
@@ -26,10 +27,7 @@ void yyerror(char *s){
 	fprintf(stderr,"Line no %d : %s\n",s);
 }
 
-
-
 %}
-
 
 %token IF ELSE FOR WHILE DO BREAK
 %token INT FLOAT CHAR DOUBLE VOID
@@ -124,7 +122,7 @@ func_declaration: type_specifier ID LPAREN parameter_list RPAREN SEMICOLON {
 		if(s == nullptr){
 			
 			//TODO : Function
-			symbolTable->insert(SymbolInfo($<symbolinfo>2->getName(),"ID","Function"));
+			symbolTable->insert($<symbolinfo>2->getName(),"ID","Function");
 
 			s = symbolTable->lookUp($<symbolinfo>2->getName());
 
@@ -178,7 +176,7 @@ func_declaration: type_specifier ID LPAREN parameter_list RPAREN SEMICOLON {
 			if(s == nullptr){
 
 				//TODO : Function
-				symbolTable->insert(SymbolInfo($<symbolinfo>2->getName(),"ID","Function"));
+				symbolTable->insert($<symbolinfo>2->getName(),"ID","Function");
 				s=symbolTable->lookUp($<symbolinfo>2->getName());
 				s->set_isFunction();
 				s->get_isFunction()->set_return_type($<symbolinfo>1->getName());
@@ -236,7 +234,7 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 		}
 		else{ 
 			//cout<<param_list.size()<<" "<<lines<<endl;
-			symbolTable->insert(SymbolInfo($<symbolinfo>2->getName(),"ID","Function"));
+			symbolTable->insert($<symbolinfo>2->getName(),"ID","Function");
 			s = symbolTable->lookUp($<symbolinfo>2->getName());
 			s->set_isFunction();
 			//cout<<s->get_isFunction()->get_number_of_parameter()<<endl;
@@ -259,7 +257,7 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 		$<symbolinfo>$ = new SymbolInfo();
 		SymbolInfo *s = symbolTable->lookUp($<symbolinfo>2->getName());
 		if(s == nullptr){
-			symbolTable->insert(SymbolInfo($<symbolinfo>2->getName(),"ID","Function"));
+			symbolTable->insert($<symbolinfo>2->getName(),"ID","Function");
 			s = symbolTable->lookUp($<symbolinfo>2->getName());
 			s -> set_isFunction();
 			s -> get_isFunction()->set_isdefined();
@@ -337,7 +335,7 @@ compound_statement: LCURL {
 	symbolTable->enterScope();
 	//	cout<<lines<<" "<<param_list.size()<<endl;
 	for(int i=0;i<param_list.size();i++)
-		symbolTable->insert(SymbolInfo(param_list[i]->getName(),"ID",param_list[i]->getDeclarationType()));
+		symbolTable->insert(param_list[i]->getName(),"ID",param_list[i]->getDeclarationType());
 		//symbolTable->printcurrent();
 	param_list.clear();
 	} statements RCURL {
@@ -351,7 +349,7 @@ compound_statement: LCURL {
 	| LCURL RCURL {
 		symbolTable->enterScope();
 		for(int i=0;i<param_list.size();i++)
-			symbolTable->insert(SymbolInfo(param_list[i]->getName(),"ID",param_list[i]->getDeclarationType()));
+			symbolTable->insert(param_list[i]->getName(),"ID",param_list[i]->getDeclarationType());
 		//symbolTable->printcurrent();
 		param_list.clear();
 		$<symbolinfo>$=new SymbolInfo();
@@ -381,8 +379,8 @@ var_declaration: type_specifier declaration_list SEMICOLON {
 				}
 				if(declaration_list[i]->getType().size()==3){ //"IDa"
 					declaration_list[i]->setType(declaration_list[i]->getType().substr(0,declaration_list[i]->getType().size () - 1));
-					symbolTable->insert(SymbolInfo(declaration_list[i]->getName(),declaration_list[i]->getType(),$<symbolinfo>1->getName()+"array"));
-				} else symbolTable->insert(SymbolInfo(declaration_list[i]->getName(),declaration_list[i]->getType(),$<symbolinfo>1->getName()));
+					symbolTable->insert(declaration_list[i]->getName(),declaration_list[i]->getType(),$<symbolinfo>1->getName()+"array");
+				} else symbolTable->insert(declaration_list[i]->getName(),declaration_list[i]->getType(),$<symbolinfo>1->getName());
 			}
 		}
 		declaration_list.clear();
@@ -931,7 +929,8 @@ int main(int argc,char *argv[])
 	symbolTable->printAllScopeTables();
 	cout<<"Total Lines "<<lines<<endl;
 	cout<<"Total Errors "<<errors<<endl;
-	
+	LOG("Total Lines :"+to_string(lines));
+	LOG("Total Errors :"+to_string(errors));
 	
 	fclose(fp);
 	

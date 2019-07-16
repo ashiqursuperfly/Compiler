@@ -1,0 +1,9 @@
+Line:6 Error: Multiple Declaration of c
+Line:7 Error:  Non-integer Array Index  
+Line:8 Error: Type Mismatch 6
+Line:9 Error:  Integer operand on modulus(%) operator  
+Line:10 Error:  Not an array: a
+Line:10 Error: Type Mismatch 6
+Line:11 Error:  Not an array: a
+Line:11 Error: Type Mismatch 14
+Line:12 Error:  Undeclared Variable: b

@@ -2,5 +2,7 @@
 /sample io/*
 /1605103/*
 /Shoummo Bhai/*
-/Assignment 3 - Bison/*
+/A3/*
 .vscode/
+*.out
+*.o

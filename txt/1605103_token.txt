@@ -1,1 +1,0 @@
-<ID, foo> <LPAREN, (> <RPAREN, )> <LCURL, {> <ID, x> <SEMICOLON, ;> <ID, x> <ASSIGNOP, => <CONST_INT, 2> <SEMICOLON, ;> <RCURL, }> 

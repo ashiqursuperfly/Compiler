@@ -47,11 +47,12 @@ public:
         delete prev;
     }
 
-    bool insert(const SymbolInfo &si)
+    bool insert(string sName,string sType,string sDecType)
     {
-        bool retVal = currentScope->insert(si);
-        if (retVal)
-            //printCurrentScopeTable();
+        bool retVal = currentScope->insert(sName,sType,sDecType);
+        // if (retVal)
+        //    printCurrentScopeTable();
+        
         return retVal;
     }
 
@@ -133,7 +134,7 @@ public:
             const string type = c.front();
             c.pop_front();
             const SymbolInfo symbol(name, type);
-            insert(symbol);
+            insert(symbol.getName(),symbol.getType(),symbol.getDeclarationType());
         }
         else if (op == INSTRUCTIONS[1])
         { // LookUp

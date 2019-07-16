@@ -93,16 +93,16 @@ public:
         return true;
     }
 
-    bool insert(const SymbolInfo &si)
+    bool insert(string sName,string sType,string sDecType)
     {
-        if (lookUp(si.getName()) != nullptr)
+        if (lookUp(sName) != nullptr)
         {
             Util::printMessage("Insert", "Error ! Symbol Already Exists.\n");
             return false;
         }
-        int row = hash(si.getName());
+        int row = hash(sName);
         int col = 0;
-        auto *newData = new SymbolInfo(si.getName(), si.getType());
+        auto *newData = new SymbolInfo(sName, sType, sDecType);
         if (hashtable[row] == nullptr)
         {
             hashtable[row] = newData;
@@ -121,7 +121,7 @@ public:
         }
 
         Util::printMessage("Insert At",
-                     "ScopeTable :" + to_string(id) + " Symbol" + si.toString() + " Position(" + to_string(row) + "," + to_string(col) +
+                     "ScopeTable :" + to_string(id) + " Symbol" + newData->toString() + " Position(" + to_string(row) + "," + to_string(col) +
                          ") Successful\n");
         return true;
     }
@@ -167,10 +167,11 @@ public:
 
     virtual ~ScopeTable()
     {
-        delete[] hashtable;
-        hashtable = nullptr;
-        delete parentScope;
-        parentScope = nullptr;
+        for(int i=0; i<size; i++)
+        {
+            delete (hashtable[i]);
+        }
+        delete(parentScope);
     }
 };
 
