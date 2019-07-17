@@ -83,7 +83,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	Util::appendToken("STRING",processed);
 
 	SymbolInfo *s= new  SymbolInfo(processed, "STRING");
-	yylval.symbolinfo = s;
+	yylval.Symbol = s;
 
 	return STRING;
 }
@@ -98,7 +98,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	Util::appendToken("CONST_CHAR",s);
 
 	SymbolInfo *sm= new  SymbolInfo(yytext, "CONST_CHAR");
-	yylval.symbolinfo= sm;
+	yylval.Symbol= sm;
 
 	return CONST_CHAR;
 }
@@ -121,7 +121,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	Util::appendToken("CONST_INT",yytext);
 
 	SymbolInfo *s= new  SymbolInfo(yytext, "CONST_INT");
-	yylval.symbolinfo = s;
+	yylval.Symbol = s;
 	
 	return CONST_INT;
 }
@@ -130,7 +130,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	Util::appendToken("CONST_FLOAT",yytext);
 	
 	SymbolInfo *s= new  SymbolInfo(yytext, "CONST_FLOAT");
-	yylval.symbolinfo = s;
+	yylval.Symbol = s;
 	
 	return CONST_FLOAT;
 }
@@ -254,7 +254,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	Util::lexerLog(lines,"ADDOP",yytext);
 	
 	SymbolInfo *s= new SymbolInfo(yytext,"ADDOP");
-	yylval.symbolinfo =s;
+	yylval.Symbol =s;
 
 	return ADDOP;
 	
@@ -265,7 +265,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	Util::lexerLog(lines,"INCOP",yytext);
 	
 	SymbolInfo *s= new SymbolInfo(yytext,"INCOP");
-	yylval.symbolinfo =s;
+	yylval.Symbol =s;
 
 	return INCOP;
 }
@@ -274,7 +274,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	Util::lexerLog(lines,"MULOP",yytext);
 
 	SymbolInfo *s= new SymbolInfo(yytext,"MULOP");
-	yylval.symbolinfo =s;
+	yylval.Symbol =s;
 
 	return MULOP;
 }
@@ -283,7 +283,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	Util::lexerLog(lines,"RELOP",yytext);
 	
 	SymbolInfo *s= new SymbolInfo(yytext,"RELOP");
-	yylval.symbolinfo =s;
+	yylval.Symbol =s;
 
 	return RELOP;
 }
@@ -292,7 +292,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	Util::lexerLog(lines,"LOGICOP",yytext);
 
 	SymbolInfo *s= new SymbolInfo(yytext,"LOGICOP");
-	yylval.symbolinfo =s;
+	yylval.Symbol =s;
 
 	return LOGICOP;
 }
@@ -301,7 +301,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	Util::lexerLog(lines,"BITOP",yytext);
 	
 	SymbolInfo *s= new SymbolInfo(yytext,"BITOP");
-	yylval.symbolinfo =s;
+	yylval.Symbol =s;
 
 	return BITOP;
 }
@@ -311,7 +311,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	Util::appendToken("ID",yytext);
 
 	SymbolInfo *s= new SymbolInfo(yytext,"ID");
-	yylval.symbolinfo =s;
+	yylval.Symbol =s;
 	
 	return ID;
 

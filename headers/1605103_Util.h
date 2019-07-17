@@ -33,36 +33,47 @@ public:
         ofstream outfile;
         if(type == LEXER){
             outfile.open(LEXER_ERROR_FILE, std::ios_base::app);
-            outfile <<"Line:"<<line_no<<" Error"<<": "<<error_msg<<endl;
+            outfile <<"Line:"<<line_no<<" Error"<<": "<<error_msg<<endl<<endl;
         }
         else if(type == PARSER){
             outfile.open(PARSER_ERROR_FILE, std::ios_base::app);
-            outfile <<"Line:"<<line_no<<" Error"<<": "<<error_msg<<endl;
+            outfile <<"Line:"<<line_no<<" Error"<<": "<<error_msg<<endl<<endl;
+        }
+    }
+    static void appendLogError(const string & error_msg,int type){
+        ofstream outfile;
+        if(type == LEXER){
+            outfile.open(LEXER_ERROR_FILE, std::ios_base::app);
+            outfile <<error_msg<<endl<<endl;
+        }
+        else if(type == PARSER){
+            outfile.open(PARSER_ERROR_FILE, std::ios_base::app);
+            outfile <<error_msg<<endl<<endl;
         }
     }
     static void lexerLog(const string & data){
         ofstream outfile;
 
         outfile.open(LEXER_LOG, std::ios_base::app);
-        outfile << data<<endl;
+        outfile << data<<endl<<endl;
     }
     static void lexerLog(int line_no,const string & token,const string & lexeme){
         ofstream outfile;
 
         outfile.open(LEXER_LOG, std::ios_base::app);
-        outfile << "Line:"<<line_no<<" Token: "<<token<<" Lexeme: "<<lexeme<<endl;;
+        outfile << "Line:"<<line_no<<" Token: "<<token<<" Lexeme: "<<lexeme<<endl<<endl;;
     }
     static void parserLog(const string & data){
         ofstream outfile;
 
         outfile.open(PARSER_LOG, std::ios_base::app);
-        outfile << data<<endl;
+        outfile << data<<endl<<endl;
     }
     static void parserLog(int line_no,const string & rule){
         ofstream outfile;
 
         outfile.open(PARSER_LOG, std::ios_base::app);
-        outfile << "Line:"<<line_no<<"  "<<rule<<endl;;
+        outfile << "Line:"<<line_no<<"  "<<rule<<endl<<endl;;
     }
     static void appendToken(const string & symbol){
         ofstream outfile;
@@ -120,7 +131,7 @@ public:
         outfile << data;
     }
     static void printMessage(string tag,string msg){
-        //cout<<tag<<" : "<<msg<<endl;
+        //cout<<tag<<" : "<<msg<<endl<<endl;
         appendToFile(tag + " : "+msg+"\n");
         fflush(stdout);
     }

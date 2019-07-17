@@ -935,7 +935,7 @@ YY_RULE_SETUP
 	Util::appendToken("STRING",processed);
 
 	SymbolInfo *s= new  SymbolInfo(processed, "STRING");
-	yylval.symbolinfo = s;
+	yylval.Symbol = s;
 
 	return STRING;
 }
@@ -958,7 +958,7 @@ YY_RULE_SETUP
 	Util::appendToken("CONST_CHAR",s);
 
 	SymbolInfo *sm= new  SymbolInfo(yytext, "CONST_CHAR");
-	yylval.symbolinfo= sm;
+	yylval.Symbol= sm;
 
 	return CONST_CHAR;
 }
@@ -996,7 +996,7 @@ YY_RULE_SETUP
 	Util::appendToken("CONST_INT",yytext);
 
 	SymbolInfo *s= new  SymbolInfo(yytext, "CONST_INT");
-	yylval.symbolinfo = s;
+	yylval.Symbol = s;
 	
 	return CONST_INT;
 }
@@ -1009,7 +1009,7 @@ YY_RULE_SETUP
 	Util::appendToken("CONST_FLOAT",yytext);
 	
 	SymbolInfo *s= new  SymbolInfo(yytext, "CONST_FLOAT");
-	yylval.symbolinfo = s;
+	yylval.Symbol = s;
 	
 	return CONST_FLOAT;
 }
@@ -1231,7 +1231,7 @@ YY_RULE_SETUP
 	Util::lexerLog(lines,"ADDOP",yytext);
 	
 	SymbolInfo *s= new SymbolInfo(yytext,"ADDOP");
-	yylval.symbolinfo =s;
+	yylval.Symbol =s;
 
 	return ADDOP;
 	
@@ -1246,7 +1246,7 @@ YY_RULE_SETUP
 	Util::lexerLog(lines,"INCOP",yytext);
 	
 	SymbolInfo *s= new SymbolInfo(yytext,"INCOP");
-	yylval.symbolinfo =s;
+	yylval.Symbol =s;
 
 	return INCOP;
 }
@@ -1259,7 +1259,7 @@ YY_RULE_SETUP
 	Util::lexerLog(lines,"MULOP",yytext);
 
 	SymbolInfo *s= new SymbolInfo(yytext,"MULOP");
-	yylval.symbolinfo =s;
+	yylval.Symbol =s;
 
 	return MULOP;
 }
@@ -1272,7 +1272,7 @@ YY_RULE_SETUP
 	Util::lexerLog(lines,"RELOP",yytext);
 	
 	SymbolInfo *s= new SymbolInfo(yytext,"RELOP");
-	yylval.symbolinfo =s;
+	yylval.Symbol =s;
 
 	return RELOP;
 }
@@ -1285,7 +1285,7 @@ YY_RULE_SETUP
 	Util::lexerLog(lines,"LOGICOP",yytext);
 
 	SymbolInfo *s= new SymbolInfo(yytext,"LOGICOP");
-	yylval.symbolinfo =s;
+	yylval.Symbol =s;
 
 	return LOGICOP;
 }
@@ -1298,7 +1298,7 @@ YY_RULE_SETUP
 	Util::lexerLog(lines,"BITOP",yytext);
 	
 	SymbolInfo *s= new SymbolInfo(yytext,"BITOP");
-	yylval.symbolinfo =s;
+	yylval.Symbol =s;
 
 	return BITOP;
 }
@@ -1311,7 +1311,7 @@ YY_RULE_SETUP
 	Util::appendToken("ID",yytext);
 
 	SymbolInfo *s= new SymbolInfo(yytext,"ID");
-	yylval.symbolinfo =s;
+	yylval.Symbol =s;
 	
 	return ID;
 
