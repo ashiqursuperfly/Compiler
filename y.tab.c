@@ -80,7 +80,7 @@ extern FILE *yyin;
 
 
 SymbolTable *symbolTable = new SymbolTable(100);
-vector<SymbolInfo*>param_list,declaration_list,arg_list;
+vector<SymbolInfo*>paramList,declarationList,argList;
 
 void yyerror(char *s){
 	cerr<<s<<" at Line:"<<lines<<endl;
@@ -556,7 +556,7 @@ static const char *const yytname[] =
   "COMMA", "SEMICOLON", "STRING", "ID", "PRINTLN", "LOWER_THAN_ELSE",
   "$accept", "start", "program", "unit", "func_declaration",
   "func_definition", "@1", "@2", "parameter_list", "compound_statement",
-  "$@3", "var_declaration", "type_specifier", "declaration_list",
+  "$@3", "var_declaration", "type_specifier", "declarationList",
   "statements", "statement", "expression_statement", "variable",
   "expression", "logic_expression", "rel_expression", "simple_expression",
   "term", "unary_expression", "factor", "argument_list", "arguments", YY_NULLPTR
@@ -1409,7 +1409,7 @@ yyreduce:
     {
 		
 		(yyval.Symbol) = new SymbolInfo();
-		LOG(lines,"program->program unit");
+		LOG(lines,"program -> program unit");
 		LOG((yyvsp[-1].Symbol)->getName()+" "+(yyvsp[0].Symbol)->getName()); 
 		
 		(yyval.Symbol)->setName((yyvsp[-1].Symbol)->getName()+(yyvsp[0].Symbol)->getName());
@@ -1422,7 +1422,7 @@ yyreduce:
     {
 
 		(yyval.Symbol) = new SymbolInfo();
-		LOG(lines,"program->unit");
+		LOG(lines,"program -> unit");
 		LOG((yyvsp[0].Symbol)->getName()+'\n');
 
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName());
@@ -1435,7 +1435,7 @@ yyreduce:
     {
 
 		(yyval.Symbol)=new SymbolInfo();
-		LOG(lines,"unit->var_declaration");
+		LOG(lines,"unit -> var_declaration");
 		LOG((yyvsp[0].Symbol)->getName()); 
 
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName()+"\n");
@@ -1448,7 +1448,7 @@ yyreduce:
     {
 
 		(yyval.Symbol) = new SymbolInfo();
-		LOG(lines,"unit->func_declaration");
+		LOG(lines,"unit -> func_declaration");
 		LOG((yyvsp[0].Symbol)->getName()); 
 
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName()+"\n");
@@ -1461,7 +1461,7 @@ yyreduce:
     { 
 
 		(yyval.Symbol)=new SymbolInfo();
-		LOG(lines,"unit->func_definition");
+		LOG(lines,"unit -> func_definition");
 		LOG((yyvsp[0].Symbol)->getName());
 
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName()+"\n");
@@ -1474,7 +1474,7 @@ yyreduce:
     {
 
 		(yyval.Symbol)=new SymbolInfo();
-		LOG(lines,"func_declaration->type_specifier ID LPAREN parameter_list RPAREN SEMICOLON");
+		LOG(lines,"func_declaration -> type_specifier ID LPAREN parameter_list RPAREN SEMICOLON");
 		LOG((yyvsp[-5].Symbol)->getName()+" "+(yyvsp[-4].Symbol)->getName()+"("+(yyvsp[-2].Symbol)->getName()+")");
 		
 		SymbolInfo *s = symbolTable->lookUp((yyvsp[-4].Symbol)->getName());
@@ -1488,36 +1488,36 @@ yyreduce:
 
 			s->set_isFunction();
 			
-			for(int i=0 ;i < param_list.size() ; i++){
+			for(int i=0 ;i < paramList.size() ; i++){
 			
-				s->get_isFunction()->add_number_of_parameter(param_list[i]->getName(),param_list[i]->getDeclarationType());
-				//cout<<param_list[i]->getDeclarationType()<<endl;
+				s->get_isFunction()->addParam(paramList[i]->getName(),paramList[i]->getDeclarationType());
+				//cout<<paramList[i]->getDeclarationType()<<endl;
 			}
-			param_list.clear();
-			s->get_isFunction()->set_return_type((yyvsp[-5].Symbol)->getName());
+			paramList.clear();
+			s->get_isFunction()->setReturnType((yyvsp[-5].Symbol)->getName());
 		} 
 		else{
-			int num=s->get_isFunction()->get_number_of_parameter();
+			int num=s->get_isFunction()->getParamCount();
 			
-			if(num!=param_list.size()){
+			if(num!=paramList.size()){
 			
 				errors++;
 				ERROR(lines,"Invalid number of parameters ",PARSER);
 			
 			}else{
-				vector<string>para_type=s->get_isFunction()->get_paratype();
-				for( int i=0;i < param_list.size(); i++){
-					if(param_list[i]->getDeclarationType()!=para_type[i]){
+				vector<string>para_type=s->get_isFunction()->getAllParamTypes();
+				for( int i=0;i < paramList.size(); i++){
+					if(paramList[i]->getDeclarationType()!=para_type[i]){
 						errors++;
-						ERROR(lines,"Type Mismatch ! Expected "+param_list[i]->getDeclarationType()+" Found "+ para_type[i] +" for "+to_string(i)+"th parameter",PARSER);
+						ERROR(lines,"Type Mismatch ! Expected "+paramList[i]->getDeclarationType()+" Found "+ para_type[i] +" for "+to_string(i)+"th parameter",PARSER);
 						break;
 					}
 				}
-				if(s->get_isFunction()->get_return_type()!=(yyvsp[-5].Symbol)->getName()){
+				if(s->get_isFunction()->getReturnType()!=(yyvsp[-5].Symbol)->getName()){
 					errors++;
-					ERROR(lines,"Return Type Mismatch ! Expected "+s->get_isFunction()->get_return_type()+ " Found " + (yyvsp[-5].Symbol)->getName(),PARSER);
+					ERROR(lines,"Return Type Mismatch ! Expected "+s->get_isFunction()->getReturnType()+ " Found " + (yyvsp[-5].Symbol)->getName(),PARSER);
 				}
-				param_list.clear();
+				paramList.clear();
 			}
 		}
 
@@ -1544,19 +1544,19 @@ yyreduce:
 				symbolTable->insert((yyvsp[-3].Symbol)->getName(),"ID","Function");
 				s=symbolTable->lookUp((yyvsp[-3].Symbol)->getName());
 				s->set_isFunction();
-				s->get_isFunction()->set_return_type((yyvsp[-4].Symbol)->getName());
+				s->get_isFunction()->setReturnType((yyvsp[-4].Symbol)->getName());
 			
 			}
 			else{
 
-				if(s->get_isFunction()->get_number_of_parameter()!=0){
+				if(s->get_isFunction()->getParamCount()!=0){
 					errors++;
-					ERROR(lines,"Invalid number of parameters! Expected 0 Found "+to_string(s->get_isFunction()->get_number_of_parameter()),PARSER);
+					ERROR(lines,"Invalid number of parameters! Expected 0 Found "+to_string(s->get_isFunction()->getParamCount()),PARSER);
 		
 				}
-				if(s->get_isFunction()->get_return_type()!=(yyvsp[-4].Symbol)->getName()){
+				if(s->get_isFunction()->getReturnType()!=(yyvsp[-4].Symbol)->getName()){
 					errors++;
-					ERROR(lines," Return Type Does not Match! Expected "+s->get_isFunction()->get_return_type()+ " Found " +(yyvsp[-4].Symbol)->getName(),PARSER);
+					ERROR(lines," Return Type Does not Match! Expected "+s->get_isFunction()->getReturnType()+ " Found " +(yyvsp[-4].Symbol)->getName(),PARSER);
 				}
 
 			}
@@ -1573,26 +1573,26 @@ yyreduce:
 		SymbolInfo *s = symbolTable->lookUp((yyvsp[-3].Symbol)->getName()); 
 
 		if(s != nullptr){ 
-			if(s->get_isFunction()->get_isdefined()==0){
-				int num = s->get_isFunction()->get_number_of_parameter();
-				if(num != param_list.size()){
+			if(s->get_isFunction()->isDefined()==0){
+				int num = s->get_isFunction()->getParamCount();
+				if(num != paramList.size()){
 					errors++;
 					ERROR(lines,"Invalid number of parameters ",PARSER);
 				} else{
-					vector<string>para_type = s->get_isFunction()->get_paratype();
-					for(int i=0;i<param_list.size();i++){
-						if(param_list[i]->getDeclarationType() != para_type[i]){
+					vector<string>para_type = s->get_isFunction()->getAllParamTypes();
+					for(int i=0;i<paramList.size();i++){
+						if(paramList[i]->getDeclarationType() != para_type[i]){
 							errors++;
-							ERROR(lines,"Type Mismatch ! Expected "+param_list[i]->getDeclarationType()+" Found "+para_type[i]+" for "+ to_string(i)+"th "+"Parameter",PARSER);
+							ERROR(lines,"Type Mismatch ! Expected "+paramList[i]->getDeclarationType()+" Found "+para_type[i]+" for "+ to_string(i)+"th "+"Parameter",PARSER);
 							break;
 						}
 					}
-					if(s->get_isFunction()->get_return_type() != (yyvsp[-4].Symbol)->getName()){
+					if(s->get_isFunction()->getReturnType() != (yyvsp[-4].Symbol)->getName()){
 						errors++;
-						ERROR(lines,"Return Type Mismatch ! Expected "+s->get_isFunction()->get_return_type()+ " Found " + (yyvsp[-4].Symbol)->getName(),PARSER);
+						ERROR(lines,"Return Type Mismatch ! Expected "+s->get_isFunction()->getReturnType()+ " Found " + (yyvsp[-4].Symbol)->getName(),PARSER);
 					}	
 				}
-				s->get_isFunction()->set_isdefined();
+				s->get_isFunction()->setDefined();
 			}
 			else{
 				errors++;
@@ -1600,17 +1600,17 @@ yyreduce:
 			}
 		}
 		else{ 
-			//cout<<param_list.size()<<" "<<lines<<endl;
+			//cout<<paramList.size()<<" "<<lines<<endl;
 			symbolTable->insert((yyvsp[-3].Symbol)->getName(),"ID","Function");
 			s = symbolTable->lookUp((yyvsp[-3].Symbol)->getName());
 			s->set_isFunction();
-			//cout<<s->get_isFunction()->get_number_of_parameter()<<endl;
-			s->get_isFunction()->set_isdefined();
+			//cout<<s->get_isFunction()->getParamCount()<<endl;
+			s->get_isFunction()->setDefined();
 			
-			for(int i=0;i<param_list.size();i++){
-				s->get_isFunction()->add_number_of_parameter(param_list[i]->getName(),param_list[i]->getDeclarationType());
+			for(int i=0;i<paramList.size();i++){
+				s->get_isFunction()->addParam(paramList[i]->getName(),paramList[i]->getDeclarationType());
 			}
-			s->get_isFunction()->set_return_type((yyvsp[-4].Symbol)->getName());
+			s->get_isFunction()->setReturnType((yyvsp[-4].Symbol)->getName());
 		}
 
 	}
@@ -1637,21 +1637,21 @@ yyreduce:
 			symbolTable->insert((yyvsp[-2].Symbol)->getName(),"ID","Function");
 			s = symbolTable->lookUp((yyvsp[-2].Symbol)->getName());
 			s -> set_isFunction();
-			s -> get_isFunction()->set_isdefined();
-			s -> get_isFunction()->set_return_type((yyvsp[-3].Symbol)->getName());
-			//	cout<<lines<<" "<<s->get_isFunction()->get_return_type()<<endl;
+			s -> get_isFunction()->setDefined();
+			s -> get_isFunction()->setReturnType((yyvsp[-3].Symbol)->getName());
+			//	cout<<lines<<" "<<s->get_isFunction()->getReturnType()<<endl;
 		}
-		else if(s->get_isFunction()->get_isdefined()==0){
-			if(s->get_isFunction()->get_number_of_parameter()!=0){
+		else if(s->get_isFunction()->isDefined()==0){
+			if(s->get_isFunction()->getParamCount()!=0){
 				errors++;
 				ERROR(lines," Invalid number of parameters ",PARSER);
 			}
-			if(s->get_isFunction()->get_return_type()!=(yyvsp[-3].Symbol)->getName()){
+			if(s->get_isFunction()->getReturnType()!=(yyvsp[-3].Symbol)->getName()){
 				errors++;
 				ERROR(lines,"Return Type Mismatch ",PARSER);
 			}
 
-			s->get_isFunction()->set_isdefined();
+			s->get_isFunction()->setDefined();
 		}
 		else{
 			errors++;
@@ -1682,7 +1682,7 @@ yyreduce:
 		LOG(lines,"parameter_list -> parameter_list COMMA type_specifier ID");
 		LOG((yyvsp[-3].Symbol)->getName()+","+(yyvsp[-1].Symbol)->getName()+" "+(yyvsp[0].Symbol)->getName());
 		
-		param_list.push_back(new SymbolInfo((yyvsp[0].Symbol)->getName(),"ID",(yyvsp[-1].Symbol)->getName()));
+		paramList.push_back(new SymbolInfo((yyvsp[0].Symbol)->getName(),"ID",(yyvsp[-1].Symbol)->getName()));
 		(yyval.Symbol)->setName((yyvsp[-3].Symbol)->getName()+","+(yyvsp[-1].Symbol)->getName()+" "+(yyvsp[0].Symbol)->getName());
 	}
 #line 1689 "y.tab.c" /* yacc.c:1646  */
@@ -1696,7 +1696,7 @@ yyreduce:
 		LOG(lines,"parameter_list->parameter_list COMMA type_specifier");
 		LOG((yyvsp[-2].Symbol)->getName()+","+(yyvsp[0].Symbol)->getName());
 		
-		param_list.push_back(new SymbolInfo("","ID",(yyvsp[0].Symbol)->getName()));
+		paramList.push_back(new SymbolInfo("","ID",(yyvsp[0].Symbol)->getName()));
 		(yyval.Symbol)->setName((yyvsp[-2].Symbol)->getName()+","+(yyvsp[0].Symbol)->getName());
 
 	}
@@ -1709,7 +1709,7 @@ yyreduce:
 		(yyval.Symbol)=new SymbolInfo();
 		LOG(lines,"parameter_list -> type_specifier ID");
 		LOG((yyvsp[-1].Symbol)->getName()+" "+(yyvsp[0].Symbol)->getName());
-		param_list.push_back(new SymbolInfo((yyvsp[0].Symbol)->getName(),"ID",(yyvsp[-1].Symbol)->getName()));
+		paramList.push_back(new SymbolInfo((yyvsp[0].Symbol)->getName(),"ID",(yyvsp[-1].Symbol)->getName()));
 		(yyval.Symbol)->setName((yyvsp[-1].Symbol)->getName()+" "+(yyvsp[0].Symbol)->getName());
 	}
 #line 1716 "y.tab.c" /* yacc.c:1646  */
@@ -1721,7 +1721,7 @@ yyreduce:
 		(yyval.Symbol)=new SymbolInfo();
 		LOG(lines,"parameter_list -> type_specifier");
 		LOG((yyvsp[0].Symbol)->getName());
-		param_list.push_back(new SymbolInfo("","ID",(yyvsp[0].Symbol)->getName()));
+		paramList.push_back(new SymbolInfo("","ID",(yyvsp[0].Symbol)->getName()));
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName()+" ");
 	}
 #line 1728 "y.tab.c" /* yacc.c:1646  */
@@ -1731,11 +1731,11 @@ yyreduce:
 #line 328 "1605103.y" /* yacc.c:1646  */
     {
 	symbolTable->enterScope();
-	//	cout<<lines<<" "<<param_list.size()<<endl;
-	for(int i=0;i<param_list.size();i++)
-		symbolTable->insert(param_list[i]->getName(),"ID",param_list[i]->getDeclarationType());
+	//	cout<<lines<<" "<<paramList.size()<<endl;
+	for(int i=0;i<paramList.size();i++)
+		symbolTable->insert(paramList[i]->getName(),"ID",paramList[i]->getDeclarationType());
 		//symbolTable->printcurrent();
-	param_list.clear();
+	paramList.clear();
 	}
 #line 1741 "y.tab.c" /* yacc.c:1646  */
     break;
@@ -1757,10 +1757,10 @@ yyreduce:
 #line 343 "1605103.y" /* yacc.c:1646  */
     {
 		symbolTable->enterScope();
-		for(int i=0;i<param_list.size();i++)
-			symbolTable->insert(param_list[i]->getName(),"ID",param_list[i]->getDeclarationType());
+		for(int i=0;i<paramList.size();i++)
+			symbolTable->insert(paramList[i]->getName(),"ID",paramList[i]->getDeclarationType());
 		//symbolTable->printcurrent();
-		param_list.clear();
+		paramList.clear();
 		(yyval.Symbol)=new SymbolInfo();
 		LOG(lines,"compound_statement->LCURL RCURL");
 		LOG("{}");
@@ -1775,26 +1775,26 @@ yyreduce:
 #line 359 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol)=new SymbolInfo();
-		LOG(lines,"var_declaration -> type_specifier declaration_list SEMICOLON");
+		LOG(lines,"var_declaration -> type_specifier declarationList SEMICOLON");
 		LOG((yyvsp[-2].Symbol)->getName()+" "+(yyvsp[-1].Symbol)->getName()+";");
 		if((yyvsp[-2].Symbol)->getName()=="void "){ 
 			errors++;
 			ERROR(lines,"Cannot Declare void Type",PARSER);																
 		}
 		else{
-			for(int i=0;i < declaration_list.size() ; i++){
-				if(symbolTable->lookUpLocal(declaration_list[i]->getName()) != nullptr){
+			for(int i=0;i < declarationList.size() ; i++){
+				if(symbolTable->lookUpLocal(declarationList[i]->getName()) != nullptr){
 					errors++;
-					ERROR(lines,"Multiple Declaration of " + declaration_list[i]->getName(),PARSER);
+					ERROR(lines,"Multiple Declaration of " + declarationList[i]->getName(),PARSER);
 					continue;
 				}
-				if(declaration_list[i]->getType().size()==3){ //"IDa"
-					declaration_list[i]->setType(declaration_list[i]->getType().substr(0,declaration_list[i]->getType().size () - 1));
-					symbolTable->insert(declaration_list[i]->getName(),declaration_list[i]->getType(),(yyvsp[-2].Symbol)->getName()+"array");
-				} else symbolTable->insert(declaration_list[i]->getName(),declaration_list[i]->getType(),(yyvsp[-2].Symbol)->getName());
+				if(declarationList[i]->getType().size()==3){ //"IDa"
+					declarationList[i]->setType(declarationList[i]->getType().substr(0,declarationList[i]->getType().size () - 1));
+					symbolTable->insert(declarationList[i]->getName(),declarationList[i]->getType(),(yyvsp[-2].Symbol)->getName()+"array");
+				} else symbolTable->insert(declarationList[i]->getName(),declarationList[i]->getType(),(yyvsp[-2].Symbol)->getName());
 			}
 		}
-		declaration_list.clear();
+		declarationList.clear();
 		(yyval.Symbol)->setName((yyvsp[-2].Symbol)->getName()+" "+(yyvsp[-1].Symbol)->getName()+";");
 	}
 #line 1801 "y.tab.c" /* yacc.c:1646  */
@@ -1837,9 +1837,9 @@ yyreduce:
 #line 408 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol)=new SymbolInfo();
-		LOG(lines,"declaration_list -> declaration_list COMMA ID");
+		LOG(lines,"declarationList -> declarationList COMMA ID");
 		LOG((yyvsp[-2].Symbol)->getName()+","+(yyvsp[0].Symbol)->getName());
-		declaration_list.push_back(new SymbolInfo((yyvsp[0].Symbol)->getName(),"ID"));
+		declarationList.push_back(new SymbolInfo((yyvsp[0].Symbol)->getName(),"ID"));
 		(yyval.Symbol)->setName((yyvsp[-2].Symbol)->getName()+","+(yyvsp[0].Symbol)->getName());
 	}
 #line 1846 "y.tab.c" /* yacc.c:1646  */
@@ -1850,9 +1850,9 @@ yyreduce:
     {
 		(yyval.Symbol)=new SymbolInfo();
 		LOG((yyvsp[-5].Symbol)->getName()+","+(yyvsp[-3].Symbol)->getName()+"["+(yyvsp[-1].Symbol)->getName()+"]");
-		LOG(lines,"declaration_list -> declaration_list COMMA ID LTHIRD CONST_INT RTHIRD");
+		LOG(lines,"declarationList -> declarationList COMMA ID LTHIRD CONST_INT RTHIRD");
 		
-		declaration_list.push_back(new SymbolInfo((yyvsp[-3].Symbol)->getName(),"IDa")); //TODO : why IDa ?
+		declarationList.push_back(new SymbolInfo((yyvsp[-3].Symbol)->getName(),"IDa")); //TODO : why IDa ?
 		(yyval.Symbol)->setName((yyvsp[-5].Symbol)->getName()+","+(yyvsp[-3].Symbol)->getName()+"["+(yyvsp[-1].Symbol)->getName()+"]");
 	}
 #line 1859 "y.tab.c" /* yacc.c:1646  */
@@ -1862,9 +1862,9 @@ yyreduce:
 #line 423 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol)=new SymbolInfo();
-		LOG(lines,"declaration_list -> ID");
+		LOG(lines,"declarationList -> ID");
 		LOG((yyvsp[0].Symbol)->getName());
-		declaration_list.push_back(new SymbolInfo((yyvsp[0].Symbol)->getName(),"ID"));
+		declarationList.push_back(new SymbolInfo((yyvsp[0].Symbol)->getName(),"ID"));
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName());
 	}
 #line 1871 "y.tab.c" /* yacc.c:1646  */
@@ -1874,9 +1874,9 @@ yyreduce:
 #line 430 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol)=new SymbolInfo();
-		LOG(lines,"declaration_list -> ID LTHIRD CONST_INT RTHIRD");
+		LOG(lines,"declarationList -> ID LTHIRD CONST_INT RTHIRD");
 		LOG((yyvsp[-3].Symbol)->getName()+"["+(yyvsp[-1].Symbol)->getName()+"]");
-		declaration_list.push_back(new SymbolInfo((yyvsp[-3].Symbol)->getName(),"IDa"));
+		declarationList.push_back(new SymbolInfo((yyvsp[-3].Symbol)->getName(),"IDa"));
 		(yyval.Symbol)->setName((yyvsp[-3].Symbol)->getName()+"["+(yyvsp[-1].Symbol)->getName()+"]");
 	}
 #line 1883 "y.tab.c" /* yacc.c:1646  */
@@ -2378,23 +2378,23 @@ yyreduce:
 			(yyval.Symbol)->setDeclarationType("int "); 
 		}
 		else {
-			if(s->get_isFunction()->get_isdefined()==0){
+			if(s->get_isFunction()->isDefined()==0){
 				errors++;
 				ERROR(lines," Undeclared Function ",PARSER);
 			}
-			int num=s->get_isFunction()->get_number_of_parameter();
-			//cout<<lines<<" "<<arg_list.size()<<endl;
-			(yyval.Symbol)->setDeclarationType(s->get_isFunction()->get_return_type());
-			if(num!=arg_list.size()){
+			int num=s->get_isFunction()->getParamCount();
+			//cout<<lines<<" "<<argList.size()<<endl;
+			(yyval.Symbol)->setDeclarationType(s->get_isFunction()->getReturnType());
+			if(num!=argList.size()){
 				errors++;
 				ERROR(lines," Invalid number of arguments ",PARSER);
 			}
 			else{
-				//cout<<s->get_isFunction()->get_return_type()<<endl;
-				vector<string>param_list=s->get_isFunction()->get_paralist();
-				vector<string>para_type=s->get_isFunction()->get_paratype();
-				for(int i=0;i<arg_list.size();i++){
-					if(arg_list[i]->getDeclarationType()!=para_type[i]){
+				//cout<<s->get_isFunction()->getReturnType()<<endl;
+				vector<string>paramList=s->get_isFunction()->getAllParams();
+				vector<string>para_type=s->get_isFunction()->getAllParamTypes();
+				for(int i=0;i<argList.size();i++){
+					if(argList[i]->getDeclarationType()!=para_type[i]){
 						errors++;
 						ERROR(lines,"Type Mismatch 14",PARSER);
 						break;
@@ -2403,7 +2403,7 @@ yyreduce:
 
 			}
 		}
-		arg_list.clear();
+		argList.clear();
 		//cout<<lines<<" "<<$<Symbol>$->getDeclarationType()<<endl;
 		(yyval.Symbol)->setName((yyvsp[-3].Symbol)->getName()+"("+(yyvsp[-1].Symbol)->getName()+")"); 
 	}
@@ -2501,7 +2501,7 @@ yyreduce:
 		(yyval.Symbol)=new SymbolInfo();
 		LOG(lines,"arguments->arguments COMMA logic_expression ");
 		LOG((yyvsp[-2].Symbol)->getName()+","+(yyvsp[0].Symbol)->getName());
-		arg_list.push_back((yyvsp[0].Symbol));
+		argList.push_back((yyvsp[0].Symbol));
 		(yyval.Symbol)->setName((yyvsp[-2].Symbol)->getName()+","+(yyvsp[0].Symbol)->getName());
 	}
 #line 2508 "y.tab.c" /* yacc.c:1646  */
@@ -2513,7 +2513,7 @@ yyreduce:
 		(yyval.Symbol)=new SymbolInfo();
 		LOG(lines,"arguments->logic_expression");
 		LOG((yyvsp[0].Symbol)->getName()); 
-		arg_list.push_back(new SymbolInfo((yyvsp[0].Symbol)->getName(),(yyvsp[0].Symbol)->getType(),(yyvsp[0].Symbol)->getDeclarationType()));
+		argList.push_back(new SymbolInfo((yyvsp[0].Symbol)->getName(),(yyvsp[0].Symbol)->getType(),(yyvsp[0].Symbol)->getDeclarationType()));
 		// cout<<$<Symbol>1->getDeclarationType()<<endl;
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName());					
 	}
@@ -2779,28 +2779,13 @@ void test(string fileName){
 int main(int argc,char *argv[])
 {
 	Util::clearFiles();
-	// if((fp=fopen(argv[1],"r"))==NULL)
-	// {
-	// 	printf("Cannot Open Input File.\n");
-	// 	return 0;
-	// }
-	// yyin=fp;
-	// yyparse();
-	// LOG("Final SymbolTable : ");
-	// symbolTable->printAllScopeTables();
-	// LOG("Total Lines :"+to_string(lines));
-	// LOG("Total Errors :"+to_string(errors));
 	
 	int i = 1;
 	while(*(argv + i)!=nullptr){
 		test(argv[i]);
 		i++;
 	}
-	// test(argv[1]);
-	// test(argv[2]);
-	// test(argv[3]);
 
-	
 	
 	return 0;
 }

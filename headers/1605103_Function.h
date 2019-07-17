@@ -6,49 +6,46 @@ using namespace std;
 
 class Function
 {
-    string return_type;
-    vector<string> parameter_list;
-    vector<string> parameter_type;
-    bool isdefined;
-
+    string return_type;bool isdefined;
+    vector<string> paramList,paramType;
 public:
     Function()
     {
         isdefined = false;
-        parameter_list.clear();
-        parameter_type.clear();
+        paramList.clear();
+        paramType.clear();
         return_type = "";
     }
-    void set_return_type(string type)
+    void setReturnType(string type)
     {
         this->return_type = type;
     }
-    string get_return_type()
+    string getReturnType()
     {
         return return_type;
     }
-    int get_number_of_parameter()
+    int getParamCount()
     {
-        return parameter_list.size();
+        return paramList.size();
     }
-    void add_number_of_parameter(string newpara, string type)
+    void addParam(string newpara, string type)
     {
-        parameter_list.push_back(newpara);
-        parameter_type.push_back(type);
+        paramList.push_back(newpara);
+        paramType.push_back(type);
     }
-    vector<string> get_paralist()
+    vector<string> getAllParams()
     {
-        return parameter_list;
+        return paramList;
     }
-    vector<string> get_paratype()
+    vector<string> getAllParamTypes()
     {
-        return parameter_type;
+        return paramType;
     }
-    void set_isdefined()
+    void setDefined()
     {
         this->isdefined = true;
     }
-    bool get_isdefined()
+    bool isDefined()
     {
         return isdefined;
     }
