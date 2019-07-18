@@ -268,7 +268,7 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 		}
 		else{
 			errors++;
-			ERROR(lines,"Multiple defination of function "+$<Symbol>2->getName(),PARSER);
+			ERROR(lines,"Multiple definition of function "+$<Symbol>2->getName(),PARSER);
 		}
 											
 		$<Symbol>1->setName($<Symbol>1->getName()+" "+$<Symbol>2->getName()+"()");
@@ -296,7 +296,7 @@ parameter_list: parameter_list COMMA type_specifier ID {
 	| parameter_list COMMA type_specifier {
 		
 		$<Symbol>$ = new SymbolInfo();
-		LOG(lines,"parameter_list->parameter_list COMMA type_specifier");
+		LOG(lines,"parameter_list -> parameter_list COMMA type_specifier");
 		LOG($<Symbol>1->getName()+","+$<Symbol>3->getName());
 		
 		paramList.push_back(new SymbolInfo("","ID",$<Symbol>3->getName()));
