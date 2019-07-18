@@ -123,7 +123,12 @@ public:
         }
         cont.push_back(str.substr(previous, current - previous));
     }
-
+    inline static string trim(const string &s)
+    {
+        auto wsfront=std::find_if_not(s.begin(),s.end(),[](int c){return std::isspace(c);});
+        auto wsback=std::find_if_not(s.rbegin(),s.rend(),[](int c){return std::isspace(c);}).base();
+        return (wsback<=wsfront ? string() : string(wsfront,wsback));
+    }
     static void appendToFile(const string & data){
         ofstream outfile;
 

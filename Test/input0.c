@@ -27,6 +27,10 @@ int main(){
 	i[3]=1	;	//index on not array
 	func();		//function call with inappropraite number of params
 	i();		//function call on non-function
+	c = g(); //expression returning a void
+	float d;
+	d = 2;
+
 	return 0;	
 }
 

@@ -81,7 +81,7 @@ public:
     {
         this->next = next;
     }
-    void set_isFunction()
+    void setFunction()
     {
         isFunction = new Function();
     }

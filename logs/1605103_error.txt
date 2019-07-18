@@ -1,12 +1,12 @@
 
 
-^^^^^^^^^^^Parsing Test/input0.txt^^^^^^^^^^^
+^^^^^^^^^^^Parsing Test/input0.c^^^^^^^^^^^
 
 
 
 Line:17 Error: Multiple Declaration of c
 
-Line:18 Error: Type Mismatch 6
+Line:18 Error: Invalid Assingment! Assigning float to int 
 
 Line:19 Error:  Non-integer Array Index  
 
@@ -16,31 +16,35 @@ Line:21 Error:  Integer operand on modulus(%) operator
 
 Line:22 Error:  Found array: a Expected Variable
 
-Line:22 Error: Type Mismatch 14
+Line:22 Error: Expected int but passed int array as 0th parameter
 
-Line:23 Error:  Type Mismatch 5
+Line:23 Error: Expression Cannnot Be of Type void
 
 Line:25 Error:  Undeclared Variable: b
 
 Line:26 Error:  Found array: a Expected Variable
 
-Line:26 Error: Type Mismatch 6
+Line:26 Error: Invalid Assingment! Assigning int to int array
 
 Line:27 Error:  Type Mismatch 4
 
-Line:28 Error: Invalid number of arguments
+Line:28 Error: Invalid number of arguments.Found:1 args Expected:0 args
 
 Line:29 Error:  Not A Function 
 
-Line:33 Error: Type Mismatch ! Expected float  Found int  for 0th Parameter
+Line:30 Error: Expression Cannnot Be of Type void
+
+Line:32 Error: Invalid Assingment! Assigning int to float 
+
+Line:37 Error: Expected float Found int for 0th Parameter
 
 
-Total Errors :15
+Total Errors :17
 
 
 
 
-^^^^^^^^^^^Parsing Test/input1.txt^^^^^^^^^^^
+^^^^^^^^^^^Parsing Test/input1.c^^^^^^^^^^^
 
 
 
@@ -50,7 +54,7 @@ Total Errors :0
 
 
 
-^^^^^^^^^^^Parsing Test/input2.txt^^^^^^^^^^^
+^^^^^^^^^^^Parsing Test/input2.c^^^^^^^^^^^
 
 
 
@@ -58,17 +62,17 @@ Line:6 Error: Multiple Declaration of c
 
 Line:7 Error:  Non-integer Array Index  
 
-Line:8 Error: Type Mismatch 6
+Line:8 Error: Invalid Assingment! Assigning float to int 
 
 Line:9 Error:  Integer operand on modulus(%) operator  
 
 Line:10 Error:  Found array: a Expected Variable
 
-Line:10 Error: Type Mismatch 6
+Line:10 Error: Invalid Assingment! Assigning int to int array
 
 Line:11 Error:  Found array: a Expected Variable
 
-Line:11 Error: Type Mismatch 14
+Line:11 Error: Expected int but passed int array as 0th parameter
 
 Line:12 Error:  Undeclared Variable: b
 
@@ -78,15 +82,9 @@ Total Errors :9
 
 
 
-^^^^^^^^^^^Parsing Test/input3.txt^^^^^^^^^^^
+^^^^^^^^^^^Parsing Test/input3.c^^^^^^^^^^^
 
 
 
-Line:13 Error: Calling Undefined Function var
-
-Line:14 Error: Calling Undefined Function foo
-
-
-Total Errors :2
-
+Line:8 Error: Unrecognized Character #
 
