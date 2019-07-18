@@ -175,7 +175,7 @@ public:
     }
 };
 
-//TEST
+// TEST
 // void ScopeTableTest(ScopeTable *st)
 // {
 //     string name, type;

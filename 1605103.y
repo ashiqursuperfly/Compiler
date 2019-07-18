@@ -13,8 +13,10 @@ int lines=1,errors=0;
 FILE *fp;
 extern FILE *yyin;
 
+bool DEBUG = false;
 
 SymbolTable *symbolTable = new SymbolTable(100);
+vector<pair<string,int>> possiblyUndefinedFunctions;
 vector<SymbolInfo*>paramList,declarationList,argList;
 
 void yyerror(char *s){
@@ -111,48 +113,42 @@ func_declaration: type_specifier ID LPAREN parameter_list RPAREN SEMICOLON {
 		LOG(lines,"func_declaration -> type_specifier ID LPAREN parameter_list RPAREN SEMICOLON");
 		LOG($<Symbol>1->getName()+" "+$<Symbol>2->getName()+"("+$<Symbol>4->getName()+")");
 		
-		SymbolInfo *s = symbolTable->lookUp($<Symbol>2->getName());
+		SymbolInfo *func = symbolTable->lookUp($<Symbol>2->getName());
 		
-		if(s == nullptr){
-			
-			//TODO : Function
-			symbolTable->insert($<Symbol>2->getName(),"ID","Function");
-
-			s = symbolTable->lookUp($<Symbol>2->getName());
-
-			s->set_isFunction();
-			
-			for(int i=0 ;i < paramList.size() ; i++){
-			
-				s->get_isFunction()->addParam(paramList[i]->getName(),paramList[i]->getDeclarationType());
-				//cout<<paramList[i]->getDeclarationType()<<endl;
-			}
-			paramList.clear();
-			s->get_isFunction()->setReturnType($<Symbol>1->getName());
-		} 
-		else{
-			int num=s->get_isFunction()->getParamCount();
-			
-			if(num!=paramList.size()){
-			
-				errors++;
-				ERROR(lines,"Invalid number of parameters ",PARSER);
-			
-			}else{
-				vector<string>para_type=s->get_isFunction()->getAllParamTypes();
+		if(func != nullptr){
+			int num=func->getFunction()->getParamCount();
+			if(num == paramList.size()){
+				vector<string>para_type = func->getFunction()->getAllParamTypes();
 				for( int i=0;i < paramList.size(); i++){
-					if(paramList[i]->getDeclarationType()!=para_type[i]){
+					if(paramList[i]->getDeclarationType() != para_type[i]){
 						errors++;
 						ERROR(lines,"Type Mismatch ! Expected "+paramList[i]->getDeclarationType()+" Found "+ para_type[i] +" for "+to_string(i)+"th parameter",PARSER);
 						break;
 					}
 				}
-				if(s->get_isFunction()->getReturnType()!=$<Symbol>1->getName()){
+				if(func->getFunction()->getReturnType()!=$<Symbol>1->getName()){
 					errors++;
-					ERROR(lines,"Return Type Mismatch ! Expected "+s->get_isFunction()->getReturnType()+ " Found " + $<Symbol>1->getName(),PARSER);
+					ERROR(lines,"Return Type Mismatch ! Expected "+func->getFunction()->getReturnType()+ " Found " + $<Symbol>1->getName(),PARSER);
 				}
 				paramList.clear();
+			
+			}else{
+				errors++;
+				ERROR(lines,"Invalid number of parameters ",PARSER);
+			}	
+		} 
+		else{
+			//TODO : Function
+			symbolTable->insert($<Symbol>2->getName(),"ID","Function");
+			func = symbolTable->lookUp($<Symbol>2->getName());
+			func->set_isFunction();
+
+			for(int i=0 ;i < paramList.size() ; i++){
+				func->getFunction()->addParam(paramList[i]->getName(),paramList[i]->getDeclarationType());
+				if(DEBUG)cout<<paramList[i]->getDeclarationType()<<endl;
 			}
+			paramList.clear();
+			func->getFunction()->setReturnType($<Symbol>1->getName());			
 		}
 
 		$<Symbol>$->setName($<Symbol>1->getName()+" "+$<Symbol>2->getName()+"("+$<Symbol>4->getName()+");");
@@ -173,19 +169,19 @@ func_declaration: type_specifier ID LPAREN parameter_list RPAREN SEMICOLON {
 				symbolTable->insert($<Symbol>2->getName(),"ID","Function");
 				s=symbolTable->lookUp($<Symbol>2->getName());
 				s->set_isFunction();
-				s->get_isFunction()->setReturnType($<Symbol>1->getName());
+				s->getFunction()->setReturnType($<Symbol>1->getName());
 			
 			}
 			else{
 
-				if(s->get_isFunction()->getParamCount()!=0){
+				if(s->getFunction()->getParamCount()!=0){
 					errors++;
-					ERROR(lines,"Invalid number of parameters! Expected 0 Found "+to_string(s->get_isFunction()->getParamCount()),PARSER);
+					ERROR(lines,"Invalid number of parameters! Expected 0 Found "+to_string(s->getFunction()->getParamCount()),PARSER);
 		
 				}
-				if(s->get_isFunction()->getReturnType()!=$<Symbol>1->getName()){
+				if(s->getFunction()->getReturnType()!=$<Symbol>1->getName()){
 					errors++;
-					ERROR(lines," Return Type Does not Match! Expected "+s->get_isFunction()->getReturnType()+ " Found " +$<Symbol>1->getName(),PARSER);
+					ERROR(lines," Return Type Does not Match! Expected "+s->getFunction()->getReturnType()+ " Found " +$<Symbol>1->getName(),PARSER);
 				}
 
 			}
@@ -200,13 +196,13 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 		SymbolInfo *s = symbolTable->lookUp($<Symbol>2->getName()); 
 
 		if(s != nullptr){ 
-			if(s->get_isFunction()->isDefined()==0){
-				int num = s->get_isFunction()->getParamCount();
+			if(s->getFunction()->isDefined()==0){
+				int num = s->getFunction()->getParamCount();
 				if(num != paramList.size()){
 					errors++;
 					ERROR(lines,"Invalid number of parameters ",PARSER);
 				} else{
-					vector<string>para_type = s->get_isFunction()->getAllParamTypes();
+					vector<string>para_type = s->getFunction()->getAllParamTypes();
 					for(int i=0;i<paramList.size();i++){
 						if(paramList[i]->getDeclarationType() != para_type[i]){
 							errors++;
@@ -214,12 +210,12 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 							break;
 						}
 					}
-					if(s->get_isFunction()->getReturnType() != $<Symbol>1->getName()){
+					if(s->getFunction()->getReturnType() != $<Symbol>1->getName()){
 						errors++;
-						ERROR(lines,"Return Type Mismatch ! Expected "+s->get_isFunction()->getReturnType()+ " Found " + $<Symbol>1->getName(),PARSER);
+						ERROR(lines,"Return Type Mismatch ! Expected "+s->getFunction()->getReturnType()+ " Found " + $<Symbol>1->getName(),PARSER);
 					}	
 				}
-				s->get_isFunction()->setDefined();
+				s->getFunction()->setDefined();
 			}
 			else{
 				errors++;
@@ -227,17 +223,17 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 			}
 		}
 		else{ 
-			//cout<<paramList.size()<<" "<<lines<<endl;
+			if(DEBUG)cout<<paramList.size()<<" "<<lines<<endl;
 			symbolTable->insert($<Symbol>2->getName(),"ID","Function");
 			s = symbolTable->lookUp($<Symbol>2->getName());
 			s->set_isFunction();
-			//cout<<s->get_isFunction()->getParamCount()<<endl;
-			s->get_isFunction()->setDefined();
+			if(DEBUG)cout<<s->getFunction()->getParamCount()<<endl;
+			s->getFunction()->setDefined();
 			
 			for(int i=0;i<paramList.size();i++){
-				s->get_isFunction()->addParam(paramList[i]->getName(),paramList[i]->getDeclarationType());
+				s->getFunction()->addParam(paramList[i]->getName(),paramList[i]->getDeclarationType());
 			}
-			s->get_isFunction()->setReturnType($<Symbol>1->getName());
+			s->getFunction()->setReturnType($<Symbol>1->getName());
 		}
 
 	}
@@ -254,21 +250,21 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 			symbolTable->insert($<Symbol>2->getName(),"ID","Function");
 			s = symbolTable->lookUp($<Symbol>2->getName());
 			s -> set_isFunction();
-			s -> get_isFunction()->setDefined();
-			s -> get_isFunction()->setReturnType($<Symbol>1->getName());
-			//	cout<<lines<<" "<<s->get_isFunction()->getReturnType()<<endl;
+			s -> getFunction()->setDefined();
+			s -> getFunction()->setReturnType($<Symbol>1->getName());
+			//	cout<<lines<<" "<<s->getFunction()->getReturnType()<<endl;
 		}
-		else if(s->get_isFunction()->isDefined()==0){
-			if(s->get_isFunction()->getParamCount()!=0){
+		else if(s->getFunction()->isDefined()==0){
+			if(s->getFunction()->getParamCount()!=0){
 				errors++;
 				ERROR(lines," Invalid number of parameters ",PARSER);
 			}
-			if(s->get_isFunction()->getReturnType()!=$<Symbol>1->getName()){
+			if(s->getFunction()->getReturnType()!=$<Symbol>1->getName()){
 				errors++;
 				ERROR(lines,"Return Type Mismatch ",PARSER);
 			}
 
-			s->get_isFunction()->setDefined();
+			s->getFunction()->setDefined();
 		}
 		else{
 			errors++;
@@ -544,7 +540,6 @@ expression_statement: SEMICOLON	{
 	| expression SEMICOLON {
 		$<Symbol>$=new SymbolInfo();
 		LOG(lines,"expression_statement->expression SEMICOLON");
-		//TODO: Uncomment ? 
 		LOG($<Symbol>1->getName()+";");
 		$<Symbol>$->setName($<Symbol>1->getName()+";"); 
 	}
@@ -563,7 +558,7 @@ variable: ID {
 			ERROR(lines," Found array: "+$<Symbol>1->getName()+" Expected Variable",PARSER);
 		}
 		if(symbolTable->lookUp($<Symbol>1->getName())!=nullptr){
-			cout<<lines<<" "<<$<Symbol>1->toString()<<" "<<symbolTable->lookUp($<Symbol>1->getName())->getDeclarationType()<<endl;
+			if(DEBUG)cout<<lines<<" "<<$<Symbol>1->toString()<<" "<<symbolTable->lookUp($<Symbol>1->getName())->getDeclarationType()<<endl;
 			$<Symbol>$->setDeclarationType(symbolTable->lookUp($<Symbol>1->getName())->getDeclarationType()); 
 		}
 		$<Symbol>$->setName($<Symbol>1->getName()); 
@@ -577,13 +572,13 @@ variable: ID {
 			errors++;
 			ERROR(lines,"Undeclared Variable :"+ $<Symbol>1->getName(),PARSER);
 		}
-		//cout<<lines<<" "<<$<Symbol>3->getDeclarationType()<<endl;
+		if(DEBUG)cout<<lines<<" "<<$<Symbol>3->getDeclarationType()<<endl;
 		if($<Symbol>3->getDeclarationType()=="float "||$<Symbol>3->getDeclarationType()=="void "){
 			errors++;
 			ERROR(lines," Non-integer Array Index  ",PARSER);
 		}
 		if(symbolTable->lookUp($<Symbol>1->getName())!=nullptr){
-			cout<<lines<<" "<<symbolTable->lookUp($<Symbol>1->getName())->toString()<<endl;
+			if(DEBUG)cout<<lines<<" "<<symbolTable->lookUp($<Symbol>1->getName())->toString()<<endl;
 			if(symbolTable->lookUp($<Symbol>1->getName())->getDeclarationType()!="int array" && symbolTable->lookUp($<Symbol>1->getName())->getDeclarationType()!="float array"){
 				errors++;
 				ERROR(lines," Type Mismatch 4",PARSER);	
@@ -618,7 +613,7 @@ expression: logic_expression {
 			ERROR(lines," Type Mismatch 5",PARSER);
 			$<Symbol>$->setDeclarationType("int "); 
 		}else if(symbolTable->lookUp($<Symbol>1->getName()) != nullptr) {
-			cout<<lines<<" "<<symbolTable->lookUp($<Symbol>1->getName())->toString()<<""<<$<Symbol>3->toString()<<endl;
+			if(DEBUG)cout<<lines<<" "<<symbolTable->lookUp($<Symbol>1->getName())->toString()<<""<<$<Symbol>3->toString()<<endl;
 			if(symbolTable->lookUp($<Symbol>1->getName())->getDeclarationType()!=$<Symbol>3->getDeclarationType()){
 				errors++;
 				ERROR(lines,"Type Mismatch 6",PARSER);
@@ -679,7 +674,7 @@ simple_expression: term {
 		$<Symbol>$=new SymbolInfo();
 		LOG(lines,"simple_expression -> term");
 		LOG($<Symbol>1->getName());
-		cout<<$<Symbol>1->toString()<<endl;
+		if(DEBUG)cout<<$<Symbol>1->toString()<<endl;
 		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType());
 		$<Symbol>$->setName($<Symbol>1->getName());  
 	}
@@ -687,7 +682,7 @@ simple_expression: term {
 		$<Symbol>$=new SymbolInfo(); 
 		LOG(lines,"simple_expression -> simple_expression ADDOP term");
 		LOG($<Symbol>1->getName()+$<Symbol>2->getName()+$<Symbol>3->getName());
-		//cout<<$<Symbol>3->getDeclarationType()<<endl;
+		if(DEBUG)cout<<$<Symbol>3->getDeclarationType()<<endl;
 		if($<Symbol>1->getDeclarationType()=="void "||$<Symbol>3->getDeclarationType()=="void "){
 			errors++;
 			ERROR(lines,"Type Mismatch 9",PARSER);
@@ -704,7 +699,7 @@ term: unary_expression {
 		$<Symbol>$=new SymbolInfo();
 		LOG(lines,"term->unary_expression");
 		LOG($<Symbol>1->getName()); 
-		cout<<$<Symbol>1->toString()<<endl;
+		if(DEBUG)cout<<$<Symbol>1->toString()<<endl;
 		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType()); 
 		$<Symbol>$->setName($<Symbol>1->getName()); 
 	}
@@ -776,7 +771,7 @@ unary_expression: ADDOP unary_expression {
 		$<Symbol>$=new SymbolInfo();
 		LOG(lines,"unary_expression->factor");
 		LOG($<Symbol>1->getName()); 
-		cout<<$<Symbol>1->toString()<<endl;
+		if(DEBUG)cout<<$<Symbol>1->toString()<<endl;
 		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType()); 
 		$<Symbol>$->setName($<Symbol>1->getName()); 
 				
@@ -797,30 +792,35 @@ factor: variable {
 		SymbolInfo* s=symbolTable->lookUp($<Symbol>1->getName());
 		if(s==nullptr){
 			errors++;
-			ERROR(lines," Undefined Function ",PARSER);
+			ERROR(lines,"Undeclared Function",PARSER);
 			$<Symbol>$->setDeclarationType("int "); 
 		}
-		else if(s->get_isFunction()==nullptr){
+		else if(s->getFunction()==nullptr){
 			errors++;
 			ERROR(lines," Not A Function ",PARSER);
 			$<Symbol>$->setDeclarationType("int "); 
 		}
 		else {
-			if(s->get_isFunction()->isDefined()==0){
-				errors++;
-				ERROR(lines," Undeclared Function ",PARSER);
+			if(s->getFunction()->isDefined()==0){
+				pair<string,int> p;
+				p.first = s->getName();
+				p.second = lines;
+				possiblyUndefinedFunctions.push_back(p);
 			}
-			int num=s->get_isFunction()->getParamCount();
-			//cout<<lines<<" "<<argList.size()<<endl;
-			$<Symbol>$->setDeclarationType(s->get_isFunction()->getReturnType());
+			int num=s->getFunction()->getParamCount();
+			
+			if(DEBUG)cout<<lines<<" "<<argList.size()<<endl;
+			
+			$<Symbol>$->setDeclarationType(s->getFunction()->getReturnType());
 			if(num!=argList.size()){
 				errors++;
-				ERROR(lines," Invalid number of arguments ",PARSER);
+				ERROR(lines,"Invalid number of arguments",PARSER);
 			}
 			else{
-				//cout<<s->get_isFunction()->getReturnType()<<endl;
-				vector<string>paramList=s->get_isFunction()->getAllParams();
-				vector<string>para_type=s->get_isFunction()->getAllParamTypes();
+				if(DEBUG)cout<<s->getFunction()->getReturnType()<<endl;
+				vector<string>paramList=s->getFunction()->getAllParams();
+				vector<string>para_type=s->getFunction()->getAllParamTypes();
+				
 				for(int i=0;i<argList.size();i++){
 					if(argList[i]->getDeclarationType()!=para_type[i]){
 						errors++;
@@ -832,7 +832,7 @@ factor: variable {
 			}
 		}
 		argList.clear();
-		//cout<<lines<<" "<<$<Symbol>$->getDeclarationType()<<endl;
+		if(DEBUG)cout<<lines<<" "<<$<Symbol>$->getDeclarationType()<<endl;
 		$<Symbol>$->setName($<Symbol>1->getName()+"("+$<Symbol>3->getName()+")"); 
 	}
 	| LPAREN expression RPAREN {
@@ -846,7 +846,7 @@ factor: variable {
 		$<Symbol>$=new SymbolInfo();
 		LOG(lines,"factor -> CONST_INT");
 		LOG($<Symbol>1->getName());
-		cout<<$<Symbol>1->toString()<<endl;
+		if(DEBUG)cout<<$<Symbol>1->toString()<<endl;
 		$<Symbol>$->setDeclarationType("int "); 	
 		$<Symbol>$->setName($<Symbol>1->getName()); 
 			
@@ -907,7 +907,15 @@ arguments: arguments COMMA logic_expression {
 	;
  %%
 
-
+void endingRoutine(){
+	for(int i=0;i < possiblyUndefinedFunctions.size();i++){
+		if(!symbolTable->lookUp(possiblyUndefinedFunctions[i].first)->getFunction()->isDefined()){
+			ERROR(possiblyUndefinedFunctions[i].second,"Calling Undefined Function "+possiblyUndefinedFunctions[i].first,PARSER);
+			errors++;
+		}	
+	}
+	possiblyUndefinedFunctions.clear();
+}
 void test(string fileName){
 	lines = 1;
 	errors = 0;
@@ -920,10 +928,13 @@ void test(string fileName){
 	LOG("\n\n^^^^^^^^^^^Parsing "+fileName+"^^^^^^^^^^^\n\n");
 	ERROR("\n\n^^^^^^^^^^^Parsing "+fileName+"^^^^^^^^^^^\n\n",PARSER);
 	yyparse();
+	endingRoutine();
 	LOG("Final SymbolTable : ");
 	symbolTable->printAllScopeTables();
 	LOG("Total Lines :"+to_string(lines));
 	LOG("Total Errors :"+to_string(errors));
+	cout<<"Total Lines :"<<lines<<endl;
+	cout<<"Total Errors :"<<errors<<endl;
 	ERROR("\nTotal Errors :"+to_string(errors)+'\n',PARSER);
 	fclose(fp);
 	LOG("\n\n^^^^^^^^^^^Finished Parsing "+fileName+"^^^^^^^^^^^\n\n");

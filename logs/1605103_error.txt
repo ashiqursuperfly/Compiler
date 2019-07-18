@@ -28,7 +28,7 @@ Line:26 Error: Type Mismatch 6
 
 Line:27 Error:  Type Mismatch 4
 
-Line:28 Error:  Invalid number of arguments 
+Line:28 Error: Invalid number of arguments
 
 Line:29 Error:  Not A Function 
 
@@ -74,5 +74,19 @@ Line:12 Error:  Undeclared Variable: b
 
 
 Total Errors :9
+
+
+
+
+^^^^^^^^^^^Parsing Test/input3.txt^^^^^^^^^^^
+
+
+
+Line:13 Error: Calling Undefined Function var
+
+Line:14 Error: Calling Undefined Function foo
+
+
+Total Errors :2
 
 

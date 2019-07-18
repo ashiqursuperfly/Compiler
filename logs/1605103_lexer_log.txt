@@ -620,3 +620,207 @@ Line:13 Token: SEMICOLON Lexeme: ;
 
 Line:14 Token: RCURL Lexeme: }
 
+Line:1 Token: ID Lexeme: x
+
+Line:1 Token: COMMA Lexeme: ,
+
+Line:1 Token: ID Lexeme: y
+
+Line:1 Token: COMMA Lexeme: ,
+
+Line:1 Token: ID Lexeme: z
+
+Line:1 Token: SEMICOLON Lexeme: ;
+
+Line:1 Token: ID Lexeme: a
+
+Line:1 Token: SEMICOLON Lexeme: ;
+
+Line:3 Token: ID Lexeme: foo
+
+Line:3 Token: LPAREN Lexeme: (
+
+Line:3 Token: RPAREN Lexeme: )
+
+Line:3 Token: SEMICOLON Lexeme: ;
+
+Line:5 Token: ID Lexeme: var
+
+Line:5 Token: LPAREN Lexeme: (
+
+Line:5 Token: ID Lexeme: a
+
+Line:5 Token: COMMA Lexeme: ,
+
+Line:5 Token: ID Lexeme: b
+
+Line:5 Token: RPAREN Lexeme: )
+
+Line:5 Token: SEMICOLON Lexeme: ;
+
+Line:7 Token: ID Lexeme: main
+
+Line:7 Token: LPAREN Lexeme: (
+
+Line:7 Token: RPAREN Lexeme: )
+
+Line:7 Token: LCURL Lexeme: {
+
+Line:8 Token: ID Lexeme: a
+
+Line:8 Token: LTHIRD Lexeme: [
+
+Line:8 Token: CONST_INT Lexeme: 2
+
+Line:8 Token: RTHIRD Lexeme: ]
+
+Line:8 Token: COMMA Lexeme: ,
+
+Line:8 Token: ID Lexeme: c
+
+Line:8 Token: COMMA Lexeme: ,
+
+Line:8 Token: ID Lexeme: i
+
+Line:8 Token: COMMA Lexeme: ,
+
+Line:8 Token: ID Lexeme: j
+
+Line:8 Token: SEMICOLON Lexeme: ;
+
+Line:8 Token: ID Lexeme: d
+
+Line:8 Token: SEMICOLON Lexeme: ;
+
+Line:9 Token: ID Lexeme: a
+
+Line:9 Token: LTHIRD Lexeme: [
+
+Line:9 Token: CONST_INT Lexeme: 0
+
+Line:9 Token: RTHIRD Lexeme: ]
+
+Line:9 Token: ASSIGNOP Lexeme: =
+
+Line:9 Token: CONST_INT Lexeme: 1
+
+Line:9 Token: SEMICOLON Lexeme: ;
+
+Line:10 Token: ID Lexeme: a
+
+Line:10 Token: LTHIRD Lexeme: [
+
+Line:10 Token: CONST_INT Lexeme: 1
+
+Line:10 Token: RTHIRD Lexeme: ]
+
+Line:10 Token: ASSIGNOP Lexeme: =
+
+Line:10 Token: CONST_INT Lexeme: 5
+
+Line:10 Token: SEMICOLON Lexeme: ;
+
+Line:11 Token: ID Lexeme: i
+
+Line:11 Token: ASSIGNOP Lexeme: =
+
+Line:11 Token: ID Lexeme: a
+
+Line:11 Token: LTHIRD Lexeme: [
+
+Line:11 Token: CONST_INT Lexeme: 0
+
+Line:11 Token: RTHIRD Lexeme: ]
+
+Line:11 Token: ADDOP Lexeme: +
+
+Line:11 Token: ID Lexeme: a
+
+Line:11 Token: LTHIRD Lexeme: [
+
+Line:11 Token: CONST_INT Lexeme: 1
+
+Line:11 Token: RTHIRD Lexeme: ]
+
+Line:11 Token: SEMICOLON Lexeme: ;
+
+Line:12 Token: ID Lexeme: j
+
+Line:12 Token: ASSIGNOP Lexeme: =
+
+Line:12 Token: CONST_INT Lexeme: 2
+
+Line:12 Token: MULOP Lexeme: *
+
+Line:12 Token: CONST_INT Lexeme: 3
+
+Line:12 Token: ADDOP Lexeme: +
+
+Line:12 Token: LPAREN Lexeme: (
+
+Line:12 Token: CONST_INT Lexeme: 5
+
+Line:12 Token: MULOP Lexeme: %
+
+Line:12 Token: CONST_INT Lexeme: 3
+
+Line:12 Token: RELOP Lexeme: <
+
+Line:12 Token: CONST_INT Lexeme: 4
+
+Line:12 Token: LOGICOP Lexeme: &&
+
+Line:12 Token: CONST_INT Lexeme: 8
+
+Line:12 Token: RPAREN Lexeme: )
+
+Line:12 Token: LOGICOP Lexeme: ||
+
+Line:12 Token: CONST_INT Lexeme: 2
+
+Line:12 Token: SEMICOLON Lexeme: ;
+
+Line:13 Token: ID Lexeme: d
+
+Line:13 Token: ASSIGNOP Lexeme: =
+
+Line:13 Token: ID Lexeme: var
+
+Line:13 Token: LPAREN Lexeme: (
+
+Line:13 Token: CONST_INT Lexeme: 1
+
+Line:13 Token: COMMA Lexeme: ,
+
+Line:13 Token: CONST_INT Lexeme: 2
+
+Line:13 Token: MULOP Lexeme: *
+
+Line:13 Token: CONST_INT Lexeme: 3
+
+Line:13 Token: RPAREN Lexeme: )
+
+Line:13 Token: ADDOP Lexeme: +
+
+Line:13 Token: CONST_FLOAT Lexeme: 3.5
+
+Line:13 Token: MULOP Lexeme: *
+
+Line:13 Token: CONST_INT Lexeme: 2
+
+Line:13 Token: SEMICOLON Lexeme: ;
+
+Line:14 Token: ID Lexeme: foo
+
+Line:14 Token: LPAREN Lexeme: (
+
+Line:14 Token: RPAREN Lexeme: )
+
+Line:14 Token: SEMICOLON Lexeme: ;
+
+Line:15 Token: CONST_INT Lexeme: 0
+
+Line:15 Token: SEMICOLON Lexeme: ;
+
+Line:16 Token: RCURL Lexeme: }
+

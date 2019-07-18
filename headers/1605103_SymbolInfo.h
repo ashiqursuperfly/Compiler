@@ -85,7 +85,7 @@ public:
     {
         isFunction = new Function();
     }
-    Function *get_isFunction()
+    Function *getFunction()
     {
         return isFunction;
     }

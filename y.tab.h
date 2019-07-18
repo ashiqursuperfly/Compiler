@@ -134,7 +134,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 41 "1605103.y" /* yacc.c:1909  */
+#line 43 "1605103.y" /* yacc.c:1909  */
 
 	SymbolInfo* Symbol;
 
