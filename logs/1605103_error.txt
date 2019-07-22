@@ -26,7 +26,7 @@ Line:26 Error:  Found array: a Expected Variable
 
 Line:26 Error: Invalid Assingment! Assigning int to int array
 
-Line:27 Error:  Type Mismatch 4
+Line:27 Error:  Invalid Types 4
 
 Line:28 Error: Invalid number of arguments.Found:1 args Expected:0 args
 
@@ -108,13 +108,13 @@ Line:8 Error: Multiple Declaration of a
 
 Line:10 Error: Missing SEMICOLON
 
-Line:10 Error:  Type Mismatch 4
+Line:10 Error:  Invalid Types 4
 
-Line:11 Error:  Type Mismatch 4
+Line:11 Error:  Invalid Types 4
 
-Line:12 Error:  Type Mismatch 4
+Line:12 Error:  Invalid Types 4
 
-Line:12 Error:  Type Mismatch 4
+Line:12 Error:  Invalid Types 4
 
 Line:14 Error:  Undeclared Variable: d
 

@@ -56,34 +56,34 @@ extern int yydebug;
     CHAR = 266,
     DOUBLE = 267,
     VOID = 268,
-    RETURN = 269,
-    SWITCH = 270,
-    CASE = 271,
-    DEFAULT = 272,
-    CONTINUE = 273,
-    CONST_INT = 274,
-    CONST_FLOAT = 275,
-    CONST_CHAR = 276,
-    ADDOP = 277,
-    MULOP = 278,
-    INCOP = 279,
-    RELOP = 280,
-    ASSIGNOP = 281,
-    LOGICOP = 282,
-    BITOP = 283,
-    NOT = 284,
-    DECOP = 285,
-    LPAREN = 286,
-    RPAREN = 287,
-    LCURL = 288,
-    RCURL = 289,
-    LTHIRD = 290,
-    RTHIRD = 291,
-    COMMA = 292,
-    SEMICOLON = 293,
-    STRING = 294,
-    ID = 295,
-    PRINTLN = 296,
+    CONST_INT = 269,
+    CONST_FLOAT = 270,
+    CONST_CHAR = 271,
+    RETURN = 272,
+    SWITCH = 273,
+    CASE = 274,
+    DEFAULT = 275,
+    CONTINUE = 276,
+    STRING = 277,
+    ID = 278,
+    PRINTLN = 279,
+    LPAREN = 280,
+    RPAREN = 281,
+    LCURL = 282,
+    RCURL = 283,
+    LTHIRD = 284,
+    RTHIRD = 285,
+    COMMA = 286,
+    SEMICOLON = 287,
+    ADDOP = 288,
+    MULOP = 289,
+    INCOP = 290,
+    RELOP = 291,
+    ASSIGNOP = 292,
+    LOGICOP = 293,
+    BITOP = 294,
+    NOT = 295,
+    DECOP = 296,
     LOWER_THAN_ELSE = 297
   };
 #endif
@@ -99,34 +99,34 @@ extern int yydebug;
 #define CHAR 266
 #define DOUBLE 267
 #define VOID 268
-#define RETURN 269
-#define SWITCH 270
-#define CASE 271
-#define DEFAULT 272
-#define CONTINUE 273
-#define CONST_INT 274
-#define CONST_FLOAT 275
-#define CONST_CHAR 276
-#define ADDOP 277
-#define MULOP 278
-#define INCOP 279
-#define RELOP 280
-#define ASSIGNOP 281
-#define LOGICOP 282
-#define BITOP 283
-#define NOT 284
-#define DECOP 285
-#define LPAREN 286
-#define RPAREN 287
-#define LCURL 288
-#define RCURL 289
-#define LTHIRD 290
-#define RTHIRD 291
-#define COMMA 292
-#define SEMICOLON 293
-#define STRING 294
-#define ID 295
-#define PRINTLN 296
+#define CONST_INT 269
+#define CONST_FLOAT 270
+#define CONST_CHAR 271
+#define RETURN 272
+#define SWITCH 273
+#define CASE 274
+#define DEFAULT 275
+#define CONTINUE 276
+#define STRING 277
+#define ID 278
+#define PRINTLN 279
+#define LPAREN 280
+#define RPAREN 281
+#define LCURL 282
+#define RCURL 283
+#define LTHIRD 284
+#define RTHIRD 285
+#define COMMA 286
+#define SEMICOLON 287
+#define ADDOP 288
+#define MULOP 289
+#define INCOP 290
+#define RELOP 291
+#define ASSIGNOP 292
+#define LOGICOP 293
+#define BITOP 294
+#define NOT 295
+#define DECOP 296
 #define LOWER_THAN_ELSE 297
 
 /* Value type.  */
@@ -134,7 +134,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 47 "1605103.y" /* yacc.c:1909  */
+#line 46 "1605103.y" /* yacc.c:1909  */
 
 	SymbolInfo* Symbol;
 
