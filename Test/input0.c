@@ -13,7 +13,7 @@ void g(){
 int h(int a);
 
 int main(){
-	int a[2],c,i,j ; 
+	int a[2],c,i,j; 
 	float c;  // multiple declaration
 	i=2.3;    //type mismatch, error or warning,
 	a[2.5]=1; //array index not integer	

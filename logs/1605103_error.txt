@@ -10,9 +10,9 @@ Line:18 Error: Invalid Assingment! Assigning float to int
 
 Line:19 Error:  Non-integer Array Index  
 
-Line:20 Error:  Integer operand on modulus(%) operator  
+Line:20 Error: Non Integer operand on modulus(%) operator  
 
-Line:21 Error:  Integer operand on modulus(%) operator  
+Line:21 Error: Non Integer operand on modulus(%) operator  
 
 Line:22 Error:  Found array: a Expected Variable
 
@@ -64,7 +64,7 @@ Line:7 Error:  Non-integer Array Index
 
 Line:8 Error: Invalid Assingment! Assigning float to int 
 
-Line:9 Error:  Integer operand on modulus(%) operator  
+Line:9 Error: Non Integer operand on modulus(%) operator  
 
 Line:10 Error:  Found array: a Expected Variable
 
@@ -87,4 +87,42 @@ Total Errors :9
 
 
 Line:8 Error: Unrecognized Character #
+
+Line:14 Error: Calling Undefined Function var
+
+Line:15 Error: Calling Undefined Function foo
+
+
+Total Errors :3
+
+
+
+
+^^^^^^^^^^^Parsing Test/input4.c^^^^^^^^^^^
+
+
+
+Line:7 Error: func_declaration -> type_specifier ID LPAREN RPAREN MISSING_SEMICOLON
+
+Line:8 Error: Multiple Declaration of a
+
+Line:10 Error: Missing SEMICOLON
+
+Line:10 Error:  Type Mismatch 4
+
+Line:11 Error:  Type Mismatch 4
+
+Line:12 Error:  Type Mismatch 4
+
+Line:12 Error:  Type Mismatch 4
+
+Line:14 Error:  Undeclared Variable: d
+
+Line:14 Error: Undeclared Function
+
+Line:16 Error: Missing SEMICOLON
+
+Line:18 Error: Invalid Assingment! Assigning float to int 
+
+Line:15 Error: Calling Undefined Function foo
 
