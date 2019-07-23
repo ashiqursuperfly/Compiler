@@ -650,18 +650,24 @@ variable: ID {
 		if(symbolTable->lookUp($<Symbol>1->getName()) != nullptr){
 		
 			if(DEBUG)cout<<lines<<" "<<symbolTable->lookUp($<Symbol>1->getName())->toString()<<endl;
+			
 			if(symbolTable->lookUp($<Symbol>1->getName())->getDeclarationType()!="int array" && symbolTable->lookUp($<Symbol>1->getName())->getDeclarationType()!="float array"){
 				string err = "Invalid Types 4";
-				yyerror(err.c_str());Util::appendLogError(lines,err,PARSER);	
+				Util::appendLogError(lines,err,PARSER);	
+				yyerror(err.c_str());
 			}
-			if(symbolTable->lookUp($<Symbol>1->getName())->getDeclarationType()=="int array"){
-				$<Symbol>1->setDeclarationType("int ");
-			}
-			if(symbolTable->lookUp($<Symbol>1->getName())->getDeclarationType()=="float array"){
-				$<Symbol>1->setDeclarationType("float ");
-			}
-			$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType()); 
+			SymbolInfo * array = symbolTable->lookUp($<Symbol>1->getName());
 			
+			string decType = array->getDeclarationType();
+			
+			
+			if(decType == "float array"){$<Symbol>1->setDeclarationType("float ");}
+			
+			
+			if(decType == "int array"){	$<Symbol>1->setDeclarationType("int ");}
+			
+			
+			$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType()); 
 		}
 		$<Symbol>$->setName($<Symbol>1->getName()+"["+$<Symbol>3->getName()+"]");  
 		
@@ -768,14 +774,17 @@ simple_expression: term {
 		
 		Util::parserLog($<Symbol>1->getName()+$<Symbol>2->getName()+$<Symbol>3->getName());
 		
-		if($<Symbol>1->getDeclarationType()=="void "||$<Symbol>3->getDeclarationType()=="void "){
-			string err = "Invalid Types 9";
-			yyerror(err.c_str());Util::appendLogError(lines,err,PARSER);
-			$<Symbol>$->setDeclarationType("int "); 
-		}else if($<Symbol>1->getDeclarationType()=="float " || $<Symbol>3->getDeclarationType()=="float ")
+		if($<Symbol>1->getDeclarationType()=="float " || $<Symbol>3->getDeclarationType()=="float "){
 			$<Symbol>$->setDeclarationType("float ");
-		else $<Symbol>$->setDeclarationType("int ");
-		
+		}
+		else if($<Symbol>1->getDeclarationType()=="void "||$<Symbol>3->getDeclarationType()=="void "){
+			string err = "Invalid Types 9";
+			$<Symbol>$->setDeclarationType("int "); 
+			yyerror(err.c_str());Util::appendLogError(lines,err,PARSER);
+		}
+		else {
+			$<Symbol>$->setDeclarationType("int ");
+		}
 		$<Symbol>$->setName($<Symbol>1->getName()+$<Symbol>2->getName()+$<Symbol>3->getName());  
 	}
 	;
@@ -792,7 +801,7 @@ term: unary_expression {
 		$<Symbol>$ = TOKEN;
 		Util::parserLog(lines,"term : term-MULOP-unary_expression");
 		Util::parserLog($<Symbol>1->getName()+$<Symbol>2->getName()+$<Symbol>3->getName());
-		if($<Symbol>1->getDeclarationType()=="void "||$<Symbol>3->getDeclarationType()=="void "){
+		if($<Symbol>1->getDeclarationType()=="void "|| $<Symbol>3->getDeclarationType()=="void "){
 			string err = "Invalid Types 10"; 
 			yyerror(err.c_str());
 			Util::appendLogError(lines,err,PARSER);$<Symbol>$->setDeclarationType("int "); 
@@ -805,27 +814,26 @@ term: unary_expression {
 			$<Symbol>$->setDeclarationType("int "); 
 		}
 		else if($<Symbol>2->getName()=="/"){
-			
-			if($<Symbol>1->getDeclarationType()=="void "||$<Symbol>3->getDeclarationType()=="void "){
+			if($<Symbol>1->getDeclarationType()=="int " && $<Symbol>3->getDeclarationType()=="int "){
+				$<Symbol>$->setDeclarationType("int "); 
+			}
+			else if($<Symbol>1->getDeclarationType()=="void "||$<Symbol>3->getDeclarationType()=="void "){
 				string err = "Invalid Types 11";Util::appendLogError(lines,err,PARSER);
 				yyerror(err.c_str());$<Symbol>$->setDeclarationType("int "); 
-			}
-			else  if($<Symbol>1->getDeclarationType()=="int " && $<Symbol>3->getDeclarationType()=="int "){
-				$<Symbol>$->setDeclarationType("int "); 
 			}
 			else {
 				$<Symbol>$->setDeclarationType("float "); 
 			}
 		}
 		else{
-			if($<Symbol>1->getDeclarationType()=="void "||$<Symbol>3->getDeclarationType()=="void "){
-				string err = "Invalid Types ";
-				Util::appendLogError(lines,err,PARSER);
-				$<Symbol>$->setDeclarationType("int "); 
-				yyerror(err.c_str());
-			
+			if($<Symbol>1->getDeclarationType()=="float " || $<Symbol>3->getDeclarationType()=="float "){
+				$<Symbol>$->setDeclarationType("float ");
 			}
-			else  if($<Symbol>1->getDeclarationType()=="float " || $<Symbol>3->getDeclarationType()=="float ") $<Symbol>$->setDeclarationType("float "); 
+			else if($<Symbol>1->getDeclarationType()=="void "||$<Symbol>3->getDeclarationType()=="void "){
+				string err = "Invalid Types ";
+				Util::appendLogError(lines,err,PARSER);$<Symbol>$->setDeclarationType("int "); yyerror(err.c_str());
+			}
+			 
 			else $<Symbol>$->setDeclarationType("int "); 
 		}
 	
