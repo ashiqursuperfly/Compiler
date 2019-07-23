@@ -4,33 +4,33 @@
 
 
 
-Line:17 Error: Multiple Declaration of c
+Line:17 Error: c defined multiple times
 
 Line:18 Error: Invalid Assingment! Assigning float to int 
 
-Line:19 Error:  Non-integer Array Index  
+Line:19 Error: Non-integer Array Index
 
-Line:20 Error: Non Integer operand on modulus(%) operator  
+Line:20 Error: Non Integer operand on modulus(%) operator
 
-Line:21 Error: Non Integer operand on modulus(%) operator  
+Line:21 Error: Non Integer operand on modulus(%) operator
 
-Line:22 Error:  Found array: a Expected Variable
+Line:22 Error: Found array: a Expected Variable
 
 Line:22 Error: Expected int but passed int array as 0th parameter
 
 Line:23 Error: Expression Cannnot Be of Type void
 
-Line:25 Error:  Undeclared Variable: b
+Line:25 Error: Undeclared Variable: b
 
-Line:26 Error:  Found array: a Expected Variable
+Line:26 Error: Found array: a Expected Variable
 
 Line:26 Error: Invalid Assingment! Assigning int to int array
 
-Line:27 Error:  Invalid Types 4
+Line:27 Error: Invalid Types 4
 
 Line:28 Error: Invalid number of arguments.Found:1 args Expected:0 args
 
-Line:29 Error:  Not A Function 
+Line:29 Error: Not a Function
 
 Line:30 Error: Expression Cannnot Be of Type void
 
@@ -58,23 +58,23 @@ Total Errors :0
 
 
 
-Line:6 Error: Multiple Declaration of c
+Line:6 Error: c defined multiple times
 
-Line:7 Error:  Non-integer Array Index  
+Line:7 Error: Non-integer Array Index
 
 Line:8 Error: Invalid Assingment! Assigning float to int 
 
-Line:9 Error: Non Integer operand on modulus(%) operator  
+Line:9 Error: Non Integer operand on modulus(%) operator
 
-Line:10 Error:  Found array: a Expected Variable
+Line:10 Error: Found array: a Expected Variable
 
 Line:10 Error: Invalid Assingment! Assigning int to int array
 
-Line:11 Error:  Found array: a Expected Variable
+Line:11 Error: Found array: a Expected Variable
 
 Line:11 Error: Expected int but passed int array as 0th parameter
 
-Line:12 Error:  Undeclared Variable: b
+Line:12 Error: Undeclared Variable: b
 
 
 Total Errors :9
@@ -102,21 +102,21 @@ Total Errors :3
 
 
 
-Line:7 Error: func_declaration -> type_specifier ID LPAREN RPAREN MISSING_SEMICOLON
+Line:7 Error: Missing SEMICOLON
 
-Line:8 Error: Multiple Declaration of a
+Line:8 Error: a defined multiple times
 
 Line:10 Error: Missing SEMICOLON
 
-Line:10 Error:  Invalid Types 4
+Line:10 Error: Invalid Types 4
 
-Line:11 Error:  Invalid Types 4
+Line:11 Error: Invalid Types 4
 
-Line:12 Error:  Invalid Types 4
+Line:12 Error: Invalid Types 4
 
-Line:12 Error:  Invalid Types 4
+Line:12 Error: Invalid Types 4
 
-Line:14 Error:  Undeclared Variable: d
+Line:14 Error: Undeclared Variable: d
 
 Line:14 Error: Undeclared Function
 
@@ -125,4 +125,8 @@ Line:16 Error: Missing SEMICOLON
 Line:18 Error: Invalid Assingment! Assigning float to int 
 
 Line:15 Error: Calling Undefined Function foo
+
+
+Total Errors :12
+
 

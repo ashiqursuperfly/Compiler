@@ -136,6 +136,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 }
 {TOO_MANY_DECIMAL_POINTS} {
 	Util::appendLogError(lines,"Too Many Decimal Points! "+string(yytext),LEXER);
+	
 	errors++;
 
 }

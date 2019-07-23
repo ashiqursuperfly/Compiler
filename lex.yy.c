@@ -1019,13 +1019,14 @@ YY_RULE_SETUP
 #line 137 "1605103.l"
 {
 	Util::appendLogError(lines,"Too Many Decimal Points! "+string(yytext),LEXER);
+	
 	errors++;
 
 }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 142 "1605103.l"
+#line 143 "1605103.l"
 {
 	Util::appendLogError(lines,"Ill formed number! "+string(yytext),LEXER);
 	errors++;
@@ -1033,98 +1034,98 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 147 "1605103.l"
+#line 148 "1605103.l"
 {
 	return INT;
 }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 150 "1605103.l"
+#line 151 "1605103.l"
 {
 	return CHAR;	
 }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 153 "1605103.l"
+#line 154 "1605103.l"
 {
 	return FLOAT;
 }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 156 "1605103.l"
+#line 157 "1605103.l"
 {
 	return DOUBLE;
 }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 159 "1605103.l"
+#line 160 "1605103.l"
 {
 	return VOID;
 }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 162 "1605103.l"
+#line 163 "1605103.l"
 {
 	return IF;
 }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 165 "1605103.l"
+#line 166 "1605103.l"
 {
 	return ELSE;
 }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 168 "1605103.l"
+#line 169 "1605103.l"
 {
 	return DO;
 }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 171 "1605103.l"
+#line 172 "1605103.l"
 {
 	return WHILE;	
 }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 175 "1605103.l"
+#line 176 "1605103.l"
 {
 	return FOR;
 }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 178 "1605103.l"
+#line 179 "1605103.l"
 {
 	return BREAK;
 }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 182 "1605103.l"
+#line 183 "1605103.l"
 {
 	return RETURN;
 }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 185 "1605103.l"
+#line 186 "1605103.l"
 {
 	return PRINTLN;
 }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 189 "1605103.l"
+#line 190 "1605103.l"
 {
 	Util::appendToken("SEMICOLON",yytext);
 	Util::lexerLog(lines,"SEMICOLON",yytext);
@@ -1134,7 +1135,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 196 "1605103.l"
+#line 197 "1605103.l"
 {
 	Util::appendToken("COMMA",yytext);
 	Util::lexerLog(lines,"COMMA",yytext);
@@ -1144,7 +1145,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 202 "1605103.l"
+#line 203 "1605103.l"
 {
 	Util::appendToken("LPAREN",yytext);
 	Util::lexerLog(lines,"LPAREN",yytext);
@@ -1154,7 +1155,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 208 "1605103.l"
+#line 209 "1605103.l"
 {
 	Util::appendToken("RPAREN",yytext);
 	Util::lexerLog(lines,"RPAREN",yytext);
@@ -1164,7 +1165,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 214 "1605103.l"
+#line 215 "1605103.l"
 {
 	Util::appendToken("LCURL",yytext);
 	Util::lexerLog(lines,"LCURL",yytext);
@@ -1174,7 +1175,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 220 "1605103.l"
+#line 221 "1605103.l"
 {
 	Util::appendToken("RCURL",yytext);
 	Util::lexerLog(lines,"RCURL",yytext);
@@ -1184,7 +1185,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 226 "1605103.l"
+#line 227 "1605103.l"
 {
 	Util::appendToken("LTHIRD",yytext);
 	Util::lexerLog(lines,"LTHIRD",yytext);
@@ -1194,7 +1195,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 232 "1605103.l"
+#line 233 "1605103.l"
 {
 	Util::appendToken("RTHIRD",yytext);
 	Util::lexerLog(lines,"RTHIRD",yytext);
@@ -1204,7 +1205,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 238 "1605103.l"
+#line 239 "1605103.l"
 {
 	Util::appendToken("NOT",yytext);
 	Util::lexerLog(lines,"NOT",yytext);
@@ -1215,7 +1216,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 245 "1605103.l"
+#line 246 "1605103.l"
 {
 	Util::appendToken("ASSIGNOP",yytext);
 	Util::lexerLog(lines,"ASSIGNOP",yytext);
@@ -1225,7 +1226,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 252 "1605103.l"
+#line 253 "1605103.l"
 {
 	Util::appendToken("ADDOP",yytext);
 	Util::lexerLog(lines,"ADDOP",yytext);
@@ -1240,7 +1241,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 263 "1605103.l"
+#line 264 "1605103.l"
 {
 	Util::appendToken("INCOP",yytext);
 	Util::lexerLog(lines,"INCOP",yytext);
@@ -1253,7 +1254,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 272 "1605103.l"
+#line 273 "1605103.l"
 {
 	Util::appendToken("MULOP",yytext);
 	Util::lexerLog(lines,"MULOP",yytext);
@@ -1266,7 +1267,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 281 "1605103.l"
+#line 282 "1605103.l"
 {
 	Util::appendToken("RELOP",yytext);
 	Util::lexerLog(lines,"RELOP",yytext);
@@ -1279,7 +1280,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 290 "1605103.l"
+#line 291 "1605103.l"
 {
 	Util::appendToken("LOGICOP",yytext);
 	Util::lexerLog(lines,"LOGICOP",yytext);
@@ -1292,7 +1293,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 299 "1605103.l"
+#line 300 "1605103.l"
 {
 	Util::appendToken("BITOP",yytext);
 	Util::lexerLog(lines,"BITOP",yytext);
@@ -1305,7 +1306,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 309 "1605103.l"
+#line 310 "1605103.l"
 {
 	Util::lexerLog(lines,"ID",yytext);
 	Util::appendToken("ID",yytext);
@@ -1319,7 +1320,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 319 "1605103.l"
+#line 320 "1605103.l"
 {
 	Util::appendLogError(lines,"Invalid Suffix On Numeric Constant Or,Invalid Prefix on Identifier for Character Sequence "+string(yytext),LEXER);
 	errors++;
@@ -1327,7 +1328,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 324 "1605103.l"
+#line 325 "1605103.l"
 {
 	//if it cant match any rule above,it will match this.
 	Util::appendLogError(lines,"Unrecognized Character "+string(yytext),LEXER);
@@ -1336,10 +1337,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 331 "1605103.l"
+#line 332 "1605103.l"
 ECHO;
 	YY_BREAK
-#line 1343 "lex.yy.c"
+#line 1344 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2344,7 +2345,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 331 "1605103.l"
+#line 332 "1605103.l"
 
 
 const string removeSingleQuote(string s){
