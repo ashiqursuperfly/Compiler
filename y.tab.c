@@ -518,14 +518,14 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    56,    56,    60,    69,    82,    91,   100,   112,   166,
-     170,   201,   208,   208,   270,   270,   312,   321,   331,   338,
-     350,   350,   372,   388,   416,   423,   429,   435,   445,   452,
-     460,   467,   478,   484,   492,   498,   504,   512,   527,   540,
-     552,   564,   570,   575,   587,   592,   598,   604,   607,   612,
-     632,   676,   686,   714,   721,   738,   745,   761,   768,   792,
-     800,   845,   862,   874,   885,   892,   945,   954,   965,   973,
-     981,   991,   998,  1004,  1012
+       0,    56,    56,    60,    69,    82,    91,   100,   109,   161,
+     165,   195,   202,   202,   257,   257,   299,   308,   317,   324,
+     333,   333,   354,   373,   401,   408,   414,   420,   430,   437,
+     445,   452,   463,   469,   477,   483,   489,   497,   512,   525,
+     537,   549,   555,   560,   572,   577,   583,   589,   592,   597,
+     617,   661,   671,   699,   706,   723,   730,   746,   754,   778,
+     786,   826,   842,   854,   865,   872,   925,   934,   944,   952,
+     962,   972,   979,   986,   994
 };
 #endif
 
@@ -1706,25 +1706,22 @@ yyreduce:
   case 7:
 #line 100 "1605103.y" /* yacc.c:1646  */
     { 
-
-		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"unit : func_definition");
+		(yyval.Symbol) = TOKEN;
 		Util::parserLog((yyvsp[0].Symbol)->getName());
-
+		
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName()+"\n");
 	}
-#line 1717 "y.tab.c" /* yacc.c:1646  */
+#line 1716 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 112 "1605103.y" /* yacc.c:1646  */
+#line 109 "1605103.y" /* yacc.c:1646  */
     {
-
-		(yyval.Symbol) = TOKEN;
-		Util::parserLog(lines,"func_declaration : type_specifier-ID-LPAREN-parameter_list-RPAREN-SEMICOLON");
-		Util::parserLog((yyvsp[-5].Symbol)->getName()+" "+(yyvsp[-4].Symbol)->getName()+"("+(yyvsp[-2].Symbol)->getName()+")");
-		
 		SymbolInfo *func = symbolTable->lookUp((yyvsp[-4].Symbol)->getName());
+		Util::parserLog(lines,"func_declaration : type_specifier-ID-LPAREN-parameter_list-RPAREN-SEMICOLON");
+		(yyval.Symbol) = TOKEN;
+		Util::parserLog((yyvsp[-5].Symbol)->getName()+" "+(yyvsp[-4].Symbol)->getName()+"("+(yyvsp[-2].Symbol)->getName()+")");
 		
 		if(func != nullptr){
 			int num = func->getFunction()->getParamCount();
@@ -1772,25 +1769,24 @@ yyreduce:
 		(yyval.Symbol)->setName((yyvsp[-5].Symbol)->getName()+" "+(yyvsp[-4].Symbol)->getName()+"("+(yyvsp[-2].Symbol)->getName()+");");
 
 	}
-#line 1776 "y.tab.c" /* yacc.c:1646  */
+#line 1773 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 166 "1605103.y" /* yacc.c:1646  */
+#line 161 "1605103.y" /* yacc.c:1646  */
     {
 		string err = "Missing SEMICOLON";
 		Util::appendLogError(lines,err,PARSER);
 	}
-#line 1785 "y.tab.c" /* yacc.c:1646  */
+#line 1782 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 170 "1605103.y" /* yacc.c:1646  */
+#line 165 "1605103.y" /* yacc.c:1646  */
     {
 
-			(yyval.Symbol) = TOKEN;
-			
 			Util::parserLog(lines,"func_declaration : type_specifier-ID-LPAREN-RPAREN-SEMICOLON");
+			(yyval.Symbol) = TOKEN;
 			Util::parserLog((yyvsp[-4].Symbol)->getName()+" "+(yyvsp[-3].Symbol)->getName()+"();");
 			
 			SymbolInfo *s=symbolTable->lookUp((yyvsp[-3].Symbol)->getName());
@@ -1816,20 +1812,20 @@ yyreduce:
 			}
 			(yyval.Symbol)->setName((yyvsp[-4].Symbol)->getName()+" "+(yyvsp[-3].Symbol)->getName()+"();");
 	}
-#line 1820 "y.tab.c" /* yacc.c:1646  */
+#line 1816 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 201 "1605103.y" /* yacc.c:1646  */
+#line 195 "1605103.y" /* yacc.c:1646  */
     {
 		string err = "Missing SEMICOLON";
 		Util::appendLogError(lines,err,PARSER);
 	}
-#line 1829 "y.tab.c" /* yacc.c:1646  */
+#line 1825 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 208 "1605103.y" /* yacc.c:1646  */
+#line 202 "1605103.y" /* yacc.c:1646  */
     {
 		
 		(yyval.Symbol) = TOKEN; 
@@ -1870,38 +1866,31 @@ yyreduce:
 		else{ 
 			
 			if(DEBUG)cout<<paramList.size()<<" "<<lines<<endl;
-			
 			symbolTable->insert((yyvsp[-3].Symbol)->getName(),"ID","Function");
-			s = symbolTable->lookUp((yyvsp[-3].Symbol)->getName());
-			s->setFunction();
-			s->getFunction()->setDefined();
-			
+			s = symbolTable->lookUp((yyvsp[-3].Symbol)->getName());s->setFunction();s->getFunction()->setDefined();
 			if(DEBUG)cout<<s->getFunction()->getParamCount()<<endl;
-			
-			for(int i=0;i<paramList.size();i++){
+			for(int i=0;i<paramList.size();i++)
 				s->getFunction()->addParam(paramList[i]->getName(),paramList[i]->getDeclarationType());
-			}
-			
 			s->getFunction()->setReturnType((yyvsp[-4].Symbol)->getName());
 		}
 
 	}
-#line 1890 "y.tab.c" /* yacc.c:1646  */
+#line 1879 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 264 "1605103.y" /* yacc.c:1646  */
+#line 251 "1605103.y" /* yacc.c:1646  */
     {
 		Util::parserLog(lines,"func_definition : type_specifier-ID-LPAREN-parameter_list-RPAREN-compound_statement ");
 		Util::parserLog((yyvsp[-6].Symbol)->getName()+" "+(yyvsp[-5].Symbol)->getName()+"("
 		+(yyvsp[-3].Symbol)->getName()+") "+ (yyvsp[0].Symbol)->getName());
 		(yyval.Symbol)->setName((yyvsp[-6].Symbol)->getName()+" "+(yyvsp[-5].Symbol)->getName()+"("+(yyvsp[-3].Symbol)->getName()+")"+(yyvsp[0].Symbol)->getName());
 	}
-#line 1901 "y.tab.c" /* yacc.c:1646  */
+#line 1890 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 270 "1605103.y" /* yacc.c:1646  */
+#line 257 "1605103.y" /* yacc.c:1646  */
     { 
 		(yyval.Symbol) = TOKEN;
 		SymbolInfo *s = symbolTable->lookUp((yyvsp[-2].Symbol)->getName());
@@ -1932,11 +1921,11 @@ yyreduce:
 											
 		(yyvsp[-3].Symbol)->setName((yyvsp[-3].Symbol)->getName()+" "+(yyvsp[-2].Symbol)->getName()+"()");
 	}
-#line 1936 "y.tab.c" /* yacc.c:1646  */
+#line 1925 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 299 "1605103.y" /* yacc.c:1646  */
+#line 286 "1605103.y" /* yacc.c:1646  */
     {
 
 		Util::parserLog(lines,"func_definition : type_specifier-ID-LPAREN-RPAREN-compound_statement");
@@ -1944,11 +1933,11 @@ yyreduce:
 		Util::parserLog((yyvsp[-5].Symbol)->getName()+" "+(yyvsp[0].Symbol)->getName());
 			
 	}
-#line 1948 "y.tab.c" /* yacc.c:1646  */
+#line 1937 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 312 "1605103.y" /* yacc.c:1646  */
+#line 299 "1605103.y" /* yacc.c:1646  */
     {
 		
 		(yyval.Symbol) = TOKEN;
@@ -1958,102 +1947,102 @@ yyreduce:
 		paramList.push_back(new SymbolInfo((yyvsp[0].Symbol)->getName(),"ID",(yyvsp[-1].Symbol)->getName()));
 		(yyval.Symbol)->setName((yyvsp[-3].Symbol)->getName()+","+(yyvsp[-1].Symbol)->getName()+" "+(yyvsp[0].Symbol)->getName());
 	}
-#line 1962 "y.tab.c" /* yacc.c:1646  */
+#line 1951 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 321 "1605103.y" /* yacc.c:1646  */
+#line 308 "1605103.y" /* yacc.c:1646  */
     {
 		
-		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"parameter_list : parameter_list-COMMA-type_specifier");
 		Util::parserLog((yyvsp[-2].Symbol)->getName()+","+(yyvsp[0].Symbol)->getName());
-		
+		(yyval.Symbol) = TOKEN;
 		paramList.push_back(new SymbolInfo("","ID",(yyvsp[0].Symbol)->getName()));
 		(yyval.Symbol)->setName((yyvsp[-2].Symbol)->getName()+","+(yyvsp[0].Symbol)->getName());
 
 	}
-#line 1977 "y.tab.c" /* yacc.c:1646  */
+#line 1965 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 331 "1605103.y" /* yacc.c:1646  */
+#line 317 "1605103.y" /* yacc.c:1646  */
     {
-		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"parameter_list : type_specifier-ID");
 		Util::parserLog((yyvsp[-1].Symbol)->getName()+" "+(yyvsp[0].Symbol)->getName());
+		(yyval.Symbol) = TOKEN;
 		paramList.push_back(new SymbolInfo((yyvsp[0].Symbol)->getName(),"ID",(yyvsp[-1].Symbol)->getName()));
 		(yyval.Symbol)->setName((yyvsp[-1].Symbol)->getName()+" "+(yyvsp[0].Symbol)->getName());
 	}
-#line 1989 "y.tab.c" /* yacc.c:1646  */
+#line 1977 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 338 "1605103.y" /* yacc.c:1646  */
+#line 324 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"parameter_list : type_specifier");
 		Util::parserLog((yyvsp[0].Symbol)->getName());
-
-		paramList.push_back(new SymbolInfo("","ID",(yyvsp[0].Symbol)->getName()));
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName()+" ");
+		paramList.push_back(new SymbolInfo("","ID",(yyvsp[0].Symbol)->getName()));
 	}
-#line 2002 "y.tab.c" /* yacc.c:1646  */
+#line 1989 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 350 "1605103.y" /* yacc.c:1646  */
+#line 333 "1605103.y" /* yacc.c:1646  */
     {
 	
 	symbolTable->enterScope();
-	for(int i=0;i<paramList.size();i++){
-		symbolTable->insert(paramList[i]->getName(),"ID",paramList[i]->getDeclarationType());
+	int len = paramList.size();
+	for(int i=0;i<len;i++){
+		string name = paramList[i]->getName();
+		string type = paramList[i]->getDeclarationType();
+		symbolTable->insert(name,"ID",type);
 	}
-	
 	paramList.clear();
-	
 	}
-#line 2017 "y.tab.c" /* yacc.c:1646  */
+#line 2005 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 359 "1605103.y" /* yacc.c:1646  */
+#line 343 "1605103.y" /* yacc.c:1646  */
     {
 
 		(yyval.Symbol) = TOKEN;
-		
 		Util::parserLog(lines,"compound_statement : LCURL-statements-RCURL");
-		Util::parserLog("{"+(yyvsp[-1].Symbol)->getName()+"}");
-		
-		(yyval.Symbol)->setName("{\n"+(yyvsp[-1].Symbol)->getName()+"\n}");
 		
 		symbolTable->printAllScopeTables();
+		(yyval.Symbol)->setName("{\n"+(yyvsp[-1].Symbol)->getName()+"\n}");
 		symbolTable->exitScope();
-	
+		Util::parserLog("{"+(yyvsp[-1].Symbol)->getName()+"}");
+		
 	}
-#line 2035 "y.tab.c" /* yacc.c:1646  */
+#line 2021 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 372 "1605103.y" /* yacc.c:1646  */
+#line 354 "1605103.y" /* yacc.c:1646  */
     {
 		symbolTable->enterScope();
-		for(int i=0;i<paramList.size();i++){
-			symbolTable->insert(paramList[i]->getName(),"ID",paramList[i]->getDeclarationType());
+		int len = paramList.size();
+		for(int i=0;i<len;i++){
+			string name = paramList[i]->getName();
+			string type = paramList[i]->getDeclarationType();
+			symbolTable->insert(name,"ID",type);
 		}	
-		paramList.clear();
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"compound_statement : LCURL-RCURL");
-		Util::parserLog("{}");
-		(yyval.Symbol)->setName("{}");
+		paramList.clear();
+		Util::parserLog("{}");;
 		symbolTable->printAllScopeTables();
+		(yyval.Symbol)->setName("{}");
 		symbolTable->exitScope();
 	}
-#line 2053 "y.tab.c" /* yacc.c:1646  */
+#line 2042 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 388 "1605103.y" /* yacc.c:1646  */
+#line 373 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"var_declaration : type_specifier-declarationList-SEMICOLON");
@@ -2081,53 +2070,53 @@ yyreduce:
 		declarationList.clear();
 		(yyval.Symbol)->setName((yyvsp[-2].Symbol)->getName()+" "+(yyvsp[-1].Symbol)->getName()+";");
 	}
-#line 2085 "y.tab.c" /* yacc.c:1646  */
+#line 2074 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 416 "1605103.y" /* yacc.c:1646  */
+#line 401 "1605103.y" /* yacc.c:1646  */
     {
 		string err = "Missing SEMICOLON";
 		Util::appendLogError(lines,err,PARSER);
 	}
-#line 2094 "y.tab.c" /* yacc.c:1646  */
+#line 2083 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 423 "1605103.y" /* yacc.c:1646  */
+#line 408 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"type_specifier : INT");
 		Util::parserLog("int ");
 		(yyval.Symbol)->setName("int ");
 	}
-#line 2105 "y.tab.c" /* yacc.c:1646  */
+#line 2094 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 429 "1605103.y" /* yacc.c:1646  */
+#line 414 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"type_specifier : FLOAT");
 		Util::parserLog("float ");
 		(yyval.Symbol)->setName("float ");
 	}
-#line 2116 "y.tab.c" /* yacc.c:1646  */
+#line 2105 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 435 "1605103.y" /* yacc.c:1646  */
+#line 420 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"type_specifier : VOID");
 		Util::parserLog("void ");
 		(yyval.Symbol)->setName("void ");
 	}
-#line 2127 "y.tab.c" /* yacc.c:1646  */
+#line 2116 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 445 "1605103.y" /* yacc.c:1646  */
+#line 430 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"declarationList : declarationList-COMMA-ID");
@@ -2135,24 +2124,24 @@ yyreduce:
 		declarationList.push_back(new SymbolInfo((yyvsp[0].Symbol)->getName(),"ID"));
 		(yyval.Symbol)->setName((yyvsp[-2].Symbol)->getName()+","+(yyvsp[0].Symbol)->getName());
 	}
-#line 2139 "y.tab.c" /* yacc.c:1646  */
+#line 2128 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 452 "1605103.y" /* yacc.c:1646  */
+#line 437 "1605103.y" /* yacc.c:1646  */
     {
+		Util::parserLog(lines,"declarationList : declarationList-COMMA-ID-LTHIRD-CONST_INT-RTHIRD");
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog((yyvsp[-5].Symbol)->getName()+","+(yyvsp[-3].Symbol)->getName()+"["+(yyvsp[-1].Symbol)->getName()+"]");
-		Util::parserLog(lines,"declarationList : declarationList-COMMA-ID-LTHIRD-CONST_INT-RTHIRD");
 		
 		declarationList.push_back(new SymbolInfo((yyvsp[-3].Symbol)->getName(),"IDa")); //TODO : why IDa ?
 		(yyval.Symbol)->setName((yyvsp[-5].Symbol)->getName()+","+(yyvsp[-3].Symbol)->getName()+"["+(yyvsp[-1].Symbol)->getName()+"]");
 	}
-#line 2152 "y.tab.c" /* yacc.c:1646  */
+#line 2141 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 460 "1605103.y" /* yacc.c:1646  */
+#line 445 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"declarationList : ID");
@@ -2160,11 +2149,11 @@ yyreduce:
 		declarationList.push_back(new SymbolInfo((yyvsp[0].Symbol)->getName(),"ID"));
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName());
 	}
-#line 2164 "y.tab.c" /* yacc.c:1646  */
+#line 2153 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 467 "1605103.y" /* yacc.c:1646  */
+#line 452 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"declarationList : ID-LTHIRD-CONST_INT-RTHIRD");
@@ -2172,55 +2161,55 @@ yyreduce:
 		declarationList.push_back(new SymbolInfo((yyvsp[-3].Symbol)->getName(),"IDa"));
 		(yyval.Symbol)->setName((yyvsp[-3].Symbol)->getName()+"["+(yyvsp[-1].Symbol)->getName()+"]");
 	}
-#line 2176 "y.tab.c" /* yacc.c:1646  */
+#line 2165 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 478 "1605103.y" /* yacc.c:1646  */
+#line 463 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"statements : statement");
 		Util::parserLog((yyvsp[0].Symbol)->getName()); 
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName());
 	}
-#line 2187 "y.tab.c" /* yacc.c:1646  */
+#line 2176 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 484 "1605103.y" /* yacc.c:1646  */
+#line 469 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"statements : statements-statement");
 		Util::parserLog((yyvsp[-1].Symbol)->getName()+" "+(yyvsp[0].Symbol)->getName()); 
 		(yyval.Symbol)->setName((yyvsp[-1].Symbol)->getName()+"\n"+(yyvsp[0].Symbol)->getName()); 
 	}
-#line 2198 "y.tab.c" /* yacc.c:1646  */
+#line 2187 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 492 "1605103.y" /* yacc.c:1646  */
+#line 477 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"statement : var_declaration");
 		Util::parserLog((yyvsp[0].Symbol)->getName());
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName()); 
 	}
-#line 2209 "y.tab.c" /* yacc.c:1646  */
+#line 2198 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 498 "1605103.y" /* yacc.c:1646  */
+#line 483 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"statement : expression_statement");
 		Util::parserLog((yyvsp[0].Symbol)->getName()); 
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName()); 
 	}
-#line 2220 "y.tab.c" /* yacc.c:1646  */
+#line 2209 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 504 "1605103.y" /* yacc.c:1646  */
+#line 489 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 	
@@ -2229,11 +2218,11 @@ yyreduce:
 	
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName()); 
 	}
-#line 2233 "y.tab.c" /* yacc.c:1646  */
+#line 2222 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 512 "1605103.y" /* yacc.c:1646  */
+#line 497 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 	
@@ -2249,11 +2238,11 @@ yyreduce:
 		}
 		(yyval.Symbol)->setName("for("+(yyvsp[-4].Symbol)->getName()+(yyvsp[-3].Symbol)->getName()+(yyvsp[-2].Symbol)->getName()+")\n"+(yyvsp[-2].Symbol)->getName()); 
 	}
-#line 2253 "y.tab.c" /* yacc.c:1646  */
+#line 2242 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 527 "1605103.y" /* yacc.c:1646  */
+#line 512 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"statement : IF-LPAREN-expression-RPAREN-statement");
@@ -2267,11 +2256,11 @@ yyreduce:
 		(yyval.Symbol)->setName("if("+(yyvsp[-2].Symbol)->getName()+")\n"+(yyvsp[0].Symbol)->getName()); 
 
 	}
-#line 2271 "y.tab.c" /* yacc.c:1646  */
+#line 2260 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 540 "1605103.y" /* yacc.c:1646  */
+#line 525 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"statement : IF-LPAREN-expression-RPAREN-statement-ELSE-statement");
@@ -2283,11 +2272,11 @@ yyreduce:
 		}
 		(yyval.Symbol)->setName("if("+(yyvsp[-4].Symbol)->getName()+")\n"+(yyvsp[-2].Symbol)->getName()+" else \n"+(yyvsp[0].Symbol)->getName()); 
 	}
-#line 2287 "y.tab.c" /* yacc.c:1646  */
+#line 2276 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 552 "1605103.y" /* yacc.c:1646  */
+#line 537 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"statement : WHILE-LPAREN-expression-RPAREN-statement");
@@ -2300,32 +2289,32 @@ yyreduce:
 		}
 		(yyval.Symbol)->setName("while("+(yyvsp[-2].Symbol)->getName()+")\n"+(yyvsp[0].Symbol)->getName()); 
 	}
-#line 2304 "y.tab.c" /* yacc.c:1646  */
+#line 2293 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 564 "1605103.y" /* yacc.c:1646  */
+#line 549 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"statement : PRINTLN-LPAREN-ID-RPAREN-SEMICOLON");
 		Util::parserLog("\n ("+(yyvsp[-2].Symbol)->getName()+")");
 		(yyval.Symbol)->setName("\n("+(yyvsp[-2].Symbol)->getName()+")"); 
 	}
-#line 2315 "y.tab.c" /* yacc.c:1646  */
+#line 2304 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 570 "1605103.y" /* yacc.c:1646  */
+#line 555 "1605103.y" /* yacc.c:1646  */
     {
 		string err = "Missing SEMICOLON";
 		yyerror(err.c_str());
 		Util::appendLogError(lines,err,PARSER);
 	}
-#line 2325 "y.tab.c" /* yacc.c:1646  */
+#line 2314 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 575 "1605103.y" /* yacc.c:1646  */
+#line 560 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"statement : RETURN-expression-SEMICOLON");
@@ -2338,57 +2327,57 @@ yyreduce:
 		}
 		(yyval.Symbol)->setName("return "+(yyvsp[-1].Symbol)->getName()+";"); 
 	}
-#line 2342 "y.tab.c" /* yacc.c:1646  */
+#line 2331 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 587 "1605103.y" /* yacc.c:1646  */
+#line 572 "1605103.y" /* yacc.c:1646  */
     {
 		Util::appendLogError(lines,"Missing SEMICOLON",PARSER);
 	}
-#line 2350 "y.tab.c" /* yacc.c:1646  */
+#line 2339 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 592 "1605103.y" /* yacc.c:1646  */
+#line 577 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"expression_statement : SEMICOLON");
 		Util::parserLog(";"); 
 		(yyval.Symbol)->setName(";"); 
 	}
-#line 2361 "y.tab.c" /* yacc.c:1646  */
+#line 2350 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 598 "1605103.y" /* yacc.c:1646  */
+#line 583 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"expression_statement : expression-SEMICOLON");
 		Util::parserLog((yyvsp[-1].Symbol)->getName()+";");
 		(yyval.Symbol)->setName((yyvsp[-1].Symbol)->getName()+";"); 
 	}
-#line 2372 "y.tab.c" /* yacc.c:1646  */
+#line 2361 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 604 "1605103.y" /* yacc.c:1646  */
+#line 589 "1605103.y" /* yacc.c:1646  */
     {
 		Util::appendLogError(lines,"Missing SEMICOLON",PARSER);
 	}
-#line 2380 "y.tab.c" /* yacc.c:1646  */
+#line 2369 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 607 "1605103.y" /* yacc.c:1646  */
+#line 592 "1605103.y" /* yacc.c:1646  */
     {
 		Util::appendLogError(lines,"Missing SEMICOLON",PARSER);
 	}
-#line 2388 "y.tab.c" /* yacc.c:1646  */
+#line 2377 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 612 "1605103.y" /* yacc.c:1646  */
+#line 597 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"variable : ID");
@@ -2409,11 +2398,11 @@ yyreduce:
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName()); 
 												
 	}
-#line 2413 "y.tab.c" /* yacc.c:1646  */
+#line 2402 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 632 "1605103.y" /* yacc.c:1646  */
+#line 617 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		
@@ -2457,11 +2446,11 @@ yyreduce:
 		(yyval.Symbol)->setName((yyvsp[-3].Symbol)->getName()+"["+(yyvsp[-1].Symbol)->getName()+"]");  
 		
 	}
-#line 2461 "y.tab.c" /* yacc.c:1646  */
+#line 2450 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 676 "1605103.y" /* yacc.c:1646  */
+#line 661 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		
@@ -2472,11 +2461,11 @@ yyreduce:
 		Util::parserLog((yyvsp[0].Symbol)->getName());
 		
 	}
-#line 2476 "y.tab.c" /* yacc.c:1646  */
+#line 2465 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 686 "1605103.y" /* yacc.c:1646  */
+#line 671 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		
@@ -2504,11 +2493,11 @@ yyreduce:
 		(yyval.Symbol)->setName((yyvsp[-2].Symbol)->getName()+"="+(yyvsp[0].Symbol)->getName());  
 
 	}
-#line 2508 "y.tab.c" /* yacc.c:1646  */
+#line 2497 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 714 "1605103.y" /* yacc.c:1646  */
+#line 699 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"logic_expression : rel_expression");
@@ -2516,11 +2505,11 @@ yyreduce:
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName()); 
 		(yyval.Symbol)->setDeclarationType((yyvsp[0].Symbol)->getDeclarationType()); 
 	}
-#line 2520 "y.tab.c" /* yacc.c:1646  */
+#line 2509 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 721 "1605103.y" /* yacc.c:1646  */
+#line 706 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"logic_expression : rel_expression-LOGICOP-rel_expression");
@@ -2536,11 +2525,11 @@ yyreduce:
 		(yyval.Symbol)->setName((yyvsp[-2].Symbol)->getName()+(yyvsp[-1].Symbol)->getName()+(yyvsp[0].Symbol)->getName());  
 
 	}
-#line 2540 "y.tab.c" /* yacc.c:1646  */
+#line 2529 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 738 "1605103.y" /* yacc.c:1646  */
+#line 723 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"rel_expression : simple_expression");
@@ -2548,11 +2537,11 @@ yyreduce:
 		Util::parserLog((yyvsp[0].Symbol)->getName());
 		(yyval.Symbol)->setDeclarationType((yyvsp[0].Symbol)->getDeclarationType()); 
 	}
-#line 2552 "y.tab.c" /* yacc.c:1646  */
+#line 2541 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 745 "1605103.y" /* yacc.c:1646  */
+#line 730 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"rel_expression : simple_expression-RELOP-simple_expression");
@@ -2567,23 +2556,24 @@ yyreduce:
 		(yyval.Symbol)->setDeclarationType("int "); 	
 		(yyval.Symbol)->setName((yyvsp[-2].Symbol)->getName()+(yyvsp[-1].Symbol)->getName()+(yyvsp[0].Symbol)->getName());  
 	}
-#line 2571 "y.tab.c" /* yacc.c:1646  */
+#line 2560 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 761 "1605103.y" /* yacc.c:1646  */
+#line 746 "1605103.y" /* yacc.c:1646  */
     {
+		Util::parserLog(lines,"simple_expression : term");
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog((yyvsp[0].Symbol)->getName());
 		if(DEBUG)cout<<(yyvsp[0].Symbol)->toString()<<endl;
 		(yyval.Symbol)->setDeclarationType((yyvsp[0].Symbol)->getDeclarationType());
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName());  
 	}
-#line 2583 "y.tab.c" /* yacc.c:1646  */
+#line 2573 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 768 "1605103.y" /* yacc.c:1646  */
+#line 754 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN; 
 		
@@ -2606,11 +2596,11 @@ yyreduce:
 		}
 		(yyval.Symbol)->setName((yyvsp[-2].Symbol)->getName()+(yyvsp[-1].Symbol)->getName()+(yyvsp[0].Symbol)->getName());  
 	}
-#line 2610 "y.tab.c" /* yacc.c:1646  */
+#line 2600 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 792 "1605103.y" /* yacc.c:1646  */
+#line 778 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"term : unary_expression");
@@ -2619,11 +2609,11 @@ yyreduce:
 		(yyval.Symbol)->setDeclarationType((yyvsp[0].Symbol)->getDeclarationType()); 
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName()); 
 	}
-#line 2623 "y.tab.c" /* yacc.c:1646  */
+#line 2613 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 800 "1605103.y" /* yacc.c:1646  */
+#line 786 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"term : term-MULOP-unary_expression");
@@ -2659,19 +2649,14 @@ yyreduce:
 			else if((yyvsp[-2].Symbol)->getDeclarationType()=="void "||(yyvsp[0].Symbol)->getDeclarationType()=="void "){
 				string err = "Invalid Types ";
 				Util::appendLogError(lines,err,PARSER);(yyval.Symbol)->setDeclarationType("int "); yyerror(err.c_str());
-			}
-			 
-			else (yyval.Symbol)->setDeclarationType("int "); 
-		}
-	
-		(yyval.Symbol)->setName((yyvsp[-2].Symbol)->getName()+(yyvsp[-1].Symbol)->getName()+(yyvsp[0].Symbol)->getName()); 
-								
-	}
-#line 2671 "y.tab.c" /* yacc.c:1646  */
+			}	 
+			else (yyval.Symbol)->setDeclarationType("int "); }
+		(yyval.Symbol)->setName((yyvsp[-2].Symbol)->getName()+(yyvsp[-1].Symbol)->getName()+(yyvsp[0].Symbol)->getName());}
+#line 2656 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 845 "1605103.y" /* yacc.c:1646  */
+#line 826 "1605103.y" /* yacc.c:1646  */
     {
 	
 	(yyval.Symbol) = TOKEN;
@@ -2683,17 +2668,16 @@ yyreduce:
 	}else {
 		(yyval.Symbol)->setDeclarationType((yyvsp[0].Symbol)->getDeclarationType()); 	
 	}
-	Util::parserLog((yyvsp[-1].Symbol)->getName()+(yyvsp[0].Symbol)->getName());
-
-	(yyval.Symbol)->setName((yyvsp[-1].Symbol)->getName()+(yyvsp[0].Symbol)->getName()); 
 	Util::parserLog(lines,"unary_expression : ADDOP-unary_expression");
+	(yyval.Symbol)->setName((yyvsp[-1].Symbol)->getName()+(yyvsp[0].Symbol)->getName()); 
+	Util::parserLog((yyvsp[-1].Symbol)->getName()+(yyvsp[0].Symbol)->getName());	
 	
 	}
-#line 2693 "y.tab.c" /* yacc.c:1646  */
+#line 2677 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 862 "1605103.y" /* yacc.c:1646  */
+#line 842 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"unary_expression : NOT-unary_expression");
@@ -2706,11 +2690,11 @@ yyreduce:
 		}else (yyval.Symbol)->setDeclarationType((yyvsp[0].Symbol)->getDeclarationType());  
 		(yyval.Symbol)->setName("!"+(yyvsp[0].Symbol)->getName()); 
 	}
-#line 2710 "y.tab.c" /* yacc.c:1646  */
+#line 2694 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 874 "1605103.y" /* yacc.c:1646  */
+#line 854 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"unary_expression : factor");
@@ -2720,11 +2704,11 @@ yyreduce:
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName()); 
 				
 	}
-#line 2724 "y.tab.c" /* yacc.c:1646  */
+#line 2708 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 885 "1605103.y" /* yacc.c:1646  */
+#line 865 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"factor : variable");
@@ -2732,11 +2716,11 @@ yyreduce:
 		(yyval.Symbol)->setDeclarationType((yyvsp[0].Symbol)->getDeclarationType()); 
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName()); 
 	}
-#line 2736 "y.tab.c" /* yacc.c:1646  */
+#line 2720 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 892 "1605103.y" /* yacc.c:1646  */
+#line 872 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"factor : ID-LPAREN-argument_list-RPAREN");
@@ -2790,128 +2774,128 @@ yyreduce:
 		if(DEBUG)cout<<lines<<" "<<(yyval.Symbol)->getDeclarationType()<<endl;
 		(yyval.Symbol)->setName((yyvsp[-3].Symbol)->getName()+"("+(yyvsp[-1].Symbol)->getName()+")"); 
 	}
-#line 2794 "y.tab.c" /* yacc.c:1646  */
+#line 2778 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 945 "1605103.y" /* yacc.c:1646  */
+#line 925 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		(yyval.Symbol)->setDeclarationType((yyvsp[-1].Symbol)->getDeclarationType()); 
+		
+		Util::parserLog(lines,"factor : LPAREN-expression-RPAREN");
+		(yyval.Symbol)->setName("("+(yyvsp[-1].Symbol)->getName()+")"); 
 		Util::parserLog("("+(yyvsp[-1].Symbol)->getName()+")"); 
 	
-		(yyval.Symbol)->setName("("+(yyvsp[-1].Symbol)->getName()+")"); 
-		Util::parserLog(lines,"factor : LPAREN-expression-RPAREN");
-	
 	}
-#line 2808 "y.tab.c" /* yacc.c:1646  */
+#line 2792 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 954 "1605103.y" /* yacc.c:1646  */
+#line 934 "1605103.y" /* yacc.c:1646  */
     { 
 		(yyval.Symbol) = TOKEN;
 		if(DEBUG)cout<<(yyvsp[0].Symbol)->toString()<<endl;
-	
+		Util::parserLog(lines,"factor : CONST_INT");	
 		(yyval.Symbol)->setDeclarationType("int "); 	
 		Util::parserLog((yyvsp[0].Symbol)->getName());
 	
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName()); 
-		Util::parserLog(lines,"factor : CONST_INT");
 			
 	}
-#line 2824 "y.tab.c" /* yacc.c:1646  */
+#line 2807 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 965 "1605103.y" /* yacc.c:1646  */
+#line 944 "1605103.y" /* yacc.c:1646  */
     {
+		Util::parserLog(lines,"factor : CONST_FLOAT");
 		(yyval.Symbol) = TOKEN;
 		(yyval.Symbol)->setDeclarationType("float "); 	
 		Util::parserLog((yyvsp[0].Symbol)->getName()); 
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName()); 
-		Util::parserLog(lines,"factor : CONST_FLOAT");
 				
 	}
-#line 2837 "y.tab.c" /* yacc.c:1646  */
+#line 2820 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 973 "1605103.y" /* yacc.c:1646  */
+#line 952 "1605103.y" /* yacc.c:1646  */
     {
+		Util::parserLog(lines,"factor : variable INCOP");
+
 		(yyval.Symbol) = TOKEN;
 		(yyval.Symbol)->setDeclarationType((yyvsp[-1].Symbol)->getDeclarationType());
+
 		Util::parserLog((yyvsp[-1].Symbol)->getName()+"++"); 
 		(yyval.Symbol)->setName((yyvsp[-1].Symbol)->getName()+"++"); 
-		Util::parserLog(lines,"factor : variable INCOP");
 					 
 	}
-#line 2850 "y.tab.c" /* yacc.c:1646  */
+#line 2835 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 981 "1605103.y" /* yacc.c:1646  */
+#line 962 "1605103.y" /* yacc.c:1646  */
     {
+		Util::parserLog(lines,"factor : variable DECOP");
 		(yyval.Symbol) = TOKEN;
 		(yyval.Symbol)->setDeclarationType((yyvsp[-1].Symbol)->getDeclarationType()); 
 		Util::parserLog((yyvsp[-1].Symbol)->getName()+"--");
 		(yyval.Symbol)->setName((yyvsp[-1].Symbol)->getName()+"--"); 
-		Util::parserLog(lines,"factor : variable DECOP");
 					 
 	}
-#line 2863 "y.tab.c" /* yacc.c:1646  */
+#line 2848 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 71:
-#line 991 "1605103.y" /* yacc.c:1646  */
+#line 972 "1605103.y" /* yacc.c:1646  */
     {
+		Util::parserLog(lines,"argument_list : arguments");
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog((yyvsp[0].Symbol)->getName());
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName());
-		Util::parserLog(lines,"argument_list : arguments");
 		
 	}
-#line 2875 "y.tab.c" /* yacc.c:1646  */
+#line 2860 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 72:
-#line 998 "1605103.y" /* yacc.c:1646  */
+#line 979 "1605103.y" /* yacc.c:1646  */
     {
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog(lines,"argument_list : %empty");
+		Util::parserLog(lines,"");
 		(yyval.Symbol)->setName("");}
-#line 2884 "y.tab.c" /* yacc.c:1646  */
+#line 2870 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 73:
-#line 1004 "1605103.y" /* yacc.c:1646  */
+#line 986 "1605103.y" /* yacc.c:1646  */
     {
+		Util::parserLog(lines,"arguments : arguments-COMMA-logic_expression ");
 		(yyval.Symbol) = TOKEN;
 		argList.push_back((yyvsp[0].Symbol));
 		Util::parserLog((yyvsp[-2].Symbol)->getName()+","+(yyvsp[0].Symbol)->getName());
 		(yyval.Symbol)->setName((yyvsp[-2].Symbol)->getName()+","+(yyvsp[0].Symbol)->getName());
-		Util::parserLog(lines,"arguments : arguments-COMMA-logic_expression ");
 		
 	}
-#line 2897 "y.tab.c" /* yacc.c:1646  */
+#line 2883 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 74:
-#line 1012 "1605103.y" /* yacc.c:1646  */
+#line 994 "1605103.y" /* yacc.c:1646  */
     {
-		
+		Util::parserLog(lines,"arguments : logic_expression");	
 		(yyval.Symbol) = TOKEN;
 		argList.push_back(new SymbolInfo((yyvsp[0].Symbol)->getName(),(yyvsp[0].Symbol)->getType(),(yyvsp[0].Symbol)->getDeclarationType()));
 		Util::parserLog((yyvsp[0].Symbol)->getName()); 
-		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName());	
-		Util::parserLog(lines,"arguments : logic_expression");
-						
+		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName());						
 	}
-#line 2911 "y.tab.c" /* yacc.c:1646  */
+#line 2895 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2915 "y.tab.c" /* yacc.c:1646  */
+#line 2899 "y.tab.c" /* yacc.c:1646  */
         default: break;
       }
     if (yychar_backup != yychar)
@@ -3151,7 +3135,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 1022 "1605103.y" /* yacc.c:1906  */
+#line 1002 "1605103.y" /* yacc.c:1906  */
 
 
 void endingRoutine(){

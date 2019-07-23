@@ -32,6 +32,8 @@ Line:2  term : unary_expression
 
 a
 
+Line:2  simple_expression : term
+
 a
 
 Line:2  rel_expression : simple_expression
@@ -56,8 +58,6 @@ return a;
 
 Line:3  compound_statement : LCURL-statements-RCURL
 
-{return a;}
-
 
   SCOPE TABLE #1
 
@@ -73,6 +73,8 @@ Line:3  compound_statement : LCURL-statements-RCURL
 
 
 
+
+{return a;}
 
 Line:3  func_definition : type_specifier-ID-LPAREN-parameter_list-RPAREN-compound_statement 
 
@@ -98,9 +100,9 @@ Line:5  type_specifier : FLOAT
 
 float 
 
-1.0
-
 Line:6  factor : CONST_FLOAT
+
+1.0
 
 Line:6  unary_expression : factor
 
@@ -109,6 +111,8 @@ Line:6  unary_expression : factor
 Line:6  term : unary_expression
 
 1.0
+
+Line:6  simple_expression : term
 
 1.0
 
@@ -134,8 +138,6 @@ return 1.0;
 
 Line:7  compound_statement : LCURL-statements-RCURL
 
-{return 1.0;}
-
 
   SCOPE TABLE #1
 
@@ -151,6 +153,8 @@ Line:7  compound_statement : LCURL-statements-RCURL
 
 
 
+
+{return 1.0;}
 
 Line:7  func_definition : type_specifier-ID-LPAREN-RPAREN-compound_statement
 
@@ -313,9 +317,9 @@ Line:18  variable : ID
 
 i
 
-2.3
-
 Line:18  factor : CONST_FLOAT
+
+2.3
 
 Line:18  unary_expression : factor
 
@@ -324,6 +328,8 @@ Line:18  unary_expression : factor
 Line:18  term : unary_expression
 
 2.3
+
+Line:18  simple_expression : term
 
 2.3
 
@@ -352,9 +358,9 @@ Line:18  statements : statements-statement
 int  a[2],c,i,j;
 float  c; i=2.3;
 
-2.5
-
 Line:19  factor : CONST_FLOAT
+
+2.5
 
 Line:19  unary_expression : factor
 
@@ -363,6 +369,8 @@ Line:19  unary_expression : factor
 Line:19  term : unary_expression
 
 2.5
+
+Line:19  simple_expression : term
 
 2.5
 
@@ -382,9 +390,9 @@ Line:19  variable : ID-LTHIRD-expression-RTHIRD
 
 a[2.5]
 
-1
-
 Line:19  factor : CONST_INT
+
+1
 
 Line:19  unary_expression : factor
 
@@ -393,6 +401,8 @@ Line:19  unary_expression : factor
 Line:19  term : unary_expression
 
 1
+
+Line:19  simple_expression : term
 
 1
 
@@ -426,9 +436,9 @@ Line:20  variable : ID
 
 j
 
-2
-
 Line:20  factor : CONST_INT
+
+2
 
 Line:20  unary_expression : factor
 
@@ -438,9 +448,9 @@ Line:20  term : unary_expression
 
 2
 
-3.7
-
 Line:20  factor : CONST_FLOAT
+
+3.7
 
 Line:20  unary_expression : factor
 
@@ -449,6 +459,8 @@ Line:20  unary_expression : factor
 Line:20  term : term-MULOP-unary_expression
 
 2%3.7
+
+Line:20  simple_expression : term
 
 2%3.7
 
@@ -483,9 +495,9 @@ Line:21  variable : ID
 
 j
 
-2
-
 Line:21  factor : CONST_INT
+
+2
 
 Line:21  unary_expression : factor
 
@@ -496,6 +508,8 @@ Line:21  term : unary_expression
 2
 
 Line:21  argument_list : %empty
+
+Line:21  
 
 Line:21  factor : ID-LPAREN-argument_list-RPAREN
 
@@ -508,6 +522,8 @@ f()
 Line:21  term : term-MULOP-unary_expression
 
 2%f()
+
+Line:21  simple_expression : term
 
 2%f()
 
@@ -555,6 +571,8 @@ Line:22  term : unary_expression
 
 a
 
+Line:22  simple_expression : term
+
 a
 
 Line:22  rel_expression : simple_expression
@@ -565,13 +583,13 @@ Line:22  logic_expression : rel_expression
 
 a
 
-a
-
 Line:22  arguments : logic_expression
 
 a
 
 Line:22  argument_list : arguments
+
+a
 
 Line:22  factor : ID-LPAREN-argument_list-RPAREN
 
@@ -584,6 +602,8 @@ func(a)
 Line:22  term : unary_expression
 
 func(a)
+
+Line:22  simple_expression : term
 
 func(a)
 
@@ -622,6 +642,8 @@ j
 
 Line:23  argument_list : %empty
 
+Line:23  
+
 Line:23  factor : ID-LPAREN-argument_list-RPAREN
 
 g()
@@ -633,6 +655,8 @@ g()
 Line:23  term : unary_expression
 
 g()
+
+Line:23  simple_expression : term
 
 g()
 
@@ -670,9 +694,9 @@ Line:24  variable : ID
 
 j
 
-2
-
 Line:24  factor : CONST_INT
+
+2
 
 Line:24  unary_expression : factor
 
@@ -681,11 +705,11 @@ Line:24  unary_expression : factor
 Line:24  term : unary_expression
 
 2
-
-3.5
 
 Line:24  factor : CONST_FLOAT
 
+3.5
+
 Line:24  unary_expression : factor
 
 3.5
@@ -694,12 +718,14 @@ Line:24  term : unary_expression
 
 3.5
 
-3.5
+Line:24  simple_expression : term
 
-4
+3.5
 
 Line:24  factor : CONST_INT
 
+4
+
 Line:24  unary_expression : factor
 
 4
@@ -707,6 +733,8 @@ Line:24  unary_expression : factor
 Line:24  term : unary_expression
 
 4
+
+Line:24  simple_expression : term
 
 4
 
@@ -722,9 +750,9 @@ Line:24  expression : logic_expression
 
 3.5<4
 
-(3.5<4)
-
 Line:24  factor : LPAREN-expression-RPAREN
+
+(3.5<4)
 
 Line:24  unary_expression : factor
 
@@ -733,6 +761,8 @@ Line:24  unary_expression : factor
 Line:24  term : term-MULOP-unary_expression
 
 2%(3.5<4)
+
+Line:24  simple_expression : term
 
 2%(3.5<4)
 
@@ -771,9 +801,9 @@ Line:25  variable : ID
 
 b
 
-8
-
 Line:25  factor : CONST_INT
+
+8
 
 Line:25  unary_expression : factor
 
@@ -782,6 +812,8 @@ Line:25  unary_expression : factor
 Line:25  term : unary_expression
 
 8
+
+Line:25  simple_expression : term
 
 8
 
@@ -821,9 +853,9 @@ Line:26  variable : ID
 
 a
 
-4
-
 Line:26  factor : CONST_INT
+
+4
 
 Line:26  unary_expression : factor
 
@@ -832,6 +864,8 @@ Line:26  unary_expression : factor
 Line:26  term : unary_expression
 
 4
+
+Line:26  simple_expression : term
 
 4
 
@@ -868,9 +902,9 @@ j=g();
 j=2%(3.5<4);
 b=8; a=4;
 
-3
-
 Line:27  factor : CONST_INT
+
+3
 
 Line:27  unary_expression : factor
 
@@ -879,6 +913,8 @@ Line:27  unary_expression : factor
 Line:27  term : unary_expression
 
 3
+
+Line:27  simple_expression : term
 
 3
 
@@ -898,9 +934,9 @@ Line:27  variable : ID-LTHIRD-expression-RTHIRD
 
 i[3]
 
-1
-
 Line:27  factor : CONST_INT
+
+1
 
 Line:27  unary_expression : factor
 
@@ -909,6 +945,8 @@ Line:27  unary_expression : factor
 Line:27  term : unary_expression
 
 1
+
+Line:27  simple_expression : term
 
 1
 
@@ -948,6 +986,8 @@ a=4; i[3]=1;
 
 Line:28  argument_list : %empty
 
+Line:28  
+
 Line:28  factor : ID-LPAREN-argument_list-RPAREN
 
 func()
@@ -959,6 +999,8 @@ func()
 Line:28  term : unary_expression
 
 func()
+
+Line:28  simple_expression : term
 
 func()
 
@@ -999,6 +1041,8 @@ i[3]=1; func();
 
 Line:29  argument_list : %empty
 
+Line:29  
+
 Line:29  factor : ID-LPAREN-argument_list-RPAREN
 
 i()
@@ -1010,6 +1054,8 @@ i()
 Line:29  term : unary_expression
 
 i()
+
+Line:29  simple_expression : term
 
 i()
 
@@ -1055,6 +1101,8 @@ c
 
 Line:30  argument_list : %empty
 
+Line:30  
+
 Line:30  factor : ID-LPAREN-argument_list-RPAREN
 
 g()
@@ -1066,6 +1114,8 @@ g()
 Line:30  term : unary_expression
 
 g()
+
+Line:30  simple_expression : term
 
 g()
 
@@ -1144,9 +1194,9 @@ Line:32  variable : ID
 
 d
 
-2
-
 Line:32  factor : CONST_INT
+
+2
 
 Line:32  unary_expression : factor
 
@@ -1155,6 +1205,8 @@ Line:32  unary_expression : factor
 Line:32  term : unary_expression
 
 2
+
+Line:32  simple_expression : term
 
 2
 
@@ -1197,9 +1249,9 @@ i();
 c=g();
 float  d; d=2;
 
-0
-
 Line:34  factor : CONST_INT
+
+0
 
 Line:34  unary_expression : factor
 
@@ -1208,6 +1260,8 @@ Line:34  unary_expression : factor
 Line:34  term : unary_expression
 
 0
+
+Line:34  simple_expression : term
 
 0
 
@@ -1249,25 +1303,6 @@ d=2; return 0;
 
 Line:35  compound_statement : LCURL-statements-RCURL
 
-{int  a[2],c,i,j;
-float  c;
-i=2.3;
-a[2.5]=1;
-j=2%3.7;
-j=2%f();
-func(a);
-j=g();
-j=2%(3.5<4);
-b=8;
-a=4;
-i[3]=1;
-func();
-i();
-c=g();
-float  d;
-d=2;
-return 0;}
-
 
   SCOPE TABLE #1
 
@@ -1299,6 +1334,25 @@ return 0;}
 
 
 
+
+{int  a[2],c,i,j;
+float  c;
+i=2.3;
+a[2.5]=1;
+j=2%3.7;
+j=2%f();
+func(a);
+j=g();
+j=2%(3.5<4);
+b=8;
+a=4;
+i[3]=1;
+func();
+i();
+c=g();
+float  d;
+d=2;
+return 0;}
 
 Line:35  func_definition : type_specifier-ID-LPAREN-RPAREN-compound_statement
 
@@ -1409,9 +1463,9 @@ Line:37  parameter_list : type_specifier-ID
 
 float  a
 
-0
-
 Line:38  factor : CONST_INT
+
+0
 
 Line:38  unary_expression : factor
 
@@ -1420,6 +1474,8 @@ Line:38  unary_expression : factor
 Line:38  term : unary_expression
 
 0
+
+Line:38  simple_expression : term
 
 0
 
@@ -1445,8 +1501,6 @@ return 0;
 
 Line:39  compound_statement : LCURL-statements-RCURL
 
-{return 0;}
-
 
   SCOPE TABLE #1
 
@@ -1470,6 +1524,8 @@ Line:39  compound_statement : LCURL-statements-RCURL
 
 
 
+
+{return 0;}
 
 Line:39  func_definition : type_specifier-ID-LPAREN-parameter_list-RPAREN-compound_statement 
 
@@ -1659,6 +1715,8 @@ Line:6  term : unary_expression
 
 a
 
+Line:6  simple_expression : term
+
 a
 
 Line:6  variable : ID
@@ -1703,8 +1761,6 @@ return a+b;
 
 Line:7  compound_statement : LCURL-statements-RCURL
 
-{return a+b;}
-
 
   SCOPE TABLE #1
 
@@ -1732,6 +1788,8 @@ Line:7  compound_statement : LCURL-statements-RCURL
 
 
 
+
+{return a+b;}
 
 Line:7  func_definition : type_specifier-ID-LPAREN-parameter_list-RPAREN-compound_statement 
 
@@ -1763,9 +1821,9 @@ Line:10  variable : ID
 
 x
 
-2
-
 Line:10  factor : CONST_INT
+
+2
 
 Line:10  unary_expression : factor
 
@@ -1774,6 +1832,8 @@ Line:10  unary_expression : factor
 Line:10  term : unary_expression
 
 2
+
+Line:10  simple_expression : term
 
 2
 
@@ -1821,11 +1881,13 @@ Line:11  term : unary_expression
 
 x
 
+Line:11  simple_expression : term
+
 x
 
-5
-
 Line:11  factor : CONST_INT
+
+5
 
 Line:11  unary_expression : factor
 
@@ -1865,9 +1927,6 @@ x=2; y=x-5;
 
 Line:12  compound_statement : LCURL-statements-RCURL
 
-{x=2;
-y=x-5;}
-
 
   SCOPE TABLE #1
 
@@ -1891,6 +1950,9 @@ y=x-5;}
 
 
 
+
+{x=2;
+y=x-5;}
 
 Line:12  func_definition : type_specifier-ID-LPAREN-RPAREN-compound_statement
 
@@ -1979,9 +2041,9 @@ Line:15  statements : statements-statement
 
 int  a[2],c,i,j; float  d;
 
-0
-
 Line:16  factor : CONST_INT
+
+0
 
 Line:16  unary_expression : factor
 
@@ -1990,6 +2052,8 @@ Line:16  unary_expression : factor
 Line:16  term : unary_expression
 
 0
+
+Line:16  simple_expression : term
 
 0
 
@@ -2009,9 +2073,9 @@ Line:16  variable : ID-LTHIRD-expression-RTHIRD
 
 a[0]
 
-1
-
 Line:16  factor : CONST_INT
+
+1
 
 Line:16  unary_expression : factor
 
@@ -2020,6 +2084,8 @@ Line:16  unary_expression : factor
 Line:16  term : unary_expression
 
 1
+
+Line:16  simple_expression : term
 
 1
 
@@ -2048,9 +2114,9 @@ Line:16  statements : statements-statement
 int  a[2],c,i,j;
 float  d; a[0]=1;
 
-1
-
 Line:17  factor : CONST_INT
+
+1
 
 Line:17  unary_expression : factor
 
@@ -2059,6 +2125,8 @@ Line:17  unary_expression : factor
 Line:17  term : unary_expression
 
 1
+
+Line:17  simple_expression : term
 
 1
 
@@ -2078,9 +2146,9 @@ Line:17  variable : ID-LTHIRD-expression-RTHIRD
 
 a[1]
 
-5
-
 Line:17  factor : CONST_INT
+
+5
 
 Line:17  unary_expression : factor
 
@@ -2089,6 +2157,8 @@ Line:17  unary_expression : factor
 Line:17  term : unary_expression
 
 5
+
+Line:17  simple_expression : term
 
 5
 
@@ -2122,9 +2192,9 @@ Line:18  variable : ID
 
 i
 
-0
-
 Line:18  factor : CONST_INT
+
+0
 
 Line:18  unary_expression : factor
 
@@ -2133,6 +2203,8 @@ Line:18  unary_expression : factor
 Line:18  term : unary_expression
 
 0
+
+Line:18  simple_expression : term
 
 0
 
@@ -2164,11 +2236,13 @@ Line:18  term : unary_expression
 
 a[0]
 
+Line:18  simple_expression : term
+
 a[0]
 
-1
-
 Line:18  factor : CONST_INT
+
+1
 
 Line:18  unary_expression : factor
 
@@ -2177,6 +2251,8 @@ Line:18  unary_expression : factor
 Line:18  term : unary_expression
 
 1
+
+Line:18  simple_expression : term
 
 1
 
@@ -2243,9 +2319,9 @@ Line:19  variable : ID
 
 j
 
-2
-
 Line:19  factor : CONST_INT
+
+2
 
 Line:19  unary_expression : factor
 
@@ -2255,9 +2331,9 @@ Line:19  term : unary_expression
 
 2
 
-3
-
 Line:19  factor : CONST_INT
+
+3
 
 Line:19  unary_expression : factor
 
@@ -2267,11 +2343,13 @@ Line:19  term : term-MULOP-unary_expression
 
 2*3
 
+Line:19  simple_expression : term
+
 2*3
 
-5
-
 Line:19  factor : CONST_INT
+
+5
 
 Line:19  unary_expression : factor
 
@@ -2281,9 +2359,9 @@ Line:19  term : unary_expression
 
 5
 
-3
-
 Line:19  factor : CONST_INT
+
+3
 
 Line:19  unary_expression : factor
 
@@ -2293,11 +2371,13 @@ Line:19  term : term-MULOP-unary_expression
 
 5%3
 
+Line:19  simple_expression : term
+
 5%3
 
-4
-
 Line:19  factor : CONST_INT
+
+4
 
 Line:19  unary_expression : factor
 
@@ -2306,6 +2386,8 @@ Line:19  unary_expression : factor
 Line:19  term : unary_expression
 
 4
+
+Line:19  simple_expression : term
 
 4
 
@@ -2313,9 +2395,9 @@ Line:19  rel_expression : simple_expression-RELOP-simple_expression
 
 5%3<4
 
-8
-
 Line:19  factor : CONST_INT
+
+8
 
 Line:19  unary_expression : factor
 
@@ -2324,6 +2406,8 @@ Line:19  unary_expression : factor
 Line:19  term : unary_expression
 
 8
+
+Line:19  simple_expression : term
 
 8
 
@@ -2339,9 +2423,9 @@ Line:19  expression : logic_expression
 
 5%3<4&&8
 
-(5%3<4&&8)
-
 Line:19  factor : LPAREN-expression-RPAREN
+
+(5%3<4&&8)
 
 Line:19  unary_expression : factor
 
@@ -2359,9 +2443,9 @@ Line:19  rel_expression : simple_expression
 
 2*3+(5%3<4&&8)
 
-2
-
 Line:19  factor : CONST_INT
+
+2
 
 Line:19  unary_expression : factor
 
@@ -2370,6 +2454,8 @@ Line:19  unary_expression : factor
 Line:19  term : unary_expression
 
 2
+
+Line:19  simple_expression : term
 
 2
 
@@ -2405,9 +2491,9 @@ Line:20  variable : ID
 
 d
 
-1
-
 Line:20  factor : CONST_INT
+
+1
 
 Line:20  unary_expression : factor
 
@@ -2416,6 +2502,8 @@ Line:20  unary_expression : factor
 Line:20  term : unary_expression
 
 1
+
+Line:20  simple_expression : term
 
 1
 
@@ -2427,13 +2515,13 @@ Line:20  logic_expression : rel_expression
 
 1
 
-1
-
 Line:20  arguments : logic_expression
 
-2
+1
 
 Line:20  factor : CONST_INT
+
+2
 
 Line:20  unary_expression : factor
 
@@ -2443,9 +2531,9 @@ Line:20  term : unary_expression
 
 2
 
-3
-
 Line:20  factor : CONST_INT
+
+3
 
 Line:20  unary_expression : factor
 
@@ -2455,6 +2543,8 @@ Line:20  term : term-MULOP-unary_expression
 
 2*3
 
+Line:20  simple_expression : term
+
 2*3
 
 Line:20  rel_expression : simple_expression
@@ -2465,13 +2555,13 @@ Line:20  logic_expression : rel_expression
 
 2*3
 
-1,2*3
-
 Line:20  arguments : arguments-COMMA-logic_expression 
 
 1,2*3
 
 Line:20  argument_list : arguments
+
+1,2*3
 
 Line:20  factor : ID-LPAREN-argument_list-RPAREN
 
@@ -2485,11 +2575,13 @@ Line:20  term : unary_expression
 
 var(1,2*3)
 
+Line:20  simple_expression : term
+
 var(1,2*3)
 
-3.5
-
 Line:20  factor : CONST_FLOAT
+
+3.5
 
 Line:20  unary_expression : factor
 
@@ -2499,9 +2591,9 @@ Line:20  term : unary_expression
 
 3.5
 
-2
-
 Line:20  factor : CONST_INT
+
+2
 
 Line:20  unary_expression : factor
 
@@ -2544,9 +2636,9 @@ a[1]=5;
 i=a[0]+a[1];
 j=2*3+(5%3<4&&8)||2; d=var(1,2*3)+3.5*2;
 
-0
-
 Line:21  factor : CONST_INT
+
+0
 
 Line:21  unary_expression : factor
 
@@ -2555,6 +2647,8 @@ Line:21  unary_expression : factor
 Line:21  term : unary_expression
 
 0
+
+Line:21  simple_expression : term
 
 0
 
@@ -2585,15 +2679,6 @@ j=2*3+(5%3<4&&8)||2;
 d=var(1,2*3)+3.5*2; return 0;
 
 Line:22  compound_statement : LCURL-statements-RCURL
-
-{int  a[2],c,i,j;
-float  d;
-a[0]=1;
-a[1]=5;
-i=a[0]+a[1];
-j=2*3+(5%3<4&&8)||2;
-d=var(1,2*3)+3.5*2;
-return 0;}
 
 
   SCOPE TABLE #1
@@ -2630,6 +2715,15 @@ return 0;}
 
 
 
+
+{int  a[2],c,i,j;
+float  d;
+a[0]=1;
+a[1]=5;
+i=a[0]+a[1];
+j=2*3+(5%3<4&&8)||2;
+d=var(1,2*3)+3.5*2;
+return 0;}
 
 Line:22  func_definition : type_specifier-ID-LPAREN-RPAREN-compound_statement
 
@@ -2756,6 +2850,8 @@ Line:2  term : unary_expression
 
 a
 
+Line:2  simple_expression : term
+
 a
 
 Line:2  rel_expression : simple_expression
@@ -2780,8 +2876,6 @@ return a;
 
 Line:3  compound_statement : LCURL-statements-RCURL
 
-{return a;}
-
 
   SCOPE TABLE #1
 
@@ -2797,6 +2891,8 @@ Line:3  compound_statement : LCURL-statements-RCURL
 
 
 
+
+{return a;}
 
 Line:3  func_definition : type_specifier-ID-LPAREN-parameter_list-RPAREN-compound_statement 
 
@@ -2874,9 +2970,9 @@ Line:6  statements : statements-statement
 
 int  a[2],c,i,j; float  c;
 
-2.5
-
 Line:7  factor : CONST_FLOAT
+
+2.5
 
 Line:7  unary_expression : factor
 
@@ -2885,6 +2981,8 @@ Line:7  unary_expression : factor
 Line:7  term : unary_expression
 
 2.5
+
+Line:7  simple_expression : term
 
 2.5
 
@@ -2904,9 +3002,9 @@ Line:7  variable : ID-LTHIRD-expression-RTHIRD
 
 a[2.5]
 
-1
-
 Line:7  factor : CONST_INT
+
+1
 
 Line:7  unary_expression : factor
 
@@ -2915,6 +3013,8 @@ Line:7  unary_expression : factor
 Line:7  term : unary_expression
 
 1
+
+Line:7  simple_expression : term
 
 1
 
@@ -2947,9 +3047,9 @@ Line:8  variable : ID
 
 i
 
-2.3
-
 Line:8  factor : CONST_FLOAT
+
+2.3
 
 Line:8  unary_expression : factor
 
@@ -2958,6 +3058,8 @@ Line:8  unary_expression : factor
 Line:8  term : unary_expression
 
 2.3
+
+Line:8  simple_expression : term
 
 2.3
 
@@ -2991,9 +3093,9 @@ Line:9  variable : ID
 
 j
 
-2
-
 Line:9  factor : CONST_INT
+
+2
 
 Line:9  unary_expression : factor
 
@@ -3003,9 +3105,9 @@ Line:9  term : unary_expression
 
 2
 
-3.7
-
 Line:9  factor : CONST_FLOAT
+
+3.7
 
 Line:9  unary_expression : factor
 
@@ -3014,6 +3116,8 @@ Line:9  unary_expression : factor
 Line:9  term : term-MULOP-unary_expression
 
 2%3.7
+
+Line:9  simple_expression : term
 
 2%3.7
 
@@ -3048,9 +3152,9 @@ Line:10  variable : ID
 
 a
 
-4
-
 Line:10  factor : CONST_INT
+
+4
 
 Line:10  unary_expression : factor
 
@@ -3059,6 +3163,8 @@ Line:10  unary_expression : factor
 Line:10  term : unary_expression
 
 4
+
+Line:10  simple_expression : term
 
 4
 
@@ -3106,6 +3212,8 @@ Line:11  term : unary_expression
 
 a
 
+Line:11  simple_expression : term
+
 a
 
 Line:11  rel_expression : simple_expression
@@ -3116,13 +3224,13 @@ Line:11  logic_expression : rel_expression
 
 a
 
-a
-
 Line:11  arguments : logic_expression
 
 a
 
 Line:11  argument_list : arguments
+
+a
 
 Line:11  factor : ID-LPAREN-argument_list-RPAREN
 
@@ -3135,6 +3243,8 @@ func(a)
 Line:11  term : unary_expression
 
 func(a)
+
+Line:11  simple_expression : term
 
 func(a)
 
@@ -3171,9 +3281,9 @@ Line:12  variable : ID
 
 b
 
-8
-
 Line:12  factor : CONST_INT
+
+8
 
 Line:12  unary_expression : factor
 
@@ -3182,6 +3292,8 @@ Line:12  unary_expression : factor
 Line:12  term : unary_expression
 
 8
+
+Line:12  simple_expression : term
 
 8
 
@@ -3215,9 +3327,9 @@ j=2%3.7;
 a=4;
 func(a); b=8;
 
-0
-
 Line:13  factor : CONST_INT
+
+0
 
 Line:13  unary_expression : factor
 
@@ -3226,6 +3338,8 @@ Line:13  unary_expression : factor
 Line:13  term : unary_expression
 
 0
+
+Line:13  simple_expression : term
 
 0
 
@@ -3258,16 +3372,6 @@ b=8; return 0;
 
 Line:14  compound_statement : LCURL-statements-RCURL
 
-{int  a[2],c,i,j;
-float  c;
-a[2.5]=1;
-i=2.3;
-j=2%3.7;
-a=4;
-func(a);
-b=8;
-return 0;}
-
 
   SCOPE TABLE #1
 
@@ -3291,6 +3395,16 @@ return 0;}
 
 
 
+
+{int  a[2],c,i,j;
+float  c;
+a[2.5]=1;
+i=2.3;
+j=2%3.7;
+a=4;
+func(a);
+b=8;
+return 0;}
 
 Line:14  func_definition : type_specifier-ID-LPAREN-RPAREN-compound_statement
 
@@ -3539,9 +3653,9 @@ Line:9  statements : statements-statement
 
 int  a[2],c,i,j; float  d;
 
-0
-
 Line:10  factor : CONST_INT
+
+0
 
 Line:10  unary_expression : factor
 
@@ -3550,6 +3664,8 @@ Line:10  unary_expression : factor
 Line:10  term : unary_expression
 
 0
+
+Line:10  simple_expression : term
 
 0
 
@@ -3569,9 +3685,9 @@ Line:10  variable : ID-LTHIRD-expression-RTHIRD
 
 a[0]
 
-1
-
 Line:10  factor : CONST_INT
+
+1
 
 Line:10  unary_expression : factor
 
@@ -3580,6 +3696,8 @@ Line:10  unary_expression : factor
 Line:10  term : unary_expression
 
 1
+
+Line:10  simple_expression : term
 
 1
 
@@ -3608,9 +3726,9 @@ Line:10  statements : statements-statement
 int  a[2],c,i,j;
 float  d; a[0]=1;
 
-1
-
 Line:11  factor : CONST_INT
+
+1
 
 Line:11  unary_expression : factor
 
@@ -3619,6 +3737,8 @@ Line:11  unary_expression : factor
 Line:11  term : unary_expression
 
 1
+
+Line:11  simple_expression : term
 
 1
 
@@ -3638,9 +3758,9 @@ Line:11  variable : ID-LTHIRD-expression-RTHIRD
 
 a[1]
 
-5
-
 Line:11  factor : CONST_INT
+
+5
 
 Line:11  unary_expression : factor
 
@@ -3649,6 +3769,8 @@ Line:11  unary_expression : factor
 Line:11  term : unary_expression
 
 5
+
+Line:11  simple_expression : term
 
 5
 
@@ -3682,9 +3804,9 @@ Line:12  variable : ID
 
 i
 
-0
-
 Line:12  factor : CONST_INT
+
+0
 
 Line:12  unary_expression : factor
 
@@ -3693,6 +3815,8 @@ Line:12  unary_expression : factor
 Line:12  term : unary_expression
 
 0
+
+Line:12  simple_expression : term
 
 0
 
@@ -3724,11 +3848,13 @@ Line:12  term : unary_expression
 
 a[0]
 
+Line:12  simple_expression : term
+
 a[0]
 
-1
-
 Line:12  factor : CONST_INT
+
+1
 
 Line:12  unary_expression : factor
 
@@ -3737,6 +3863,8 @@ Line:12  unary_expression : factor
 Line:12  term : unary_expression
 
 1
+
+Line:12  simple_expression : term
 
 1
 
@@ -3803,9 +3931,9 @@ Line:13  variable : ID
 
 j
 
-2
-
 Line:13  factor : CONST_INT
+
+2
 
 Line:13  unary_expression : factor
 
@@ -3815,9 +3943,9 @@ Line:13  term : unary_expression
 
 2
 
-3
-
 Line:13  factor : CONST_INT
+
+3
 
 Line:13  unary_expression : factor
 
@@ -3827,11 +3955,13 @@ Line:13  term : term-MULOP-unary_expression
 
 2*3
 
+Line:13  simple_expression : term
+
 2*3
 
-5
-
 Line:13  factor : CONST_INT
+
+5
 
 Line:13  unary_expression : factor
 
@@ -3841,9 +3971,9 @@ Line:13  term : unary_expression
 
 5
 
-3
-
 Line:13  factor : CONST_INT
+
+3
 
 Line:13  unary_expression : factor
 
@@ -3853,11 +3983,13 @@ Line:13  term : term-MULOP-unary_expression
 
 5%3
 
+Line:13  simple_expression : term
+
 5%3
 
-4
-
 Line:13  factor : CONST_INT
+
+4
 
 Line:13  unary_expression : factor
 
@@ -3866,6 +3998,8 @@ Line:13  unary_expression : factor
 Line:13  term : unary_expression
 
 4
+
+Line:13  simple_expression : term
 
 4
 
@@ -3873,9 +4007,9 @@ Line:13  rel_expression : simple_expression-RELOP-simple_expression
 
 5%3<4
 
-8
-
 Line:13  factor : CONST_INT
+
+8
 
 Line:13  unary_expression : factor
 
@@ -3884,6 +4018,8 @@ Line:13  unary_expression : factor
 Line:13  term : unary_expression
 
 8
+
+Line:13  simple_expression : term
 
 8
 
@@ -3899,9 +4035,9 @@ Line:13  expression : logic_expression
 
 5%3<4&&8
 
-(5%3<4&&8)
-
 Line:13  factor : LPAREN-expression-RPAREN
+
+(5%3<4&&8)
 
 Line:13  unary_expression : factor
 
@@ -3919,9 +4055,9 @@ Line:13  rel_expression : simple_expression
 
 2*3+(5%3<4&&8)
 
-2
-
 Line:13  factor : CONST_INT
+
+2
 
 Line:13  unary_expression : factor
 
@@ -3930,6 +4066,8 @@ Line:13  unary_expression : factor
 Line:13  term : unary_expression
 
 2
+
+Line:13  simple_expression : term
 
 2
 
@@ -3965,9 +4103,9 @@ Line:14  variable : ID
 
 d
 
-1
-
 Line:14  factor : CONST_INT
+
+1
 
 Line:14  unary_expression : factor
 
@@ -3976,6 +4114,8 @@ Line:14  unary_expression : factor
 Line:14  term : unary_expression
 
 1
+
+Line:14  simple_expression : term
 
 1
 
@@ -3987,13 +4127,13 @@ Line:14  logic_expression : rel_expression
 
 1
 
-1
-
 Line:14  arguments : logic_expression
 
-2
+1
 
 Line:14  factor : CONST_INT
+
+2
 
 Line:14  unary_expression : factor
 
@@ -4003,9 +4143,9 @@ Line:14  term : unary_expression
 
 2
 
-3
-
 Line:14  factor : CONST_INT
+
+3
 
 Line:14  unary_expression : factor
 
@@ -4015,6 +4155,8 @@ Line:14  term : term-MULOP-unary_expression
 
 2*3
 
+Line:14  simple_expression : term
+
 2*3
 
 Line:14  rel_expression : simple_expression
@@ -4025,13 +4167,13 @@ Line:14  logic_expression : rel_expression
 
 2*3
 
-1,2*3
-
 Line:14  arguments : arguments-COMMA-logic_expression 
 
 1,2*3
 
 Line:14  argument_list : arguments
+
+1,2*3
 
 Line:14  factor : ID-LPAREN-argument_list-RPAREN
 
@@ -4045,11 +4187,13 @@ Line:14  term : unary_expression
 
 var(1,2*3)
 
+Line:14  simple_expression : term
+
 var(1,2*3)
 
-3.5
-
 Line:14  factor : CONST_FLOAT
+
+3.5
 
 Line:14  unary_expression : factor
 
@@ -4059,9 +4203,9 @@ Line:14  term : unary_expression
 
 3.5
 
-2
-
 Line:14  factor : CONST_INT
+
+2
 
 Line:14  unary_expression : factor
 
@@ -4106,6 +4250,8 @@ j=2*3+(5%3<4&&8)||2; d=var(1,2*3)+3.5*2;
 
 Line:15  argument_list : %empty
 
+Line:15  
+
 Line:15  factor : ID-LPAREN-argument_list-RPAREN
 
 foo()
@@ -4117,6 +4263,8 @@ foo()
 Line:15  term : unary_expression
 
 foo()
+
+Line:15  simple_expression : term
 
 foo()
 
@@ -4150,9 +4298,9 @@ i=a[0]+a[1];
 j=2*3+(5%3<4&&8)||2;
 d=var(1,2*3)+3.5*2; foo();
 
-0
-
 Line:16  factor : CONST_INT
+
+0
 
 Line:16  unary_expression : factor
 
@@ -4161,6 +4309,8 @@ Line:16  unary_expression : factor
 Line:16  term : unary_expression
 
 0
+
+Line:16  simple_expression : term
 
 0
 
@@ -4192,16 +4342,6 @@ d=var(1,2*3)+3.5*2;
 foo(); return 0;
 
 Line:17  compound_statement : LCURL-statements-RCURL
-
-{int  a[2],c,i,j;
-float  d;
-a[0]=1;
-a[1]=5;
-i=a[0]+a[1];
-j=2*3+(5%3<4&&8)||2;
-d=var(1,2*3)+3.5*2;
-foo();
-return 0;}
 
 
   SCOPE TABLE #1
@@ -4238,6 +4378,16 @@ return 0;}
 
 
 
+
+{int  a[2],c,i,j;
+float  d;
+a[0]=1;
+a[1]=5;
+i=a[0]+a[1];
+j=2*3+(5%3<4&&8)||2;
+d=var(1,2*3)+3.5*2;
+foo();
+return 0;}
 
 Line:17  func_definition : type_specifier-ID-LPAREN-RPAREN-compound_statement
 
@@ -4485,9 +4635,9 @@ Line:10  statements : statements-statement
 
 int  a[2],c,i,j; a
 
-0
-
 Line:10  factor : CONST_INT
+
+0
 
 Line:10  unary_expression : factor
 
@@ -4496,6 +4646,8 @@ Line:10  unary_expression : factor
 Line:10  term : unary_expression
 
 0
+
+Line:10  simple_expression : term
 
 0
 
@@ -4515,9 +4667,9 @@ Line:10  variable : ID-LTHIRD-expression-RTHIRD
 
 a[0]
 
-1
-
 Line:10  factor : CONST_INT
+
+1
 
 Line:10  unary_expression : factor
 
@@ -4526,6 +4678,8 @@ Line:10  unary_expression : factor
 Line:10  term : unary_expression
 
 1
+
+Line:10  simple_expression : term
 
 1
 
@@ -4554,9 +4708,9 @@ Line:10  statements : statements-statement
 int  a[2],c,i,j;
 a a[0]=1;
 
-1
-
 Line:11  factor : CONST_INT
+
+1
 
 Line:11  unary_expression : factor
 
@@ -4565,6 +4719,8 @@ Line:11  unary_expression : factor
 Line:11  term : unary_expression
 
 1
+
+Line:11  simple_expression : term
 
 1
 
@@ -4584,9 +4740,9 @@ Line:11  variable : ID-LTHIRD-expression-RTHIRD
 
 a[1]
 
-5
-
 Line:11  factor : CONST_INT
+
+5
 
 Line:11  unary_expression : factor
 
@@ -4595,6 +4751,8 @@ Line:11  unary_expression : factor
 Line:11  term : unary_expression
 
 5
+
+Line:11  simple_expression : term
 
 5
 
@@ -4628,9 +4786,9 @@ Line:12  variable : ID
 
 i
 
-0
-
 Line:12  factor : CONST_INT
+
+0
 
 Line:12  unary_expression : factor
 
@@ -4639,6 +4797,8 @@ Line:12  unary_expression : factor
 Line:12  term : unary_expression
 
 0
+
+Line:12  simple_expression : term
 
 0
 
@@ -4670,11 +4830,13 @@ Line:12  term : unary_expression
 
 a[0]
 
+Line:12  simple_expression : term
+
 a[0]
 
-1
-
 Line:12  factor : CONST_INT
+
+1
 
 Line:12  unary_expression : factor
 
@@ -4683,6 +4845,8 @@ Line:12  unary_expression : factor
 Line:12  term : unary_expression
 
 1
+
+Line:12  simple_expression : term
 
 1
 
@@ -4749,9 +4913,9 @@ Line:13  variable : ID
 
 j
 
-2
-
 Line:13  factor : CONST_INT
+
+2
 
 Line:13  unary_expression : factor
 
@@ -4761,9 +4925,9 @@ Line:13  term : unary_expression
 
 2
 
-3
-
 Line:13  factor : CONST_INT
+
+3
 
 Line:13  unary_expression : factor
 
@@ -4773,11 +4937,13 @@ Line:13  term : term-MULOP-unary_expression
 
 2*3
 
+Line:13  simple_expression : term
+
 2*3
 
-5
-
 Line:13  factor : CONST_INT
+
+5
 
 Line:13  unary_expression : factor
 
@@ -4787,9 +4953,9 @@ Line:13  term : unary_expression
 
 5
 
-3
-
 Line:13  factor : CONST_INT
+
+3
 
 Line:13  unary_expression : factor
 
@@ -4799,11 +4965,13 @@ Line:13  term : term-MULOP-unary_expression
 
 5%3
 
+Line:13  simple_expression : term
+
 5%3
 
-4
-
 Line:13  factor : CONST_INT
+
+4
 
 Line:13  unary_expression : factor
 
@@ -4812,6 +4980,8 @@ Line:13  unary_expression : factor
 Line:13  term : unary_expression
 
 4
+
+Line:13  simple_expression : term
 
 4
 
@@ -4819,9 +4989,9 @@ Line:13  rel_expression : simple_expression-RELOP-simple_expression
 
 5%3<4
 
-8
-
 Line:13  factor : CONST_INT
+
+8
 
 Line:13  unary_expression : factor
 
@@ -4830,6 +5000,8 @@ Line:13  unary_expression : factor
 Line:13  term : unary_expression
 
 8
+
+Line:13  simple_expression : term
 
 8
 
@@ -4845,9 +5017,9 @@ Line:13  expression : logic_expression
 
 5%3<4&&8
 
-(5%3<4&&8)
-
 Line:13  factor : LPAREN-expression-RPAREN
+
+(5%3<4&&8)
 
 Line:13  unary_expression : factor
 
@@ -4865,9 +5037,9 @@ Line:13  rel_expression : simple_expression
 
 2*3+(5%3<4&&8)
 
-2
-
 Line:13  factor : CONST_INT
+
+2
 
 Line:13  unary_expression : factor
 
@@ -4876,6 +5048,8 @@ Line:13  unary_expression : factor
 Line:13  term : unary_expression
 
 2
+
+Line:13  simple_expression : term
 
 2
 
@@ -4911,9 +5085,9 @@ Line:14  variable : ID
 
 d
 
-1
-
 Line:14  factor : CONST_INT
+
+1
 
 Line:14  unary_expression : factor
 
@@ -4922,6 +5096,8 @@ Line:14  unary_expression : factor
 Line:14  term : unary_expression
 
 1
+
+Line:14  simple_expression : term
 
 1
 
@@ -4933,13 +5109,13 @@ Line:14  logic_expression : rel_expression
 
 1
 
-1
-
 Line:14  arguments : logic_expression
 
-2
+1
 
 Line:14  factor : CONST_INT
+
+2
 
 Line:14  unary_expression : factor
 
@@ -4949,9 +5125,9 @@ Line:14  term : unary_expression
 
 2
 
-3
-
 Line:14  factor : CONST_INT
+
+3
 
 Line:14  unary_expression : factor
 
@@ -4961,6 +5137,8 @@ Line:14  term : term-MULOP-unary_expression
 
 2*3
 
+Line:14  simple_expression : term
+
 2*3
 
 Line:14  rel_expression : simple_expression
@@ -4971,13 +5149,13 @@ Line:14  logic_expression : rel_expression
 
 2*3
 
-1,2*3
-
 Line:14  arguments : arguments-COMMA-logic_expression 
 
 1,2*3
 
 Line:14  argument_list : arguments
+
+1,2*3
 
 Line:14  factor : ID-LPAREN-argument_list-RPAREN
 
@@ -4991,11 +5169,13 @@ Line:14  term : unary_expression
 
 var(1,2*3)
 
+Line:14  simple_expression : term
+
 var(1,2*3)
 
-3.5
-
 Line:14  factor : CONST_FLOAT
+
+3.5
 
 Line:14  unary_expression : factor
 
@@ -5005,9 +5185,9 @@ Line:14  term : unary_expression
 
 3.5
 
-2
-
 Line:14  factor : CONST_INT
+
+2
 
 Line:14  unary_expression : factor
 
@@ -5052,6 +5232,8 @@ j=2*3+(5%3<4&&8)||2; d=var(1,2*3)+3.5*2;
 
 Line:15  argument_list : %empty
 
+Line:15  
+
 Line:15  factor : ID-LPAREN-argument_list-RPAREN
 
 foo()
@@ -5063,6 +5245,8 @@ foo()
 Line:15  term : unary_expression
 
 foo()
+
+Line:15  simple_expression : term
 
 foo()
 
@@ -5164,9 +5348,9 @@ Line:18  variable : ID
 
 x
 
-3.5
-
 Line:18  factor : CONST_FLOAT
+
+3.5
 
 Line:18  unary_expression : factor
 
@@ -5175,6 +5359,8 @@ Line:18  unary_expression : factor
 Line:18  term : unary_expression
 
 3.5
+
+Line:18  simple_expression : term
 
 3.5
 
@@ -5214,19 +5400,6 @@ int  x; x=3.5;
 
 Line:19  compound_statement : LCURL-statements-RCURL
 
-{int  a[2],c,i,j;
-a
-a[0]=1;
-a[1]=5;
-i=a[0]+a[1];
-j=2*3+(5%3<4&&8)||2;
-d=var(1,2*3)+3.5*2;
-foo();
-foo
-;
-int  x;
-x=3.5;}
-
 
   SCOPE TABLE #1
 
@@ -5262,6 +5435,19 @@ x=3.5;}
 
 
 
+
+{int  a[2],c,i,j;
+a
+a[0]=1;
+a[1]=5;
+i=a[0]+a[1];
+j=2*3+(5%3<4&&8)||2;
+d=var(1,2*3)+3.5*2;
+foo();
+foo
+;
+int  x;
+x=3.5;}
 
 Line:19  func_definition : type_specifier-ID-LPAREN-RPAREN-compound_statement
 
