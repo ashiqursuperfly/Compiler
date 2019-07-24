@@ -65,11 +65,11 @@ program: program unit {
 		$<Symbol>$ = TOKEN;
 		$<Symbol>$->setName($<Symbol>1->getName()+$<Symbol>2->getName());
 	}
-
 	| unit {
+		Util::parserLog(lines,"program : unit");
 		$<Symbol>$ = TOKEN;
 		$<Symbol>$->setName($<Symbol>1->getName());
-		Util::parserLog(lines,"program : unit");
+	
 		Util::parserLog($<Symbol>1->getName()+'\n');
 	
 	}
@@ -193,9 +193,9 @@ func_declaration: type_specifier ID LPAREN parameter_list RPAREN SEMICOLON {
 
 			}
 			else{
-				symbolTable->insert(SymbolInfo($<Symbol>2->getName(),"ID","Function"));
-				s=symbolTable->lookUp($<Symbol>2->getName());
-				s->setFunction(true);
+				SymbolInfo id($<Symbol>2->getName(),"ID","Function");
+				symbolTable->insert(id);
+				s = symbolTable->lookUp($<Symbol>2->getName());s->setFunction(true);
 				s->getFunction()->setReturnType($<Symbol>1->getName());
 			}
 			$<Symbol>$->setName($<Symbol>1->getName()+" "+$<Symbol>2->getName()+"();");
@@ -265,8 +265,7 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 	}
 	compound_statement {
 		Util::parserLog(lines,"func_definition : type_specifier-ID-LPAREN-parameter_list-RPAREN-compound_statement ");
-		Util::parserLog($<Symbol>1->getName()+" "+$<Symbol>2->getName()+"("
-		+$<Symbol>4->getName()+") "+ $<Symbol>7->getName());
+		Util::parserLog($<Symbol>1->getName()+" "+$<Symbol>2->getName()+"("+$<Symbol>4->getName()+") "+ $<Symbol>7->getName());
 		$<Symbol>$->setName($<Symbol>1->getName()+" "+$<Symbol>2->getName()+"("+$<Symbol>4->getName()+")"+$<Symbol>7->getName());
 	}
 	| type_specifier ID LPAREN RPAREN { 
@@ -294,7 +293,7 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 			string err = "Multiple Definition Of Function "+$<Symbol>2->getName();
 			Util::appendLogError(lines,err,PARSER);yyerror(err.c_str());
 		}
-											
+		string name1 = $<Symbol>1->getName(),name2 = $<Symbol>2->getName();										
 		$<Symbol>1->setName($<Symbol>1->getName()+" "+$<Symbol>2->getName()+"()");
 	} compound_statement {
 
@@ -323,15 +322,16 @@ parameter_list: parameter_list COMMA type_specifier ID {
 		$<Symbol>$ = TOKEN;
 		Util::parserLog($<Symbol>1->getName()+","+$<Symbol>3->getName());
 		SymbolInfo * type = new SymbolInfo("","ID",$<Symbol>3->getName());
-		paramList.push_back(type);
 		$<Symbol>$->setName($<Symbol>1->getName()+","+$<Symbol>3->getName());
+		paramList.push_back(type);
 	}
 	| type_specifier ID {
 		Util::parserLog(lines,"parameter_list : type_specifier-ID");
 		Util::parserLog($<Symbol>1->getName()+" "+$<Symbol>2->getName());
 		$<Symbol>$ = TOKEN;
-		SymbolInfo * si = new SymbolInfo($<Symbol>2->getName(),"ID",$<Symbol>1->getName());
-		$<Symbol>$->setName($<Symbol>1->getName()+" "+$<Symbol>2->getName());
+		string name1 = $<Symbol>1->getName(),name2 = $<Symbol>2->getName();
+		SymbolInfo * si = new SymbolInfo(name2,"ID",name1);
+		$<Symbol>$->setName(name1+" "+name2);
 		paramList.push_back(si);
 	}
 	| type_specifier {
@@ -459,7 +459,8 @@ declarationList: declarationList COMMA ID {
 		Util::parserLog(lines,"declarationList : declarationList-COMMA-ID-LTHIRD-CONST_INT-RTHIRD");
 		$<Symbol>$ = TOKEN;
 		Util::parserLog($<Symbol>1->getName()+","+$<Symbol>3->getName()+"["+$<Symbol>5->getName()+"]");
-		declarationList.push_back(new SymbolInfo($<Symbol>3->getName(),"IDa"));
+		SymbolInfo * id = new SymbolInfo($<Symbol>3->getName(),"IDa");
+		declarationList.push_back(id);
 		$<Symbol>$->setName($<Symbol>1->getName()+","+$<Symbol>3->getName()+"["+$<Symbol>5->getName()+"]");
 	}
 	| ID {
@@ -473,23 +474,22 @@ declarationList: declarationList COMMA ID {
 		Util::parserLog(lines,"declarationList : ID-LTHIRD-CONST_INT-RTHIRD");
 		$<Symbol>$ = TOKEN;
 		Util::parserLog($<Symbol>1->getName()+"["+$<Symbol>3->getName()+"]");
-		declarationList.push_back(new SymbolInfo($<Symbol>1->getName(),"IDa"));
+
+		SymbolInfo * id = new SymbolInfo($<Symbol>1->getName(),"IDa");
+		
+		declarationList.push_back(id);
 		$<Symbol>$->setName($<Symbol>1->getName()+"["+$<Symbol>3->getName()+"]");
 	}
-	
 	;
-
-//@DONE
 statements: statement {
-		$<Symbol>$ = TOKEN;
 		Util::parserLog(lines,"statements : statement");
 		Util::parserLog($<Symbol>1->getName()); 
-		$<Symbol>$->setName($<Symbol>1->getName());
+		$<Symbol>$ = TOKEN;$<Symbol>$->setName($<Symbol>1->getName());
 	}
 	| statements statement {
 		Util::parserLog(lines,"statements : statements-statement");
-		Util::parserLog($<Symbol>1->getName()+" "+$<Symbol>2->getName()); 
 		$<Symbol>$ = TOKEN;
+		Util::parserLog($<Symbol>1->getName()+" "+$<Symbol>2->getName()); 
 		$<Symbol>$->setName($<Symbol>1->getName()+"\n"+$<Symbol>2->getName()); 
 	}
 	;
@@ -540,7 +540,9 @@ statement: var_declaration {
 			Util::appendLogError(lines,err,PARSER);
 			yyerror(err.c_str());
 		}
-		$<Symbol>$->setName("if("+$<Symbol>3->getName()+")\n"+$<Symbol>5->getName());
+		string name3 = $<Symbol>3->getName();
+		string name5 = $<Symbol>5->getName();
+		$<Symbol>$->setName("if("+name3+")\n"+name5);
 	}
 	| IF LPAREN expression RPAREN statement ELSE statement {
 		Util::parserLog(lines,"statement : IF-LPAREN-expression-RPAREN-statement-ELSE-statement");
@@ -548,7 +550,9 @@ statement: var_declaration {
 		Util::parserLog("if("+$<Symbol>3->getName()+")\n"+$<Symbol>5->getName()+"else\n"+$<Symbol>7->getName());
 		if($<Symbol>3->getDeclarationType()==VOID_){
 			string err = "Invalid Types";yyerror(err.c_str());Util::appendLogError(lines,err,PARSER);
-		}$<Symbol>$->setName("if("+$<Symbol>3->getName()+")\n"+$<Symbol>5->getName()+" else \n"+$<Symbol>7->getName()); 
+		}
+		string name3 = $<Symbol>3->getName(), name5 = $<Symbol>5->getName(), name7 = $<Symbol>7->getName();
+		$<Symbol>$->setName("if("+name3+")\n"+name5+" else \n"+name7); 
 	}
 	| WHILE LPAREN expression RPAREN statement {
 		Util::parserLog(lines,"statement : WHILE-LPAREN-expression-RPAREN-statement");
@@ -563,8 +567,8 @@ statement: var_declaration {
 		$<Symbol>$->setName("while("+$<Symbol>3->getName()+")\n"+$<Symbol>5->getName()); 
 	}
 	| PRINTLN LPAREN ID RPAREN SEMICOLON {
-		$<Symbol>$ = TOKEN;
 		Util::parserLog(lines,"statement : PRINTLN-LPAREN-ID-RPAREN-SEMICOLON");
+		$<Symbol>$ = TOKEN;
 		Util::parserLog("\n ("+$<Symbol>3->getName()+")");
 		$<Symbol>$->setName("\n("+$<Symbol>3->getName()+")"); 
 	}
@@ -656,7 +660,9 @@ variable: ID {
 		
 			if(DEBUG)cout<<lines<<" "<<symbolTable->lookUp($<Symbol>1->getName())->toString()<<endl;
 			
-			if(symbolTable->lookUp($<Symbol>1->getName())->getDeclarationType()!="int array" && symbolTable->lookUp($<Symbol>1->getName())->getDeclarationType()!="float array"){
+			bool c1 = symbolTable->lookUp($<Symbol>1->getName())->getDeclarationType()!="int array";
+			bool c2 = symbolTable->lookUp($<Symbol>1->getName())->getDeclarationType()!="float array"; 
+			if(c1 && c2){
 				string err = "Invalid Types";
 				Util::appendLogError(lines,err,PARSER);	
 				yyerror(err.c_str());
@@ -669,12 +675,11 @@ variable: ID {
 			if(decType == "float array"){$<Symbol>1->setDeclarationType(FLOAT_);}
 			
 			
-			if(decType == "int array"){	$<Symbol>1->setDeclarationType(INT_);}
-			
-			
+			if(decType == "int array"){	$<Symbol>1->setDeclarationType(INT_);}			
 			$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType()); 
 		}
-		$<Symbol>$->setName($<Symbol>1->getName()+"["+$<Symbol>3->getName()+"]");  
+		string name3 = $<Symbol>3->getName(),name1 = $<Symbol>1->getName();
+		$<Symbol>$->setName(name1+"["+name3+"]");  
 		
 	}
 	;
@@ -710,15 +715,18 @@ expression: logic_expression {
 				string err = "Invalid Assingment! Assigning "+$<Symbol>3->getDeclarationType()+"to "+decType;
 				Util::appendLogError(lines,err,PARSER);yyerror(err.c_str());
 			}
-		}$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType());$<Symbol>$->setName($<Symbol>1->getName()+"="+$<Symbol>3->getName());  
+		}
+		$<Symbol>$->setName($<Symbol>1->getName()+"="+$<Symbol>3->getName()); 
+		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType());
+	 
 	}
 	;
 logic_expression: rel_expression {
 		Util::parserLog(lines,"logic_expression : rel_expression");
-		$<Symbol>$ = TOKEN;
-		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType()); 
-		Util::parserLog($<Symbol>1->getName());
-		$<Symbol>$->setName($<Symbol>1->getName()); 
+		$<Symbol>$ = TOKEN;$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType()); 
+		string name1 = $<Symbol>1->getName();
+		Util::parserLog(name1);
+		$<Symbol>$->setName(name1); 
 	}
 	| rel_expression LOGICOP rel_expression {
 		Util::parserLog(lines,"logic_expression : rel_expression-LOGICOP-rel_expression");
@@ -769,8 +777,8 @@ simple_expression: term {
 		$<Symbol>$ = TOKEN;
 		Util::parserLog($<Symbol>1->getName());
 		if(DEBUG)cout<<$<Symbol>1->toString()<<endl;
-		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType());
 		$<Symbol>$->setName($<Symbol>1->getName());  
+		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType());
 	}
 	| simple_expression ADDOP term {
 		if(DEBUG)cout<<$<Symbol>3->getDeclarationType()<<endl;
@@ -870,20 +878,18 @@ unary_expression: ADDOP unary_expression {
 		if($<Symbol>2->getDeclarationType()==VOID_){
 			string err = "Invalid Types";
 			yyerror(err.c_str());
-			Util::appendLogError(lines,err,PARSER);
 			$<Symbol>$->setDeclarationType(INT_); 
+			Util::appendLogError(lines,err,PARSER);
 		}else $<Symbol>$->setDeclarationType($<Symbol>2->getDeclarationType());  
-		$<Symbol>$->setName("!"+$<Symbol>2->getName()); 
-	}
+		$<Symbol>$->setName("!"+$<Symbol>2->getName());}
 	| factor {
-		
-		Util::parserLog(lines,"unary_expression : factor");
-		Util::parserLog($<Symbol>1->getName()); 
-		
 		if(DEBUG)cout<<$<Symbol>1->toString()<<endl;
 		
 		$<Symbol>$ = TOKEN;
+		Util::parserLog(lines,"unary_expression : factor");
 		$<Symbol>$->setName($<Symbol>1->getName()); 
+		
+		Util::parserLog($<Symbol>1->getName()); 
 		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType()); 
 				
 	}
@@ -893,8 +899,8 @@ factor: variable {
 		Util::parserLog(lines,"factor : variable");
 		$<Symbol>$ = TOKEN;
 		Util::parserLog($<Symbol>1->getName());
-		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType()); 
 		$<Symbol>$->setName($<Symbol>1->getName()); 
+		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType());
 	}
 	| ID LPAREN argument_list RPAREN {
 		$<Symbol>$ = TOKEN;
@@ -944,12 +950,12 @@ factor: variable {
 						break;
 					}
 				}
-
 			}
 		}
 		argList.clear();
 		if(DEBUG)cout<<lines<<" "<<$<Symbol>$->getDeclarationType()<<endl;
-		$<Symbol>$->setName($<Symbol>1->getName()+"("+$<Symbol>3->getName()+")"); 
+		string name1 = $<Symbol>1->getName(),name3 = $<Symbol>3->getName();
+		$<Symbol>$->setName(name1+"("+name3+")"); 
 	}
 	| LPAREN expression RPAREN {
 		$<Symbol>$ = TOKEN;
