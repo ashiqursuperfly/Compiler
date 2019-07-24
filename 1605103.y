@@ -58,16 +58,13 @@ start: program {	}
 
 //@DONE2
 program: program unit {
-		
-		$<Symbol>$ = TOKEN;
 		Util::parserLog(lines,"program : program-unit");
 		Util::parserLog($<Symbol>1->getName()+" "+$<Symbol>2->getName()); 
-		
+		$<Symbol>$ = TOKEN;
 		$<Symbol>$->setName($<Symbol>1->getName()+$<Symbol>2->getName());
 	}
 
 	| unit {
-
 		$<Symbol>$ = TOKEN;
 		Util::parserLog(lines,"program : unit");
 		Util::parserLog($<Symbol>1->getName()+'\n');
@@ -90,8 +87,8 @@ unit: var_declaration {
 	
 	| func_declaration {
 
-		$<Symbol>$ = TOKEN;
 		Util::parserLog(lines,"unit : func_declaration");
+		$<Symbol>$ = TOKEN;
 		Util::parserLog($<Symbol>1->getName()); 
 
 		$<Symbol>$->setName($<Symbol>1->getName()+"\n");
@@ -116,9 +113,9 @@ func_declaration: type_specifier ID LPAREN parameter_list RPAREN SEMICOLON {
 			int num = func->getFunction()->getParamCount();
 			if(num == paramList.size()){
 				vector<string>paramType = func->getFunction()->getAllParamTypes();
-				for( int i=0;i < paramList.size(); i++){
-					if(paramList[i]->getDeclarationType() != paramType[i]){
-						
+				int len = paramList.size();
+				for( int i=0;i < len; i++){
+					if(paramList[i]->getDeclarationType() != paramType[i]){						
 						string err = "Expected "+paramList[i]->getDeclarationType()+" Found "+ paramType[i] +"for "+to_string(i)+"th parameter";
 						Util::appendLogError(lines,err,PARSER);
 						yyerror(err.c_str());
@@ -146,9 +143,11 @@ func_declaration: type_specifier ID LPAREN parameter_list RPAREN SEMICOLON {
 			symbolTable->insert($<Symbol>2->getName(),"ID","Function");
 			func = symbolTable->lookUp($<Symbol>2->getName());
 			func->setFunction();
-
-			for(int i=0 ;i < paramList.size() ; i++){
-				func->getFunction()->addParam(paramList[i]->getName(),paramList[i]->getDeclarationType());
+			int len = paramList.size();
+			for(int i=0 ;i < len ; i++){
+				string name = paramList[i]->getName();
+				string decType = paramList[i]->getDeclarationType();
+				func->getFunction()->addParam(name,decType);
 				if(DEBUG)cout<<paramList[i]->getDeclarationType()<<endl;
 			}
 			paramList.clear();
@@ -242,11 +241,14 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 			symbolTable->insert($<Symbol>2->getName(),"ID","Function");
 			s = symbolTable->lookUp($<Symbol>2->getName());s->setFunction();s->getFunction()->setDefined();
 			if(DEBUG)cout<<s->getFunction()->getParamCount()<<endl;
-			for(int i=0;i<paramList.size();i++)
-				s->getFunction()->addParam(paramList[i]->getName(),paramList[i]->getDeclarationType());
-			s->getFunction()->setReturnType($<Symbol>1->getName());
+			for(int i=0;i<paramList.size();i++){
+				string name = paramList[i]->getName();
+				string decType = paramList[i]->getDeclarationType();
+				s->getFunction()->addParam(name,decType);
+			}
+			Function * func = s->getFunction();
+			func->setReturnType($<Symbol>1->getName());
 		}
-
 	}
 	compound_statement {
 		Util::parserLog(lines,"func_definition : type_specifier-ID-LPAREN-parameter_list-RPAREN-compound_statement ");
@@ -255,17 +257,14 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 		$<Symbol>$->setName($<Symbol>1->getName()+" "+$<Symbol>2->getName()+"("+$<Symbol>4->getName()+")"+$<Symbol>7->getName());
 	}
 	| type_specifier ID LPAREN RPAREN { 
-		$<Symbol>$ = TOKEN;
 		SymbolInfo *s = symbolTable->lookUp($<Symbol>2->getName());
+		$<Symbol>$ = TOKEN;
 		if(s == nullptr){
 			symbolTable->insert($<Symbol>2->getName(),"ID","Function");
 			s = symbolTable->lookUp($<Symbol>2->getName());
-			s -> setFunction();
-			s -> getFunction()->setReturnType($<Symbol>1->getName());
-			s -> getFunction()->setDefined();
+			s -> setFunction();s -> getFunction()->setReturnType($<Symbol>1->getName());s -> getFunction()->setDefined();
 		}
 		else if(s->getFunction()->isDefined()==0){
-
 			if(s->getFunction()->getReturnType()!=$<Symbol>1->getName()){
 				string err = "Invalid Return Type Expected :"+$<Symbol>1->getName()+" Found :"+s->getFunction()->getReturnType();
 				yyerror(err.c_str());Util::appendLogError(lines,err,PARSER);
@@ -298,32 +297,29 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 //@DONE2
 parameter_list: parameter_list COMMA type_specifier ID {
 		
-		$<Symbol>$ = TOKEN;
 		Util::parserLog(lines,"parameter_list : parameter_list-COMMA-type_specifier-ID");
+		$<Symbol>$ = TOKEN;
+	
 		Util::parserLog($<Symbol>1->getName()+","+$<Symbol>3->getName()+" "+$<Symbol>4->getName());
-		
-		paramList.push_back(new SymbolInfo($<Symbol>4->getName(),"ID",$<Symbol>3->getName()));
-		$<Symbol>$->setName($<Symbol>1->getName()+","+$<Symbol>3->getName()+" "+$<Symbol>4->getName());
+
+		paramList.push_back(new SymbolInfo($<Symbol>4->getName(),"ID",$<Symbol>3->getName()));$<Symbol>$->setName($<Symbol>1->getName()+","+$<Symbol>3->getName()+" "+$<Symbol>4->getName());
 	}
 	| parameter_list COMMA type_specifier {
-		
 		Util::parserLog(lines,"parameter_list : parameter_list-COMMA-type_specifier");
-		Util::parserLog($<Symbol>1->getName()+","+$<Symbol>3->getName());
 		$<Symbol>$ = TOKEN;
-		paramList.push_back(new SymbolInfo("","ID",$<Symbol>3->getName()));
-		$<Symbol>$->setName($<Symbol>1->getName()+","+$<Symbol>3->getName());
-
+		Util::parserLog($<Symbol>1->getName()+","+$<Symbol>3->getName());
+		paramList.push_back(new SymbolInfo("","ID",$<Symbol>3->getName()));$<Symbol>$->setName($<Symbol>1->getName()+","+$<Symbol>3->getName());
 	}
 	| type_specifier ID {
 		Util::parserLog(lines,"parameter_list : type_specifier-ID");
 		Util::parserLog($<Symbol>1->getName()+" "+$<Symbol>2->getName());
 		$<Symbol>$ = TOKEN;
-		paramList.push_back(new SymbolInfo($<Symbol>2->getName(),"ID",$<Symbol>1->getName()));
 		$<Symbol>$->setName($<Symbol>1->getName()+" "+$<Symbol>2->getName());
+		paramList.push_back(new SymbolInfo($<Symbol>2->getName(),"ID",$<Symbol>1->getName()));
 	}
 	| type_specifier {
-		$<Symbol>$ = TOKEN;
 		Util::parserLog(lines,"parameter_list : type_specifier");
+		$<Symbol>$ = TOKEN;
 		Util::parserLog($<Symbol>1->getName());
 		$<Symbol>$->setName($<Symbol>1->getName()+" ");
 		paramList.push_back(new SymbolInfo("","ID",$<Symbol>1->getName()));
@@ -438,13 +434,12 @@ declarationList: declarationList COMMA ID {
 		Util::parserLog(lines,"declarationList : declarationList-COMMA-ID-LTHIRD-CONST_INT-RTHIRD");
 		$<Symbol>$ = TOKEN;
 		Util::parserLog($<Symbol>1->getName()+","+$<Symbol>3->getName()+"["+$<Symbol>5->getName()+"]");
-		
-		declarationList.push_back(new SymbolInfo($<Symbol>3->getName(),"IDa")); //TODO : why IDa ?
+		declarationList.push_back(new SymbolInfo($<Symbol>3->getName(),"IDa"));
 		$<Symbol>$->setName($<Symbol>1->getName()+","+$<Symbol>3->getName()+"["+$<Symbol>5->getName()+"]");
 	}
 	| ID {
-		$<Symbol>$ = TOKEN;
 		Util::parserLog(lines,"declarationList : ID");
+		$<Symbol>$ = TOKEN;
 		Util::parserLog($<Symbol>1->getName());
 		declarationList.push_back(new SymbolInfo($<Symbol>1->getName(),"ID"));
 		$<Symbol>$->setName($<Symbol>1->getName());
@@ -503,10 +498,7 @@ statement: var_declaration {
 		$<Symbol>5->getName()+")\n"+$<Symbol>7->getName());
 		
 		if($<Symbol>3->getDeclarationType()=="void "){
-			string err = "Invalid Types! Variable Cannot Be Declared void ";
-			Util::appendLogError(lines,err,PARSER);
-			yyerror(err.c_str());
-		}
+			string err = "Invalid Types! Variable Cannot Be Declared void ";Util::appendLogError(lines,err,PARSER);yyerror(err.c_str());}
 		$<Symbol>$->setName("for("+$<Symbol>3->getName()+$<Symbol>4->getName()+$<Symbol>5->getName()+")\n"+$<Symbol>5->getName()); 
 	}
 	| IF LPAREN expression RPAREN statement %prec LOWER_THAN_ELSE {
@@ -527,20 +519,17 @@ statement: var_declaration {
 		Util::parserLog(lines,"statement : IF-LPAREN-expression-RPAREN-statement-ELSE-statement");
 		Util::parserLog("if("+$<Symbol>3->getName()+")\n"+$<Symbol>5->getName()+"else\n"+$<Symbol>7->getName());
 		if($<Symbol>3->getDeclarationType()=="void "){
-			string err = "Invalid Types 1";
-			yyerror(err.c_str());
-			Util::appendLogError(lines,err,PARSER);
+			string err = "Invalid Types";yyerror(err.c_str());Util::appendLogError(lines,err,PARSER);
 		}
 		$<Symbol>$->setName("if("+$<Symbol>3->getName()+")\n"+$<Symbol>5->getName()+" else \n"+$<Symbol>7->getName()); 
 	}
-
 	| WHILE LPAREN expression RPAREN statement {
-		$<Symbol>$ = TOKEN;
 		Util::parserLog(lines,"statement : WHILE-LPAREN-expression-RPAREN-statement");
+		$<Symbol>$ = TOKEN;
 		Util::parserLog("while("+$<Symbol>3->getName()+")\n"+$<Symbol>5->getName());
 
 		if($<Symbol>3->getDeclarationType()=="void "){
-			string err = "Invalid Types 2";
+			string err = "Invalid Types";
 			yyerror(err.c_str());
 			Util::appendLogError(lines,err,PARSER);
 		}
@@ -562,7 +551,7 @@ statement: var_declaration {
 		Util::parserLog(lines,"statement : RETURN-expression-SEMICOLON");
 		Util::parserLog("return "+$<Symbol>2->getName());
 		if($<Symbol>2->getDeclarationType()=="void "){
-			string err = "Invalid Types 3";
+			string err = "Invalid Types";
 			yyerror(err.c_str());
 			Util::appendLogError(lines,err,PARSER);
 			$<Symbol>$->setDeclarationType("int "); 
@@ -637,7 +626,7 @@ variable: ID {
 			if(DEBUG)cout<<lines<<" "<<symbolTable->lookUp($<Symbol>1->getName())->toString()<<endl;
 			
 			if(symbolTable->lookUp($<Symbol>1->getName())->getDeclarationType()!="int array" && symbolTable->lookUp($<Symbol>1->getName())->getDeclarationType()!="float array"){
-				string err = "Invalid Types 4";
+				string err = "Invalid Types";
 				Util::appendLogError(lines,err,PARSER);	
 				yyerror(err.c_str());
 			}
@@ -691,49 +680,43 @@ expression: logic_expression {
 				Util::appendLogError(lines,err,PARSER);yyerror(err.c_str());
 			}
 		}
-		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType()); 
-		$<Symbol>$->setName($<Symbol>1->getName()+"="+$<Symbol>3->getName());  
-
+		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType());$<Symbol>$->setName($<Symbol>1->getName()+"="+$<Symbol>3->getName());  
 	}
 	;
 logic_expression: rel_expression {
-		$<Symbol>$ = TOKEN;
 		Util::parserLog(lines,"logic_expression : rel_expression");
+		$<Symbol>$ = TOKEN;
+		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType()); 
 		Util::parserLog($<Symbol>1->getName());
 		$<Symbol>$->setName($<Symbol>1->getName()); 
-		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType()); 
 	}
 	| rel_expression LOGICOP rel_expression {
-		$<Symbol>$ = TOKEN;
 		Util::parserLog(lines,"logic_expression : rel_expression-LOGICOP-rel_expression");
-		
+		$<Symbol>$ = TOKEN;
 		if($<Symbol>1->getDeclarationType()=="void "||$<Symbol>3->getDeclarationType()=="void "){
-			string err = "Invalid Types 7";
+			string err = "Invalid Types";
 			Util::appendLogError(lines,err,PARSER);
 			$<Symbol>$->setDeclarationType("int "); yyerror(err.c_str());
 		}
-		Util::parserLog($<Symbol>1->getName()+$<Symbol>2->getName()+$<Symbol>3->getName());
-		
-		$<Symbol>$->setDeclarationType("int "); 
+		Util::parserLog($<Symbol>1->getName()+$<Symbol>2->getName()+$<Symbol>3->getName());	
 		$<Symbol>$->setName($<Symbol>1->getName()+$<Symbol>2->getName()+$<Symbol>3->getName());  
-
+		$<Symbol>$->setDeclarationType("int "); 
 	}
 	;
-
 rel_expression: simple_expression {
-		$<Symbol>$ = TOKEN;
 		Util::parserLog(lines,"rel_expression : simple_expression");
+		$<Symbol>$ = TOKEN;
 		$<Symbol>$->setName($<Symbol>1->getName()); 
 		Util::parserLog($<Symbol>1->getName());
 		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType()); 
 	}
 	| simple_expression RELOP simple_expression	 {
-		$<Symbol>$ = TOKEN;
 		Util::parserLog(lines,"rel_expression : simple_expression-RELOP-simple_expression");
+		$<Symbol>$ = TOKEN;
 		Util::parserLog($<Symbol>1->getName()+$<Symbol>2->getName()+$<Symbol>3->getName());
 		
 		if($<Symbol>1->getDeclarationType()=="void "||$<Symbol>3->getDeclarationType()=="void "){
-			string err = "Invalid Types! 8";
+			string err = "Invalid Types";
 			yyerror(err.c_str());
 			Util::appendLogError(lines,err,PARSER);
 			$<Symbol>$->setDeclarationType("int "); 
@@ -764,21 +747,18 @@ simple_expression: term {
 			$<Symbol>$->setDeclarationType("float ");
 		}
 		else if($<Symbol>1->getDeclarationType()=="void "||$<Symbol>3->getDeclarationType()=="void "){
-			string err = "Invalid Types 9";
-			$<Symbol>$->setDeclarationType("int "); 
+			string err = "Invalid Types";$<Symbol>$->setDeclarationType("int "); 
 			yyerror(err.c_str());Util::appendLogError(lines,err,PARSER);
 		}
-		else {
-			$<Symbol>$->setDeclarationType("int ");
-		}
+		else {$<Symbol>$->setDeclarationType("int ");}
 		$<Symbol>$->setName($<Symbol>1->getName()+$<Symbol>2->getName()+$<Symbol>3->getName());  
 	}
 	;
-
 term: unary_expression {
-		$<Symbol>$ = TOKEN;
 		Util::parserLog(lines,"term : unary_expression");
+		$<Symbol>$ = TOKEN;
 		if(DEBUG)cout<<$<Symbol>1->toString()<<endl;
+	
 		Util::parserLog($<Symbol>1->getName()); 
 		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType()); 
 		$<Symbol>$->setName($<Symbol>1->getName()); 
@@ -788,13 +768,13 @@ term: unary_expression {
 		Util::parserLog(lines,"term : term-MULOP-unary_expression");
 		Util::parserLog($<Symbol>1->getName()+$<Symbol>2->getName()+$<Symbol>3->getName());
 		if($<Symbol>1->getDeclarationType()=="void "|| $<Symbol>3->getDeclarationType()=="void "){
-			string err = "Invalid Types 10"; 
+			string err = "Invalid Types"; 
 			yyerror(err.c_str());
 			Util::appendLogError(lines,err,PARSER);$<Symbol>$->setDeclarationType("int "); 
 		
 		}else if($<Symbol>2->getName()=="%"){
 			if($<Symbol>1->getDeclarationType()!="int " ||$<Symbol>3->getDeclarationType()!="int "){
-				string err = "Non Integer operand on modulus(%) operator";
+				string err = "Modulus(%) operator cannot have non-integer operands";
 				Util::appendLogError(lines,err,PARSER);yyerror(err.c_str());
 			} 
 			$<Symbol>$->setDeclarationType("int "); 
@@ -804,7 +784,7 @@ term: unary_expression {
 				$<Symbol>$->setDeclarationType("int "); 
 			}
 			else if($<Symbol>1->getDeclarationType()=="void "||$<Symbol>3->getDeclarationType()=="void "){
-				string err = "Invalid Types 11";Util::appendLogError(lines,err,PARSER);
+				string err = "Invalid Types";Util::appendLogError(lines,err,PARSER);
 				yyerror(err.c_str());$<Symbol>$->setDeclarationType("int "); 
 			}
 			else {
@@ -816,20 +796,24 @@ term: unary_expression {
 				$<Symbol>$->setDeclarationType("float ");
 			}
 			else if($<Symbol>1->getDeclarationType()=="void "||$<Symbol>3->getDeclarationType()=="void "){
-				string err = "Invalid Types ";
+				string err = "Invalid Types";
 				Util::appendLogError(lines,err,PARSER);$<Symbol>$->setDeclarationType("int "); yyerror(err.c_str());
 			}	 
 			else $<Symbol>$->setDeclarationType("int "); }
-		$<Symbol>$->setName($<Symbol>1->getName()+$<Symbol>2->getName()+$<Symbol>3->getName());}
-    ;
+		
+		string name1 = $<Symbol>1->getName();
 
-unary_expression: ADDOP unary_expression {
-	
+		string name2 = $<Symbol>2->getName();
+		
+		string name3 = $<Symbol>3->getName();
+		
+		$<Symbol>$->setName(name1+name2+name3);
+	}
+    ;
+unary_expression: ADDOP unary_expression { 
 	$<Symbol>$ = TOKEN;
-	
 	if($<Symbol>2->getDeclarationType()=="void "){
-		string err = "Invalid Types 12";
-		Util::appendLogError(lines,err,PARSER);yyerror(err.c_str());
+		string err = "Invalid Types";Util::appendLogError(lines,err,PARSER);yyerror(err.c_str());
 		$<Symbol>$->setDeclarationType("int "); 
 	}else {
 		$<Symbol>$->setDeclarationType($<Symbol>2->getDeclarationType()); 	
@@ -844,7 +828,7 @@ unary_expression: ADDOP unary_expression {
 		Util::parserLog(lines,"unary_expression : NOT-unary_expression");
 		Util::parserLog("!"+$<Symbol>2->getName()); 
 		if($<Symbol>2->getDeclarationType()=="void "){
-			string err = "Invalid Types 13";
+			string err = "Invalid Types";
 			yyerror(err.c_str());
 			Util::appendLogError(lines,err,PARSER);
 			$<Symbol>$->setDeclarationType("int "); 
