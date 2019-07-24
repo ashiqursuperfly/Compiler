@@ -230,7 +230,7 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 				s->getFunction()->setDefined();
 			}
 			else{
-				string err = "Multiple definition of function "+$<Symbol>2->getName();
+				string err = "Function "+$<Symbol>2->getName()+" defined Multiple times";
 				yyerror(err.c_str());
 				Util::appendLogError(lines,err,PARSER);
 			}
@@ -717,9 +717,7 @@ rel_expression: simple_expression {
 		
 		if($<Symbol>1->getDeclarationType()=="void "||$<Symbol>3->getDeclarationType()=="void "){
 			string err = "Invalid Types";
-			yyerror(err.c_str());
-			Util::appendLogError(lines,err,PARSER);
-			$<Symbol>$->setDeclarationType("int "); 
+			yyerror(err.c_str());Util::appendLogError(lines,err,PARSER);$<Symbol>$->setDeclarationType("int "); 
 		}
 		$<Symbol>$->setDeclarationType("int "); 	
 		$<Symbol>$->setName($<Symbol>1->getName()+$<Symbol>2->getName()+$<Symbol>3->getName());  
