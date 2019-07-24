@@ -13,14 +13,6 @@ Insert At : ScopeTable :1 Symbol<ID,int ,a> Position(14,0) Successful
 
 LookUp At : ScopeTable :1 Found <ID,int ,a> Position(14,0)
 
-LookUp At : ScopeTable :1 Found <ID,int ,a> Position(14,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,a> Position(14,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,a> Position(14,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,a> Position(14,0)
-
 Print : SCOPE TABLE #1
 
   14 : <ID,int ,a> - 
@@ -117,14 +109,6 @@ LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
 
 LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
 
-LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
-
 LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
 
 LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
@@ -145,22 +129,6 @@ LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
 
 LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
 
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
 LookUp At : ScopeTable :1 Symbol<f> Not Found !
 
 LookUp At : ScopeTable :0 Found <ID,Function,f> Position(19,0)
@@ -171,23 +139,9 @@ LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
 
 LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
 
-LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
-
-LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
-
-LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
-
 LookUp At : ScopeTable :1 Symbol<func> Not Found !
 
 LookUp At : ScopeTable :0 Found <ID,Function,func> Position(75,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
 
 LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
 
@@ -201,14 +155,6 @@ LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
 
 LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
 
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
 LookUp At : ScopeTable :1 Symbol<b> Not Found !
 
 LookUp At : ScopeTable :0 Symbol<b> Not Found !
@@ -216,16 +162,6 @@ LookUp At : ScopeTable :0 Symbol<b> Not Found !
 LookUp At : ScopeTable :1 Symbol<b> Not Found !
 
 LookUp At : ScopeTable :0 Symbol<b> Not Found !
-
-LookUp At : ScopeTable :1 Symbol<b> Not Found !
-
-LookUp At : ScopeTable :0 Symbol<b> Not Found !
-
-LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
-
-LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
-
-LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
 
 LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
 
@@ -255,14 +191,6 @@ LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
 
 LookUp At : ScopeTable :1 Found <ID,int ,c> Position(16,0)
 
-LookUp At : ScopeTable :1 Found <ID,int ,c> Position(16,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,c> Position(16,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,c> Position(16,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,c> Position(16,0)
-
 LookUp At : ScopeTable :1 Symbol<g> Not Found !
 
 LookUp At : ScopeTable :0 Found <ID,Function,g> Position(20,0)
@@ -272,14 +200,6 @@ LookUp At : ScopeTable :1 Symbol<d> Not Found !
 LookUp At : ScopeTable :1 Symbol<d> Not Found !
 
 Insert At : ScopeTable :1 Symbol<ID,float ,d> Position(17,0) Successful
-
-LookUp At : ScopeTable :1 Found <ID,float ,d> Position(17,0)
-
-LookUp At : ScopeTable :1 Found <ID,float ,d> Position(17,0)
-
-LookUp At : ScopeTable :1 Found <ID,float ,d> Position(17,0)
-
-LookUp At : ScopeTable :1 Found <ID,float ,d> Position(17,0)
 
 LookUp At : ScopeTable :1 Found <ID,float ,d> Position(17,0)
 
@@ -399,22 +319,6 @@ Insert At : ScopeTable :1 Symbol<ID,int ,b> Position(15,0) Successful
 
 LookUp At : ScopeTable :1 Found <ID,int ,a> Position(14,0)
 
-LookUp At : ScopeTable :1 Found <ID,int ,a> Position(14,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,a> Position(14,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,a> Position(14,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,a> Position(14,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,b> Position(15,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,b> Position(15,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,b> Position(15,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,b> Position(15,0)
-
 LookUp At : ScopeTable :1 Found <ID,int ,b> Position(15,0)
 
 Print : SCOPE TABLE #1
@@ -453,57 +357,9 @@ LookUp At : ScopeTable :1 Symbol<x> Not Found !
 
 LookUp At : ScopeTable :0 Found <ID,int ,x> Position(37,0)
 
-LookUp At : ScopeTable :1 Symbol<x> Not Found !
-
-LookUp At : ScopeTable :0 Found <ID,int ,x> Position(37,0)
-
-LookUp At : ScopeTable :1 Symbol<x> Not Found !
-
-LookUp At : ScopeTable :0 Found <ID,int ,x> Position(37,0)
-
-LookUp At : ScopeTable :1 Symbol<x> Not Found !
-
-LookUp At : ScopeTable :0 Found <ID,int ,x> Position(37,0)
-
-LookUp At : ScopeTable :1 Symbol<x> Not Found !
-
-LookUp At : ScopeTable :0 Found <ID,int ,x> Position(37,0)
-
 LookUp At : ScopeTable :1 Symbol<y> Not Found !
 
 LookUp At : ScopeTable :0 Found <ID,int ,y> Position(38,0)
-
-LookUp At : ScopeTable :1 Symbol<y> Not Found !
-
-LookUp At : ScopeTable :0 Found <ID,int ,y> Position(38,0)
-
-LookUp At : ScopeTable :1 Symbol<y> Not Found !
-
-LookUp At : ScopeTable :0 Found <ID,int ,y> Position(38,0)
-
-LookUp At : ScopeTable :1 Symbol<y> Not Found !
-
-LookUp At : ScopeTable :0 Found <ID,int ,y> Position(38,0)
-
-LookUp At : ScopeTable :1 Symbol<y> Not Found !
-
-LookUp At : ScopeTable :0 Found <ID,int ,y> Position(38,0)
-
-LookUp At : ScopeTable :1 Symbol<x> Not Found !
-
-LookUp At : ScopeTable :0 Found <ID,int ,x> Position(37,0)
-
-LookUp At : ScopeTable :1 Symbol<x> Not Found !
-
-LookUp At : ScopeTable :0 Found <ID,int ,x> Position(37,0)
-
-LookUp At : ScopeTable :1 Symbol<x> Not Found !
-
-LookUp At : ScopeTable :0 Found <ID,int ,x> Position(37,0)
-
-LookUp At : ScopeTable :1 Symbol<x> Not Found !
-
-LookUp At : ScopeTable :0 Found <ID,int ,x> Position(37,0)
 
 LookUp At : ScopeTable :1 Symbol<x> Not Found !
 
@@ -599,14 +455,6 @@ LookUp At : ScopeTable :0 Symbol<a[1]> Not Found !
 
 LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
 
-LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
-
 LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
 
 LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
@@ -632,22 +480,6 @@ LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
 LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
 
 LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,float ,d> Position(17,0)
-
-LookUp At : ScopeTable :1 Found <ID,float ,d> Position(17,0)
-
-LookUp At : ScopeTable :1 Found <ID,float ,d> Position(17,0)
-
-LookUp At : ScopeTable :1 Found <ID,float ,d> Position(17,0)
 
 LookUp At : ScopeTable :1 Found <ID,float ,d> Position(17,0)
 
@@ -719,14 +551,6 @@ Insert At : ScopeTable :1 Symbol<ID,int ,a> Position(14,0) Successful
 
 LookUp At : ScopeTable :1 Found <ID,int ,a> Position(14,0)
 
-LookUp At : ScopeTable :1 Found <ID,int ,a> Position(14,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,a> Position(14,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,a> Position(14,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,a> Position(14,0)
-
 Print : SCOPE TABLE #1
 
   14 : <ID,int ,a> - 
@@ -789,39 +613,11 @@ LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
 
 LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
 
-LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
-
 LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
 
 LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
 
 LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
-
-LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
-
-LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
-
-LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
-
-LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
-
-LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
 
 LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
 
@@ -834,10 +630,6 @@ LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
 LookUp At : ScopeTable :1 Symbol<func> Not Found !
 
 LookUp At : ScopeTable :0 Found <ID,Function,func> Position(75,0)
-
-LookUp At : ScopeTable :1 Symbol<b> Not Found !
-
-LookUp At : ScopeTable :0 Symbol<b> Not Found !
 
 LookUp At : ScopeTable :1 Symbol<b> Not Found !
 
@@ -975,14 +767,6 @@ LookUp At : ScopeTable :0 Symbol<a[1]> Not Found !
 
 LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
 
-LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
-
 LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
 
 LookUp At : ScopeTable :1 Found <ID,int array,a> Position(14,0)
@@ -1008,22 +792,6 @@ LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
 LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
 
 LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,float ,d> Position(17,0)
-
-LookUp At : ScopeTable :1 Found <ID,float ,d> Position(17,0)
-
-LookUp At : ScopeTable :1 Found <ID,float ,d> Position(17,0)
-
-LookUp At : ScopeTable :1 Found <ID,float ,d> Position(17,0)
 
 LookUp At : ScopeTable :1 Found <ID,float ,d> Position(17,0)
 
@@ -1187,14 +955,6 @@ LookUp At : ScopeTable :0 Symbol<a[1]> Not Found !
 
 LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
 
-LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,i> Position(22,0)
-
 LookUp At : ScopeTable :1 Found <ID,int ,a> Position(14,0)
 
 LookUp At : ScopeTable :1 Found <ID,int ,a> Position(14,0)
@@ -1224,18 +984,6 @@ LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
 LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
 
 LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,j> Position(23,0)
-
-LookUp At : ScopeTable :1 Symbol<d> Not Found !
-
-LookUp At : ScopeTable :0 Symbol<d> Not Found !
 
 LookUp At : ScopeTable :1 Symbol<d> Not Found !
 
@@ -1258,14 +1006,6 @@ LookUp At : ScopeTable :1 Symbol<x> Not Found !
 LookUp At : ScopeTable :1 Symbol<x> Not Found !
 
 Insert At : ScopeTable :1 Symbol<ID,int ,x> Position(37,0) Successful
-
-LookUp At : ScopeTable :1 Found <ID,int ,x> Position(37,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,x> Position(37,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,x> Position(37,0)
-
-LookUp At : ScopeTable :1 Found <ID,int ,x> Position(37,0)
 
 LookUp At : ScopeTable :1 Found <ID,int ,x> Position(37,0)
 

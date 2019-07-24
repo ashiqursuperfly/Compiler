@@ -47,9 +47,9 @@ public:
         delete prev;
     }
 
-    bool insert(string sName,string sType,string sDecType)
+    bool insert(const SymbolInfo & si)
     {
-        bool retVal = currentScope->insert(sName,sType,sDecType);
+        bool retVal = currentScope->insert(si.getName(),si.getType(),si.getDeclarationType());
         // if (retVal)
         //    printCurrentScopeTable();
         
@@ -134,7 +134,7 @@ public:
             const string type = c.front();
             c.pop_front();
             const SymbolInfo symbol(name, type);
-            insert(symbol.getName(),symbol.getType(),symbol.getDeclarationType());
+            insert(SymbolInfo(symbol.getName(),symbol.getType(),symbol.getDeclarationType()));
         }
         else if (op == INSTRUCTIONS[1])
         { // LookUp

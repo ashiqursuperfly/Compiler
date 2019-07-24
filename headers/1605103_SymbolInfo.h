@@ -81,9 +81,10 @@ public:
     {
         this->next = next;
     }
-    void setFunction()
+    void setFunction(bool b)
     {
-        isFunction = new Function();
+        if(b)isFunction = new Function();
+        else isFunction = nullptr;
     }
     Function *getFunction()
     {
