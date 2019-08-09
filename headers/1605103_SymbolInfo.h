@@ -19,6 +19,7 @@ private:
     string declarationType; // Function,Variable, empty(not a declaration)
     SymbolInfo *next;
     Function *isFunction;
+    string asmCode;
 
 public:
     SymbolInfo()
@@ -60,6 +61,16 @@ public:
     void setType(const string &type)
     {
         this->type = type;
+    }
+
+    const string &getAssemblyCode() const
+    {
+        return asmCode;
+    }
+
+    void setAssemblyCode(const string &code)
+    {
+        this->asmCode = code;
     }
 
     const string &getDeclarationType() const

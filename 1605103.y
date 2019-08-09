@@ -1,7 +1,7 @@
 %{
 #include<iostream>
 #include "headers/1605103_SymbolTable.h"
-
+#include "headers/1605103_AsmCodeGenerator.h"
 //#define Util::appendLogError Util::appendLogError
 //#define LOG Util::parserLog
 #define TOKEN new SymbolInfo()
@@ -18,8 +18,11 @@ bool DEBUG = false;
 bool isParsingSuccessful = true;
 
 SymbolTable *symbolTable = new SymbolTable(100);
+AsmCodeGenerator asmGen;
+
 vector<pair<string,int>> possiblyUndefinedFunctions;
 vector<SymbolInfo*>paramList,declarationList,argList;
+
 
 void yyerror(const char *s){
 	errors++;
@@ -52,7 +55,24 @@ void yyerror(const char *s){
 
 %%
 //@DONE
-start: program {	}
+start: program {	
+	if(errors==0){
+		//TODO
+		$<Symbol>1->setAssemblyCode(
+		asmGen.getIntro()
+		+asmGen.getDeclarations()
+		+".CODE\n"
+		+$<Symbol>1->getAssemblyCode());
+		
+		
+		
+		FILE* asmcode= fopen("code.asm","w");
+		fprintf(asmcode,"%s",$<Symbol>1->getAssemblyCode().c_str());
+		fclose(asmcode);
+	}
+
+
+}
 	;
 
 //@DONE2
