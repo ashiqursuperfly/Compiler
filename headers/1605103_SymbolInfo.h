@@ -20,6 +20,7 @@ private:
     SymbolInfo *next;
     Function *isFunction;
     string asmCode;
+    string idValue;
 
 public:
     SymbolInfo()
@@ -33,6 +34,7 @@ public:
         this->name = name;
         this->type = type;
         this->declarationType = decType;
+        this->asmCode="";
         this->next = nullptr;
     }
     SymbolInfo(const string &name, const string &type)
@@ -40,6 +42,7 @@ public:
         this->name = name;
         this->type = type;
         this->declarationType = "";
+        this->asmCode="";
         this->next = nullptr;
     }
 
@@ -61,6 +64,16 @@ public:
     void setType(const string &type)
     {
         this->type = type;
+    }
+
+    const string &getIdValue() const
+    {
+        return idValue;
+    }
+
+    void setIdValue(const string &id)
+    {
+        this->idValue = id;
     }
 
     const string &getAssemblyCode() const
