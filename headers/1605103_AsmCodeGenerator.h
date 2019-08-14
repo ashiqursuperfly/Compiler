@@ -22,6 +22,7 @@ class AsmCodeGenerator{
     }
     
     public:
+        string curFunction;
         int labelCount=0,tempCount=0;
         vector<string> vars;
         vector<string> func_var_dec;

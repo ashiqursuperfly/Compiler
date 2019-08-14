@@ -55,3 +55,206 @@ t0 dw ?
 t1 dw ?
 t2 dw ?
 .CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
+.MODEL SMALL
+.STACK 100H
+.DATA 
+t0 dw ?
+t1 dw ?
+t2 dw ?
+.CODE
