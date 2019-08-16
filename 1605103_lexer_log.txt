@@ -8,123 +8,35 @@ Line:6 Token: COMMENT Lexeme: // 	return a+b;
 
 Line:7 Token: COMMENT Lexeme: // }
 
-Line:9 Token: ID Lexeme: fib
+Line:9 Token: COMMENT Lexeme: // int fib(int n) 
 
-Line:9 Token: LPAREN Lexeme: (
+Line:10 Token: COMMENT Lexeme: // { 
 
-Line:9 Token: ID Lexeme: n
+Line:11 Token: COMMENT Lexeme: //   int a, b, c, i;
 
-Line:9 Token: RPAREN Lexeme: )
+Line:12 Token: COMMENT Lexeme: //   a=0;
 
-Line:10 Token: LCURL Lexeme: {
+Line:13 Token: COMMENT Lexeme: //   b=1; 
 
-Line:11 Token: ID Lexeme: a
+Line:14 Token: COMMENT Lexeme: //   if( n == 0) 
 
-Line:11 Token: COMMA Lexeme: ,
+Line:15 Token: COMMENT Lexeme: //     return a; 
 
-Line:11 Token: ID Lexeme: b
+Line:16 Token: COMMENT Lexeme: //   for (i = 2; i <= n; i++) 
 
-Line:11 Token: COMMA Lexeme: ,
+Line:17 Token: COMMENT Lexeme: //   { 
 
-Line:11 Token: ID Lexeme: c
+Line:18 Token: COMMENT Lexeme: //      c = a + b; 
 
-Line:11 Token: COMMA Lexeme: ,
+Line:19 Token: COMMENT Lexeme: //      a = b; 
 
-Line:11 Token: ID Lexeme: i
+Line:20 Token: COMMENT Lexeme: //      b = c; 
 
-Line:11 Token: SEMICOLON Lexeme: ;
+Line:21 Token: COMMENT Lexeme: //   } 
 
-Line:12 Token: ID Lexeme: a
+Line:22 Token: COMMENT Lexeme: //   return b; 
 
-Line:12 Token: ASSIGNOP Lexeme: =
-
-Line:12 Token: CONST_INT Lexeme: 0
-
-Line:12 Token: SEMICOLON Lexeme: ;
-
-Line:13 Token: ID Lexeme: b
-
-Line:13 Token: ASSIGNOP Lexeme: =
-
-Line:13 Token: CONST_INT Lexeme: 1
-
-Line:13 Token: SEMICOLON Lexeme: ;
-
-Line:14 Token: LPAREN Lexeme: (
-
-Line:14 Token: ID Lexeme: n
-
-Line:14 Token: RELOP Lexeme: ==
-
-Line:14 Token: CONST_INT Lexeme: 0
-
-Line:14 Token: RPAREN Lexeme: )
-
-Line:15 Token: ID Lexeme: a
-
-Line:15 Token: SEMICOLON Lexeme: ;
-
-Line:16 Token: LPAREN Lexeme: (
-
-Line:16 Token: ID Lexeme: i
-
-Line:16 Token: ASSIGNOP Lexeme: =
-
-Line:16 Token: CONST_INT Lexeme: 2
-
-Line:16 Token: SEMICOLON Lexeme: ;
-
-Line:16 Token: ID Lexeme: i
-
-Line:16 Token: RELOP Lexeme: <=
-
-Line:16 Token: ID Lexeme: n
-
-Line:16 Token: SEMICOLON Lexeme: ;
-
-Line:16 Token: ID Lexeme: i
-
-Line:16 Token: INCOP Lexeme: ++
-
-Line:16 Token: RPAREN Lexeme: )
-
-Line:17 Token: LCURL Lexeme: {
-
-Line:18 Token: ID Lexeme: c
-
-Line:18 Token: ASSIGNOP Lexeme: =
-
-Line:18 Token: ID Lexeme: a
-
-Line:18 Token: ADDOP Lexeme: +
-
-Line:18 Token: ID Lexeme: b
-
-Line:18 Token: SEMICOLON Lexeme: ;
-
-Line:19 Token: ID Lexeme: a
-
-Line:19 Token: ASSIGNOP Lexeme: =
-
-Line:19 Token: ID Lexeme: b
-
-Line:19 Token: SEMICOLON Lexeme: ;
-
-Line:20 Token: ID Lexeme: b
-
-Line:20 Token: ASSIGNOP Lexeme: =
-
-Line:20 Token: ID Lexeme: c
-
-Line:20 Token: SEMICOLON Lexeme: ;
-
-Line:21 Token: RCURL Lexeme: }
-
-Line:22 Token: ID Lexeme: b
-
-Line:22 Token: SEMICOLON Lexeme: ;
-
-Line:23 Token: RCURL Lexeme: }
+Line:23 Token: COMMENT Lexeme: // } 
 
 Line:25 Token: ID Lexeme: main
 
@@ -140,15 +52,7 @@ Line:28 Token: SEMICOLON Lexeme: ;
 
 Line:29 Token: ID Lexeme: x
 
-Line:29 Token: ASSIGNOP Lexeme: =
-
-Line:29 Token: ID Lexeme: fib
-
-Line:29 Token: LPAREN Lexeme: (
-
-Line:29 Token: CONST_INT Lexeme: 5
-
-Line:29 Token: RPAREN Lexeme: )
+Line:29 Token: INCOP Lexeme: ++
 
 Line:29 Token: SEMICOLON Lexeme: ;
 

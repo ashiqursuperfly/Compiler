@@ -6,27 +6,27 @@
 // 	return a+b;
 // }
 
-int fib(int n) 
-{ 
-  int a, b, c, i;
-  a=0;
-  b=1; 
-  if( n == 0) 
-    return a; 
-  for (i = 2; i <= n; i++) 
-  { 
-     c = a + b; 
-     a = b; 
-     b = c; 
-  } 
-  return b; 
-} 
+// int fib(int n) 
+// { 
+//   int a, b, c, i;
+//   a=0;
+//   b=1; 
+//   if( n == 0) 
+//     return a; 
+//   for (i = 2; i <= n; i++) 
+//   { 
+//      c = a + b; 
+//      a = b; 
+//      b = c; 
+//   } 
+//   return b; 
+// } 
 
 int main(){
 	
 
 	int x;
-	x = fib(5);
+	x++;
 	//int a[2],c,i,j ; float d;
 	// a[0]=1;
 	// a[1]=5;

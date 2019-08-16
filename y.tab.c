@@ -1746,7 +1746,7 @@ yyreduce:
 		(yyval.Symbol) = TOKEN;
 		Util::parserLog((yyvsp[-5].Symbol)->getName()+" "+(yyvsp[-4].Symbol)->getName()+"("+(yyvsp[-2].Symbol)->getName()+")");
 		
-		if(func != nullptr){
+ 		if(func != nullptr){
 			int num = func->getFunction()->getParamCount();
 			if(num == paramList.size()){
 				vector<string>paramType = func->getFunction()->getAllParamTypes();

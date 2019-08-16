@@ -1,6 +1,4 @@
 ## TODO
 
-#### 1. Better Error Messages
-#### 2. IDa implementation change if possible.
-#### 3. "void " , "int ", implementation change if possible.
-#### 4. Write Testing structure
+#### 1. Skim from first to last to check if anything got ommited.
+#### 2. Change Implementation details once everything is working fine.

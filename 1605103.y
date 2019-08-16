@@ -130,7 +130,7 @@ func_declaration: type_specifier ID LPAREN parameter_list RPAREN SEMICOLON {
 		$<Symbol>$ = TOKEN;
 		Util::parserLog($<Symbol>1->getName()+" "+$<Symbol>2->getName()+"("+$<Symbol>4->getName()+")");
 		
-		if(func != nullptr){
+ 		if(func != nullptr){
 			int num = func->getFunction()->getParamCount();
 			if(num == paramList.size()){
 				vector<string>paramType = func->getFunction()->getAllParamTypes();
