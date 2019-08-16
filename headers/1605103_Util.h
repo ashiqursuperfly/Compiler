@@ -93,6 +93,9 @@ class Util{
             outfile.open(TOKEN_FILE, std::ios_base::app);
             outfile <<"<"<<type<<", "<<symbol<<"> ";
         }
+        static void clearFile(const string path){
+            if(isFileExists(path))remove(path.c_str());
+        }
         static void clearFiles(){
             if(isFileExists(OUTPUT_FILE))remove(OUTPUT_FILE);
             if(isFileExists(TOKEN_FILE))remove(TOKEN_FILE); 

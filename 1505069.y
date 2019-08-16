@@ -34,11 +34,10 @@ string curfunction;
 
 
 void yyerror(const char *s)
-{	error_count++;
+{	
+	error_count++;
 	fprintf(error,"Line no %d : %s\n\n",line_count,s);
-
 }
-
 
 int labelCount=0;
 int tempCount=0;
@@ -72,7 +71,6 @@ char *newTemp()
 }
 
 void optimization(FILE *asmcode);
-
 
 %}
 
@@ -129,11 +127,11 @@ start : program {
     POP AX \n\ 
     NEG AX \n\ 
     \n\ 
-    BEGIN: \n\ 
+    BEGIN : \n\ 
     XOR CX,CX \n\ 
     MOV BX,10 \n\ 
     \n\ 
-    REPEAT: \n\ 
+    REPEAT : \n\ 
     XOR DX,DX \n\ 
     DIV BX \n\ 
     PUSH DX \n\ 
@@ -142,7 +140,7 @@ start : program {
     JNE REPEAT \n\ 
     MOV AH,2 \n\ 
     \n\ 
-    PRINT_LOOP: \n\ 
+    PRINT_LOOP : \n\ 
     POP DX \n\ 
     ADD DL,30H \n\ 
     INT 21H \n\ 
@@ -313,7 +311,8 @@ func_definition : type_specifier ID  LPAREN  parameter_list RPAREN {$<symbolinfo
 											
 					}
 				}
-				else{ //cout<<para_list.size()<<" "<<line_count<<endl;
+				else{ 
+					//cout<<para_list.size()<<" "<<line_count<<endl;
 						table->Insert($<symbolinfo>2->get_name(),"ID","Function");
 						s=table->lookup($<symbolinfo>2->get_name());
 						s->set_isFunction();
@@ -334,46 +333,47 @@ func_definition : type_specifier ID  LPAREN  parameter_list RPAREN {$<symbolinfo
 				} compound_statement 
 				{fprintf(parsertext,"Line at %d : func_definition->type_specifier ID LPAREN parameter_list RPAREN compound_statement \n\n",line_count);
 				fprintf(parsertext,"%s %s(%s) %s \n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>2->get_name().c_str(),$<symbolinfo>4->get_name().c_str(),$<symbolinfo>7->get_name().c_str());
-											$<symbolinfo>$->set_ASMcode($<symbolinfo>2->get_name()+" PROC\n");
-											
-											if($<symbolinfo>2->get_name()=="main"){
-												$<symbolinfo>$->set_ASMcode($<symbolinfo>$->get_ASMcode()+"    MOV AX,@DATA\n\tMOV DS,AX \n"+$<symbolinfo>7->get_ASMcode()+"LReturn"+curfunction+":\n\tMOV AH,4CH\n\tINT 21H\n");
-											}
-											else {
-													SymbolInfo *s=table->lookup($<symbolinfo>2->get_name()); 
+				
+				$<symbolinfo>$->set_ASMcode($<symbolinfo>2->get_name()+" PROC\n");
+				
+				if($<symbolinfo>2->get_name()=="main"){
+					$<symbolinfo>$->set_ASMcode($<symbolinfo>$->get_ASMcode()+"    MOV AX,@DATA\n\tMOV DS,AX \n"+$<symbolinfo>7->get_ASMcode()+"LReturn"+curfunction+":\n\tMOV AH,4CH\n\tINT 21H\n");
+				}
+				else {
+						SymbolInfo *s=table->lookup($<symbolinfo>2->get_name()); 
 
-											for(int i=0;i<func_var_dec.size();i++){
-												s->get_isFunction()->add_var(func_var_dec[i]);
-											}
-											func_var_dec.clear();
-											
-												string codes=$<symbolinfo>$->get_ASMcode()+
-												"\tPUSH AX\n\tPUSH BX \n\tPUSH CX \n\tPUSH DX\n";
-											
+				for(int i=0;i<func_var_dec.size();i++){
+					s->get_isFunction()->add_var(func_var_dec[i]);
+				}
+				func_var_dec.clear();
+				
+					string codes=$<symbolinfo>$->get_ASMcode()+
+					"\tPUSH AX\n\tPUSH BX \n\tPUSH CX \n\tPUSH DX\n";
+				
 
-											vector<string>para_list=s->get_isFunction()->get_paralist();
-											vector<string>var_list=s->get_isFunction()->get_var();
-											for(int i=0;i<para_list.size();i++){
-												codes+="\tPUSH "+para_list[i]+"\n";
-											}
-											for(int i=0;i<var_list.size();i++){
-												codes+="\tPUSH "+var_list[i]+"\n";
-											}
-											codes+=	$<symbolinfo>7->get_ASMcode()+
-												"LReturn"+curfunction+":\n";
-												for(int i=var_list.size()-1;i>=0;i--){
-												codes+="\tPOP "+var_list[i]+"\n";
-											}
-											for(int i=para_list.size()-1;i>=0;i--){
-												codes+="\tPOP "+para_list[i]+"\n";
-											}
+				vector<string>para_list=s->get_isFunction()->get_paralist();
+				vector<string>var_list=s->get_isFunction()->get_var();
+				for(int i=0;i<para_list.size();i++){
+					codes+="\tPUSH "+para_list[i]+"\n";
+				}
+				for(int i=0;i<var_list.size();i++){
+					codes+="\tPUSH "+var_list[i]+"\n";
+				}
+				codes+=	$<symbolinfo>7->get_ASMcode()+
+					"LReturn"+curfunction+":\n";
+					for(int i=var_list.size()-1;i>=0;i--){
+					codes+="\tPOP "+var_list[i]+"\n";
+				}
+				for(int i=para_list.size()-1;i>=0;i--){
+					codes+="\tPOP "+para_list[i]+"\n";
+				}
 
-												
-											codes+="\tPOP DX\n\tPOP CX\n\tPOP BX\n\tPOP AX\n\tret\n";
-													
-											$<symbolinfo>$->set_ASMcode(codes+$<symbolinfo>2->get_name()+" ENDP\n");
-											
-											}
+					
+				codes+="\tPOP DX\n\tPOP CX\n\tPOP BX\n\tPOP AX\n\tret\n";
+						
+				$<symbolinfo>$->set_ASMcode(codes+$<symbolinfo>2->get_name()+" ENDP\n");
+				
+				}
 										
 											
 			
@@ -412,7 +412,7 @@ func_definition : type_specifier ID  LPAREN  parameter_list RPAREN {$<symbolinfo
 											fprintf(parsertext,"Line at %d : func_definition->type_specifier ID LPAREN RPAREN compound_statement\n\n",line_count);
 											fprintf(parsertext,"%s %s\n\n",$<symbolinfo>1->get_name().c_str(),$<symbolinfo>6->get_name().c_str());
 											$<symbolinfo>$->set_ASMcode($<symbolinfo>2->get_name()+" PROC\n");
-											
+
 											if($<symbolinfo>2->get_name()=="main"){
 												$<symbolinfo>$->set_ASMcode($<symbolinfo>$->get_ASMcode()+"    MOV AX,@DATA\n\tMOV DS,AX \n"+$<symbolinfo>6->get_ASMcode()+"LReturn"+curfunction+":\n\tMOV AH,4CH\n\tINT 21H\n");
 											}
@@ -423,10 +423,10 @@ func_definition : type_specifier ID  LPAREN  parameter_list RPAREN {$<symbolinfo
 												s->get_isFunction()->add_var(func_var_dec[i]);
 											}
 											func_var_dec.clear();
-											
+
 												string codes=$<symbolinfo>$->get_ASMcode()+
 												"\tPUSH AX\n\tPUSH BX \n\tPUSH CX \n\tPUSH DX\n";
-											
+
 
 											vector<string>para_list=s->get_isFunction()->get_paralist();
 											vector<string>var_list=s->get_isFunction()->get_var();
@@ -438,7 +438,7 @@ func_definition : type_specifier ID  LPAREN  parameter_list RPAREN {$<symbolinfo
 											}
 											codes+=	$<symbolinfo>6->get_ASMcode()+
 												"LReturn"+curfunction+":\n";
-												for(int i=var_list.size()-1;i>=0;i--){
+											for(int i=var_list.size()-1;i>=0;i--){
 												codes+="\tPOP "+var_list[i]+"\n";
 											}
 											for(int i=para_list.size()-1;i>=0;i--){
@@ -527,7 +527,7 @@ var_declaration : type_specifier declaration_list SEMICOLON {$<symbolinfo>$=new 
 																	continue;
 																}
 																if(dec_list[i]->get_type().size()>2){
-																	arr_dec.push_back(make_pair(dec_list[i]->get_name()+IntToString(table->getCurrentId()),dec_list[i]->get_type().substr(2,dec_list[i]->get_type().size () - 1)));
+arr_dec.push_back(make_pair(dec_list[i]->get_name()+IntToString(table->getCurrentId()),dec_list[i]->get_type().substr(2,dec_list[i]->get_type().size () - 1)));
 
 																	dec_list[i]->set_type(dec_list[i]->get_type().substr(0,dec_list[i]->get_type().size () - 1));
 
@@ -759,7 +759,7 @@ variable : ID 		{$<symbolinfo>$=new SymbolInfo();
 					fprintf(parsertext,"%s\n\n",$<symbolinfo>1->get_name().c_str());
 					if(table->lookup($<symbolinfo>1->get_name())==0){
 						 error_count++;
-						fprintf(error,"Error at Line No.%d:  Undeclared Variable: %s \n\n",line_count,$<symbolinfo>1->get_name().c_str());
+						fprintf(error,"Error at Line No.%d :  Undeclared Variable : %s \n\n",line_count,$<symbolinfo>1->get_name().c_str());
 					
 					}
 					else if(table->lookup($<symbolinfo>1->get_name())->get_dectype()=="int array" || table->lookup($<symbolinfo>1->get_name())->get_dectype()=="float array"){

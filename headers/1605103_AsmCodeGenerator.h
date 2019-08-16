@@ -14,6 +14,7 @@
 #include <unistd.h>
 
 
+
 class AsmCodeGenerator{
 
     bool isFileExists (const string& name) {
@@ -26,7 +27,7 @@ class AsmCodeGenerator{
         int labelCount=0,tempCount=0;
         vector<string> vars;
         vector<string> func_var_dec;
-        vector<pair<string,string>> arrays;
+        vector<pair<string,string>> arr_dec;
         
         
 
@@ -39,15 +40,14 @@ class AsmCodeGenerator{
             for(int i=0;i<vars.size();i++){
 		        code+=vars[i]+" dw ?\n";
 	        }
-            for(int i=0;i<arrays.size();i++){
-		        code+=arrays[i].first+" dw "+arrays[i].second+" dup(?)\n";
+            for(int i=0;i<arr_dec.size();i++){
+		        code+=arr_dec[i].first+" dw "+arr_dec[i].second+" dup(?)\n";
 	        }
             return code;
         }
 
         void generateFinalAsmFile(string fileName,const string& code){
-            //if(isFileExists(fileName))remove(fileName);
-            
+            Util::clearFile(fileName);
             ofstream outfile;
 
             outfile.open(fileName, std::ios_base::app);
@@ -57,7 +57,7 @@ class AsmCodeGenerator{
         char *newLabel()
         {
             char *lb= new char[4];
-            strcpy(lb,"L");
+            strcpy(lb,"Label");
             char b[3];
             sprintf(b,"%d", labelCount);
             labelCount++;

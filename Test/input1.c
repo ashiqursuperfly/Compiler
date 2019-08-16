@@ -6,15 +6,25 @@
 // 	return a+b;
 // }
 
-// void foo(){
-// 	x=2;
-// 	y=x-5;
-// }
+int fib(int n) 
+{ 
+  int a, b, c, i;
+  a=0;
+  b=1; 
+  if( n == 0) 
+    return a; 
+  for (i = 2; i <= n; i++) 
+  { 
+     c = a + b; 
+     a = b; 
+     b = c; 
+  } 
+  return b; 
+} 
 
 int main(){
-	int a,b;
-	a++;
-	a--;
+	
+
 
 	//int a[2],c,i,j ; float d;
 	// a[0]=1;
