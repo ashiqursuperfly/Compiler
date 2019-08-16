@@ -211,7 +211,27 @@ Insert At : ScopeTable :0 Symbol<ID,Function,main> Position(48,0) Successful
 LookUp At : ScopeTable :0 Found <ID,Function,main> Position(48,0)
 
 Enter Scope : Entering New Scope : ID 1
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :1 Symbol<x> Not Found !
+
+Insert At : ScopeTable :1 Symbol<ID,int ,x> Position(37,0) Successful
+
+LookUp At : ScopeTable :1 Found <ID,int ,x> Position(37,0)
+
+LookUp At : ScopeTable :1 Found <ID,int ,x> Position(37,0)
+
+LookUp At : ScopeTable :1 Symbol<fib> Not Found !
+
+LookUp At : ScopeTable :0 Found <ID,Function,fib> Position(12,0)
+
+LookUp At : ScopeTable :1 Found <ID,int ,x> Position(37,0)
+
+LookUp At : ScopeTable :1 Found <ID,int ,x> Position(37,0)
+
 Print : SCOPE TABLE #1
+
+  37 : <ID,int ,x> - 
 
 Print : SCOPE TABLE #0
 

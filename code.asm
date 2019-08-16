@@ -16,7 +16,10 @@ t5 dw ?
 t6 dw ?
 t7 dw ?
 main_return dw ?
+x1 dw ?
 t8 dw ?
+t9 dw ?
+t10 dw ?
 .CODE
 fib PROC
 	PUSH AX
@@ -97,8 +100,16 @@ fib ENDP
 main PROC
     MOV AX,@DATA
 	MOV DS,AX 
-	MOV t8,0
-	MOV AX,t8
+	MOV t8,5
+	MOV AX,
+	MOV n,AX
+	CALL fib
+	MOV AX,fib_return
+	MOV t9,AX
+	MOV AX,t9
+	MOV x1,AX
+	MOV t10,0
+	MOV AX,t10
 	MOV main_return,AX
 	JMP L_Return_main
 L_Return_main:

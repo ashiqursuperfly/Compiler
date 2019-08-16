@@ -134,21 +134,39 @@ Line:25 Token: RPAREN Lexeme: )
 
 Line:25 Token: LCURL Lexeme: {
 
-Line:29 Token: COMMENT Lexeme: //int a[2],c,i,j ; float d;
+Line:28 Token: ID Lexeme: x
 
-Line:30 Token: COMMENT Lexeme: // a[0]=1;
+Line:28 Token: SEMICOLON Lexeme: ;
 
-Line:31 Token: COMMENT Lexeme: // a[1]=5;
+Line:29 Token: ID Lexeme: x
 
-Line:32 Token: COMMENT Lexeme: // i= a[0]+a[1];
+Line:29 Token: ASSIGNOP Lexeme: =
 
-Line:33 Token: COMMENT Lexeme: // j= 2*3+(5%3 < 4 && 8) || 2 ;
+Line:29 Token: ID Lexeme: fib
 
-Line:34 Token: COMMENT Lexeme: // d=var(1,2*3)+3.5*2;
+Line:29 Token: LPAREN Lexeme: (
 
-Line:35 Token: CONST_INT Lexeme: 0
+Line:29 Token: CONST_INT Lexeme: 5
 
-Line:35 Token: SEMICOLON Lexeme: ;
+Line:29 Token: RPAREN Lexeme: )
 
-Line:36 Token: RCURL Lexeme: }
+Line:29 Token: SEMICOLON Lexeme: ;
+
+Line:30 Token: COMMENT Lexeme: //int a[2],c,i,j ; float d;
+
+Line:31 Token: COMMENT Lexeme: // a[0]=1;
+
+Line:32 Token: COMMENT Lexeme: // a[1]=5;
+
+Line:33 Token: COMMENT Lexeme: // i= a[0]+a[1];
+
+Line:34 Token: COMMENT Lexeme: // j= 2*3+(5%3 < 4 && 8) || 2 ;
+
+Line:35 Token: COMMENT Lexeme: // d=var(1,2*3)+3.5*2;
+
+Line:36 Token: CONST_INT Lexeme: 0
+
+Line:36 Token: SEMICOLON Lexeme: ;
+
+Line:37 Token: RCURL Lexeme: }
 

@@ -25,7 +25,8 @@ int fib(int n)
 int main(){
 	
 
-
+	int x;
+	x = fib(5);
 	//int a[2],c,i,j ; float d;
 	// a[0]=1;
 	// a[1]=5;

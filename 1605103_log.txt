@@ -710,46 +710,145 @@ Line:25  type_specifier : INT
 
 int 
 
-Line:35  factor : CONST_INT
+Line:28  type_specifier : INT
+
+int 
+
+Line:28  declarationList : ID
+
+x
+
+Line:28  var_declaration : type_specifier-declarationList-SEMICOLON
+
+int  x;
+
+Line:28  statement : var_declaration
+
+int  x;
+
+Line:28  statements : statement
+
+int  x;
+
+Line:29  variable : ID
+
+x
+
+Line:29  factor : CONST_INT
+
+5
+
+Line:29  unary_expression : factor
+
+5
+
+Line:29  term : unary_expression
+
+5
+
+Line:29  simple_expression : term
+
+5
+
+Line:29  rel_expression : simple_expression
+
+5
+
+Line:29  logic_expression : rel_expression
+
+5
+
+Line:29  arguments : logic_expression
+
+5
+
+Line:29  argument_list : arguments
+
+5
+
+Line:29  factor : ID-LPAREN-argument_list-RPAREN
+
+fib(5)
+
+Line:29  unary_expression : factor
+
+fib(5)
+
+Line:29  term : unary_expression
+
+fib(5)
+
+Line:29  simple_expression : term
+
+fib(5)
+
+Line:29  rel_expression : simple_expression
+
+fib(5)
+
+Line:29  logic_expression : rel_expression
+
+fib(5)
+
+Line:29  expression : variable-ASSIGNOP-logic_expression
+
+x=fib(5)
+
+Line:29  expression_statement : expression-SEMICOLON
+
+x=fib(5);
+
+Line:29  statement : expression_statement
+
+x=fib(5);
+
+Line:29  statements : statements-statement
+
+int  x; x=fib(5);
+
+Line:36  factor : CONST_INT
 
 0
 
-Line:35  unary_expression : factor
+Line:36  unary_expression : factor
 
 0
 
-Line:35  term : unary_expression
+Line:36  term : unary_expression
 
 0
 
-Line:35  simple_expression : term
+Line:36  simple_expression : term
 
 0
 
-Line:35  rel_expression : simple_expression
+Line:36  rel_expression : simple_expression
 
 0
 
-Line:35  logic_expression : rel_expression
+Line:36  logic_expression : rel_expression
 
 0
 
-Line:35  expression : logic_expression
+Line:36  expression : logic_expression
 
 0
 
-Line:35  statement : RETURN-expression-SEMICOLON
+Line:36  statement : RETURN-expression-SEMICOLON
 
 return 0
 
-Line:35  statements : statement
+Line:36  statements : statements-statement
 
-return 0;
+int  x;
+x=fib(5); return 0;
 
-Line:36  compound_statement : LCURL-statements-RCURL
+Line:37  compound_statement : LCURL-statements-RCURL
 
 
   SCOPE TABLE #1
+
+  37:<ID,int ,x> - 
 
 
 
@@ -764,23 +863,31 @@ Line:36  compound_statement : LCURL-statements-RCURL
 
 
 
-{return 0;}
+{int  x;
+x=fib(5);
+return 0;}
 
-Line:36  func_definition : type_specifier-ID-LPAREN-RPAREN-compound_statement
+Line:37  func_definition : type_specifier-ID-LPAREN-RPAREN-compound_statement
 
 int  main(){
+int  x;
+x=fib(5);
 return 0;
 } {
+int  x;
+x=fib(5);
 return 0;
 }
 
-Line:36  unit : func_definition
+Line:37  unit : func_definition
 
 int  main(){
+int  x;
+x=fib(5);
 return 0;
 }
 
-Line:36  program : program-unit
+Line:37  program : program-unit
 
 int  fib(int  n){
 int  a,b,c,i;
@@ -793,6 +900,8 @@ i++
 return b;
 }
  int  main(){
+int  x;
+x=fib(5);
 return 0;
 }
 
@@ -809,7 +918,7 @@ Final SymbolTable :
 
 
 
-Total Lines :36
+Total Lines :37
 
 Total Errors :0
 
