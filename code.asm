@@ -1,16 +1,20 @@
 .MODEL SMALL
 .STACK 100H
 .DATA 
-var_return dw ?
+x1 dw ?
+y1 dw ?
+z1 dw ?
 a1 dw ?
-b1 dw ?
+var_return dw ?
+a2 dw ?
+b2 dw ?
 t0 dw ?
 fib_return dw ?
-n1 dw ?
-a1 dw ?
-b1 dw ?
-c1 dw ?
-i1 dw ?
+n3 dw ?
+a3 dw ?
+b3 dw ?
+c3 dw ?
+i3 dw ?
 t1 dw ?
 t2 dw ?
 t3 dw ?
@@ -20,12 +24,12 @@ t6 dw ?
 t7 dw ?
 t8 dw ?
 main_return dw ?
-x1 dw ?
+x5 dw ?
 t9 dw ?
-c1 dw ?
-i1 dw ?
-j1 dw ?
-d1 dw ?
+c5 dw ?
+i5 dw ?
+j5 dw ?
+d5 dw ?
 t10 dw ?
 t11 dw ?
 t12 dw ?
@@ -58,7 +62,7 @@ t38 dw ?
 t39 dw ?
 t40 dw ?
 t41 dw ?
-a1 dw a dup(?)
+a5 dw 2 dup(?)
 .CODE
 var proc
 	PUSH AX
@@ -67,8 +71,8 @@ var proc
 	PUSH DX
 	PUSH a
 	PUSH b
-	mov AX,a11
-	add AX,b11
+	mov AX,a2
+	add AX,b2
 	mov t0,AX
 	mov AX,t0
 	mov var_return,AX
@@ -88,18 +92,18 @@ fib proc
 	PUSH CX 
 	PUSH DX
 	PUSH n
-	PUSH a1
-	PUSH b1
-	PUSH c1
-	PUSH i1
+	PUSH a3
+	PUSH b3
+	PUSH c3
+	PUSH i3
 	mov t1,0
 	mov AX,t1
-	mov a21,AX
+	mov a3,AX
 	mov t2,1
 	mov AX,t2
-	mov b21,AX
+	mov b3,AX
 	mov t3,0
-	mov AX,n21
+	mov AX,n3
 	CMP AX,t3
 	JE Label0
 	mov t4,0
@@ -110,16 +114,16 @@ Label1:
 	mov AX,t4
 	CMP AX,0
 	JE Label2
-	mov AX,a21
+	mov AX,a3
 	mov fib_return,AX
 	jmp L_Return_fib
 Label2:
 	mov t5,2
 	mov AX,t5
-	mov i21,AX
+	mov i3,AX
 Label5:
-	mov AX,i21
-	CMP AX,n21
+	mov AX,i3
+	CMP AX,n3
 	JLE Label3
 	mov t6,0
 	JMP Label4
@@ -129,28 +133,28 @@ Label4:
 	mov AX,t6
 	CMP AX,0
 	JE Label6
-	mov AX,a31
-	add AX,b31
+	mov AX,a3
+	add AX,b3
 	mov t8,AX
 	mov AX,t8
-	mov c31,AX
-	mov AX,b31
-	mov a31,AX
-	mov AX,c31
-	mov b31,AX
-	mov AX,i21
+	mov c3,AX
+	mov AX,b3
+	mov a3,AX
+	mov AX,c3
+	mov b3,AX
+	mov AX,i3
 	mov t7,AX
-	inc i21
+	inc i3
 	jmp Label5
 Label6:
-	mov AX,b31
+	mov AX,b3
 	mov fib_return,AX
 	jmp L_Return_fib
 L_Return_fib:
-	POP i1
-	POP c1
-	POP b1
-	POP a1
+	POP i3
+	POP c3
+	POP b3
+	POP a3
 	POP n
 	POP DX
 	POP CX
@@ -162,36 +166,36 @@ main proc
     mov AX,@DATA
 	mov DS,AX 
 
-	mov AX,x41
+	mov AX,x5
 	mov t9,AX
-	inc x41
+	inc x5
 	mov t10,0
 	mov BX,t10
 	add BX,BX
 	mov t11,1
 	mov AX,t11
-	mov a41[BX],AX
+	mov a5[BX],AX
 	mov t12,1
 	mov BX,t12
 	add BX,BX
 	mov t13,5
 	mov AX,t13
-	mov a41[BX],AX
+	mov a5[BX],AX
 	mov t14,0
 	mov BX,t14
 	add BX,BX
-	mov AX,a41[BX]
+	mov AX,a5[BX]
 	mov t15,AX
 	mov t16,1
 	mov BX,t16
 	add BX,BX
-	mov AX,a41[BX]
+	mov AX,a5[BX]
 	mov t17,AX
 	mov AX,t15
 	add AX,t17
 	mov t18,AX
 	mov AX,t18
-	mov i41,AX
+	mov i5,AX
 	mov t19,2
 	mov t20,3
 	mov AX,t19
@@ -244,7 +248,7 @@ Label13:
 	mov t31,1
 Label14:
 	mov AX,t31
-	mov j41,AX
+	mov j5,AX
 	mov t32,1
 	mov t33,2
 	mov t34,3
@@ -269,7 +273,7 @@ Label14:
 	add AX,t39
 	mov t40,AX
 	mov AX,t40
-	mov d41,AX
+	mov d5,AX
 	mov t41,0
 	mov AX,t41
 	mov main_return,AX

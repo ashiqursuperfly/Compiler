@@ -23,41 +23,44 @@ public:
     SymbolTable(int size)
     {
         this->size = size;
-        currentScopeId = 0;
-        scopeCount = 0;
-        currentScope = new ScopeTable(0, size);
+        currentScopeId = 1;
+        scopeCount = 1;
+        currentScope = new ScopeTable(1, size);
     }
     
-    void setScopeCount(int val){
-        this->scopeCount = val;
-    }
+    // void setScopeCount(int val){
+    //     this->scopeCount = val;
+    // }
 
-    int getScopeCount(){
-       return this->scopeCount;
-    }
+    // int getScopeCount(){
+    //    return this->scopeCount;
+    // }
 
 
     void enterScope()
     {
-        auto *newCurrentScope = new ScopeTable(++currentScopeId, size);
-        scopeCount += 1;
+        auto *newCurrentScope = new ScopeTable(++scopeCount, size);
         newCurrentScope->setParentScope(currentScope);
         currentScope = newCurrentScope;
+        currentScopeId = newCurrentScope->id;
         Util::printMessage("Enter Scope", "Entering New Scope : ID " + to_string(currentScopeId));
+        
     }
 
     void exitScope()
     {
-        if (currentScopeId == 0)
-        {
-            Util::printMessage("ExitScope", "Exiting Global Scope/Terminating Program...\n");
-            exit(EXIT_SUCCESS);
-        }
+        // if (currentScopeId == 0)
+        // {
+        //     Util::printMessage("ExitScope", "Exiting Global Scope/Terminating Program...\n");
+        //     exit(EXIT_SUCCESS);
+        // }
         ScopeTable *prev = currentScope;
-        currentScopeId--;
+        
         currentScope = currentScope->getParentScope();
+        currentScopeId = currentScope->id;
         prev->setParentScope(nullptr);
         Util::printMessage("Exiting Scope", to_string(currentScopeId + 1));
+        cout<<"Exiting Scope:"+to_string(prev->id)<<endl;
         delete prev;
     }
 
@@ -97,7 +100,7 @@ public:
         {
             result = iterator->lookUp(symbol_name);
             if (result != nullptr)
-                return (iterator->id + scopeCount * 10);
+                return iterator->id;
             iterator = iterator->getParentScope();
                 
         }

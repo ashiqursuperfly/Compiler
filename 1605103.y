@@ -60,8 +60,8 @@ start: program {
 		+".CODE\n"
 		+$<Symbol>1->getAssemblyCode());
 
-		//TODO: ADD PRINTLN procEDURE
-		cout<<$<Symbol>1->getAssemblyCode()<<endl;
+		//TODO: ADD PRINTLN PROCEDURE
+		//cout<<$<Symbol>1->getAssemblyCode()<<endl;
 		asmGen.generateFinalAsmFile("code.asm",$<Symbol>1->getAssemblyCode());
 	}
 
@@ -476,12 +476,14 @@ compound_statement: LCURL {
 	| LCURL RCURL {
 		symbolTable->enterScope();
 		int len = paramList.size();
+
 		for(int i=0;i<len;i++){
 			string name = paramList[i]->getName();
 			string type = paramList[i]->getDeclarationType();
 			symbolTable->insert(SymbolInfo(name,"ID",type));
 			asmGen.vars.push_back(paramList[i]->getName()+to_string(symbolTable->currentScopeId));
 		}	
+		
 		$<Symbol>$ = TOKEN;
 		Util::parserLog(lines,"compound_statement : LCURL-RCURL");
 		paramList.clear();
@@ -514,7 +516,8 @@ var_declaration: type_specifier declarationList SEMICOLON {
 					asmGen.vars.push_back(declarationList[i]->getName()+to_string(symbolTable->currentScopeId));											
 					symbolTable->insert(SymbolInfo(declarationList[i]->getName(),declarationList[i]->getType(),$<Symbol>1->getName()));			
 				} else{
-					asmGen.arr_dec.push_back(make_pair(declarationList[i]->getName()+to_string(symbolTable->currentScopeId),declarationList[i]->getType().substr(2,declarationList[i]->getType().size () - 1)));
+					asmGen.arr_dec.push_back(make_pair(declarationList[i]->getName()+to_string(symbolTable->currentScopeId),
+					declarationList[i]->getType().substr(2,declarationList[i]->getType().size () - 1)));
 
 					string type = declarationList[i]->getType().substr(0,declarationList[i]->getType().size () - 1);
 					declarationList[i]->setType(type);
@@ -572,7 +575,7 @@ declarationList: declarationList COMMA ID {
 		Util::parserLog(lines,"declarationList : declarationList-COMMA-ID-LTHIRD-CONST_INT-RTHIRD");
 		$<Symbol>$ = TOKEN;
 		Util::parserLog($<Symbol>1->getName()+","+$<Symbol>3->getName()+"["+$<Symbol>5->getName()+"]");
-		SymbolInfo * id = new SymbolInfo($<Symbol>3->getName(),"IDa");
+		SymbolInfo * id = new SymbolInfo($<Symbol>3->getName(),"ID"+$<Symbol>5->getName());
 		declarationList.push_back(id);
 		$<Symbol>$->setName($<Symbol>1->getName()+","+$<Symbol>3->getName()+"["+$<Symbol>5->getName()+"]");
 	}
@@ -588,7 +591,7 @@ declarationList: declarationList COMMA ID {
 		$<Symbol>$ = TOKEN;
 		Util::parserLog($<Symbol>1->getName()+"["+$<Symbol>3->getName()+"]");
 
-		SymbolInfo * id = new SymbolInfo($<Symbol>1->getName(),"IDa");
+		SymbolInfo * id = new SymbolInfo($<Symbol>1->getName(),"ID"+$<Symbol>3->getName());
 		
 		declarationList.push_back(id);
 		$<Symbol>$->setName($<Symbol>1->getName()+"["+$<Symbol>3->getName()+"]");
@@ -1523,13 +1526,13 @@ void test(string fileName){
 	asmGen = AsmCodeGenerator();
 	lines = 1;
 	errors = 0;
-	symbolTable = new SymbolTable(100);
 	if((fp=fopen(fileName.c_str(),"r"))==NULL)
 	{
 		printf("Cannot Open Input File.\n");
 	}
 	yyin=fp;
 	cout<<fileName<<endl;
+	symbolTable = new SymbolTable(100);
 	Util::parserLog("\n\n^^^^^^^^^^^Parsing "+fileName+"^^^^^^^^^^^\n\n");
 	Util::appendLogError("\n\n^^^^^^^^^^^Parsing "+fileName+"^^^^^^^^^^^\n\n",PARSER);
 	yyparse();
