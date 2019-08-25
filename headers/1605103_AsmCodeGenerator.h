@@ -56,17 +56,17 @@ class AsmCodeGenerator{
         }
 
         string getMainIntro(){
-            return "    mov AX,@DATA\n\tmov DS,AX \n\n";    
+            return "    MOV AX,@DATA\n\tMOV DS,AX \n\n";    
         }
 
         string getMainOutro(){
-            return curFunction+":\n\tmov AH,4CH\n\tINT 21H\n";    
+            return curFunction+":\n\tMOV AH,4CH\n\tINT 21H\n";    
         }
         
         char *newLabel()
         {
             char *lb= new char[4];
-            strcpy(lb,"Label");
+            strcpy(lb,"L");
             char b[3];
             sprintf(b,"%d", labelCount);
             labelCount++;

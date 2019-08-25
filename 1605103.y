@@ -253,6 +253,11 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 						string err = "Invalid Return Types ! Expected "+s->getFunction()->getReturnType()+ " Found " + $<Symbol>1->getName();
 						yyerror(err.c_str());
 						Util::appendLogError(lines,err,PARSER);
+					}
+					s->getFunction()->clear();
+					for(int i=0;i<paramList.size();i++){
+							s->getFunction()->addParam(paramList[i]->getName()+to_string(symbolTable->getScopeCount()+1),paramList[i]->getDeclarationType());
+					//	cout<<para_list[i]->get_dectype()<<para_list[i]->get_name()<<endl;
 					}	
 				}
 				s->getFunction()->setDefined();
@@ -269,8 +274,10 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 			s = symbolTable->lookUp($<Symbol>2->getName());s->setFunction(true);s->getFunction()->setDefined();
 			if(DEBUG)cout<<s->getFunction()->getParamCount()<<endl;
 			int len = paramList.size();
+			cout<<$<Symbol>2->getName()<<endl;
 			for(int i=0;i<len;i++){
-				string name = paramList[i]->getName();
+				string name = paramList[i]->getName()+to_string(symbolTable->getScopeCount()+1);
+			
 				string decType = paramList[i]->getDeclarationType();
 				s->getFunction()->addParam(name,decType);
 			}
@@ -286,7 +293,7 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 		$<Symbol>$->setName($<Symbol>1->getName()+" "+$<Symbol>2->getName()+"("+$<Symbol>4->getName()+")"+$<Symbol>7->getName());
 		
 		//@CODE-GEN
-		$<Symbol>$->setAssemblyCode($<Symbol>2->getName()+" proc\n");
+		$<Symbol>$->setAssemblyCode($<Symbol>2->getName()+" PROC\n");
 		
 		if($<Symbol>2->getName()=="main"){
 			$<Symbol>$->setAssemblyCode($<Symbol>$->getAssemblyCode()
@@ -366,7 +373,7 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 		$<Symbol>$->setName($<Symbol>1->getName()+$<Symbol>6->getName());
 		Util::parserLog($<Symbol>1->getName()+" "+$<Symbol>6->getName());
 		
-		$<Symbol>$->setAssemblyCode($<Symbol>2->getName()+" proc\n");
+		$<Symbol>$->setAssemblyCode($<Symbol>2->getName()+" PROC\n");
 
 		if($<Symbol>2->getName()=="main"){
 			$<Symbol>$->setAssemblyCode($<Symbol>$->getAssemblyCode()
@@ -652,12 +659,12 @@ statement: var_declaration {
 		string codes=$<Symbol>3->getAssemblyCode();
 		codes+=string(label1)+":\n";
 		codes+=$<Symbol>4->getAssemblyCode();
-		codes+="\tmov AX,"+$<Symbol>4->getIdValue()+"\n";
+		codes+="\tMOV AX,"+$<Symbol>4->getIdValue()+"\n";
 		codes+="\tCMP AX,0\n";
 		codes+="\tJE "+string(label2)+"\n";
 		codes+=$<Symbol>7->getAssemblyCode();
 		codes+=$<Symbol>5->getAssemblyCode();
-		codes+="\tjmp "+string(label1)+"\n";
+		codes+="\tJMP "+string(label1)+"\n";
 		codes+=string(label2)+":\n";
 		$<Symbol>$->setAssemblyCode(codes);
 
@@ -680,7 +687,7 @@ statement: var_declaration {
 		//@CODE-GEN
 		string codes=$<Symbol>3->getAssemblyCode();
 		char *label1=asmGen.newLabel();
-		codes+="\tmov AX,"+$<Symbol>3->getIdValue()+"\n";
+		codes+="\tMOV AX,"+$<Symbol>3->getIdValue()+"\n";
 		codes+="\tCMP AX,0\n";
 		codes+="\tJE "+string(label1)+"\n";
 		codes+=$<Symbol>5->getAssemblyCode();
@@ -704,11 +711,11 @@ statement: var_declaration {
 		string codes=$<Symbol>3->getAssemblyCode();
 		char *label1=asmGen.newLabel();
 		char *label2=asmGen.newLabel();
-		codes+="\tmov AX,"+$<Symbol>3->getIdValue()+"\n";
+		codes+="\tMOV AX,"+$<Symbol>3->getIdValue()+"\n";
 		codes+="\tCMP AX,0\n";
 		codes+="\tJE "+string(label1)+"\n";
 		codes+=$<Symbol>5->getAssemblyCode();
-		codes+="\tjmp "+string(label2)+"\n";
+		codes+="\tJMP "+string(label2)+"\n";
 		codes+=string(label1)+":\n";
 		codes+=$<Symbol>7->getAssemblyCode();
 		codes+=string(label2)+":\n";
@@ -734,11 +741,11 @@ statement: var_declaration {
 		char *label2=asmGen.newLabel();
 		codes+=string(label1)+":\n";
 		codes+=$<Symbol>3->getAssemblyCode();
-		codes+="\tmov AX,"+$<Symbol>3->getIdValue()+"\n";
+		codes+="\tMOV AX,"+$<Symbol>3->getIdValue()+"\n";
 		codes+="\tCMP AX,0\n";
 		codes+="\tJE "+string(label2)+"\n";
 		codes+=$<Symbol>5->getAssemblyCode();
-		codes+="\tjmp "+string(label1)+"\n";
+		codes+="\tJMP "+string(label1)+"\n";
 		codes+=string(label2)+":\n";
 		$<Symbol>$->setAssemblyCode(codes);
 
@@ -757,7 +764,7 @@ statement: var_declaration {
 		}
 		else{
 		
-			codes+="\tmov AX,"+$<Symbol>3->getName()+to_string(symbolTable->findValidIdName($<Symbol>3->getName()));
+			codes+="\tMOV AX,"+$<Symbol>3->getName()+to_string(symbolTable->findValidIdName($<Symbol>3->getName()));
 			codes+="\n\tCALL OUTDEC\n";
 		}
 		$<Symbol>$->setAssemblyCode(codes); 
@@ -779,9 +786,9 @@ statement: var_declaration {
 			$<Symbol>$->setDeclarationType("int "); 
 		}
 		string codes=$<Symbol>2->getAssemblyCode();
-		codes+="\tmov AX,"+$<Symbol>2->getIdValue()+"\n";
-		codes+="\tmov "+asmGen.curFunction+"_return,AX\n";
-		codes+="\tjmp L_Return_"+asmGen.curFunction+"\n";
+		codes+="\tMOV AX,"+$<Symbol>2->getIdValue()+"\n";
+		codes+="\tMOV "+asmGen.curFunction+"_return,AX\n";
+		codes+="\tJMP L_Return_"+asmGen.curFunction+"\n";
 		$<Symbol>$->setAssemblyCode(codes);
 		$<Symbol>$->setName("return "+$<Symbol>2->getName()+";"); 
 	}
@@ -879,8 +886,8 @@ variable: ID {
 			$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType());
 			string codes="";
 			codes+=$<Symbol>3->getAssemblyCode();
-			codes+="\tmov BX,"+$<Symbol>3->getIdValue()+"\n";
-			codes+="\tadd BX,BX\n";
+			codes+="\tMOV BX,"+$<Symbol>3->getIdValue()+"\n";
+			codes+="\tADD BX,BX\n";
 			$<Symbol>$->setIdValue($<Symbol>1->getName()+to_string(symbolTable->findValidIdName($<Symbol>1->getName())));
 			$<Symbol>$->setAssemblyCode(codes);
  
@@ -928,14 +935,14 @@ expression: logic_expression {
 		}
 		string codes=$<Symbol>1->getAssemblyCode();
 		codes+=$<Symbol>3->getAssemblyCode();
-		codes+="\tmov AX,"+$<Symbol>3->getIdValue()+"\n";
+		codes+="\tMOV AX,"+$<Symbol>3->getIdValue()+"\n";
 		if($<Symbol>1->getType()=="notarray"){
 		
 		
-		codes+="\tmov "+$<Symbol>1->getIdValue()+",AX\n";}
+		codes+="\tMOV "+$<Symbol>1->getIdValue()+",AX\n";}
 		else{
 
-			codes+="\tmov "+$<Symbol>1->getIdValue()+"[BX],AX\n";
+			codes+="\tMOV "+$<Symbol>1->getIdValue()+"[BX],AX\n";
 		}
 		$<Symbol>$->setAssemblyCode(codes);
 
@@ -972,32 +979,32 @@ logic_expression: rel_expression {
 		char *temp=asmGen.newTemp();
 
 		if($<Symbol>2->getName()=="||"){
-			codes+="\tmov AX,"+$<Symbol>1->getIdValue()+"\n";
+			codes+="\tMOV AX,"+$<Symbol>1->getIdValue()+"\n";
 			codes+="\tCMP AX,0\n";
 			codes+="\tJNE "+string(label2)+"\n";
-			codes+="\tmov AX,"+$<Symbol>3->getIdValue()+"\n";
+			codes+="\tMOV AX,"+$<Symbol>3->getIdValue()+"\n";
 			codes+="\tCMP AX,0\n";
 			codes+="\tJNE "+string(label2)+"\n";
 			codes+=string(label1)+":\n";
-			codes+="\tmov "+string(temp)+",0\n";
-			codes+="\tjmp "+string(label3)+"\n";
+			codes+="\tMOV "+string(temp)+",0\n";
+			codes+="\tJMP "+string(label3)+"\n";
 			codes+=string(label2)+":\n";
-			codes+="\tmov "+string(temp)+",1\n";
+			codes+="\tMOV "+string(temp)+",1\n";
 			codes+=string(label3)+":\n";
 
 		}
 		else{
-			codes+="\tmov AX,"+$<Symbol>1->getIdValue()+"\n";
+			codes+="\tMOV AX,"+$<Symbol>1->getIdValue()+"\n";
 			codes+="\tCMP AX,0\n";
 			codes+="\tJE "+string(label2)+"\n";
-			codes+="\tmov AX,"+$<Symbol>3->getIdValue()+"\n";
+			codes+="\tMOV AX,"+$<Symbol>3->getIdValue()+"\n";
 			codes+="\tCMP AX,0\n";
 			codes+="\tJE "+string(label2)+"\n";
 			codes+=string(label1)+":\n";
-			codes+="\tmov "+string(temp)+",1\n";
-			codes+="\tjmp "+string(label3)+"\n";
+			codes+="\tMOV "+string(temp)+",1\n";
+			codes+="\tJMP "+string(label3)+"\n";
 			codes+=string(label2)+":\n";
-			codes+="\tmov "+string(temp)+",0\n";
+			codes+="\tMOV "+string(temp)+",0\n";
 			codes+=string(label3)+":\n";
 
 		}
@@ -1046,7 +1053,7 @@ rel_expression: simple_expression {
 		char *temp=asmGen.newTemp();
 		char *label1=asmGen.newLabel();
 		char *label2=asmGen.newLabel();
-		codes+="\tmov AX,"+$<Symbol>1->getIdValue()+"\n";
+		codes+="\tMOV AX,"+$<Symbol>1->getIdValue()+"\n";
 		codes+="\tCMP AX,"+$<Symbol>3->getIdValue()+"\n";
 		if($<Symbol>2->getName()=="<"){
 			codes+="\tJL "+string(label1)+"\n";
@@ -1072,10 +1079,10 @@ rel_expression: simple_expression {
 			codes+="\tJNE "+string(label1)+"\n";
 
 		}
-		codes+="\tmov "+string(temp)+",0\n";
+		codes+="\tMOV "+string(temp)+",0\n";
 		codes+="\tJMP "+string(label2)+"\n";
 		codes+=string(label1)+":\n";
-		codes+="\tmov "+string(temp)+",1\n";
+		codes+="\tMOV "+string(temp)+",1\n";
 		codes+=string(label2)+":\n";
 		asmGen.vars.push_back(temp);
 		$<Symbol>$->setAssemblyCode(codes);
@@ -1114,16 +1121,16 @@ simple_expression: term {
 
 		string codes=$<Symbol>1->getAssemblyCode()+$<Symbol>3->getAssemblyCode();
 
-		codes+="\tmov AX,"+$<Symbol>1->getIdValue()+"\n";
+		codes+="\tMOV AX,"+$<Symbol>1->getIdValue()+"\n";
 		char *temp=asmGen.newTemp();
 		if($<Symbol>2->getName()=="+"){
-			codes+="\tadd AX,"+$<Symbol>3->getIdValue()+"\n";
+			codes+="\tADD AX,"+$<Symbol>3->getIdValue()+"\n";
 		}
 		else{
 			codes+="\tSUB AX,"+$<Symbol>3->getIdValue()+"\n";
 
 		}
-		codes+="\tmov "+string(temp)+",AX\n";
+		codes+="\tMOV "+string(temp)+",AX\n";
 		$<Symbol>$->setAssemblyCode(codes);
 		$<Symbol>$->setIdValue(temp);
 		asmGen.vars.push_back(temp);
@@ -1162,11 +1169,11 @@ term: unary_expression {
 			$<Symbol>$->setDeclarationType("int ");
 			string codes=$<Symbol>1->getAssemblyCode()+$<Symbol>3->getAssemblyCode();
 			char *temp=asmGen.newTemp();
-			codes+="\tmov AX,"+$<Symbol>1->getIdValue()+"\n";
-			codes+="\tmov BX,"+$<Symbol>3->getIdValue()+"\n";
-			codes+="\tmov DX,0\n";
+			codes+="\tMOV AX,"+$<Symbol>1->getIdValue()+"\n";
+			codes+="\tMOV BX,"+$<Symbol>3->getIdValue()+"\n";
+			codes+="\tMOV DX,0\n";
 			codes+="\tDIV BX\n";
-			codes+="\tmov "+string(temp)+", DX\n";
+			codes+="\tMOV "+string(temp)+", DX\n";
 			$<Symbol>$->setAssemblyCode(codes);
 			$<Symbol>$->setIdValue(temp);
 			asmGen.vars.push_back(temp); 
@@ -1184,10 +1191,10 @@ term: unary_expression {
 			}
 			string codes=$<Symbol>1->getAssemblyCode()+$<Symbol>3->getAssemblyCode();
 			char *temp=asmGen.newTemp();
-			codes+="\tmov AX,"+$<Symbol>1->getIdValue()+"\n";
-			codes+="\tmov BX,"+$<Symbol>3->getIdValue()+"\n";
+			codes+="\tMOV AX,"+$<Symbol>1->getIdValue()+"\n";
+			codes+="\tMOV BX,"+$<Symbol>3->getIdValue()+"\n";
 			codes+="\tDIV BX\n";
-			codes+="\tmov "+string(temp)+", AX\n";
+			codes+="\tMOV "+string(temp)+", AX\n";
 			$<Symbol>$->setAssemblyCode(codes);
 			$<Symbol>$->setIdValue(temp);
 			asmGen.vars.push_back(temp);
@@ -1205,10 +1212,10 @@ term: unary_expression {
 			
 			string codes=$<Symbol>1->getAssemblyCode()+$<Symbol>3->getAssemblyCode();
 			char *temp=asmGen.newTemp();
-			codes+="\tmov AX,"+$<Symbol>1->getIdValue()+"\n";
-			codes+="\tmov BX,"+$<Symbol>3->getIdValue()+"\n";
+			codes+="\tMOV AX,"+$<Symbol>1->getIdValue()+"\n";
+			codes+="\tMOV BX,"+$<Symbol>3->getIdValue()+"\n";
 			codes+="\tMUL BX\n";
-			codes+="\tmov "+string(temp)+", AX\n";
+			codes+="\tMOV "+string(temp)+", AX\n";
 			$<Symbol>$->setAssemblyCode(codes);
 			$<Symbol>$->setIdValue(temp);
 			asmGen.vars.push_back(temp);
@@ -1234,9 +1241,9 @@ unary_expression: ADDOP unary_expression {
 		string codes=$<Symbol>2->getAssemblyCode();
 		//Since Unary Expression and we dont allow +val										
 		if($<Symbol>1->getName()=="-"){
-			codes+="\tmov AX,"+$<Symbol>2->getIdValue()+"\n";
+			codes+="\tMOV AX,"+$<Symbol>2->getIdValue()+"\n";
 			codes+="\tNEG AX\n";
-			codes+="\tmov "+$<Symbol>2->getIdValue()+",AX\n";
+			codes+="\tMOV "+$<Symbol>2->getIdValue()+",AX\n";
 		} 	
 	}
 	Util::parserLog(lines,"unary_expression : ADDOP-unary_expression");
@@ -1257,9 +1264,9 @@ unary_expression: ADDOP unary_expression {
 		{
 			$<Symbol>$->setDeclarationType($<Symbol>2->getDeclarationType());
 			string codes=$<Symbol>2->getAssemblyCode();
-			codes+="\tmov AX,"+$<Symbol>2->getIdValue()+"\n";
+			codes+="\tMOV AX,"+$<Symbol>2->getIdValue()+"\n";
 			codes+="\tNOT AX\n";
-			codes+="\tmov "+$<Symbol>2->getIdValue()+",AX\n";
+			codes+="\tMOV "+$<Symbol>2->getIdValue()+",AX\n";
 
 			$<Symbol>$->setAssemblyCode(codes);
 			$<Symbol>$->setIdValue($<Symbol>2->getIdValue());
@@ -1291,8 +1298,8 @@ factor: variable {
 		
 		if($<Symbol>1->getType()=="array"){
 			char *temp=asmGen.newTemp();
-			codes+="\tmov AX,"+$<Symbol>1->getIdValue()+"[BX]\n";
-			codes+="\tmov "+string(temp)+",AX\n";
+			codes+="\tMOV AX,"+$<Symbol>1->getIdValue()+"[BX]\n";
+			codes+="\tMOV "+string(temp)+",AX\n";
 			asmGen.vars.push_back(temp);
 			$<Symbol>$->setIdValue(temp);
 
@@ -1353,13 +1360,13 @@ factor: variable {
 						Util::appendLogError(lines,err,PARSER);yyerror(err.c_str());
 						break;
 					}
-					codes+="\tmov AX,"+argList[i]->getIdValue()+"\n";
-					codes+="\tmov "+paramList[i]+",AX\n";
+					codes+="\tMOV AX,"+argList[i]->getIdValue()+"\n";
+					codes+="\tMOV "+paramList[i]+",AX\n";
 				}
 				codes+="\tCALL "+$<Symbol>1->getName()+"\n";
-				codes+="\tmov AX,"+$<Symbol>1->getName()+"_return\n";
+				codes+="\tMOV AX,"+$<Symbol>1->getName()+"_return\n";
 				char *temp=asmGen.newTemp();
-				codes+="\tmov "+string(temp)+",AX\n";
+				codes+="\tMOV "+string(temp)+",AX\n";
 				$<Symbol>$->setAssemblyCode(codes);
 				$<Symbol>$->setIdValue(temp);
 				asmGen.vars.push_back(temp);
@@ -1390,7 +1397,7 @@ factor: variable {
 		Util::parserLog($<Symbol>1->getName());
 
 		char *temp=asmGen.newTemp();
-		string codes="\tmov "+string(temp)+","+$<Symbol>1->getName()+"\n";
+		string codes="\tMOV "+string(temp)+","+$<Symbol>1->getName()+"\n";
 		$<Symbol>$->setAssemblyCode(codes);
 		$<Symbol>$->setIdValue(string(temp));
 
@@ -1405,7 +1412,7 @@ factor: variable {
 		Util::parserLog($<Symbol>1->getName()); 
 		$<Symbol>$->setName($<Symbol>1->getName());
 		char *temp=asmGen.newTemp();
-		string codes="\tmov "+string(temp)+","+$<Symbol>1->getName()+"\n";
+		string codes="\tMOV "+string(temp)+","+$<Symbol>1->getName()+"\n";
 		$<Symbol>$->setAssemblyCode(codes);
 		$<Symbol>$->setIdValue(string(temp));
 		asmGen.vars.push_back(temp); 
@@ -1422,18 +1429,18 @@ factor: variable {
 		char *temp=asmGen.newTemp();
 		string codes="";
 		if($<Symbol>1->getType()=="array"){
-			codes+="\tmov AX,"+$<Symbol>1->getIdValue()+"[BX]\n";
+			codes+="\tMOV AX,"+$<Symbol>1->getIdValue()+"[BX]\n";
 		}
 		else
-		codes+="\tmov AX,"+$<Symbol>1->getIdValue()+"\n";
-		codes+="\tmov "+string(temp)+",AX\n";
+		codes+="\tMOV AX,"+$<Symbol>1->getIdValue()+"\n";
+		codes+="\tMOV "+string(temp)+",AX\n";
 		if($<Symbol>1->getType()=="array"){
-			codes+="\tmov AX,"+$<Symbol>1->getIdValue()+"[BX]\n";
-			codes+="\tinc AX\n";
-			codes+="\tmov "+$<Symbol>1->getIdValue()+"[BX],AX\n";
+			codes+="\tMOV AX,"+$<Symbol>1->getIdValue()+"[BX]\n";
+			codes+="\tINC AX\n";
+			codes+="\tMOV "+$<Symbol>1->getIdValue()+"[BX],AX\n";
 		}
 		else
-		codes+="\tinc "+$<Symbol>1->getIdValue()+"\n";
+		codes+="\tINC "+$<Symbol>1->getIdValue()+"\n";
 		asmGen.vars.push_back(temp);
 					
 		$<Symbol>$->setName($<Symbol>1->getName()+"++"); 
@@ -1452,14 +1459,14 @@ factor: variable {
 		char *temp=asmGen.newTemp();
 		string codes="";
 		if($<Symbol>1->getType()=="array"){
-			codes+="\tmov AX,"+$<Symbol>1->getIdValue()+"[BX]\n";
+			codes+="\tMOV AX,"+$<Symbol>1->getIdValue()+"[BX]\n";
 		}
-		else codes+="\tmov AX,"+$<Symbol>1->getIdValue()+"\n";
-		codes+="\tmov "+string(temp)+",AX\n";
+		else codes+="\tMOV AX,"+$<Symbol>1->getIdValue()+"\n";
+		codes+="\tMOV "+string(temp)+",AX\n";
 		if($<Symbol>1->getType()=="array"){
-			codes+="\tmov AX,"+$<Symbol>1->getIdValue()+"[BX]\n";
+			codes+="\tMOV AX,"+$<Symbol>1->getIdValue()+"[BX]\n";
 			codes+="\tDEC AX\n";
-			codes+="\tmov "+$<Symbol>1->getIdValue()+"[BX],AX\n";
+			codes+="\tMOV "+$<Symbol>1->getIdValue()+"[BX],AX\n";
 		}
 		else codes+="\tDEC "+$<Symbol>1->getIdValue()+"\n";
 		asmGen.vars.push_back(temp);

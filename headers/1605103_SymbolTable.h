@@ -32,9 +32,9 @@ public:
     //     this->scopeCount = val;
     // }
 
-    // int getScopeCount(){
-    //    return this->scopeCount;
-    // }
+    int getScopeCount(){
+       return this->scopeCount;
+    }
 
 
     void enterScope()
@@ -57,7 +57,7 @@ public:
         ScopeTable *prev = currentScope;
         
         currentScope = currentScope->getParentScope();
-        currentScopeId = currentScope->id;
+        //currentScopeId = currentScope->id;Commenting This is essential
         prev->setParentScope(nullptr);
         Util::printMessage("Exiting Scope", to_string(currentScopeId + 1));
         cout<<"Exiting Scope:"+to_string(prev->id)<<endl;

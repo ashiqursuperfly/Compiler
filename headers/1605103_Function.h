@@ -16,6 +16,11 @@ class Function
             paramType.clear();
             return_type = "";
         }
+        void clear(){
+                paramList.clear();
+                paramType.clear();
+        }
+       
         void setReturnType(string type)
         {
             this->return_type = type;
