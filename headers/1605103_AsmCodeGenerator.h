@@ -54,6 +54,15 @@ class AsmCodeGenerator{
             outfile <<code;
     
         }
+
+        string getMainIntro(){
+            return "    mov AX,@DATA\n\tmov DS,AX \n\n";    
+        }
+
+        string getMainOutro(){
+            return curFunction+":\n\tmov AH,4CH\n\tINT 21H\n";    
+        }
+        
         char *newLabel()
         {
             char *lb= new char[4];

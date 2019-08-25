@@ -4,7 +4,6 @@
 
 #include <string>
 #include <iostream>
-
 #include "1605103_SymbolInfo.h"
 
 using namespace std;
@@ -29,7 +28,7 @@ private:
 
 public:
     int size, id;
-
+   
     ScopeTable(int id, int size)
     {
         this->id = id;
@@ -40,7 +39,17 @@ public:
         {
             hashtable[i] = nullptr;
         }
+        //scopeCount++;
     }
+
+    
+    // static void setScopeCount(int val){
+    //     ScopeTable::scopeCount = val;
+    // }
+
+    // static int getScopeCount(){
+    //    return ScopeTable::scopeCount;
+    // }
 
     ScopeTable *getParentScope() const
     {

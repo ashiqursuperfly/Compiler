@@ -7,6 +7,7 @@
 #include <list>
 #include "1605103_ScopeTable.h"
 
+
 class SymbolTable
 {
 private:
@@ -15,6 +16,7 @@ private:
 public:
     int size;
     int currentScopeId;
+    int scopeCount;
 
     string INSTRUCTIONS[8] = {"I", "L", "D", "P", "S", "E", "A", "C"};
 
@@ -22,12 +24,23 @@ public:
     {
         this->size = size;
         currentScopeId = 0;
+        scopeCount = 0;
         currentScope = new ScopeTable(0, size);
     }
+    
+    void setScopeCount(int val){
+        this->scopeCount = val;
+    }
+
+    int getScopeCount(){
+       return this->scopeCount;
+    }
+
 
     void enterScope()
     {
         auto *newCurrentScope = new ScopeTable(++currentScopeId, size);
+        scopeCount += 1;
         newCurrentScope->setParentScope(currentScope);
         currentScope = newCurrentScope;
         Util::printMessage("Enter Scope", "Entering New Scope : ID " + to_string(currentScopeId));
@@ -76,7 +89,7 @@ public:
         return nullptr;
     }
     
-    int lookUpScope(const string &symbol_name)
+    int findValidIdName(const string &symbol_name)
     {
         ScopeTable *iterator = currentScope;
         SymbolInfo *result;
@@ -84,7 +97,7 @@ public:
         {
             result = iterator->lookUp(symbol_name);
             if (result != nullptr)
-                return iterator->id;
+                return (iterator->id + scopeCount * 10);
             iterator = iterator->getParentScope();
                 
         }
