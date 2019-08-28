@@ -9,57 +9,96 @@ main_return dw ?
 x3 dw ?
 d3 dw ?
 t1 dw ?
-c3 dw ?
-i3 dw ?
-j3 dw ?
 t2 dw ?
 t3 dw ?
-t4 dw ?
-a3 dw 2 dup(?)
 .CODE
 var PROC
-	PUSH AX
+	PUSH ax
 	PUSH BX 
 	PUSH CX 
 	PUSH DX
 	PUSH a2
 	PUSH b2
-	MOV AX,a2
-	ADD AX,b2
-	MOV t0,AX
-	MOV AX,t0
-	MOV var_return,AX
-	JMP L_Return_var
+	mov ax,a2
+	add ax,b2
+	mov t0,ax
+	mov ax,t0
+	mov var_return,ax
+	jmp L_Return_var
 L_Return_var:
 	POP b2
 	POP a2
 	POP DX
 	POP CX
 	POP BX
-	POP AX
+	POP ax
 	ret
 var ENDP
 main PROC
-    MOV AX,@DATA
-	MOV DS,AX 
+mov AX,@DATA
+	mov DS,AX 
 
-	MOV t1,3
-	MOV AX,t1
-	MOV x3,AX
-	MOV t2,1
-	MOV AX,
-	MOV a2,AX
-	MOV AX,x3
-	MOV b2,AX
+	mov t1,1
+	mov ax,t1
+	mov a2,ax
+	mov ax,x3
+	mov b2,ax
 	CALL var
-	MOV AX,var_return
-	MOV t3,AX
-	MOV AX,t3
-	MOV x3,AX
-	MOV t4,0
-	MOV AX,t4
-	MOV main_return,AX
-	JMP L_Return_main
+	mov ax,var_return
+	mov t2,ax
+	mov ax,t2
+	mov x3,ax
+	mov t3,0
+	mov ax,t3
+	mov main_return,ax
+	jmp L_Return_main
 L_Return_main:
-	MOV AH,4CH
-	INT 21H
+	mov AH,4CH
+	int 21H
+OUTDEC PROC  
+            push AX 
+            push BX 
+            push CX 
+            push DX  
+            cmp AX,0 
+            jge BEGIN 
+            push AX 
+            mov DL,'-' 
+            mov AH,2 
+            int 21H 
+            pop AX 
+            neg AX 
+            
+            BEGIN : 
+            xor CX,CX 
+            mov BX,10 
+            
+            REPEAT : 
+            xor DX,DX 
+            div BX 
+            push DX 
+            inc CX 
+            or AX,AX 
+            jne REPEAT 
+            mov AH,2 
+            
+            PRINT_LOOP : 
+            pop DX 
+            add DL,30H 
+            int 21H 
+            loop PRINT_LOOP 
+            
+            mov AH,2
+            mov DL,10
+            int 21H
+            
+            mov DL,13
+            int 21H
+        	
+            pop DX 
+            pop CX 
+            pop BX 
+            pop AX 
+            ret 
+        OUTDEC ENDP 
+        END MAIN

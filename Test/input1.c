@@ -21,8 +21,8 @@ int var(int a, int b){
 int main(){
 	
 	int x; int d;
-  x=3;
-	int a[2],c,i,j;
+  //x=3;
+	//int a[2],c,i,j;
   //x = 2 * 3;
   x=var(1,x);
   //x = var(1,x); 

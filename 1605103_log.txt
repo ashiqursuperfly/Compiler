@@ -174,85 +174,6 @@ Line:23  statements : statements-statement
 
 int  x; int  d;
 
-Line:24  variable : ID
-
-x
-
-Line:24  factor : CONST_INT
-
-3
-
-Line:24  unary_expression : factor
-
-3
-
-Line:24  term : unary_expression
-
-3
-
-Line:24  simple_expression : term
-
-3
-
-Line:24  rel_expression : simple_expression
-
-3
-
-Line:24  logic_expression : rel_expression
-
-3
-
-Line:24  expression : variable-ASSIGNOP-logic_expression
-
-x=3
-
-Line:24  expression_statement : expression-SEMICOLON
-
-x=3;
-
-Line:24  statement : expression_statement
-
-x=3;
-
-Line:24  statements : statements-statement
-
-int  x;
-int  d; x=3;
-
-Line:25  type_specifier : INT
-
-int 
-
-Line:25  declarationList : ID-LTHIRD-CONST_INT-RTHIRD
-
-a[2]
-
-Line:25  declarationList : declarationList-COMMA-ID
-
-a[2],c
-
-Line:25  declarationList : declarationList-COMMA-ID
-
-a[2],c,i
-
-Line:25  declarationList : declarationList-COMMA-ID
-
-a[2],c,i,j
-
-Line:25  var_declaration : type_specifier-declarationList-SEMICOLON
-
-int  a[2],c,i,j;
-
-Line:25  statement : var_declaration
-
-int  a[2],c,i,j;
-
-Line:25  statements : statements-statement
-
-int  x;
-int  d;
-x=3; int  a[2],c,i,j;
-
 Line:27  variable : ID
 
 x
@@ -360,9 +281,7 @@ x=var(1,x);
 Line:27  statements : statements-statement
 
 int  x;
-int  d;
-x=3;
-int  a[2],c,i,j; x=var(1,x);
+int  d; x=var(1,x);
 
 Line:30  factor : CONST_INT
 
@@ -400,8 +319,6 @@ Line:30  statements : statements-statement
 
 int  x;
 int  d;
-x=3;
-int  a[2],c,i,j;
 x=var(1,x); return 0;
 
 Line:31  compound_statement : LCURL-statements-RCURL
@@ -409,15 +326,7 @@ Line:31  compound_statement : LCURL-statements-RCURL
 
   SCOPE TABLE #3
 
-  14:<ID,int array,a> - 
-
-  16:<ID,int ,c> - 
-
   17:<ID,int ,d> - 
-
-  22:<ID,int ,i> - 
-
-  23:<ID,int ,j> - 
 
   37:<ID,int ,x> - 
 
@@ -436,8 +345,6 @@ Line:31  compound_statement : LCURL-statements-RCURL
 
 {int  x;
 int  d;
-x=3;
-int  a[2],c,i,j;
 x=var(1,x);
 return 0;}
 
@@ -446,15 +353,11 @@ Line:31  func_definition : type_specifier-ID-LPAREN-RPAREN-compound_statement
 int  main(){
 int  x;
 int  d;
-x=3;
-int  a[2],c,i,j;
 x=var(1,x);
 return 0;
 } {
 int  x;
 int  d;
-x=3;
-int  a[2],c,i,j;
 x=var(1,x);
 return 0;
 }
@@ -464,15 +367,11 @@ Line:31  unit : func_definition
 int  main(){
 int  x;
 int  d;
-x=3;
-int  a[2],c,i,j;
 x=var(1,x);
 return 0;
 }{
 int  x;
 int  d;
-x=3;
-int  a[2],c,i,j;
 x=var(1,x);
 return 0;
 }
@@ -487,15 +386,11 @@ return a+b;
  int  main(){
 int  x;
 int  d;
-x=3;
-int  a[2],c,i,j;
 x=var(1,x);
 return 0;
 }{
 int  x;
 int  d;
-x=3;
-int  a[2],c,i,j;
 x=var(1,x);
 return 0;
 }

@@ -68,35 +68,9 @@ Line:23 Token: ID Lexeme: d
 
 Line:23 Token: SEMICOLON Lexeme: ;
 
-Line:24 Token: ID Lexeme: x
+Line:24 Token: COMMENT Lexeme: //x=3;
 
-Line:24 Token: ASSIGNOP Lexeme: =
-
-Line:24 Token: CONST_INT Lexeme: 3
-
-Line:24 Token: SEMICOLON Lexeme: ;
-
-Line:25 Token: ID Lexeme: a
-
-Line:25 Token: LTHIRD Lexeme: [
-
-Line:25 Token: CONST_INT Lexeme: 2
-
-Line:25 Token: RTHIRD Lexeme: ]
-
-Line:25 Token: COMMA Lexeme: ,
-
-Line:25 Token: ID Lexeme: c
-
-Line:25 Token: COMMA Lexeme: ,
-
-Line:25 Token: ID Lexeme: i
-
-Line:25 Token: COMMA Lexeme: ,
-
-Line:25 Token: ID Lexeme: j
-
-Line:25 Token: SEMICOLON Lexeme: ;
+Line:25 Token: COMMENT Lexeme: //int a[2],c,i,j;
 
 Line:26 Token: COMMENT Lexeme: //x = 2 * 3;
 

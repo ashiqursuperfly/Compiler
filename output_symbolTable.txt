@@ -65,38 +65,6 @@ LookUp At : ScopeTable :3 Found <ID,int ,x> Position(37,0)
 
 LookUp At : ScopeTable :3 Found <ID,int ,x> Position(37,0)
 
-LookUp At : ScopeTable :3 Symbol<a> Not Found !
-
-LookUp At : ScopeTable :3 Symbol<a> Not Found !
-
-Insert At : ScopeTable :3 Symbol<ID,int array,a> Position(14,0) Successful
-
-LookUp At : ScopeTable :3 Symbol<c> Not Found !
-
-LookUp At : ScopeTable :3 Symbol<c> Not Found !
-
-Insert At : ScopeTable :3 Symbol<ID,int ,c> Position(16,0) Successful
-
-LookUp At : ScopeTable :3 Symbol<i> Not Found !
-
-LookUp At : ScopeTable :3 Symbol<i> Not Found !
-
-Insert At : ScopeTable :3 Symbol<ID,int ,i> Position(22,0) Successful
-
-LookUp At : ScopeTable :3 Symbol<j> Not Found !
-
-LookUp At : ScopeTable :3 Symbol<j> Not Found !
-
-Insert At : ScopeTable :3 Symbol<ID,int ,j> Position(23,0) Successful
-
-LookUp At : ScopeTable :3 Found <ID,int ,x> Position(37,0)
-
-LookUp At : ScopeTable :3 Found <ID,int ,x> Position(37,0)
-
-LookUp At : ScopeTable :3 Found <ID,int ,x> Position(37,0)
-
-LookUp At : ScopeTable :3 Found <ID,int ,x> Position(37,0)
-
 LookUp At : ScopeTable :3 Symbol<var> Not Found !
 
 LookUp At : ScopeTable :1 Found <ID,Function,var> Position(56,0)
@@ -107,15 +75,7 @@ LookUp At : ScopeTable :3 Found <ID,int ,x> Position(37,0)
 
 Print : SCOPE TABLE #3
 
-  14 : <ID,int array,a> - 
-
-  16 : <ID,int ,c> - 
-
   17 : <ID,int ,d> - 
-
-  22 : <ID,int ,i> - 
-
-  23 : <ID,int ,j> - 
 
   37 : <ID,int ,x> - 
 
