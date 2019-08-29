@@ -15,8 +15,10 @@
 
 class AssemblyCode{
   string assembly;
-  void append(string code){
+public:
+  string& append(const string & code){
     assembly += code;
+    return assembly;
   }
   string getFinalCode(){
     return assembly;

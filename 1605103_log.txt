@@ -1,6 +1,6 @@
 
 
-^^^^^^^^^^^Parsing Test/CodeGenerationTests/input1.c^^^^^^^^^^^
+^^^^^^^^^^^Parsing Test/CodeGenerationTests/if_else_loops.c^^^^^^^^^^^
 
 
 
@@ -75,45 +75,45 @@ x
 
 Line:6  factor : CONST_INT
 
-3
+312
 
 Line:6  unary_expression : factor
 
-3
+312
 
 Line:6  term : unary_expression
 
-3
+312
 
 Line:6  simple_expression : term
 
-3
+312
 
 Line:6  rel_expression : simple_expression
 
-3
+312
 
 Line:6  logic_expression : rel_expression
 
-3
+312
 
 Line:6  expression : variable-ASSIGNOP-logic_expression
 
-x=3
+x=312
 
 Line:6  expression_statement : expression-SEMICOLON
 
-x=3;
+x=312;
 
 Line:6  statement : expression_statement
 
-x=3;
+x=312;
 
 Line:6  statements : statements-statement
 
 int  x;
 int  d;
-int  i; x=3;
+int  i; x=312;
 
 Line:7  variable : ID
 
@@ -121,182 +121,110 @@ d
 
 Line:7  factor : CONST_INT
 
-4
+432
 
 Line:7  unary_expression : factor
 
-4
+432
 
 Line:7  term : unary_expression
 
-4
+432
 
 Line:7  simple_expression : term
 
-4
+432
 
 Line:7  rel_expression : simple_expression
 
-4
+432
 
 Line:7  logic_expression : rel_expression
 
-4
+432
 
 Line:7  expression : variable-ASSIGNOP-logic_expression
 
-d=4
+d=432
 
 Line:7  expression_statement : expression-SEMICOLON
 
-d=4;
+d=432;
 
 Line:7  statement : expression_statement
 
-d=4;
+d=432;
 
 Line:7  statements : statements-statement
 
 int  x;
 int  d;
 int  i;
-x=3; d=4;
+x=312; d=432;
 
-Line:11  variable : ID
-
-i
-
-Line:11  variable : ID
+Line:9  variable : ID
 
 x
 
-Line:11  factor : variable
+Line:9  factor : variable
 
 x
 
-Line:11  unary_expression : factor
+Line:9  unary_expression : factor
 
 x
 
-Line:11  term : unary_expression
+Line:9  term : unary_expression
 
 x
 
-Line:11  simple_expression : term
+Line:9  simple_expression : term
 
 x
 
-Line:11  rel_expression : simple_expression
+Line:9  variable : ID
 
-x
+d
 
-Line:11  logic_expression : rel_expression
+Line:9  factor : variable
 
-x
+d
 
-Line:11  expression : variable-ASSIGNOP-logic_expression
+Line:9  unary_expression : factor
 
-i=x
+d
 
-Line:11  expression_statement : expression-SEMICOLON
+Line:9  term : unary_expression
 
-i=x;
+d
 
-Line:11  variable : ID
+Line:9  simple_expression : term
 
-i
+d
 
-Line:11  factor : variable
+Line:9  rel_expression : simple_expression-RELOP-simple_expression
 
-i
+x<d
 
-Line:11  unary_expression : factor
+Line:9  logic_expression : rel_expression
 
-i
+x<d
 
-Line:11  term : unary_expression
+Line:9  expression : logic_expression
 
-i
+x<d
 
-Line:11  simple_expression : term
-
-i
-
-Line:11  factor : CONST_INT
-
-15
-
-Line:11  unary_expression : factor
-
-15
-
-Line:11  term : unary_expression
-
-15
-
-Line:11  simple_expression : term
-
-15
-
-Line:11  rel_expression : simple_expression-RELOP-simple_expression
-
-i<15
-
-Line:11  logic_expression : rel_expression
-
-i<15
-
-Line:11  expression : logic_expression
-
-i<15
-
-Line:11  expression_statement : expression-SEMICOLON
-
-i<15;
-
-Line:11  variable : ID
-
-i
-
-Line:11  factor : variable INCOP
-
-i++
-
-Line:11  unary_expression : factor
-
-i++
-
-Line:11  term : unary_expression
-
-i++
-
-Line:11  simple_expression : term
-
-i++
-
-Line:11  rel_expression : simple_expression
-
-i++
-
-Line:11  logic_expression : rel_expression
-
-i++
-
-Line:11  expression : logic_expression
-
-i++
-
-Line:12  statement : PRINTLN-LPAREN-ID-RPAREN-SEMICOLON
+Line:10  statement : PRINTLN-LPAREN-ID-RPAREN-SEMICOLON
 
 
- (i)
+ (d)
 
-Line:12  statements : statement
+Line:10  statements : statement
 
 
-(i)
+(d)
 
-Line:13  compound_statement : LCURL-statements-RCURL
+Line:11  compound_statement : LCURL-statements-RCURL
 
 
   SCOPE TABLE #3
@@ -325,16 +253,398 @@ Line:13  compound_statement : LCURL-statements-RCURL
 
 
 {
+(d)}
+
+Line:11  statement : compound_statement
+
+{
+
+(d)
+}
+
+Line:13  type_specifier : INT
+
+int 
+
+Line:13  declarationList : ID
+
+zero
+
+Line:13  var_declaration : type_specifier-declarationList-SEMICOLON
+
+int  zero;
+
+Line:13  statement : var_declaration
+
+int  zero;
+
+Line:13  statements : statement
+
+int  zero;
+
+Line:14  variable : ID
+
+zero
+
+Line:14  factor : CONST_INT
+
+0
+
+Line:14  unary_expression : factor
+
+0
+
+Line:14  term : unary_expression
+
+0
+
+Line:14  simple_expression : term
+
+0
+
+Line:14  rel_expression : simple_expression
+
+0
+
+Line:14  logic_expression : rel_expression
+
+0
+
+Line:14  expression : variable-ASSIGNOP-logic_expression
+
+zero=0
+
+Line:14  expression_statement : expression-SEMICOLON
+
+zero=0;
+
+Line:14  statement : expression_statement
+
+zero=0;
+
+Line:14  statements : statements-statement
+
+int  zero; zero=0;
+
+Line:15  statement : PRINTLN-LPAREN-ID-RPAREN-SEMICOLON
+
+
+ (zero)
+
+Line:15  statements : statements-statement
+
+int  zero;
+zero=0; 
+(zero)
+
+Line:16  compound_statement : LCURL-statements-RCURL
+
+
+  SCOPE TABLE #4
+
+  55:<ID,int ,zero> - 
+
+
+
+
+
+  SCOPE TABLE #2
+
+  17:<ID,int ,d> - 
+
+  22:<ID,int ,i> - 
+
+  37:<ID,int ,x> - 
+
+
+
+
+
+  SCOPE TABLE #1
+
+  48:<ID,Function,main> - 
+
+
+
+
+{int  zero;
+zero=0;
+
+(zero)}
+
+Line:16  statement : compound_statement
+
+{
+int  zero;
+zero=0;
+
+(zero)
+}
+
+Line:16  statement : IF-LPAREN-expression-RPAREN-statement-ELSE-statement
+
+if(x<d)
+{
+
+(d)
+}else
+{
+int  zero;
+zero=0;
+
+(zero)
+}
+
+Line:16  statements : statements-statement
+
+int  x;
+int  d;
+int  i;
+x=312;
+d=432; if(x<d)
+{
+
+(d)
+} else 
+{
+int  zero;
+zero=0;
+
+(zero)
+}
+
+Line:18  variable : ID
+
+x
+
+Line:18  factor : CONST_INT
+
+1
+
+Line:18  unary_expression : factor
+
+1
+
+Line:18  term : unary_expression
+
+1
+
+Line:18  simple_expression : term
+
+1
+
+Line:18  rel_expression : simple_expression
+
+1
+
+Line:18  logic_expression : rel_expression
+
+1
+
+Line:18  expression : variable-ASSIGNOP-logic_expression
+
+x=1
+
+Line:18  expression_statement : expression-SEMICOLON
+
+x=1;
+
+Line:18  statement : expression_statement
+
+x=1;
+
+Line:18  statements : statements-statement
+
+int  x;
+int  d;
+int  i;
+x=312;
+d=432;
+if(x<d)
+{
+
+(d)
+} else 
+{
+int  zero;
+zero=0;
+
+(zero)
+} x=1;
+
+Line:19  variable : ID
+
+i
+
+Line:19  variable : ID
+
+x
+
+Line:19  factor : variable
+
+x
+
+Line:19  unary_expression : factor
+
+x
+
+Line:19  term : unary_expression
+
+x
+
+Line:19  simple_expression : term
+
+x
+
+Line:19  rel_expression : simple_expression
+
+x
+
+Line:19  logic_expression : rel_expression
+
+x
+
+Line:19  expression : variable-ASSIGNOP-logic_expression
+
+i=x
+
+Line:19  expression_statement : expression-SEMICOLON
+
+i=x;
+
+Line:19  variable : ID
+
+i
+
+Line:19  factor : variable
+
+i
+
+Line:19  unary_expression : factor
+
+i
+
+Line:19  term : unary_expression
+
+i
+
+Line:19  simple_expression : term
+
+i
+
+Line:19  factor : CONST_INT
+
+15
+
+Line:19  unary_expression : factor
+
+15
+
+Line:19  term : unary_expression
+
+15
+
+Line:19  simple_expression : term
+
+15
+
+Line:19  rel_expression : simple_expression-RELOP-simple_expression
+
+i<15
+
+Line:19  logic_expression : rel_expression
+
+i<15
+
+Line:19  expression : logic_expression
+
+i<15
+
+Line:19  expression_statement : expression-SEMICOLON
+
+i<15;
+
+Line:19  variable : ID
+
+i
+
+Line:19  factor : variable INCOP
+
+i++
+
+Line:19  unary_expression : factor
+
+i++
+
+Line:19  term : unary_expression
+
+i++
+
+Line:19  simple_expression : term
+
+i++
+
+Line:19  rel_expression : simple_expression
+
+i++
+
+Line:19  logic_expression : rel_expression
+
+i++
+
+Line:19  expression : logic_expression
+
+i++
+
+Line:20  statement : PRINTLN-LPAREN-ID-RPAREN-SEMICOLON
+
+
+ (i)
+
+Line:20  statements : statement
+
+
+(i)
+
+Line:21  compound_statement : LCURL-statements-RCURL
+
+
+  SCOPE TABLE #5
+
+
+
+
+
+  SCOPE TABLE #2
+
+  17:<ID,int ,d> - 
+
+  22:<ID,int ,i> - 
+
+  37:<ID,int ,x> - 
+
+
+
+
+
+  SCOPE TABLE #1
+
+  48:<ID,Function,main> - 
+
+
+
+
+{
 (i)}
 
-Line:13  statement : compound_statement
+Line:21  statement : compound_statement
 
 {
 
 (i)
 }
 
-Line:13  statement : FOR-LPAREN-expression_statement-expression_statement-expression-RPAREN-statement
+Line:21  statement : FOR-LPAREN-expression_statement-expression_statement-expression-RPAREN-statement
 
 for(i=x; i<15; i++)
 {
@@ -342,122 +652,134 @@ for(i=x; i<15; i++)
 (i)
 }
 
-Line:13  statements : statements-statement
+Line:21  statements : statements-statement
 
 int  x;
 int  d;
 int  i;
-x=3;
-d=4; for(i=x;i<15;i++)
+x=312;
+d=432;
+if(x<d)
+{
+
+(d)
+} else 
+{
+int  zero;
+zero=0;
+
+(zero)
+}
+x=1; for(i=x;i<15;i++)
 i++
 
-Line:15  variable : ID
+Line:23  variable : ID
 
 i
 
-Line:15  factor : variable
+Line:23  factor : variable
 
 i
 
-Line:15  unary_expression : factor
+Line:23  unary_expression : factor
 
 i
 
-Line:15  term : unary_expression
+Line:23  term : unary_expression
 
 i
 
-Line:15  simple_expression : term
+Line:23  simple_expression : term
 
 i
 
-Line:15  factor : CONST_INT
+Line:23  factor : CONST_INT
 
 0
 
-Line:15  unary_expression : factor
+Line:23  unary_expression : factor
 
 0
 
-Line:15  term : unary_expression
+Line:23  term : unary_expression
 
 0
 
-Line:15  simple_expression : term
+Line:23  simple_expression : term
 
 0
 
-Line:15  rel_expression : simple_expression-RELOP-simple_expression
+Line:23  rel_expression : simple_expression-RELOP-simple_expression
 
 i>0
 
-Line:15  logic_expression : rel_expression
+Line:23  logic_expression : rel_expression
 
 i>0
 
-Line:15  expression : logic_expression
+Line:23  expression : logic_expression
 
 i>0
 
-Line:16  statement : PRINTLN-LPAREN-ID-RPAREN-SEMICOLON
+Line:24  statement : PRINTLN-LPAREN-ID-RPAREN-SEMICOLON
 
 
  (i)
 
-Line:16  statements : statement
+Line:24  statements : statement
 
 
 (i)
 
-Line:17  variable : ID
+Line:25  variable : ID
 
 i
 
-Line:17  factor : variable DECOP
+Line:25  factor : variable DECOP
 
 i--
 
-Line:17  unary_expression : factor
+Line:25  unary_expression : factor
 
 i--
 
-Line:17  term : unary_expression
+Line:25  term : unary_expression
 
 i--
 
-Line:17  simple_expression : term
+Line:25  simple_expression : term
 
 i--
 
-Line:17  rel_expression : simple_expression
+Line:25  rel_expression : simple_expression
 
 i--
 
-Line:17  logic_expression : rel_expression
+Line:25  logic_expression : rel_expression
 
 i--
 
-Line:17  expression : logic_expression
+Line:25  expression : logic_expression
 
 i--
 
-Line:17  expression_statement : expression-SEMICOLON
+Line:25  expression_statement : expression-SEMICOLON
 
 i--;
 
-Line:17  statement : expression_statement
+Line:25  statement : expression_statement
 
 i--;
 
-Line:17  statements : statements-statement
+Line:25  statements : statements-statement
 
 
 (i) i--;
 
-Line:18  compound_statement : LCURL-statements-RCURL
+Line:26  compound_statement : LCURL-statements-RCURL
 
 
-  SCOPE TABLE #4
+  SCOPE TABLE #6
 
 
 
@@ -486,7 +808,7 @@ Line:18  compound_statement : LCURL-statements-RCURL
 (i)
 i--;}
 
-Line:18  statement : compound_statement
+Line:26  statement : compound_statement
 
 {
 
@@ -494,7 +816,7 @@ Line:18  statement : compound_statement
 i--;
 }
 
-Line:18  statement : WHILE-LPAREN-expression-RPAREN-statement
+Line:26  statement : WHILE-LPAREN-expression-RPAREN-statement
 
 while(i>0)
 {
@@ -503,13 +825,25 @@ while(i>0)
 i--;
 }
 
-Line:18  statements : statements-statement
+Line:26  statements : statements-statement
 
 int  x;
 int  d;
 int  i;
-x=3;
-d=4;
+x=312;
+d=432;
+if(x<d)
+{
+
+(d)
+} else 
+{
+int  zero;
+zero=0;
+
+(zero)
+}
+x=1;
 for(i=x;i<15;i++)
 i++ while(i>0)
 {
@@ -518,45 +852,57 @@ i++ while(i>0)
 i--;
 }
 
-Line:22  factor : CONST_INT
+Line:30  factor : CONST_INT
 
 0
 
-Line:22  unary_expression : factor
+Line:30  unary_expression : factor
 
 0
 
-Line:22  term : unary_expression
+Line:30  term : unary_expression
 
 0
 
-Line:22  simple_expression : term
+Line:30  simple_expression : term
 
 0
 
-Line:22  rel_expression : simple_expression
+Line:30  rel_expression : simple_expression
 
 0
 
-Line:22  logic_expression : rel_expression
+Line:30  logic_expression : rel_expression
 
 0
 
-Line:22  expression : logic_expression
+Line:30  expression : logic_expression
 
 0
 
-Line:22  statement : RETURN-expression-SEMICOLON
+Line:30  statement : RETURN-expression-SEMICOLON
 
 return 0
 
-Line:22  statements : statements-statement
+Line:30  statements : statements-statement
 
 int  x;
 int  d;
 int  i;
-x=3;
-d=4;
+x=312;
+d=432;
+if(x<d)
+{
+
+(d)
+} else 
+{
+int  zero;
+zero=0;
+
+(zero)
+}
+x=1;
 for(i=x;i<15;i++)
 i++
 while(i>0)
@@ -566,7 +912,7 @@ while(i>0)
 i--;
 } return 0;
 
-Line:23  compound_statement : LCURL-statements-RCURL
+Line:31  compound_statement : LCURL-statements-RCURL
 
 
   SCOPE TABLE #2
@@ -591,8 +937,20 @@ Line:23  compound_statement : LCURL-statements-RCURL
 {int  x;
 int  d;
 int  i;
-x=3;
-d=4;
+x=312;
+d=432;
+if(x<d)
+{
+
+(d)
+} else 
+{
+int  zero;
+zero=0;
+
+(zero)
+}
+x=1;
 for(i=x;i<15;i++)
 i++
 while(i>0)
@@ -603,14 +961,26 @@ i--;
 }
 return 0;}
 
-Line:23  func_definition : type_specifier-ID-LPAREN-RPAREN-compound_statement
+Line:31  func_definition : type_specifier-ID-LPAREN-RPAREN-compound_statement
 
 int  main(){
 int  x;
 int  d;
 int  i;
-x=3;
-d=4;
+x=312;
+d=432;
+if(x<d)
+{
+
+(d)
+} else 
+{
+int  zero;
+zero=0;
+
+(zero)
+}
+x=1;
 for(i=x;i<15;i++)
 i++
 while(i>0)
@@ -624,8 +994,20 @@ return 0;
 int  x;
 int  d;
 int  i;
-x=3;
-d=4;
+x=312;
+d=432;
+if(x<d)
+{
+
+(d)
+} else 
+{
+int  zero;
+zero=0;
+
+(zero)
+}
+x=1;
 for(i=x;i<15;i++)
 i++
 while(i>0)
@@ -637,14 +1019,26 @@ i--;
 return 0;
 }
 
-Line:23  unit : func_definition
+Line:31  unit : func_definition
 
 int  main(){
 int  x;
 int  d;
 int  i;
-x=3;
-d=4;
+x=312;
+d=432;
+if(x<d)
+{
+
+(d)
+} else 
+{
+int  zero;
+zero=0;
+
+(zero)
+}
+x=1;
 for(i=x;i<15;i++)
 i++
 while(i>0)
@@ -658,8 +1052,20 @@ return 0;
 int  x;
 int  d;
 int  i;
-x=3;
-d=4;
+x=312;
+d=432;
+if(x<d)
+{
+
+(d)
+} else 
+{
+int  zero;
+zero=0;
+
+(zero)
+}
+x=1;
 for(i=x;i<15;i++)
 i++
 while(i>0)
@@ -671,14 +1077,26 @@ i--;
 return 0;
 }
 
-Line:23  program : unit
+Line:31  program : unit
 
 int  main(){
 int  x;
 int  d;
 int  i;
-x=3;
-d=4;
+x=312;
+d=432;
+if(x<d)
+{
+
+(d)
+} else 
+{
+int  zero;
+zero=0;
+
+(zero)
+}
+x=1;
 for(i=x;i<15;i++)
 i++
 while(i>0)
@@ -692,8 +1110,20 @@ return 0;
 int  x;
 int  d;
 int  i;
-x=3;
-d=4;
+x=312;
+d=432;
+if(x<d)
+{
+
+(d)
+} else 
+{
+int  zero;
+zero=0;
+
+(zero)
+}
+x=1;
 for(i=x;i<15;i++)
 i++
 while(i>0)
@@ -717,13 +1147,791 @@ Final SymbolTable :
 
 
 
-Total Lines :24
+Total Lines :32
 
 Total Errors :0
 
 
 
-^^^^^^^^^^^Finished Parsing Test/CodeGenerationTests/input1.c^^^^^^^^^^^
+^^^^^^^^^^^Finished Parsing Test/CodeGenerationTests/if_else_loops.c^^^^^^^^^^^
+
+
+
+
+
+^^^^^^^^^^^Parsing Test/CodeGenerationTests/function_call.c^^^^^^^^^^^
+
+
+
+Line:1  type_specifier : INT
+
+int 
+
+Line:1  type_specifier : INT
+
+int 
+
+Line:1  parameter_list : type_specifier-ID
+
+int  n
+
+Line:2  type_specifier : INT
+
+int 
+
+Line:2  declarationList : ID
+
+f
+
+Line:2  declarationList : declarationList-COMMA-ID
+
+f,i
+
+Line:2  var_declaration : type_specifier-declarationList-SEMICOLON
+
+int  f,i;
+
+Line:2  statement : var_declaration
+
+int  f,i;
+
+Line:2  statements : statement
+
+int  f,i;
+
+Line:3  variable : ID
+
+f
+
+Line:3  factor : CONST_INT
+
+1
+
+Line:3  unary_expression : factor
+
+1
+
+Line:3  term : unary_expression
+
+1
+
+Line:3  simple_expression : term
+
+1
+
+Line:3  rel_expression : simple_expression
+
+1
+
+Line:3  logic_expression : rel_expression
+
+1
+
+Line:3  expression : variable-ASSIGNOP-logic_expression
+
+f=1
+
+Line:3  expression_statement : expression-SEMICOLON
+
+f=1;
+
+Line:3  statement : expression_statement
+
+f=1;
+
+Line:3  statements : statements-statement
+
+int  f,i; f=1;
+
+Line:4  variable : ID
+
+i
+
+Line:4  variable : ID
+
+n
+
+Line:4  factor : variable
+
+n
+
+Line:4  unary_expression : factor
+
+n
+
+Line:4  term : unary_expression
+
+n
+
+Line:4  simple_expression : term
+
+n
+
+Line:4  rel_expression : simple_expression
+
+n
+
+Line:4  logic_expression : rel_expression
+
+n
+
+Line:4  expression : variable-ASSIGNOP-logic_expression
+
+i=n
+
+Line:4  expression_statement : expression-SEMICOLON
+
+i=n;
+
+Line:4  variable : ID
+
+i
+
+Line:4  factor : variable
+
+i
+
+Line:4  unary_expression : factor
+
+i
+
+Line:4  term : unary_expression
+
+i
+
+Line:4  simple_expression : term
+
+i
+
+Line:4  factor : CONST_INT
+
+0
+
+Line:4  unary_expression : factor
+
+0
+
+Line:4  term : unary_expression
+
+0
+
+Line:4  simple_expression : term
+
+0
+
+Line:4  rel_expression : simple_expression-RELOP-simple_expression
+
+i>0
+
+Line:4  logic_expression : rel_expression
+
+i>0
+
+Line:4  expression : logic_expression
+
+i>0
+
+Line:4  expression_statement : expression-SEMICOLON
+
+i>0;
+
+Line:4  variable : ID
+
+i
+
+Line:4  factor : variable DECOP
+
+i--
+
+Line:4  unary_expression : factor
+
+i--
+
+Line:4  term : unary_expression
+
+i--
+
+Line:4  simple_expression : term
+
+i--
+
+Line:4  rel_expression : simple_expression
+
+i--
+
+Line:4  logic_expression : rel_expression
+
+i--
+
+Line:4  expression : logic_expression
+
+i--
+
+Line:5  variable : ID
+
+f
+
+Line:5  variable : ID
+
+f
+
+Line:5  factor : variable
+
+f
+
+Line:5  unary_expression : factor
+
+f
+
+Line:5  term : unary_expression
+
+f
+
+Line:5  variable : ID
+
+i
+
+Line:5  factor : variable
+
+i
+
+Line:5  unary_expression : factor
+
+i
+
+Line:5  term : term-MULOP-unary_expression
+
+f*i
+
+Line:5  simple_expression : term
+
+f*i
+
+Line:5  rel_expression : simple_expression
+
+f*i
+
+Line:5  logic_expression : rel_expression
+
+f*i
+
+Line:5  expression : variable-ASSIGNOP-logic_expression
+
+f=f*i
+
+Line:5  expression_statement : expression-SEMICOLON
+
+f=f*i;
+
+Line:5  statement : expression_statement
+
+f=f*i;
+
+Line:5  statements : statement
+
+f=f*i;
+
+Line:6  statement : PRINTLN-LPAREN-ID-RPAREN-SEMICOLON
+
+
+ (f)
+
+Line:6  statements : statements-statement
+
+f=f*i; 
+(f)
+
+Line:7  compound_statement : LCURL-statements-RCURL
+
+
+  SCOPE TABLE #3
+
+
+
+
+
+  SCOPE TABLE #2
+
+  19:<ID,int ,f> - 
+
+  22:<ID,int ,i> - 
+
+  27:<ID,int ,n> - 
+
+
+
+
+
+  SCOPE TABLE #1
+
+  31:<ID,Function,fact> - 
+
+
+
+
+{f=f*i;
+
+(f)}
+
+Line:7  statement : compound_statement
+
+{
+f=f*i;
+
+(f)
+}
+
+Line:7  statement : FOR-LPAREN-expression_statement-expression_statement-expression-RPAREN-statement
+
+for(i=n; i>0; i--)
+{
+f=f*i;
+
+(f)
+}
+
+Line:7  statements : statements-statement
+
+int  f,i;
+f=1; for(i=n;i>0;i--)
+i--
+
+Line:8  variable : ID
+
+f
+
+Line:8  factor : variable
+
+f
+
+Line:8  unary_expression : factor
+
+f
+
+Line:8  term : unary_expression
+
+f
+
+Line:8  simple_expression : term
+
+f
+
+Line:8  rel_expression : simple_expression
+
+f
+
+Line:8  logic_expression : rel_expression
+
+f
+
+Line:8  expression : logic_expression
+
+f
+
+Line:8  statement : RETURN-expression-SEMICOLON
+
+return f
+
+Line:8  statements : statements-statement
+
+int  f,i;
+f=1;
+for(i=n;i>0;i--)
+i-- return f;
+
+Line:9  compound_statement : LCURL-statements-RCURL
+
+
+  SCOPE TABLE #2
+
+  19:<ID,int ,f> - 
+
+  22:<ID,int ,i> - 
+
+  27:<ID,int ,n> - 
+
+
+
+
+
+  SCOPE TABLE #1
+
+  31:<ID,Function,fact> - 
+
+
+
+
+{int  f,i;
+f=1;
+for(i=n;i>0;i--)
+i--
+return f;}
+
+Line:9  func_definition : type_specifier-ID-LPAREN-parameter_list-RPAREN-compound_statement 
+
+int  fact(int  n) {
+int  f,i;
+f=1;
+for(i=n;i>0;i--)
+i--
+return f;
+}
+
+Line:9  unit : func_definition
+
+int  fact(int  n){
+int  f,i;
+f=1;
+for(i=n;i>0;i--)
+i--
+return f;
+} fact(int  n){
+int  f,i;
+f=1;
+for(i=n;i>0;i--)
+i--
+return f;
+}
+
+Line:9  program : unit
+
+int  fact(int  n){
+int  f,i;
+f=1;
+for(i=n;i>0;i--)
+i--
+return f;
+} fact(int  n){
+int  f,i;
+f=1;
+for(i=n;i>0;i--)
+i--
+return f;
+}
+
+
+
+Line:12  type_specifier : INT
+
+int 
+
+Line:14  type_specifier : INT
+
+int 
+
+Line:14  declarationList : ID
+
+n
+
+Line:14  declarationList : declarationList-COMMA-ID
+
+n,f
+
+Line:14  var_declaration : type_specifier-declarationList-SEMICOLON
+
+int  n,f;
+
+Line:14  statement : var_declaration
+
+int  n,f;
+
+Line:14  statements : statement
+
+int  n,f;
+
+Line:15  variable : ID
+
+n
+
+Line:15  factor : CONST_INT
+
+5
+
+Line:15  unary_expression : factor
+
+5
+
+Line:15  term : unary_expression
+
+5
+
+Line:15  simple_expression : term
+
+5
+
+Line:15  rel_expression : simple_expression
+
+5
+
+Line:15  logic_expression : rel_expression
+
+5
+
+Line:15  expression : variable-ASSIGNOP-logic_expression
+
+n=5
+
+Line:15  expression_statement : expression-SEMICOLON
+
+n=5;
+
+Line:15  statement : expression_statement
+
+n=5;
+
+Line:15  statements : statements-statement
+
+int  n,f; n=5;
+
+Line:16  variable : ID
+
+f
+
+Line:16  variable : ID
+
+n
+
+Line:16  factor : variable
+
+n
+
+Line:16  unary_expression : factor
+
+n
+
+Line:16  term : unary_expression
+
+n
+
+Line:16  simple_expression : term
+
+n
+
+Line:16  rel_expression : simple_expression
+
+n
+
+Line:16  logic_expression : rel_expression
+
+n
+
+Line:16  arguments : logic_expression
+
+n
+
+Line:16  argument_list : arguments
+
+n
+
+Line:16  factor : ID-LPAREN-argument_list-RPAREN
+
+fact(n)
+
+Line:16  unary_expression : factor
+
+fact(n)
+
+Line:16  term : unary_expression
+
+fact(n)
+
+Line:16  simple_expression : term
+
+fact(n)
+
+Line:16  rel_expression : simple_expression
+
+fact(n)
+
+Line:16  logic_expression : rel_expression
+
+fact(n)
+
+Line:16  expression : variable-ASSIGNOP-logic_expression
+
+f=fact(n)
+
+Line:16  expression_statement : expression-SEMICOLON
+
+f=fact(n);
+
+Line:16  statement : expression_statement
+
+f=fact(n);
+
+Line:16  statements : statements-statement
+
+int  n,f;
+n=5; f=fact(n);
+
+Line:18  statement : PRINTLN-LPAREN-ID-RPAREN-SEMICOLON
+
+
+ (f)
+
+Line:18  statements : statements-statement
+
+int  n,f;
+n=5;
+f=fact(n); 
+(f)
+
+Line:21  factor : CONST_INT
+
+0
+
+Line:21  unary_expression : factor
+
+0
+
+Line:21  term : unary_expression
+
+0
+
+Line:21  simple_expression : term
+
+0
+
+Line:21  rel_expression : simple_expression
+
+0
+
+Line:21  logic_expression : rel_expression
+
+0
+
+Line:21  expression : logic_expression
+
+0
+
+Line:21  statement : RETURN-expression-SEMICOLON
+
+return 0
+
+Line:21  statements : statements-statement
+
+int  n,f;
+n=5;
+f=fact(n);
+
+(f) return 0;
+
+Line:22  compound_statement : LCURL-statements-RCURL
+
+
+  SCOPE TABLE #4
+
+  19:<ID,int ,f> - 
+
+  27:<ID,int ,n> - 
+
+
+
+
+
+  SCOPE TABLE #1
+
+  31:<ID,Function,fact> - 
+
+  48:<ID,Function,main> - 
+
+
+
+
+{int  n,f;
+n=5;
+f=fact(n);
+
+(f)
+return 0;}
+
+Line:22  func_definition : type_specifier-ID-LPAREN-RPAREN-compound_statement
+
+int  main(){
+int  n,f;
+n=5;
+f=fact(n);
+
+(f)
+return 0;
+} {
+int  n,f;
+n=5;
+f=fact(n);
+
+(f)
+return 0;
+}
+
+Line:22  unit : func_definition
+
+int  main(){
+int  n,f;
+n=5;
+f=fact(n);
+
+(f)
+return 0;
+}{
+int  n,f;
+n=5;
+f=fact(n);
+
+(f)
+return 0;
+}
+
+Line:22  program : program-unit
+
+int  fact(int  n){
+int  f,i;
+f=1;
+for(i=n;i>0;i--)
+i--
+return f;
+} fact(int  n){
+int  f,i;
+f=1;
+for(i=n;i>0;i--)
+i--
+return f;
+}
+ int  main(){
+int  n,f;
+n=5;
+f=fact(n);
+
+(f)
+return 0;
+}{
+int  n,f;
+n=5;
+f=fact(n);
+
+(f)
+return 0;
+}
+
+
+Final SymbolTable : 
+
+
+  SCOPE TABLE #1
+
+  31:<ID,Function,fact> - 
+
+  48:<ID,Function,main> - 
+
+
+
+
+Total Lines :23
+
+Total Errors :0
+
+
+
+^^^^^^^^^^^Finished Parsing Test/CodeGenerationTests/function_call.c^^^^^^^^^^^
 
 
 

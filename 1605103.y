@@ -13,7 +13,7 @@ int yylex(void);
 int lines=1,errors=0;
 FILE *fp;
 extern FILE *yyin;
-
+string currentFile;
 bool DEBUG = false;
 bool isParsingSuccessful = true;
 
@@ -62,7 +62,7 @@ start: program {
 
 		//TODO: ADD PRINTLN PROCEDURE
 		//cout<<$<Symbol>1->getAssemblyCode()<<endl;
-		asmGen.generateFinalAsmFile("code.asm",$<Symbol>1->getAssemblyCode());
+		asmGen.generateFinalAsmFile(currentFile.substr(0,currentFile.size()-2)+".asm",$<Symbol>1->getAssemblyCode());
 	}
 
 
@@ -954,60 +954,36 @@ expression: logic_expression {
 logic_expression: rel_expression {
 		Util::parserLog(lines,"logic_expression : rel_expression");
 		$<Symbol>$ = TOKEN;$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType());
-		string name1 = $<Symbol>1->getName();
-		Util::parserLog(name1);
-		$<Symbol>$->setName(name1);
 		$<Symbol>$->setAssemblyCode($<Symbol>1->getAssemblyCode());
 		$<Symbol>$->setIdValue($<Symbol>1->getIdValue());
+		string name1 = $<Symbol>1->getName();Util::parserLog(name1);$<Symbol>$->setName(name1);
 
 	}
 	| rel_expression LOGICOP rel_expression {
 		Util::parserLog(lines,"logic_expression : rel_expression-LOGICOP-rel_expression");
 		$<Symbol>$ = TOKEN;
 		if($<Symbol>1->getDeclarationType()=="void "||$<Symbol>3->getDeclarationType()=="void "){
-			string err = "Expected Relational Expression found void";
-			Util::appendLogError(lines,err,PARSER);
-			$<Symbol>$->setDeclarationType("int "); yyerror(err.c_str());
+			$<Symbol>$->setDeclarationType("int ");
+			string err = "Expected Relational Expression found void";Util::appendLogError(lines,err,PARSER);yyerror(err.c_str());
 		}
-
-		string codes=$<Symbol>1->getAssemblyCode();
-		codes+=$<Symbol>3->getAssemblyCode();
-		char *label1=asmGen.newLabel();
-		char *label2=asmGen.newLabel();
-		char *label3=asmGen.newLabel();
-		char *temp=asmGen.newTemp();
+		AssemblyCode asmCode;
+		asmCode.append($<Symbol>1->getAssemblyCode()).append($<Symbol>3->getAssemblyCode());
+		char *label1=asmGen.newLabel(),*label2=asmGen.newLabel(),*label3=asmGen.newLabel(),*temp=asmGen.newTemp();
 
 		if($<Symbol>2->getName()=="||"){
-			codes+="\tmov ax,"+$<Symbol>1->getIdValue()+"\n";
-			codes+="\tcmp ax,0\n";
-			codes+="\tjne "+string(label2)+"\n";
-			codes+="\tmov ax,"+$<Symbol>3->getIdValue()+"\n";
-			codes+="\tcmp ax,0\n";
-			codes+="\tjne "+string(label2)+"\n";
-			codes+=string(label1)+":\n";
-			codes+="\tmov "+string(temp)+",0\n";
-			codes+="\tjmp "+string(label3)+"\n";
-			codes+=string(label2)+":\n";
-			codes+="\tmov "+string(temp)+",1\n";
-			codes+=string(label3)+":\n";
-
+			asmCode.append("\tmov ax,"+$<Symbol>1->getIdValue()+"\n").append("\tcmp ax,0\n").append("\tjne "+string(label2)+"\n")
+			.append("\tmov ax,"+$<Symbol>3->getIdValue()+"\n").append("\tcmp ax,0\n").append("\tjne "+string(label2)+"\n")
+			.append(string(label1)+":\n").append("\tmov "+string(temp)+",0\n").append("\tjmp "+string(label3)+"\n")
+			.append(string(label2)+":\n").append("\tmov "+string(temp)+",1\n").append(string(label3)+":\n");
 		}
 		else{
-			codes+="\tmov ax,"+$<Symbol>1->getIdValue()+"\n";
-			codes+="\tcmp ax,0\n";
-			codes+="\tje "+string(label2)+"\n";
-			codes+="\tmov ax,"+$<Symbol>3->getIdValue()+"\n";
-			codes+="\tcmp ax,0\n";
-			codes+="\tje "+string(label2)+"\n";
-			codes+=string(label1)+":\n";
-			codes+="\tmov "+string(temp)+",1\n";
-			codes+="\tjmp "+string(label3)+"\n";
-			codes+=string(label2)+":\n";
-			codes+="\tmov "+string(temp)+",0\n";
-			codes+=string(label3)+":\n";
-
+			asmCode.append("\tmov ax,"+$<Symbol>1->getIdValue()+"\n")
+			.append("\tcmp ax,0\n").append("\tje "+string(label2)+"\n").append("\tmov ax,"+$<Symbol>3->getIdValue()+"\n")
+			.append("\tcmp ax,0\n").append("\tje "+string(label2)+"\n").append(string(label1)+":\n")
+			.append("\tmov "+string(temp)+",1\n").append("\tjmp "+string(label3)+"\n").append(string(label2)+":\n")
+			.append("\tmov "+string(temp)+",0\n").append(string(label3)+":\n");
 		}
-		$<Symbol>$->setAssemblyCode(codes);
+		$<Symbol>$->setAssemblyCode(asmCode.getFinalCode());
 		$<Symbol>$->setIdValue(temp);
 		asmGen.vars.push_back(temp);
 
@@ -1170,7 +1146,7 @@ term: unary_expression {
 			codes+="\tmov ax,"+$<Symbol>1->getIdValue()+"\n";
 			codes+="\tmov BX,"+$<Symbol>3->getIdValue()+"\n";
 			codes+="\tmov DX,0\n";
-			codes+="\tDIV BX\n";
+			codes+="\tdiv BX\n";
 			codes+="\tmov "+string(temp)+", DX\n";
 			$<Symbol>$->setAssemblyCode(codes);
 			$<Symbol>$->setIdValue(temp);
@@ -1191,7 +1167,7 @@ term: unary_expression {
 			char *temp=asmGen.newTemp();
 			codes+="\tmov ax,"+$<Symbol>1->getIdValue()+"\n";
 			codes+="\tmov BX,"+$<Symbol>3->getIdValue()+"\n";
-			codes+="\tDIV BX\n";
+			codes+="\tdiv BX\n";
 			codes+="\tmov "+string(temp)+", ax\n";
 			$<Symbol>$->setAssemblyCode(codes);
 			$<Symbol>$->setIdValue(temp);
@@ -1212,7 +1188,7 @@ term: unary_expression {
 			char *temp=asmGen.newTemp();
 			codes+="\tmov ax,"+$<Symbol>1->getIdValue()+"\n";
 			codes+="\tmov BX,"+$<Symbol>3->getIdValue()+"\n";
-			codes+="\tMUL BX\n";
+			codes+="\tmul BX\n";
 			codes+="\tmov "+string(temp)+", ax\n";
 			$<Symbol>$->setAssemblyCode(codes);
 			$<Symbol>$->setIdValue(temp);
@@ -1536,6 +1512,7 @@ void test(string fileName){
 	}
 	yyin=fp;
 	cout<<fileName<<endl;
+	currentFile = fileName;
 	symbolTable = new SymbolTable(100);
 	Util::parserLog("\n\n^^^^^^^^^^^Parsing "+fileName+"^^^^^^^^^^^\n\n");
 	Util::appendLogError("\n\n^^^^^^^^^^^Parsing "+fileName+"^^^^^^^^^^^\n\n",PARSER);

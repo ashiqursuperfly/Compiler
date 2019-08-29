@@ -9,5 +9,5 @@ g++ -w -c -o l.o lex.yy.c
 echo '4'
 g++ -o a.out y.o l.o -ly
 echo '5'
-#./a.out 'Test/input0.c' 'Test/input1.c' 'Test/input2.c' 'Test/input3.c' 'Test/input4.c' 'Test/input5.c'
-./a.out 'Test/CodeGenerationTests/input1.c'
+./a.out 'Test/CodeGenerationTests/if_else_loops.c' 'Test/CodeGenerationTests/function_call.c'
+#./a.out 'Test/CodeGenerationTests/if_else_loops.c'

@@ -3,11 +3,19 @@ int main(){
 
 	int x; int d;	int i;
 
-	x = 3;
-	d = 4;
+	x = 312;
+	d = 432;
 
+	if(x < d){
+		println(d);
+	}
+	else {
+		int zero;
+		zero = 0;
+		println(zero);
+	}
 
-
+	x = 1;
 	for(i = x; i< 15;i++){
 		println(i);
 	}
