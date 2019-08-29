@@ -49,8 +49,6 @@ L1:
 	mov t4, ax
 	mov ax,t4
 	mov f2,ax
-	mov ax,f2
-	call OUTDEC
 	mov ax,i2
 	mov t3,ax
 	dec i2
@@ -73,7 +71,7 @@ main PROC
 	mov ax,@DATA
 	mov ds,ax 
 
-	mov t5,5
+	mov t5,6
 	mov ax,t5
 	mov n4,ax
 	mov ax,n4

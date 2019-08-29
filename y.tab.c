@@ -518,7 +518,7 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint16 yyrline[] =
 {
        0,    55,    55,    72,    80,    94,   107,   116,   128,   189,
-     193,   222,   228,   228,   340,   340,   420,   429,   437,   446,
+     193,   222,   228,   228,   341,   341,   420,   429,   437,   446,
      455,   455,   479,   500,   534,   540,   546,   552,   560,   574,
      582,   589,   601,   607,   616,   622,   630,   640,   671,   697,
      722,   750,   769,   774,   793,   798,   804,   813,   816,   821,
@@ -1945,40 +1945,41 @@ yyreduce:
 			}
 			asmGen.funcLocalVars.clear();
 
-			string codes=(yyval.Symbol)->getAssemblyCode()+ asmGen.getPushAllRegs();
+			AssemblyCode asmCode;
+			asmCode.append((yyval.Symbol)->getAssemblyCode()).append(asmGen.getPushAllRegs());
+			vector<string>para_list=s->getFunction()->getAllParams(),var_list=s->getFunction()->getVars();
 
-
-			vector<string>para_list=s->getFunction()->getAllParams();
-			vector<string>var_list=s->getFunction()->getVars();
 			for(int i=0;i<para_list.size();i++){
-				codes+="\tpush "+para_list[i]+"\n";
+				//asmCode.append("\tpush "+para_list[i]+"\n";
+				asmCode.append("\tpush "+para_list[i]+"\n");
 			}
+
 			for(int i=0;i<var_list.size();i++){
-				codes+="\tpush "+var_list[i]+"\n";
+				asmCode.append("\tpush "+var_list[i]+"\n");
 			}
-			codes+=	(yyvsp[0].Symbol)->getAssemblyCode()+
-				"L_Return_"+asmGen.currentProcedure+":\n";
+			asmCode.append(	(yyvsp[0].Symbol)->getAssemblyCode()+
+				"L_Return_"+asmGen.currentProcedure+":\n");
 				for(int i=var_list.size()-1;i>=0;i--){
-				codes+="\tpop "+var_list[i]+"\n";
+				asmCode.append("\tpop "+var_list[i]+"\n");
 			}
 			for(int i=para_list.size()-1;i>=0;i--){
-				codes+="\tpop "+para_list[i]+"\n";
+				asmCode.append("\tpop "+para_list[i]+"\n");
 			}
 
 
-			codes+="\tpop DX\n\tpop CX\n\tpop BX\n\tpop ax\n\tret\n";
+			asmCode.append("\tpop DX\n\tpop CX\n\tpop BX\n\tpop ax\n\tret\n");
 
-			(yyval.Symbol)->setAssemblyCode(codes + (yyvsp[-5].Symbol)->getName() + " ENDP\n");
+			(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode() + (yyvsp[-5].Symbol)->getName() + " ENDP\n");
 
 		}
 		//TODO : Has this caused Trouble ?
 		(yyval.Symbol)->setName((yyvsp[-6].Symbol)->getName()+" "+(yyvsp[-5].Symbol)->getName()+"("+(yyvsp[-3].Symbol)->getName()+")"+(yyvsp[0].Symbol)->getName());
 	}
-#line 1978 "y.tab.c" /* yacc.c:1646  */
+#line 1979 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 340 "1605103.y" /* yacc.c:1646  */
+#line 341 "1605103.y" /* yacc.c:1646  */
     {
 		SymbolInfo *s = symbolTable->lookUp((yyvsp[-2].Symbol)->getName());
 		(yyval.Symbol) = TOKEN;
@@ -2009,11 +2010,11 @@ yyreduce:
 		string name1 = (yyvsp[-3].Symbol)->getName(),name2 = (yyvsp[-2].Symbol)->getName();
 		(yyvsp[-3].Symbol)->setName((yyvsp[-3].Symbol)->getName()+" "+(yyvsp[-2].Symbol)->getName()+"()");
 	}
-#line 2013 "y.tab.c" /* yacc.c:1646  */
+#line 2014 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 369 "1605103.y" /* yacc.c:1646  */
+#line 370 "1605103.y" /* yacc.c:1646  */
     {
 
 		Util::parserLog(lines,"func_definition : type_specifier-ID-LPAREN-RPAREN-compound_statement");
@@ -2035,31 +2036,30 @@ yyreduce:
 		}
 		asmGen.funcLocalVars.clear();
 
-		//TODO : asmGen.getPushAll()
-		string codes=(yyval.Symbol)->getAssemblyCode()+"\tpush ax\n\tpush BX \n\tpush CX \n\tpush DX\n";
+		AssemblyCode asmCode;asmCode.append((yyval.Symbol)->getAssemblyCode()+"\tpush ax\n\tpush BX \n\tpush CX \n\tpush DX\n");
 
 		vector<string>para_list=s->getFunction()->getAllParams();
 		vector<string>var_list=s->getFunction()->getVars();
 		for(int i=0;i<para_list.size();i++){
-			codes+="\tpush "+para_list[i]+"\n";
+			asmCode.append("\tpush "+para_list[i]+"\n");
 		}
 		for(int i=0;i<var_list.size();i++){
-			codes+="\tpush "+var_list[i]+"\n";
+			asmCode.append("\tpush "+var_list[i]+"\n");
 		}
 
-		codes+=	(yyvsp[0].Symbol)->getAssemblyCode()+"L_Return_"+asmGen.currentProcedure+":\n";
+		asmCode.append(	(yyvsp[0].Symbol)->getAssemblyCode()+"L_Return_"+asmGen.currentProcedure+":\n");
 
 		for(int i=var_list.size()-1;i>=0;i--){
-			codes+="\tpop "+var_list[i]+"\n";
+			asmCode.append("\tpop "+var_list[i]+"\n");
 		}
 		for(int i=para_list.size()-1;i>=0;i--){
-			codes+="\tpop "+para_list[i]+"\n";
+			asmCode.append("\tpop "+para_list[i]+"\n");
 		}
 
 
-		codes+="\tpop DX\n\tpop CX\n\tpop BX\n\tpop ax\n\tret\n";
+		asmCode.append("\tpop DX\n\tpop CX\n\tpop BX\n\tpop ax\n\tret\n");
 
-		(yyval.Symbol)->setAssemblyCode(codes+(yyvsp[-4].Symbol)->getName()+" ENDP\n");
+		(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode()+(yyvsp[-4].Symbol)->getName()+" ENDP\n");
 		}
 		(yyval.Symbol)->setName((yyvsp[-5].Symbol)->getName()+(yyvsp[0].Symbol)->getName());
 	}
@@ -2395,17 +2395,17 @@ yyreduce:
 		else{
 			char *label1=asmGen.newLabel();
 			char *label2=asmGen.newLabel();
-			string codes=(yyvsp[-4].Symbol)->getAssemblyCode();
-			codes+=string(label1)+":\n";
-			codes+=(yyvsp[-3].Symbol)->getAssemblyCode();
-			codes+="\tmov ax,"+(yyvsp[-3].Symbol)->getIdValue()+"\n";
-			codes+="\tcmp ax,0\n";
-			codes+="\tje "+string(label2)+"\n";
-			codes+=(yyvsp[0].Symbol)->getAssemblyCode();
-			codes+=(yyvsp[-2].Symbol)->getAssemblyCode();
-			codes+="\tjmp "+string(label1)+"\n";
-			codes+=string(label2)+":\n";
-			(yyval.Symbol)->setAssemblyCode(codes);
+			AssemblyCode asmCode;asmCode.append((yyvsp[-4].Symbol)->getAssemblyCode());
+			asmCode.append(string(label1)+":\n");
+			asmCode.append((yyvsp[-3].Symbol)->getAssemblyCode());
+			asmCode.append("\tmov ax,"+(yyvsp[-3].Symbol)->getIdValue()+"\n");
+			asmCode.append("\tcmp ax,0\n");
+			asmCode.append("\tje "+string(label2)+"\n");
+			asmCode.append((yyvsp[0].Symbol)->getAssemblyCode());
+			asmCode.append((yyvsp[-2].Symbol)->getAssemblyCode());
+			asmCode.append("\tjmp "+string(label1)+"\n");
+			asmCode.append(string(label2)+":\n");
+			(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode());
 		}
 		string name3 = (yyvsp[-4].Symbol)->getName();
 		string name4 = (yyvsp[-3].Symbol)->getName();
@@ -2429,14 +2429,14 @@ yyreduce:
 		}
 		else{
 		//@CODE-GEN
-			string codes=(yyvsp[-2].Symbol)->getAssemblyCode();
+			AssemblyCode asmCode;asmCode.append((yyvsp[-2].Symbol)->getAssemblyCode());
 			char *label1=asmGen.newLabel();
-			codes+="\tmov ax,"+(yyvsp[-2].Symbol)->getIdValue()+"\n";
-			codes+="\tcmp ax,0\n";
-			codes+="\tje "+string(label1)+"\n";
-			codes+=(yyvsp[0].Symbol)->getAssemblyCode();
-			codes+=string(label1)+":\n";
-			(yyval.Symbol)->setAssemblyCode(codes);
+			asmCode.append("\tmov ax,"+(yyvsp[-2].Symbol)->getIdValue()+"\n");
+			asmCode.append("\tcmp ax,0\n");
+			asmCode.append("\tje "+string(label1)+"\n");
+			asmCode.append((yyvsp[0].Symbol)->getAssemblyCode());
+			asmCode.append(string(label1)+":\n");
+			(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode());
 
 		}
 		string name3 = (yyvsp[-2].Symbol)->getName();
@@ -2457,18 +2457,18 @@ yyreduce:
 		}
 		else{
 		//@CODE-GEN
-			string codes=(yyvsp[-4].Symbol)->getAssemblyCode();
+			AssemblyCode asmCode;asmCode.append((yyvsp[-4].Symbol)->getAssemblyCode());
 			char *label1=asmGen.newLabel();
 			char *label2=asmGen.newLabel();
-			codes+="\tmov ax,"+(yyvsp[-4].Symbol)->getIdValue()+"\n";
-			codes+="\tcmp ax,0\n";
-			codes+="\tje "+string(label1)+"\n";
-			codes+=(yyvsp[-2].Symbol)->getAssemblyCode();
-			codes+="\tjmp "+string(label2)+"\n";
-			codes+=string(label1)+":\n";
-			codes+=(yyvsp[0].Symbol)->getAssemblyCode();
-			codes+=string(label2)+":\n";
-			(yyval.Symbol)->setAssemblyCode(codes);
+			asmCode.append("\tmov ax,"+(yyvsp[-4].Symbol)->getIdValue()+"\n");
+			asmCode.append("\tcmp ax,0\n");
+			asmCode.append("\tje "+string(label1)+"\n");
+			asmCode.append((yyvsp[-2].Symbol)->getAssemblyCode());
+			asmCode.append("\tjmp "+string(label2)+"\n");
+			asmCode.append(string(label1)+":\n");
+			asmCode.append((yyvsp[0].Symbol)->getAssemblyCode());
+			asmCode.append(string(label2)+":\n");
+			(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode());
 		}
 		string name3 = (yyvsp[-4].Symbol)->getName(), name5 = (yyvsp[-2].Symbol)->getName(), name7 = (yyvsp[0].Symbol)->getName();
 		(yyval.Symbol)->setName("if("+name3+")\n"+name5+" else \n"+name7);
@@ -2491,18 +2491,18 @@ yyreduce:
 
 		else{
 			//@CODE-GEN
-			string codes="";
+			AssemblyCode asmCode;asmCode.append("");
 			char *label1=asmGen.newLabel();
 			char *label2=asmGen.newLabel();
-			codes+=string(label1)+":\n";
-			codes+=(yyvsp[-2].Symbol)->getAssemblyCode();
-			codes+="\tmov ax,"+(yyvsp[-2].Symbol)->getIdValue()+"\n";
-			codes+="\tcmp ax,0\n";
-			codes+="\tje "+string(label2)+"\n";
-			codes+=(yyvsp[0].Symbol)->getAssemblyCode();
-			codes+="\tjmp "+string(label1)+"\n";
-			codes+=string(label2)+":\n";
-			(yyval.Symbol)->setAssemblyCode(codes);
+			asmCode.append(string(label1)+":\n");
+			asmCode.append((yyvsp[-2].Symbol)->getAssemblyCode());
+			asmCode.append("\tmov ax,"+(yyvsp[-2].Symbol)->getIdValue()+"\n");
+			asmCode.append("\tcmp ax,0\n");
+			asmCode.append("\tje "+string(label2)+"\n");
+			asmCode.append((yyvsp[0].Symbol)->getAssemblyCode());
+			asmCode.append("\tjmp "+string(label1)+"\n");
+			asmCode.append(string(label2)+":\n");
+			(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode());
 		}
 		(yyval.Symbol)->setName("while("+(yyvsp[-2].Symbol)->getName()+")\n"+(yyvsp[0].Symbol)->getName());
 	}
@@ -2517,17 +2517,17 @@ yyreduce:
 		Util::parserLog("\n ("+(yyvsp[-2].Symbol)->getName()+")");
 
 		//@CODE-GEN
-		string codes="";
+		AssemblyCode asmCode;asmCode.append("");
 		if(symbolTable->findValidIdName((yyvsp[-2].Symbol)->getName())==-1){
 			yyerror("Printing Undeclared Variable");
 			Util::appendLogError(lines,"Printing Undeclared Variable",PARSER);
 		}
 		else{
 
-			codes+="\tmov ax,"+(yyvsp[-2].Symbol)->getName()+to_string(symbolTable->findValidIdName((yyvsp[-2].Symbol)->getName()));
-			codes+="\n\tcall OUTDEC\n";
+			asmCode.append("\tmov ax,"+(yyvsp[-2].Symbol)->getName()+to_string(symbolTable->findValidIdName((yyvsp[-2].Symbol)->getName())));
+			asmCode.append("\n\tcall OUTDEC\n");
 		}
-		(yyval.Symbol)->setAssemblyCode(codes);
+		(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode());
 		(yyval.Symbol)->setName("\n("+(yyvsp[-2].Symbol)->getName()+")");
 	}
 #line 2534 "y.tab.c" /* yacc.c:1646  */
@@ -2556,11 +2556,11 @@ yyreduce:
 			(yyval.Symbol)->setDeclarationType("int ");
 		}
 		else{
-			string codes=(yyvsp[-1].Symbol)->getAssemblyCode();
-			codes+="\tmov ax,"+(yyvsp[-1].Symbol)->getIdValue()+"\n";
-			codes+="\tmov "+asmGen.currentProcedure+"_return,ax\n";
-			codes+="\tjmp L_Return_"+asmGen.currentProcedure+"\n";
-			(yyval.Symbol)->setAssemblyCode(codes);
+			AssemblyCode asmCode;asmCode.append((yyvsp[-1].Symbol)->getAssemblyCode());
+			asmCode.append("\tmov ax,"+(yyvsp[-1].Symbol)->getIdValue()+"\n");
+			asmCode.append("\tmov "+asmGen.currentProcedure+"_return,ax\n");
+			asmCode.append("\tjmp L_Return_"+asmGen.currentProcedure+"\n");
+			(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode());
 		}
 		(yyval.Symbol)->setName("return "+(yyvsp[-1].Symbol)->getName()+";");
 	}
@@ -2686,12 +2686,12 @@ yyreduce:
 
 			if(decType == "int array"){	(yyvsp[-3].Symbol)->setDeclarationType("int ");}
 			(yyval.Symbol)->setDeclarationType((yyvsp[-3].Symbol)->getDeclarationType());
-			string codes="";
-			codes+=(yyvsp[-1].Symbol)->getAssemblyCode();
-			codes+="\tmov BX,"+(yyvsp[-1].Symbol)->getIdValue()+"\n";
-			codes+="\tadd BX,BX\n";
+			AssemblyCode asmCode;asmCode.append("");
+			asmCode.append((yyvsp[-1].Symbol)->getAssemblyCode());
+			asmCode.append("\tmov BX,"+(yyvsp[-1].Symbol)->getIdValue()+"\n");
+			asmCode.append("\tadd BX,BX\n");
 			(yyval.Symbol)->setIdValue((yyvsp[-3].Symbol)->getName()+to_string(symbolTable->findValidIdName((yyvsp[-3].Symbol)->getName())));
-			(yyval.Symbol)->setAssemblyCode(codes);
+			(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode());
 
 		}
 		string name3 = (yyvsp[-1].Symbol)->getName(),name1 = (yyvsp[-3].Symbol)->getName();
@@ -2744,18 +2744,18 @@ yyreduce:
 				Util::appendLogError(lines,err,PARSER);yyerror(err.c_str());
 			}
 		}
-		string codes=(yyvsp[-2].Symbol)->getAssemblyCode();
-		codes+=(yyvsp[0].Symbol)->getAssemblyCode();
-		codes+="\tmov ax,"+(yyvsp[0].Symbol)->getIdValue()+"\n";
+		AssemblyCode asmCode;asmCode.append((yyvsp[-2].Symbol)->getAssemblyCode());
+		asmCode.append((yyvsp[0].Symbol)->getAssemblyCode());
+		asmCode.append("\tmov ax,"+(yyvsp[0].Symbol)->getIdValue()+"\n");
 		if((yyvsp[-2].Symbol)->getType()=="notarray"){
 
 
-		codes+="\tmov "+(yyvsp[-2].Symbol)->getIdValue()+",ax\n";}
+		asmCode.append("\tmov "+(yyvsp[-2].Symbol)->getIdValue()+",ax\n");}
 		else{
 
-			codes+="\tmov "+(yyvsp[-2].Symbol)->getIdValue()+"[BX],ax\n";
+			asmCode.append("\tmov "+(yyvsp[-2].Symbol)->getIdValue()+"[BX],ax\n");
 		}
-		(yyval.Symbol)->setAssemblyCode(codes);
+		(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode());
 
 		(yyval.Symbol)->setIdValue((yyvsp[-2].Symbol)->getIdValue());
 
@@ -2854,44 +2854,44 @@ yyreduce:
 
 		(yyval.Symbol)->setName(name1+name2+name3);
 
-		string codes=(yyvsp[-2].Symbol)->getAssemblyCode();
-		codes+=(yyvsp[0].Symbol)->getAssemblyCode();
+		AssemblyCode asmCode;asmCode.append((yyvsp[-2].Symbol)->getAssemblyCode());
+		asmCode.append((yyvsp[0].Symbol)->getAssemblyCode());
 		char *temp=asmGen.newTemp();
 		char *label1=asmGen.newLabel();
 		char *label2=asmGen.newLabel();
-		codes+="\tmov ax,"+(yyvsp[-2].Symbol)->getIdValue()+"\n";
-		codes+="\tcmp ax,"+(yyvsp[0].Symbol)->getIdValue()+"\n";
+		asmCode.append("\tmov ax,"+(yyvsp[-2].Symbol)->getIdValue()+"\n");
+		asmCode.append("\tcmp ax,"+(yyvsp[0].Symbol)->getIdValue()+"\n");
 		if((yyvsp[-1].Symbol)->getName()=="<"){
-			codes+="\tjl "+string(label1)+"\n";
+			asmCode.append("\tjl "+string(label1)+"\n");
 
 		}
 		else if((yyvsp[-1].Symbol)->getName()==">"){
-			codes+="\tjg "+string(label1)+"\n";
+			asmCode.append("\tjg "+string(label1)+"\n");
 
 		}
 		else if((yyvsp[-1].Symbol)->getName()=="<="){
-			codes+="\tjle "+string(label1)+"\n";
+			asmCode.append("\tjle "+string(label1)+"\n");
 
 		}
 		else if((yyvsp[-1].Symbol)->getName()==">="){
-			codes+="\tjge "+string(label1)+"\n";
+			asmCode.append("\tjge "+string(label1)+"\n");
 
 		}
 		else if((yyvsp[-1].Symbol)->getName()=="=="){
-			codes+="\tje "+string(label1)+"\n";
+			asmCode.append("\tje "+string(label1)+"\n");
 
 		}
 		else if((yyvsp[-1].Symbol)->getName()=="!="){
-			codes+="\tjne "+string(label1)+"\n";
+			asmCode.append("\tjne "+string(label1)+"\n");
 
 		}
-		codes+="\tmov "+string(temp)+",0\n";
-		codes+="\tjmp "+string(label2)+"\n";
-		codes+=string(label1)+":\n";
-		codes+="\tmov "+string(temp)+",1\n";
-		codes+=string(label2)+":\n";
+		asmCode.append("\tmov "+string(temp)+",0\n");
+		asmCode.append("\tjmp "+string(label2)+"\n");
+		asmCode.append(string(label1)+":\n");
+		asmCode.append("\tmov "+string(temp)+",1\n");
+		asmCode.append(string(label2)+":\n");
 		asmGen.vars.push_back(temp);
-		(yyval.Symbol)->setAssemblyCode(codes);
+		(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode());
 		(yyval.Symbol)->setIdValue(temp);
 
 	}
@@ -2933,19 +2933,19 @@ yyreduce:
 		}
 		else {(yyval.Symbol)->setDeclarationType("int ");}
 
-		string codes=(yyvsp[-2].Symbol)->getAssemblyCode()+(yyvsp[0].Symbol)->getAssemblyCode();
+		AssemblyCode asmCode;asmCode.append((yyvsp[-2].Symbol)->getAssemblyCode()+(yyvsp[0].Symbol)->getAssemblyCode());
 
-		codes+="\tmov ax,"+(yyvsp[-2].Symbol)->getIdValue()+"\n";
+		asmCode.append("\tmov ax,"+(yyvsp[-2].Symbol)->getIdValue()+"\n");
 		char *temp=asmGen.newTemp();
 		if((yyvsp[-1].Symbol)->getName()=="+"){
-			codes+="\tadd ax,"+(yyvsp[0].Symbol)->getIdValue()+"\n";
+			asmCode.append("\tadd ax,"+(yyvsp[0].Symbol)->getIdValue()+"\n");
 		}
 		else{
-			codes+="\tsub ax,"+(yyvsp[0].Symbol)->getIdValue()+"\n";
+			asmCode.append("\tsub ax,"+(yyvsp[0].Symbol)->getIdValue()+"\n");
 
 		}
-		codes+="\tmov "+string(temp)+",ax\n";
-		(yyval.Symbol)->setAssemblyCode(codes);
+		asmCode.append("\tmov "+string(temp)+",ax\n");
+		(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode());
 		(yyval.Symbol)->setIdValue(temp);
 		asmGen.vars.push_back(temp);
 		(yyval.Symbol)->setName((yyvsp[-2].Symbol)->getName()+(yyvsp[-1].Symbol)->getName()+(yyvsp[0].Symbol)->getName());
@@ -2990,14 +2990,14 @@ yyreduce:
 				Util::appendLogError(lines,err,PARSER);yyerror(err.c_str());
 			}
 			(yyval.Symbol)->setDeclarationType("int ");
-			string codes=(yyvsp[-2].Symbol)->getAssemblyCode()+(yyvsp[0].Symbol)->getAssemblyCode();
+			AssemblyCode asmCode;asmCode.append((yyvsp[-2].Symbol)->getAssemblyCode()+(yyvsp[0].Symbol)->getAssemblyCode());
 			char *temp=asmGen.newTemp();
-			codes+="\tmov ax,"+(yyvsp[-2].Symbol)->getIdValue()+"\n";
-			codes+="\tmov BX,"+(yyvsp[0].Symbol)->getIdValue()+"\n";
-			codes+="\tmov DX,0\n";
-			codes+="\tdiv BX\n";
-			codes+="\tmov "+string(temp)+", DX\n";
-			(yyval.Symbol)->setAssemblyCode(codes);
+			asmCode.append("\tmov ax,"+(yyvsp[-2].Symbol)->getIdValue()+"\n");
+			asmCode.append("\tmov BX,"+(yyvsp[0].Symbol)->getIdValue()+"\n");
+			asmCode.append("\tmov DX,0\n");
+			asmCode.append("\tdiv BX\n");
+			asmCode.append("\tmov "+string(temp)+", DX\n");
+			(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode());
 			(yyval.Symbol)->setIdValue(temp);
 			asmGen.vars.push_back(temp);
 		}
@@ -3012,13 +3012,13 @@ yyreduce:
 			else {
 				(yyval.Symbol)->setDeclarationType("float ");
 			}
-			string codes=(yyvsp[-2].Symbol)->getAssemblyCode()+(yyvsp[0].Symbol)->getAssemblyCode();
+			AssemblyCode asmCode;asmCode.append((yyvsp[-2].Symbol)->getAssemblyCode()+(yyvsp[0].Symbol)->getAssemblyCode());
 			char *temp=asmGen.newTemp();
-			codes+="\tmov ax,"+(yyvsp[-2].Symbol)->getIdValue()+"\n";
-			codes+="\tmov BX,"+(yyvsp[0].Symbol)->getIdValue()+"\n";
-			codes+="\tdiv BX\n";
-			codes+="\tmov "+string(temp)+", ax\n";
-			(yyval.Symbol)->setAssemblyCode(codes);
+			asmCode.append("\tmov ax,"+(yyvsp[-2].Symbol)->getIdValue()+"\n");
+			asmCode.append("\tmov BX,"+(yyvsp[0].Symbol)->getIdValue()+"\n");
+			asmCode.append("\tdiv BX\n");
+			asmCode.append("\tmov "+string(temp)+", ax\n");
+			(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode());
 			(yyval.Symbol)->setIdValue(temp);
 			asmGen.vars.push_back(temp);
 
@@ -3033,13 +3033,13 @@ yyreduce:
 			}
 			else (yyval.Symbol)->setDeclarationType("int ");
 
-			string codes=(yyvsp[-2].Symbol)->getAssemblyCode()+(yyvsp[0].Symbol)->getAssemblyCode();
+			AssemblyCode asmCode;asmCode.append((yyvsp[-2].Symbol)->getAssemblyCode()+(yyvsp[0].Symbol)->getAssemblyCode());
 			char *temp=asmGen.newTemp();
-			codes+="\tmov ax,"+(yyvsp[-2].Symbol)->getIdValue()+"\n";
-			codes+="\tmov BX,"+(yyvsp[0].Symbol)->getIdValue()+"\n";
-			codes+="\tmul BX\n";
-			codes+="\tmov "+string(temp)+", ax\n";
-			(yyval.Symbol)->setAssemblyCode(codes);
+			asmCode.append("\tmov ax,"+(yyvsp[-2].Symbol)->getIdValue()+"\n");
+			asmCode.append("\tmov BX,"+(yyvsp[0].Symbol)->getIdValue()+"\n");
+			asmCode.append("\tmul BX\n");
+			asmCode.append("\tmov "+string(temp)+", ax\n");
+			(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode());
 			(yyval.Symbol)->setIdValue(temp);
 			asmGen.vars.push_back(temp);
 
@@ -3065,12 +3065,12 @@ yyreduce:
 		(yyval.Symbol)->setDeclarationType("int ");
 	}else {
 		(yyval.Symbol)->setDeclarationType((yyvsp[0].Symbol)->getDeclarationType());
-		string codes=(yyvsp[0].Symbol)->getAssemblyCode();
+		AssemblyCode asmCode;asmCode.append((yyvsp[0].Symbol)->getAssemblyCode());
 		//Since Unary Expression and we dont allow +val
 		if((yyvsp[-1].Symbol)->getName()=="-"){
-			codes+="\tmov ax,"+(yyvsp[0].Symbol)->getIdValue()+"\n";
-			codes+="\tNEG ax\n";
-			codes+="\tmov "+(yyvsp[0].Symbol)->getIdValue()+",ax\n";
+			asmCode.append("\tmov ax,"+(yyvsp[0].Symbol)->getIdValue()+"\n");
+			asmCode.append("\tNEG ax\n");
+			asmCode.append("\tmov "+(yyvsp[0].Symbol)->getIdValue()+",ax\n");
 		}
 	}
 	Util::parserLog(lines,"unary_expression : ADDOP-unary_expression");
@@ -3095,12 +3095,12 @@ yyreduce:
 		}else
 		{
 			(yyval.Symbol)->setDeclarationType((yyvsp[0].Symbol)->getDeclarationType());
-			string codes=(yyvsp[0].Symbol)->getAssemblyCode();
-			codes+="\tmov ax,"+(yyvsp[0].Symbol)->getIdValue()+"\n";
-			codes+="\tNOT ax\n";
-			codes+="\tmov "+(yyvsp[0].Symbol)->getIdValue()+",ax\n";
+			AssemblyCode asmCode;asmCode.append((yyvsp[0].Symbol)->getAssemblyCode());
+			asmCode.append("\tmov ax,"+(yyvsp[0].Symbol)->getIdValue()+"\n");
+			asmCode.append("\tNOT ax\n");
+			asmCode.append("\tmov "+(yyvsp[0].Symbol)->getIdValue()+",ax\n");
 
-			(yyval.Symbol)->setAssemblyCode(codes);
+			(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode());
 			(yyval.Symbol)->setIdValue((yyvsp[0].Symbol)->getIdValue());
 
 		}
@@ -3134,12 +3134,12 @@ yyreduce:
 		Util::parserLog((yyvsp[0].Symbol)->getName());
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName());
 		(yyval.Symbol)->setDeclarationType((yyvsp[0].Symbol)->getDeclarationType());
-		string codes=(yyvsp[0].Symbol)->getAssemblyCode();
+		AssemblyCode asmCode;asmCode.append((yyvsp[0].Symbol)->getAssemblyCode());
 
 		if((yyvsp[0].Symbol)->getType()=="array"){
 			char *temp=asmGen.newTemp();
-			codes+="\tmov ax,"+(yyvsp[0].Symbol)->getIdValue()+"[BX]\n";
-			codes+="\tmov "+string(temp)+",ax\n";
+			asmCode.append("\tmov ax,"+(yyvsp[0].Symbol)->getIdValue()+"[BX]\n");
+			asmCode.append("\tmov "+string(temp)+",ax\n");
 			asmGen.vars.push_back(temp);
 			(yyval.Symbol)->setIdValue(temp);
 
@@ -3148,7 +3148,7 @@ yyreduce:
 			(yyval.Symbol)->setIdValue((yyvsp[0].Symbol)->getIdValue());
 		}
 
-		(yyval.Symbol)->setAssemblyCode(codes);
+		(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode());
 
 	}
 #line 3155 "y.tab.c" /* yacc.c:1646  */
@@ -3196,7 +3196,7 @@ yyreduce:
 				vector<string>paramType = s->getFunction()->getAllParamTypes();
 				vector<string>paramList = s->getFunction()->getAllParams();
 
-				string codes=(yyvsp[-1].Symbol)->getAssemblyCode();
+				AssemblyCode asmCode;asmCode.append((yyvsp[-1].Symbol)->getAssemblyCode());
 				int len = argList.size();
 				for(int i=0;i<len;i++){
 					if(argList[i]->getDeclarationType()!=paramType[i]){
@@ -3205,14 +3205,14 @@ yyreduce:
 						Util::appendLogError(lines,err,PARSER);yyerror(err.c_str());
 						break;
 					}
-					codes+="\tmov ax,"+argList[i]->getIdValue()+"\n";
-					codes+="\tmov "+paramList[i]+",ax\n";
+					asmCode.append("\tmov ax,"+argList[i]->getIdValue()+"\n");
+					asmCode.append("\tmov "+paramList[i]+",ax\n");
 				}
-				codes+="\tcall "+(yyvsp[-3].Symbol)->getName()+"\n";
-				codes+="\tmov ax,"+(yyvsp[-3].Symbol)->getName()+"_return\n";
+				asmCode.append("\tcall "+(yyvsp[-3].Symbol)->getName()+"\n");
+				asmCode.append("\tmov ax,"+(yyvsp[-3].Symbol)->getName()+"_return\n");
 				char *temp=asmGen.newTemp();
-				codes+="\tmov "+string(temp)+",ax\n";
-				(yyval.Symbol)->setAssemblyCode(codes);
+				asmCode.append("\tmov "+string(temp)+",ax\n");
+				(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode());
 				(yyval.Symbol)->setIdValue(temp);
 				asmGen.vars.push_back(temp);
 
@@ -3252,8 +3252,8 @@ yyreduce:
 		Util::parserLog((yyvsp[0].Symbol)->getName());
 
 		char *temp=asmGen.newTemp();
-		string codes="\tmov "+string(temp)+","+(yyvsp[0].Symbol)->getName()+"\n";
-		(yyval.Symbol)->setAssemblyCode(codes);
+		AssemblyCode asmCode;asmCode.append("\tmov "+string(temp)+","+(yyvsp[0].Symbol)->getName()+"\n");
+		(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode());
 		(yyval.Symbol)->setIdValue(string(temp));
 
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName());
@@ -3272,8 +3272,8 @@ yyreduce:
 		Util::parserLog((yyvsp[0].Symbol)->getName());
 		(yyval.Symbol)->setName((yyvsp[0].Symbol)->getName());
 		char *temp=asmGen.newTemp();
-		string codes="\tmov "+string(temp)+","+(yyvsp[0].Symbol)->getName()+"\n";
-		(yyval.Symbol)->setAssemblyCode(codes);
+		AssemblyCode asmCode;asmCode.append("\tmov "+string(temp)+","+(yyvsp[0].Symbol)->getName()+"\n");
+		(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode());
 		(yyval.Symbol)->setIdValue(string(temp));
 		asmGen.vars.push_back(temp);
 
@@ -3292,24 +3292,24 @@ yyreduce:
 		Util::parserLog((yyvsp[-1].Symbol)->getName()+"++");
 
 		char *temp=asmGen.newTemp();
-		string codes="";
+		AssemblyCode asmCode;asmCode.append("");
 		if((yyvsp[-1].Symbol)->getType()=="array"){
-			codes+="\tmov ax,"+(yyvsp[-1].Symbol)->getIdValue()+"[BX]\n";
+			asmCode.append("\tmov ax,"+(yyvsp[-1].Symbol)->getIdValue()+"[BX]\n");
 		}
 		else
-		codes+="\tmov ax,"+(yyvsp[-1].Symbol)->getIdValue()+"\n";
-		codes+="\tmov "+string(temp)+",ax\n";
+		asmCode.append("\tmov ax,"+(yyvsp[-1].Symbol)->getIdValue()+"\n");
+		asmCode.append("\tmov "+string(temp)+",ax\n");
 		if((yyvsp[-1].Symbol)->getType()=="array"){
-			codes+="\tmov ax,"+(yyvsp[-1].Symbol)->getIdValue()+"[BX]\n";
-			codes+="\tinc ax\n";
-			codes+="\tmov "+(yyvsp[-1].Symbol)->getIdValue()+"[BX],ax\n";
+			asmCode.append("\tmov ax,"+(yyvsp[-1].Symbol)->getIdValue()+"[BX]\n");
+			asmCode.append("\tinc ax\n");
+			asmCode.append("\tmov "+(yyvsp[-1].Symbol)->getIdValue()+"[BX],ax\n");
 		}
 		else
-		codes+="\tinc "+(yyvsp[-1].Symbol)->getIdValue()+"\n";
+		asmCode.append("\tinc "+(yyvsp[-1].Symbol)->getIdValue()+"\n");
 		asmGen.vars.push_back(temp);
 
 		(yyval.Symbol)->setName((yyvsp[-1].Symbol)->getName()+"++");
-		(yyval.Symbol)->setAssemblyCode(codes);
+		(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode());
 		(yyval.Symbol)->setIdValue(temp);
 
 
@@ -3327,22 +3327,22 @@ yyreduce:
 
 
 		char *temp=asmGen.newTemp();
-		string codes="";
+		AssemblyCode asmCode;asmCode.append("");
 		if((yyvsp[-1].Symbol)->getType()=="array"){
-			codes+="\tmov ax,"+(yyvsp[-1].Symbol)->getIdValue()+"[BX]\n";
+			asmCode.append("\tmov ax,"+(yyvsp[-1].Symbol)->getIdValue()+"[BX]\n");
 		}
-		else codes+="\tmov ax,"+(yyvsp[-1].Symbol)->getIdValue()+"\n";
-		codes+="\tmov "+string(temp)+",ax\n";
+		else asmCode.append("\tmov ax,"+(yyvsp[-1].Symbol)->getIdValue()+"\n");
+		asmCode.append("\tmov "+string(temp)+",ax\n");
 		if((yyvsp[-1].Symbol)->getType()=="array"){
-			codes+="\tmov ax,"+(yyvsp[-1].Symbol)->getIdValue()+"[BX]\n";
-			codes+="\tdec ax\n";
-			codes+="\tmov "+(yyvsp[-1].Symbol)->getIdValue()+"[BX],ax\n";
+			asmCode.append("\tmov ax,"+(yyvsp[-1].Symbol)->getIdValue()+"[BX]\n");
+			asmCode.append("\tdec ax\n");
+			asmCode.append("\tmov "+(yyvsp[-1].Symbol)->getIdValue()+"[BX],ax\n");
 		}
-		else codes+="\tdec "+(yyvsp[-1].Symbol)->getIdValue()+"\n";
+		else asmCode.append("\tdec "+(yyvsp[-1].Symbol)->getIdValue()+"\n");
 		asmGen.vars.push_back(temp);
 
 		(yyval.Symbol)->setName((yyvsp[-1].Symbol)->getName()+"--");
-		(yyval.Symbol)->setAssemblyCode(codes);
+		(yyval.Symbol)->setAssemblyCode(asmCode.getFinalCode());
 		(yyval.Symbol)->setIdValue(temp);
 
 	}

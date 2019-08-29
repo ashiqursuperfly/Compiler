@@ -300,14 +300,6 @@ LookUp At : ScopeTable :3 Symbol<f> Not Found !
 
 LookUp At : ScopeTable :2 Found <ID,int ,f> Position(19,0)
 
-LookUp At : ScopeTable :3 Symbol<f> Not Found !
-
-LookUp At : ScopeTable :2 Found <ID,int ,f> Position(19,0)
-
-LookUp At : ScopeTable :3 Symbol<f> Not Found !
-
-LookUp At : ScopeTable :2 Found <ID,int ,f> Position(19,0)
-
 Print : SCOPE TABLE #3
 
 Print : SCOPE TABLE #2

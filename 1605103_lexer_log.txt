@@ -222,71 +222,63 @@ Line:5 Token: ID Lexeme: i
 
 Line:5 Token: SEMICOLON Lexeme: ;
 
-Line:6 Token: LPAREN Lexeme: (
+Line:6 Token: RCURL Lexeme: }
 
-Line:6 Token: ID Lexeme: f
+Line:7 Token: ID Lexeme: f
 
-Line:6 Token: RPAREN Lexeme: )
+Line:7 Token: SEMICOLON Lexeme: ;
 
-Line:6 Token: SEMICOLON Lexeme: ;
+Line:8 Token: RCURL Lexeme: }
 
-Line:7 Token: RCURL Lexeme: }
+Line:11 Token: ID Lexeme: main
 
-Line:8 Token: ID Lexeme: f
+Line:11 Token: LPAREN Lexeme: (
 
-Line:8 Token: SEMICOLON Lexeme: ;
+Line:11 Token: RPAREN Lexeme: )
 
-Line:9 Token: RCURL Lexeme: }
+Line:11 Token: LCURL Lexeme: {
 
-Line:12 Token: ID Lexeme: main
+Line:13 Token: ID Lexeme: n
 
-Line:12 Token: LPAREN Lexeme: (
+Line:13 Token: COMMA Lexeme: ,
 
-Line:12 Token: RPAREN Lexeme: )
+Line:13 Token: ID Lexeme: f
 
-Line:12 Token: LCURL Lexeme: {
+Line:13 Token: SEMICOLON Lexeme: ;
 
 Line:14 Token: ID Lexeme: n
 
-Line:14 Token: COMMA Lexeme: ,
+Line:14 Token: ASSIGNOP Lexeme: =
 
-Line:14 Token: ID Lexeme: f
+Line:14 Token: CONST_INT Lexeme: 6
 
 Line:14 Token: SEMICOLON Lexeme: ;
 
-Line:15 Token: ID Lexeme: n
+Line:15 Token: ID Lexeme: f
 
 Line:15 Token: ASSIGNOP Lexeme: =
 
-Line:15 Token: CONST_INT Lexeme: 5
+Line:15 Token: ID Lexeme: fact
+
+Line:15 Token: LPAREN Lexeme: (
+
+Line:15 Token: ID Lexeme: n
+
+Line:15 Token: RPAREN Lexeme: )
 
 Line:15 Token: SEMICOLON Lexeme: ;
 
-Line:16 Token: ID Lexeme: f
+Line:17 Token: LPAREN Lexeme: (
 
-Line:16 Token: ASSIGNOP Lexeme: =
+Line:17 Token: ID Lexeme: f
 
-Line:16 Token: ID Lexeme: fact
+Line:17 Token: RPAREN Lexeme: )
 
-Line:16 Token: LPAREN Lexeme: (
+Line:17 Token: SEMICOLON Lexeme: ;
 
-Line:16 Token: ID Lexeme: n
+Line:20 Token: CONST_INT Lexeme: 0
 
-Line:16 Token: RPAREN Lexeme: )
+Line:20 Token: SEMICOLON Lexeme: ;
 
-Line:16 Token: SEMICOLON Lexeme: ;
-
-Line:18 Token: LPAREN Lexeme: (
-
-Line:18 Token: ID Lexeme: f
-
-Line:18 Token: RPAREN Lexeme: )
-
-Line:18 Token: SEMICOLON Lexeme: ;
-
-Line:21 Token: CONST_INT Lexeme: 0
-
-Line:21 Token: SEMICOLON Lexeme: ;
-
-Line:22 Token: RCURL Lexeme: }
+Line:21 Token: RCURL Lexeme: }
 
