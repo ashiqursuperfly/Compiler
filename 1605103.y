@@ -99,7 +99,7 @@ unit: var_declaration {
 		Util::parserLog(lines,"unit : var_declaration");
 		Util::parserLog($<Symbol>1->getName());
 
-		asmGen.func_var_dec.clear();
+		asmGen.funcLocalVars.clear();
 		$<Symbol>$->setAssemblyCode($<Symbol>1->getAssemblyCode());
 
 	}
@@ -284,8 +284,8 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 			Function * func = s->getFunction();
 			func->setReturnType($<Symbol>1->getName());
 		}
-		asmGen.curFunction=$<Symbol>2->getName();
-		asmGen.vars.push_back(asmGen.curFunction+"_return");
+		asmGen.currentProcedure=$<Symbol>2->getName();
+		asmGen.vars.push_back(asmGen.currentProcedure+"_return");
 	}
 	compound_statement {
 		Util::parserLog(lines,"func_definition : type_specifier-ID-LPAREN-parameter_list-RPAREN-compound_statement ");
@@ -303,36 +303,35 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 		else {
 			SymbolInfo *s=symbolTable->lookUp($<Symbol>2->getName());
 
-			for(int i=0;i<asmGen.func_var_dec.size();i++){
-				s->getFunction()->addVar(asmGen.func_var_dec[i]);
+			for(int i=0;i<asmGen.funcLocalVars.size();i++){
+				s->getFunction()->addVar(asmGen.funcLocalVars[i]);
 			}
-			asmGen.func_var_dec.clear();
+			asmGen.funcLocalVars.clear();
 
-			string codes=$<Symbol>$->getAssemblyCode()+
-			"\tPUSH ax\n\tPUSH BX \n\tPUSH CX \n\tPUSH DX\n";
+			string codes=$<Symbol>$->getAssemblyCode()+ asmGen.getPushAllRegs();
 
 
 			vector<string>para_list=s->getFunction()->getAllParams();
 			vector<string>var_list=s->getFunction()->getVars();
 			for(int i=0;i<para_list.size();i++){
-				codes+="\tPUSH "+para_list[i]+"\n";
+				codes+="\tpush "+para_list[i]+"\n";
 			}
 			for(int i=0;i<var_list.size();i++){
-				codes+="\tPUSH "+var_list[i]+"\n";
+				codes+="\tpush "+var_list[i]+"\n";
 			}
 			codes+=	$<Symbol>7->getAssemblyCode()+
-				"L_Return_"+asmGen.curFunction+":\n";
+				"L_Return_"+asmGen.currentProcedure+":\n";
 				for(int i=var_list.size()-1;i>=0;i--){
-				codes+="\tPOP "+var_list[i]+"\n";
+				codes+="\tpop "+var_list[i]+"\n";
 			}
 			for(int i=para_list.size()-1;i>=0;i--){
-				codes+="\tPOP "+para_list[i]+"\n";
+				codes+="\tpop "+para_list[i]+"\n";
 			}
 
 
-			codes+="\tPOP DX\n\tPOP CX\n\tPOP BX\n\tPOP ax\n\tret\n";
+			codes+="\tpop DX\n\tpop CX\n\tpop BX\n\tpop ax\n\tret\n";
 
-			$<Symbol>$->setAssemblyCode(codes+$<Symbol>2->getName()+" ENDP\n");
+			$<Symbol>$->setAssemblyCode(codes + $<Symbol>2->getName() + " ENDP\n");
 
 		}
 		//TODO : Has this caused Trouble ?
@@ -363,8 +362,8 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 			string err = "Multiple Definition Of Function "+$<Symbol>2->getName();
 			Util::appendLogError(lines,err,PARSER);yyerror(err.c_str());
 		}
-		asmGen.curFunction=$<Symbol>2->getName();
-		asmGen.vars.push_back(asmGen.curFunction+"_return");
+		asmGen.currentProcedure=$<Symbol>2->getName();
+		asmGen.vars.push_back(asmGen.currentProcedure+"_return");
 		string name1 = $<Symbol>1->getName(),name2 = $<Symbol>2->getName();
 		$<Symbol>1->setName($<Symbol>1->getName()+" "+$<Symbol>2->getName()+"()");
 	} compound_statement {
@@ -383,34 +382,34 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 		else {
 			SymbolInfo *s=symbolTable->lookUp($<Symbol>2->getName());
 
-		for(int i=0;i<asmGen.func_var_dec.size();i++){
-			s->getFunction()->addVar(asmGen.func_var_dec[i]);
+		for(int i=0;i<asmGen.funcLocalVars.size();i++){
+			s->getFunction()->addVar(asmGen.funcLocalVars[i]);
 		}
-		asmGen.func_var_dec.clear();
+		asmGen.funcLocalVars.clear();
 
 		//TODO : asmGen.getPushAll()
-		string codes=$<Symbol>$->getAssemblyCode()+"\tPUSH ax\n\tPUSH BX \n\tPUSH CX \n\tPUSH DX\n";
+		string codes=$<Symbol>$->getAssemblyCode()+"\tpush ax\n\tpush BX \n\tpush CX \n\tpush DX\n";
 
 		vector<string>para_list=s->getFunction()->getAllParams();
 		vector<string>var_list=s->getFunction()->getVars();
 		for(int i=0;i<para_list.size();i++){
-			codes+="\tPUSH "+para_list[i]+"\n";
+			codes+="\tpush "+para_list[i]+"\n";
 		}
 		for(int i=0;i<var_list.size();i++){
-			codes+="\tPUSH "+var_list[i]+"\n";
+			codes+="\tpush "+var_list[i]+"\n";
 		}
 
-		codes+=	$<Symbol>6->getAssemblyCode()+"L_Return_"+asmGen.curFunction+":\n";
+		codes+=	$<Symbol>6->getAssemblyCode()+"L_Return_"+asmGen.currentProcedure+":\n";
 
 		for(int i=var_list.size()-1;i>=0;i--){
-			codes+="\tPOP "+var_list[i]+"\n";
+			codes+="\tpop "+var_list[i]+"\n";
 		}
 		for(int i=para_list.size()-1;i>=0;i--){
-			codes+="\tPOP "+para_list[i]+"\n";
+			codes+="\tpop "+para_list[i]+"\n";
 		}
 
 
-		codes+="\tPOP DX\n\tPOP CX\n\tPOP BX\n\tPOP ax\n\tret\n";
+		codes+="\tpop DX\n\tpop CX\n\tpop BX\n\tpop ax\n\tret\n";
 
 		$<Symbol>$->setAssemblyCode(codes+$<Symbol>2->getName()+" ENDP\n");
 		}
@@ -515,11 +514,11 @@ var_declaration: type_specifier declarationList SEMICOLON {
 					continue;
 				}
 				if(declarationList[i]->getType().size()!=3){
-					asmGen.func_var_dec.push_back(declarationList[i]->getName()+to_string(symbolTable->currentScopeId));
+					asmGen.funcLocalVars.push_back(declarationList[i]->getName()+to_string(symbolTable->currentScopeId));
 					asmGen.vars.push_back(declarationList[i]->getName()+to_string(symbolTable->currentScopeId));
 					symbolTable->insert(SymbolInfo(declarationList[i]->getName(),declarationList[i]->getType(),$<Symbol>1->getName()));
 				} else{
-					asmGen.arr_dec.push_back(make_pair(declarationList[i]->getName()+to_string(symbolTable->currentScopeId),
+					asmGen.arrays.push_back(make_pair(declarationList[i]->getName()+to_string(symbolTable->currentScopeId),
 					declarationList[i]->getType().substr(2,declarationList[i]->getType().size () - 1)));
 
 					string type = declarationList[i]->getType().substr(0,declarationList[i]->getType().size () - 1);
@@ -762,7 +761,7 @@ statement: var_declaration {
 		else{
 
 			codes+="\tmov ax,"+$<Symbol>3->getName()+to_string(symbolTable->findValidIdName($<Symbol>3->getName()));
-			codes+="\n\tCALL OUTDEC\n";
+			codes+="\n\tcall OUTDEC\n";
 		}
 		$<Symbol>$->setAssemblyCode(codes);
 		$<Symbol>$->setName("\n("+$<Symbol>3->getName()+")");
@@ -785,8 +784,8 @@ statement: var_declaration {
 		else{
 			string codes=$<Symbol>2->getAssemblyCode();
 			codes+="\tmov ax,"+$<Symbol>2->getIdValue()+"\n";
-			codes+="\tmov "+asmGen.curFunction+"_return,ax\n";
-			codes+="\tjmp L_Return_"+asmGen.curFunction+"\n";
+			codes+="\tmov "+asmGen.currentProcedure+"_return,ax\n";
+			codes+="\tjmp L_Return_"+asmGen.currentProcedure+"\n";
 			$<Symbol>$->setAssemblyCode(codes);
 		}
 		$<Symbol>$->setName("return "+$<Symbol>2->getName()+";");
@@ -970,6 +969,7 @@ logic_expression: rel_expression {
 			Util::appendLogError(lines,err,PARSER);
 			$<Symbol>$->setDeclarationType("int "); yyerror(err.c_str());
 		}
+
 		string codes=$<Symbol>1->getAssemblyCode();
 		codes+=$<Symbol>3->getAssemblyCode();
 		char *label1=asmGen.newLabel();
@@ -1360,7 +1360,7 @@ factor: variable {
 					codes+="\tmov ax,"+argList[i]->getIdValue()+"\n";
 					codes+="\tmov "+paramList[i]+",ax\n";
 				}
-				codes+="\tCALL "+$<Symbol>1->getName()+"\n";
+				codes+="\tcall "+$<Symbol>1->getName()+"\n";
 				codes+="\tmov ax,"+$<Symbol>1->getName()+"_return\n";
 				char *temp=asmGen.newTemp();
 				codes+="\tmov "+string(temp)+",ax\n";

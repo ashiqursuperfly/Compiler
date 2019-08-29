@@ -36,7 +36,8 @@ ILL_FORMED_NUMBER ({FLOAT2}|{FLOAT1}|"")(".")(({FLOAT2}|{FLOAT1})("."))*({FLOAT2
 
 RELOP "<"|">"|">="|"<="|"!="|"=="
 BITOP "<<"|">>"|"^"|"&"|"|"
-INCOP "++"|"--"
+INCOP "++"
+DECOP "--"
 MULOP "%"|"*"|"/"
 LOGICOP "&&"|"||"
 ADDOP "+"|"-"
@@ -122,21 +123,21 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 
 	SymbolInfo *s= new  SymbolInfo(yytext, "CONST_INT");
 	yylval.Symbol = s;
-	
+
 	return CONST_INT;
 }
 {FLOAT1}|{FLOAT2} {
 	Util::lexerLog(lines,"CONST_FLOAT",yytext);
 	Util::appendToken("CONST_FLOAT",yytext);
-	
+
 	SymbolInfo *s= new  SymbolInfo(yytext, "CONST_FLOAT");
 	yylval.Symbol = s;
-	
+
 	return CONST_FLOAT;
 }
 {TOO_MANY_DECIMAL_POINTS} {
 	Util::appendLogError(lines,"Too Many Decimal Points! "+string(yytext),LEXER);
-	
+
 	errors++;
 
 }
@@ -149,7 +150,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	return INT;
 }
 "char" {
-	return CHAR;	
+	return CHAR;
 }
 "float"	{
 	return FLOAT;
@@ -170,7 +171,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 	return DO;
 }
 "while"	{
-	return WHILE;	
+	return WHILE;
 }
 
 "for" {
@@ -253,23 +254,33 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 {ADDOP} {
 	Util::appendToken("ADDOP",yytext);
 	Util::lexerLog(lines,"ADDOP",yytext);
-	
+
 	SymbolInfo *s= new SymbolInfo(yytext,"ADDOP");
 	yylval.Symbol =s;
 
 	return ADDOP;
-	
+
 
 }
 {INCOP}	{
 	Util::appendToken("INCOP",yytext);
 	Util::lexerLog(lines,"INCOP",yytext);
-	
+
 	SymbolInfo *s= new SymbolInfo(yytext,"INCOP");
 	yylval.Symbol =s;
 
 	return INCOP;
 }
+{DECOP}	{
+	Util::appendToken("DECOP",yytext);
+	Util::lexerLog(lines,"DECOP",yytext);
+
+	SymbolInfo *s= new SymbolInfo(yytext,"DECOP");
+	yylval.Symbol =s;
+
+	return DECOP;
+}
+
 {MULOP}	{
 	Util::appendToken("MULOP",yytext);
 	Util::lexerLog(lines,"MULOP",yytext);
@@ -282,7 +293,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 {RELOP}	{
 	Util::appendToken("RELOP",yytext);
 	Util::lexerLog(lines,"RELOP",yytext);
-	
+
 	SymbolInfo *s= new SymbolInfo(yytext,"RELOP");
 	yylval.Symbol =s;
 
@@ -300,7 +311,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 {BITOP} {
 	Util::appendToken("BITOP",yytext);
 	Util::lexerLog(lines,"BITOP",yytext);
-	
+
 	SymbolInfo *s= new SymbolInfo(yytext,"BITOP");
 	yylval.Symbol =s;
 
@@ -313,7 +324,7 @@ UNFINISHED_COMMENT "/*"([^*]|("*"[^/]))*[^"*/"]
 
 	SymbolInfo *s= new SymbolInfo(yytext,"ID");
 	yylval.Symbol =s;
-	
+
 	return ID;
 
 }

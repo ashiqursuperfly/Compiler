@@ -1,41 +1,3 @@
-LookUp At : ScopeTable :1 Symbol<var> Not Found !
-
-LookUp At : ScopeTable :1 Symbol<var> Not Found !
-
-Insert At : ScopeTable :1 Symbol<ID,Function,var> Position(56,0) Successful
-
-LookUp At : ScopeTable :1 Found <ID,Function,var> Position(56,0)
-
-Enter Scope : Entering New Scope : ID 2
-LookUp At : ScopeTable :2 Symbol<a> Not Found !
-
-Insert At : ScopeTable :2 Symbol<ID,int ,a> Position(14,0) Successful
-
-LookUp At : ScopeTable :2 Symbol<b> Not Found !
-
-Insert At : ScopeTable :2 Symbol<ID,int ,b> Position(15,0) Successful
-
-LookUp At : ScopeTable :2 Found <ID,int ,a> Position(14,0)
-
-LookUp At : ScopeTable :2 Found <ID,int ,a> Position(14,0)
-
-LookUp At : ScopeTable :2 Found <ID,int ,b> Position(15,0)
-
-LookUp At : ScopeTable :2 Found <ID,int ,b> Position(15,0)
-
-Print : SCOPE TABLE #2
-
-  14 : <ID,int ,a> - 
-
-  15 : <ID,int ,b> - 
-
-Print : SCOPE TABLE #1
-
-  56 : <ID,Function,var> - 
-
-Exiting Scope : 3
-LookUp At : ScopeTable :1 Found <ID,Function,var> Position(56,0)
-
 LookUp At : ScopeTable :1 Symbol<main> Not Found !
 
 LookUp At : ScopeTable :1 Symbol<main> Not Found !
@@ -44,38 +6,77 @@ Insert At : ScopeTable :1 Symbol<ID,Function,main> Position(48,0) Successful
 
 LookUp At : ScopeTable :1 Found <ID,Function,main> Position(48,0)
 
+Enter Scope : Entering New Scope : ID 2
+LookUp At : ScopeTable :2 Symbol<x> Not Found !
+
+LookUp At : ScopeTable :2 Symbol<x> Not Found !
+
+Insert At : ScopeTable :2 Symbol<ID,int ,x> Position(37,0) Successful
+
+LookUp At : ScopeTable :2 Symbol<d> Not Found !
+
+LookUp At : ScopeTable :2 Symbol<d> Not Found !
+
+Insert At : ScopeTable :2 Symbol<ID,int ,d> Position(17,0) Successful
+
+LookUp At : ScopeTable :2 Symbol<i> Not Found !
+
+LookUp At : ScopeTable :2 Symbol<i> Not Found !
+
+Insert At : ScopeTable :2 Symbol<ID,int ,i> Position(22,0) Successful
+
+LookUp At : ScopeTable :2 Found <ID,int ,x> Position(37,0)
+
+LookUp At : ScopeTable :2 Found <ID,int ,x> Position(37,0)
+
+LookUp At : ScopeTable :2 Found <ID,int ,x> Position(37,0)
+
+LookUp At : ScopeTable :2 Found <ID,int ,x> Position(37,0)
+
+LookUp At : ScopeTable :2 Found <ID,int ,d> Position(17,0)
+
+LookUp At : ScopeTable :2 Found <ID,int ,d> Position(17,0)
+
+LookUp At : ScopeTable :2 Found <ID,int ,d> Position(17,0)
+
+LookUp At : ScopeTable :2 Found <ID,int ,d> Position(17,0)
+
+LookUp At : ScopeTable :2 Found <ID,int ,i> Position(22,0)
+
+LookUp At : ScopeTable :2 Found <ID,int ,i> Position(22,0)
+
+LookUp At : ScopeTable :2 Found <ID,int ,x> Position(37,0)
+
+LookUp At : ScopeTable :2 Found <ID,int ,x> Position(37,0)
+
+LookUp At : ScopeTable :2 Found <ID,int ,i> Position(22,0)
+
+LookUp At : ScopeTable :2 Found <ID,int ,i> Position(22,0)
+
+LookUp At : ScopeTable :2 Found <ID,int ,i> Position(22,0)
+
+LookUp At : ScopeTable :2 Found <ID,int ,i> Position(22,0)
+
+LookUp At : ScopeTable :2 Found <ID,int ,i> Position(22,0)
+
+LookUp At : ScopeTable :2 Found <ID,int ,i> Position(22,0)
+
 Enter Scope : Entering New Scope : ID 3
-LookUp At : ScopeTable :3 Symbol<x> Not Found !
+LookUp At : ScopeTable :3 Symbol<i> Not Found !
 
-LookUp At : ScopeTable :3 Symbol<x> Not Found !
+LookUp At : ScopeTable :2 Found <ID,int ,i> Position(22,0)
 
-Insert At : ScopeTable :3 Symbol<ID,int ,x> Position(37,0) Successful
+LookUp At : ScopeTable :3 Symbol<i> Not Found !
 
-LookUp At : ScopeTable :3 Symbol<d> Not Found !
-
-LookUp At : ScopeTable :3 Symbol<d> Not Found !
-
-Insert At : ScopeTable :3 Symbol<ID,int ,d> Position(17,0) Successful
-
-LookUp At : ScopeTable :3 Found <ID,int ,x> Position(37,0)
-
-LookUp At : ScopeTable :3 Found <ID,int ,x> Position(37,0)
-
-LookUp At : ScopeTable :3 Found <ID,int ,x> Position(37,0)
-
-LookUp At : ScopeTable :3 Found <ID,int ,x> Position(37,0)
-
-LookUp At : ScopeTable :3 Symbol<var> Not Found !
-
-LookUp At : ScopeTable :1 Found <ID,Function,var> Position(56,0)
-
-LookUp At : ScopeTable :3 Found <ID,int ,x> Position(37,0)
-
-LookUp At : ScopeTable :3 Found <ID,int ,x> Position(37,0)
+LookUp At : ScopeTable :2 Found <ID,int ,i> Position(22,0)
 
 Print : SCOPE TABLE #3
 
+Print : SCOPE TABLE #2
+
   17 : <ID,int ,d> - 
+
+  22 : <ID,int ,i> - 
 
   37 : <ID,int ,x> - 
 
@@ -83,12 +84,57 @@ Print : SCOPE TABLE #1
 
   48 : <ID,Function,main> - 
 
-  56 : <ID,Function,var> - 
-
 Exiting Scope : 4
+LookUp At : ScopeTable :2 Found <ID,int ,i> Position(22,0)
+
+LookUp At : ScopeTable :2 Found <ID,int ,i> Position(22,0)
+
+Enter Scope : Entering New Scope : ID 4
+LookUp At : ScopeTable :4 Symbol<i> Not Found !
+
+LookUp At : ScopeTable :2 Found <ID,int ,i> Position(22,0)
+
+LookUp At : ScopeTable :4 Symbol<i> Not Found !
+
+LookUp At : ScopeTable :2 Found <ID,int ,i> Position(22,0)
+
+LookUp At : ScopeTable :4 Symbol<i> Not Found !
+
+LookUp At : ScopeTable :2 Found <ID,int ,i> Position(22,0)
+
+LookUp At : ScopeTable :4 Symbol<i> Not Found !
+
+LookUp At : ScopeTable :2 Found <ID,int ,i> Position(22,0)
+
+Print : SCOPE TABLE #4
+
+Print : SCOPE TABLE #2
+
+  17 : <ID,int ,d> - 
+
+  22 : <ID,int ,i> - 
+
+  37 : <ID,int ,x> - 
+
 Print : SCOPE TABLE #1
 
   48 : <ID,Function,main> - 
 
-  56 : <ID,Function,var> - 
+Exiting Scope : 5
+Print : SCOPE TABLE #2
+
+  17 : <ID,int ,d> - 
+
+  22 : <ID,int ,i> - 
+
+  37 : <ID,int ,x> - 
+
+Print : SCOPE TABLE #1
+
+  48 : <ID,Function,main> - 
+
+Exiting Scope : 5
+Print : SCOPE TABLE #1
+
+  48 : <ID,Function,main> - 
 

@@ -13,6 +13,15 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+class AssemblyCode{
+  string assembly;
+  void append(string code){
+    assembly += code;
+  }
+  string getFinalCode(){
+    return assembly;
+  }
+};
 
 
 class AsmCodeGenerator{
@@ -23,16 +32,19 @@ class AsmCodeGenerator{
     }
 
     public:
-        string curFunction;
+        string currentProcedure;
         int labelCount=0,tempCount=0;
         vector<string> vars;
-        vector<string> func_var_dec;
-        vector<pair<string,string>> arr_dec;
+        vector<string> funcLocalVars;
+        vector<pair<string,string>> arrays;
 
 
+        string getPushAllRegs(){
+          return "\tpush ax\n\tpush bx \n\tpush cx \n\tpush dx\n";
+        }
 
         string getIntro(){
-            return ".MODEL SMALL\n.STACK 100H\n.DATA \n";
+            return ".model small\n.stack 100H\n.data \n";
         }
 
         string getDeclarations(){
@@ -40,8 +52,8 @@ class AsmCodeGenerator{
             for(int i=0;i<vars.size();i++){
 		        code+=vars[i]+" dw ?\n";
 	        }
-            for(int i=0;i<arr_dec.size();i++){
-		        code+=arr_dec[i].first+" dw "+arr_dec[i].second+" dup(?)\n";
+            for(int i=0;i<arrays.size();i++){
+		        code+=arrays[i].first+" dw "+arrays[i].second+" dup(?)\n";
 	        }
             return code;
         }
@@ -56,11 +68,11 @@ class AsmCodeGenerator{
         }
 
         string getMainIntro(){
-            return "mov AX,@DATA\n\tmov DS,AX \n\n";
+            return "\tmov ax,@DATA\n\tmov ds,ax \n\n";
         }
 
         string getMainOutro(){
-            return curFunction+":\n\tmov AH,4CH\n\tint 21H\n";
+            return currentProcedure+":\n\tmov ah,4CH\n\tint 21H\n";
         }
 
         char *newLabel()
@@ -86,52 +98,50 @@ class AsmCodeGenerator{
         }
         string getPrintlnAssembly(){
             return "OUTDEC PROC  \n\
-            push AX \n\
-            push BX \n\
-            push CX \n\
-            push DX  \n\
-            cmp AX,0 \n\
+            push ax \n\
+            push bx \n\
+            push cx \n\
+            push dx  \n\
+            cmp ax,0 \n\
             jge BEGIN \n\
-            push AX \n\
+            push ax \n\
             mov DL,'-' \n\
-            mov AH,2 \n\
+            mov ah,2 \n\
             int 21H \n\
-            pop AX \n\
-            neg AX \n\
+            pop ax \n\
+            neg ax \n\
             \n\
-            BEGIN : \n\
-            xor CX,CX \n\
-            mov BX,10 \n\
+            BEGIN: \n\
+            xor cx,cx \n\
+            mov bx,10 \n\
             \n\
-            REPEAT : \n\
-            xor DX,DX \n\
-            div BX \n\
-            push DX \n\
-            inc CX \n\
-            or AX,AX \n\
+            REPEAT: \n\
+            xor dx,dx \n\
+            div bx \n\
+            push dx \n\
+            inc cx \n\
+            or ax,ax \n\
             jne REPEAT \n\
-            mov AH,2 \n\
+            mov ah,2 \n\
             \n\
-            PRINT_LOOP : \n\
-            pop DX \n\
+            PRINT_LOOP: \n\
+            pop dx \n\
             add DL,30H \n\
             int 21H \n\
             loop PRINT_LOOP \n\
             \n\
-            mov AH,2\n\
+            mov ah,2\n\
             mov DL,10\n\
             int 21H\n\
             \n\
             mov DL,13\n\
             int 21H\n\
         	\n\
-            pop DX \n\
-            pop CX \n\
-            pop BX \n\
-            pop AX \n\
-            ret \n\
-        OUTDEC ENDP \n\
-        END MAIN\n";
+            pop dx \n\
+            pop cx \n\
+            pop bx \n\
+            pop ax \n\
+            ret \n\OUTDEC ENDP \nEND MAIN\n";
         }
 
 
