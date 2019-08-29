@@ -28,7 +28,7 @@ private:
 
 public:
     int size, id;
-   
+
     ScopeTable(int id, int size)
     {
         this->id = id;
@@ -40,10 +40,10 @@ public:
             hashtable[i] = nullptr;
         }
         //scopeCount++;
-        cout<<"Created Scope:"<<this->id<<endl;
+        //cout<<"Created Scope:"<<this->id<<endl;
     }
 
-    
+
     // static void setScopeCount(int val){
     //     ScopeTable::scopeCount = val;
     // }

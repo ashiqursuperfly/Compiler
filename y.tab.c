@@ -1906,7 +1906,7 @@ yyreduce:
 			s = symbolTable->lookUp((yyvsp[-3].Symbol)->getName());s->setFunction(true);s->getFunction()->setDefined();
 			if(DEBUG)cout<<s->getFunction()->getParamCount()<<endl;
 			int len = paramList.size();
-			cout<<(yyvsp[-3].Symbol)->getName()<<endl;
+			//cout<<$<Symbol>2->getName()<<endl;
 			for(int i=0;i<len;i++){
 				string name = paramList[i]->getName()+to_string(symbolTable->getScopeCount()+1);
 
@@ -2196,7 +2196,7 @@ yyreduce:
 					yyerror(err.c_str());Util::appendLogError(lines,err,PARSER);
 					continue;
 				}
-				if(declarationList[i]->getType().size()!=3){
+				if(declarationList[i]->getType().size()<3){
 					asmGen.funcLocalVars.push_back(declarationList[i]->getName()+to_string(symbolTable->currentScopeId));
 					asmGen.vars.push_back(declarationList[i]->getName()+to_string(symbolTable->currentScopeId));
 					symbolTable->insert(SymbolInfo(declarationList[i]->getName(),declarationList[i]->getType(),(yyvsp[-2].Symbol)->getName()));

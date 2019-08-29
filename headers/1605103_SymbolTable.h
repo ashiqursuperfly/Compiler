@@ -12,7 +12,7 @@ class SymbolTable
 {
 private:
     ScopeTable *currentScope;
-    
+
 public:
     int size;
     int currentScopeId;
@@ -27,7 +27,7 @@ public:
         scopeCount = 1;
         currentScope = new ScopeTable(1, size);
     }
-    
+
     // void setScopeCount(int val){
     //     this->scopeCount = val;
     // }
@@ -44,7 +44,7 @@ public:
         currentScope = newCurrentScope;
         currentScopeId = newCurrentScope->id;
         Util::printMessage("Enter Scope", "Entering New Scope : ID " + to_string(currentScopeId));
-        
+
     }
 
     void exitScope()
@@ -55,12 +55,12 @@ public:
         //     exit(EXIT_SUCCESS);
         // }
         ScopeTable *prev = currentScope;
-        
+
         currentScope = currentScope->getParentScope();
         //currentScopeId = currentScope->id;Commenting This is essential
         prev->setParentScope(nullptr);
         Util::printMessage("Exiting Scope", to_string(currentScopeId + 1));
-        cout<<"Exiting Scope:"+to_string(prev->id)<<endl;
+        //cout<<"Exiting Scope:"+to_string(prev->id)<<endl;
         delete prev;
     }
 
@@ -69,7 +69,7 @@ public:
         bool retVal = currentScope->insert(si.getName(),si.getType(),si.getDeclarationType());
         // if (retVal)
         //    printCurrentScopeTable();
-        
+
         return retVal;
     }
 
@@ -91,7 +91,7 @@ public:
         }
         return nullptr;
     }
-    
+
     int findValidIdName(const string &symbol_name)
     {
         ScopeTable *iterator = currentScope;
@@ -102,11 +102,11 @@ public:
             if (result != nullptr)
                 return iterator->id;
             iterator = iterator->getParentScope();
-                
+
         }
         return -1;
     }
-    
+
     SymbolInfo *lookUpLocal(const string &symbol_name)
     {
         if (currentScope != nullptr)

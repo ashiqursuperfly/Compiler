@@ -18,3 +18,43 @@ Total Errors :0
 Total Errors :0
 
 
+
+
+^^^^^^^^^^^Parsing Test/CodeGenerationTests/arrays.c^^^^^^^^^^^
+
+
+
+
+Total Errors :0
+
+
+
+
+^^^^^^^^^^^Parsing Test/CodeGenerationTests/func.c^^^^^^^^^^^
+
+
+
+
+Total Errors :0
+
+
+
+
+^^^^^^^^^^^Parsing Test/CodeGenerationTests/exp.c^^^^^^^^^^^
+
+
+
+
+Total Errors :0
+
+
+
+
+^^^^^^^^^^^Parsing Test/CodeGenerationTests/loop.c^^^^^^^^^^^
+
+
+
+
+Total Errors :0
+
+
