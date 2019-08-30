@@ -5,6 +5,8 @@
 //#define Util::appendLogError Util::appendLogError
 //#define LOG Util::parserLog
 #define TOKEN new SymbolInfo()
+void optimization(string asmFile);
+
 
 using namespace std;
 int yyparse(void);
@@ -22,6 +24,7 @@ AsmCodeGenerator asmGen;
 
 vector<pair<string,int>> possiblyUndefinedFunctions;
 vector<SymbolInfo*>paramList,declarationList,argList;
+
 
 void yyerror(const char *s){
 	errors++;
@@ -60,9 +63,10 @@ start: program {
 		+".CODE\n"
 		+$<Symbol>1->getAssemblyCode()+asmGen.getPrintlnAssembly());
 
-		//TODO: ADD PRINTLN PROCEDURE
-		//cout<<$<Symbol>1->getAssemblyCode()<<endl;
-		asmGen.generateFinalAsmFile(currentFile.substr(0,currentFile.size()-2)+".asm",$<Symbol>1->getAssemblyCode());
+		string asmFile = currentFile.substr(0,currentFile.size()-2)+".asm";
+		asmGen.generateFinalAsmFile(asmFile,$<Symbol>1->getAssemblyCode());
+		optimization(asmFile);
+
 	}
 
 
@@ -817,7 +821,6 @@ expression_statement: SEMICOLON	{
 		Util::appendLogError(lines,"Missing SEMICOLON",PARSER);
 	}
 	;
-
 variable: ID {
 		string name = $<Symbol>1->getName();
 		$<Symbol>$ = TOKEN;
@@ -1530,7 +1533,58 @@ void test(string fileName){
 	else isParsingSuccessful = true;
 	fclose(fp);
 	Util::parserLog("\n\n^^^^^^^^^^^Finished Parsing "+fileName+"^^^^^^^^^^^\n\n");
+}
+bool isRedundant(string s1,string s2){
+	s1 = Util::trim(s1);
+	s2 = Util::trim(s2);
 
+	if(s1.size()!=s2.size()) return false;
+
+	if(s1 == s2)return true;
+
+	size_t isMov1 = s1.find("mov"),isMov2 = s2.find("mov");
+	if(isMov1 == string::npos || isMov2 == string::npos) return false;
+
+	vector<string> srcDest1,srcDest2;
+	Util::split(s1.substr(3,s1.size()),srcDest1,',');
+	Util::split(s2.substr(3,s2.size()),srcDest2,',');
+
+	//cout<<srcDest1[0]<<srcDest1[1]<<endl;
+	//cout<<srcDest2[0]<<srcDest2[1]<<endl;
+	bool c1 = Util::trim(srcDest1[0]) == Util::trim(srcDest2[1]);
+	bool c2 = Util::trim(srcDest1[1]) == Util::trim(srcDest2[0]);
+
+	if(c1 && c2) return true;
+
+	return false;
+}
+void optimization(string asmFile){
+	vector<string> lines;
+	Util::readAllFromFile(lines,asmFile);
+	int len = lines.size();
+
+	AssemblyCode optimized;
+	bool isNotRequired[len]={false};
+
+	cout<<"Need to Optimize"<<endl;
+
+	for(int i=0;i<len-1;i++){
+		if(isRedundant(lines[i],lines[i+1])){
+			cout<<i+1<<":"<<lines[i+1]<<endl;
+			isNotRequired[i+1] = true;
+		}
+
+	}
+	cout<<"Skipping"<<endl;
+	for(int i=0;i<len;i++){
+		if(isNotRequired[i]){
+			cout<<i<<":"<<lines[i]<<endl;
+			continue;
+		}
+		optimized.append(lines[i]).append("\n");
+
+	}
+	asmGen.generateFinalAsmFile(asmFile.substr(0,asmFile.size()-4)+"_opt.asm",optimized.getFinalCode());
 
 }
 

@@ -98,15 +98,15 @@ class Util{
         }
         static void clearFiles(){
             if(isFileExists(OUTPUT_FILE))remove(OUTPUT_FILE);
-            if(isFileExists(TOKEN_FILE))remove(TOKEN_FILE); 
+            if(isFileExists(TOKEN_FILE))remove(TOKEN_FILE);
             if(isFileExists(LEXER_LOG))remove(LEXER_LOG);
             if(isFileExists(PARSER_LOG))remove(PARSER_LOG);
             if(isFileExists(LEXER_ERROR_FILE))remove(LEXER_ERROR_FILE);
             if(isFileExists(PARSER_ERROR_FILE))remove(PARSER_ERROR_FILE);
         }
 
-        template <class Container> static void readAllFromFile(Container& container){
-            ifstream inFile(INPUT_FILE);
+        template <class Container> static void readAllFromFile(Container& container,string fileName){
+            ifstream inFile(fileName);
             string line;
             while (std::getline(inFile, line))
             {

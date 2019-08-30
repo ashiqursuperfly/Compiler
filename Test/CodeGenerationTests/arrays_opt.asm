@@ -2,10 +2,8 @@
 .stack 100H
 .data 
 main_return dw ?
-a2 dw ?
-b2 dw ?
 i2 dw ?
-c2 dw ?
+val2 dw ?
 t0 dw ?
 t1 dw ?
 t2 dw ?
@@ -15,6 +13,10 @@ t5 dw ?
 t6 dw ?
 t7 dw ?
 t8 dw ?
+t9 dw ?
+t10 dw ?
+t11 dw ?
+a2 dw 20 dup(?)
 .CODE
 main PROC
 	mov ax,@DATA
@@ -22,52 +24,63 @@ main PROC
 
 	mov t0,0
 	mov ax,t0
-	mov b2,ax
-	mov t1,1
-	mov ax,t1
-	mov c2,ax
-	mov t2,0
-	mov ax,t2
 	mov i2,ax
-L4:
-	mov t3,4
+L2:
+	mov t1,15
 	mov ax,i2
-	cmp ax,t3
+	cmp ax,t1
 	jl L0
-	mov t4,0
+	mov t2,0
 	jmp L1
 L0:
-	mov t4,1
+	mov t2,1
 L1:
-	mov ax,t4
-	cmp ax,0
-	je L5
-	mov t6,3
-	mov ax,t6
-	mov a2,ax
-L2:
-	mov ax,a2
-	mov t7,ax
-	dec a2
-	mov ax,t7
+	mov ax,t2
 	cmp ax,0
 	je L3
-	mov ax,b2
-	mov t8,ax
-	inc b2
+	mov BX,i2
+	add BX,BX
+	mov t4,1
+	mov ax,i2
+	add ax,t4
+	mov t5,ax
+	mov a2[BX],ax
+	mov ax,i2
+	mov t3,ax
+	inc i2
 	jmp L2
 L3:
+	mov t6,0
+	mov ax,t6
+	mov i2,ax
+L6:
+	mov t7,15
 	mov ax,i2
-	mov t5,ax
-	inc i2
-	jmp L4
+	cmp ax,t7
+	jl L4
+	mov t8,0
+	jmp L5
+L4:
+	mov t8,1
 L5:
-	mov ax,a2
+	mov ax,t8
+	cmp ax,0
+	je L7
+	mov BX,i2
+	add BX,BX
+	mov ax,a2[BX]
+	mov t10,ax
+	mov val2,ax
 	call OUTDEC
-	mov ax,b2
-	call OUTDEC
-	mov ax,c2
-	call OUTDEC
+	mov ax,i2
+	mov t9,ax
+	inc i2
+	jmp L6
+L7:
+	mov t11,0
+	mov ax,t11
+	mov main_return,ax
+	jmp L_Return_main
 L_Return_main:
 	mov ah,4CH
 	int 21H

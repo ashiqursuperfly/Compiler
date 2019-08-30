@@ -4,8 +4,6 @@
 main_return dw ?
 a2 dw ?
 b2 dw ?
-i2 dw ?
-c2 dw ?
 t0 dw ?
 t1 dw ?
 t2 dw ?
@@ -15,58 +13,92 @@ t5 dw ?
 t6 dw ?
 t7 dw ?
 t8 dw ?
+t9 dw ?
+t10 dw ?
+t11 dw ?
+t12 dw ?
+t13 dw ?
+t14 dw ?
+t15 dw ?
+t16 dw ?
+t17 dw ?
+c2 dw 3 dup(?)
 .CODE
 main PROC
 	mov ax,@DATA
 	mov ds,ax 
 
-	mov t0,0
-	mov ax,t0
-	mov b2,ax
-	mov t1,1
+	mov t0,1
+	mov t1,2
+	mov t2,3
 	mov ax,t1
-	mov c2,ax
-	mov t2,0
-	mov ax,t2
-	mov i2,ax
-L4:
-	mov t3,4
-	mov ax,i2
-	cmp ax,t3
-	jl L0
-	mov t4,0
-	jmp L1
-L0:
-	mov t4,1
-L1:
+	add ax,t2
+	mov t3,ax
+	mov ax,t0
+	mov BX,t3
+	mul BX
+	mov t4, ax
+	mov t5,3
 	mov ax,t4
-	cmp ax,0
-	je L5
-	mov t6,3
+	mov BX,t5
+	mov DX,0
+	div BX
+	mov t6, DX
 	mov ax,t6
 	mov a2,ax
-L2:
-	mov ax,a2
-	mov t7,ax
-	dec a2
+	mov t7,1
+	mov t8,5
 	mov ax,t7
+	cmp ax,t8
+	jl L0
+	mov t9,0
+	jmp L1
+L0:
+	mov t9,1
+L1:
+	mov ax,t9
+	mov b2,ax
+	mov t10,0
+	mov BX,t10
+	add BX,BX
+	mov t11,2
+	mov ax,t11
+	mov c2[BX],ax
+	mov ax,a2
 	cmp ax,0
 	je L3
 	mov ax,b2
-	mov t8,ax
-	inc b2
-	jmp L2
-L3:
-	mov ax,i2
-	mov t5,ax
-	inc i2
+	cmp ax,0
+	je L3
+L2:
+	mov t12,1
 	jmp L4
+L3:
+	mov t12,0
+L4:
+	mov ax,t12
+	cmp ax,0
+	je L5
+	mov ax,c2[BX]
+	mov t14,ax
+	mov ax,c2[BX]
+	inc ax
+	mov c2[BX],ax
+	jmp L6
 L5:
+	mov t15,1
+	mov BX,t15
+	add BX,BX
+	mov t16,0
+	mov BX,t16
+	add BX,BX
+	mov ax,c2[BX]
+	mov t17,ax
+	mov c2[BX],ax
+L6:
 	mov ax,a2
 	call OUTDEC
 	mov ax,b2
-	call OUTDEC
-	mov ax,c2
 	call OUTDEC
 L_Return_main:
 	mov ah,4CH
