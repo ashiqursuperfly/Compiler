@@ -261,7 +261,7 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 					s->getFunction()->clear();
 					for(int i=0;i<paramList.size();i++){
 							s->getFunction()->addParam(paramList[i]->getName()+to_string(symbolTable->getScopeCount()+1),paramList[i]->getDeclarationType());
-					//	cout<<para_list[i]->get_dectype()<<para_list[i]->get_name()<<endl;
+					//	cout<<paramListTemp[i]->get_dectype()<<paramListTemp[i]->get_name()<<endl;
 					}
 				}
 				s->getFunction()->setDefined();
@@ -314,33 +314,30 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 
 			AssemblyCode asmCode;
 			asmCode.append($<Symbol>$->getAssemblyCode()).append(asmGen.getPushAllRegs());
-			vector<string>para_list=s->getFunction()->getAllParams(),var_list=s->getFunction()->getVars();
+			vector<string>paramListTemp=s->getFunction()->getAllParams(),varListTemp=s->getFunction()->getVars();
 
-			for(int i=0;i<para_list.size();i++){
-				//asmCode.append("\tpush "+para_list[i]+"\n";
-				asmCode.append("\tpush "+para_list[i]+"\n");
+			for(int i=0;i<paramListTemp.size();i++){
+				//asmCode.append("\tpush "+paramListTemp[i]+"\n";
+				asmCode.append("\tpush "+paramListTemp[i]+"\n");
 			}
 
-			for(int i=0;i<var_list.size();i++){
-				asmCode.append("\tpush "+var_list[i]+"\n");
+			for(int i=0;i<varListTemp.size();i++){
+				asmCode.append("\tpush "+varListTemp[i]+"\n");
 			}
 			asmCode.append(	$<Symbol>7->getAssemblyCode()+
 				"L_Return_"+asmGen.currentProcedure+":\n");
-				for(int i=var_list.size()-1;i>=0;i--){
-				asmCode.append("\tpop "+var_list[i]+"\n");
+				for(int i=varListTemp.size()-1;i>=0;i--){
+				asmCode.append("\tpop "+varListTemp[i]+"\n");
 			}
-			for(int i=para_list.size()-1;i>=0;i--){
-				asmCode.append("\tpop "+para_list[i]+"\n");
+			for(int i=paramListTemp.size()-1;i>=0;i--){
+				asmCode.append("\tpop "+paramListTemp[i]+"\n");
 			}
-
-
 			asmCode.append("\tpop DX\n\tpop CX\n\tpop BX\n\tpop ax\n\tret\n");
-
 			$<Symbol>$->setAssemblyCode(asmCode.getFinalCode() + $<Symbol>2->getName() + " ENDP\n");
-
 		}
-		//TODO : Has this caused Trouble ?
-		$<Symbol>$->setName($<Symbol>1->getName()+" "+$<Symbol>2->getName()+"("+$<Symbol>4->getName()+")"+$<Symbol>7->getName());
+		string name1 = $<Symbol>1->getName()+" ",name2 = $<Symbol>2->getName()+"(";
+		string name3 = $<Symbol>4->getName()+")"+$<Symbol>7->getName();
+		$<Symbol>$->setName(name1 + name2 + name3);
 	}
 	| type_specifier ID LPAREN RPAREN {
 		SymbolInfo *s = symbolTable->lookUp($<Symbol>2->getName());
@@ -394,33 +391,29 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 
 		AssemblyCode asmCode;asmCode.append($<Symbol>$->getAssemblyCode()+"\tpush ax\n\tpush BX \n\tpush CX \n\tpush DX\n");
 
-		vector<string>para_list=s->getFunction()->getAllParams();
-		vector<string>var_list=s->getFunction()->getVars();
-		for(int i=0;i<para_list.size();i++){
-			asmCode.append("\tpush "+para_list[i]+"\n");
+		vector<string>paramListTemp=s->getFunction()->getAllParams(),varListTemp=s->getFunction()->getVars();
+		for(int i=0;i<paramListTemp.size();i++){
+			asmCode.append("\tpush "+paramListTemp[i]+"\n");
 		}
-		for(int i=0;i<var_list.size();i++){
-			asmCode.append("\tpush "+var_list[i]+"\n");
+		for(int i=0;i<varListTemp.size();i++){
+			asmCode.append("\tpush "+varListTemp[i]+"\n");
 		}
 
 		asmCode.append(	$<Symbol>6->getAssemblyCode()+"L_Return_"+asmGen.currentProcedure+":\n");
 
-		for(int i=var_list.size()-1;i>=0;i--){
-			asmCode.append("\tpop "+var_list[i]+"\n");
-		}
-		for(int i=para_list.size()-1;i>=0;i--){
-			asmCode.append("\tpop "+para_list[i]+"\n");
+		for(int i=varListTemp.size()-1;i>=0;i--){
+			asmCode.append("\tpop "+varListTemp[i]+"\n");
 		}
 
-
+		for(int i=paramListTemp.size()-1;i>=0;i--){
+			asmCode.append("\tpop "+paramListTemp[i]+"\n");
+		}
 		asmCode.append("\tpop DX\n\tpop CX\n\tpop BX\n\tpop ax\n\tret\n");
-
 		$<Symbol>$->setAssemblyCode(asmCode.getFinalCode()+$<Symbol>2->getName()+" ENDP\n");
 		}
 		$<Symbol>$->setName($<Symbol>1->getName()+$<Symbol>6->getName());
 	}
 	;
-//@Revised
 parameter_list: parameter_list COMMA type_specifier ID {
 
 		Util::parserLog(lines,"parameter_list : parameter_list-COMMA-type_specifier-ID");
