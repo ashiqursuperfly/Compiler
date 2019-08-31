@@ -3547,527 +3547,175 @@ Line:2  statements : statement
 
 int  a,b,c[3];
 
-Line:3  variable : ID
+Line:24  variable : ID
 
 a
 
-Line:3  factor : CONST_INT
+Line:24  factor : CONST_INT
 
-1
+120
 
-Line:3  unary_expression : factor
+Line:24  unary_expression : factor
 
-1
+120
 
-Line:3  term : unary_expression
+Line:24  term : unary_expression
 
-1
+120
 
-Line:3  factor : CONST_INT
+Line:24  simple_expression : term
 
-2
+120
 
-Line:3  unary_expression : factor
+Line:24  rel_expression : simple_expression
 
-2
+120
 
-Line:3  term : unary_expression
+Line:24  logic_expression : rel_expression
 
-2
+120
 
-Line:3  simple_expression : term
+Line:24  expression : variable-ASSIGNOP-logic_expression
 
-2
+a=120
 
-Line:3  factor : CONST_INT
+Line:24  expression_statement : expression-SEMICOLON
 
-3
+a=120;
 
-Line:3  unary_expression : factor
+Line:24  statement : expression_statement
 
-3
+a=120;
 
-Line:3  term : unary_expression
+Line:24  statements : statements-statement
 
-3
+int  a,b,c[3]; a=120;
 
-Line:3  simple_expression : simple_expression-ADDOP-term
-
-2+3
-
-Line:3  rel_expression : simple_expression
-
-2+3
-
-Line:3  logic_expression : rel_expression
-
-2+3
-
-Line:3  expression : logic_expression
-
-2+3
-
-Line:3  factor : LPAREN-expression-RPAREN
-
-(2+3)
-
-Line:3  unary_expression : factor
-
-(2+3)
-
-Line:3  term : term-MULOP-unary_expression
-
-1*(2+3)
-
-Line:3  factor : CONST_INT
-
-3
-
-Line:3  unary_expression : factor
-
-3
-
-Line:3  term : term-MULOP-unary_expression
-
-1*(2+3)%3
-
-Line:3  simple_expression : term
-
-1*(2+3)%3
-
-Line:3  rel_expression : simple_expression
-
-1*(2+3)%3
-
-Line:3  logic_expression : rel_expression
-
-1*(2+3)%3
-
-Line:3  expression : variable-ASSIGNOP-logic_expression
-
-a=1*(2+3)%3
-
-Line:3  expression_statement : expression-SEMICOLON
-
-a=1*(2+3)%3;
-
-Line:3  statement : expression_statement
-
-a=1*(2+3)%3;
-
-Line:3  statements : statements-statement
-
-int  a,b,c[3]; a=1*(2+3)%3;
-
-Line:4  variable : ID
+Line:25  variable : ID
 
 b
 
-Line:4  factor : CONST_INT
+Line:25  factor : CONST_INT
 
-1
+19
 
-Line:4  unary_expression : factor
+Line:25  unary_expression : factor
 
-1
+19
 
-Line:4  term : unary_expression
+Line:25  term : unary_expression
 
-1
+19
 
-Line:4  simple_expression : term
+Line:25  simple_expression : term
 
-1
+19
 
-Line:4  factor : CONST_INT
+Line:25  rel_expression : simple_expression
 
-5
+19
 
-Line:4  unary_expression : factor
+Line:25  logic_expression : rel_expression
 
-5
+19
 
-Line:4  term : unary_expression
+Line:25  expression : variable-ASSIGNOP-logic_expression
 
-5
+b=19
 
-Line:4  simple_expression : term
+Line:25  expression_statement : expression-SEMICOLON
 
-5
+b=19;
 
-Line:4  rel_expression : simple_expression-RELOP-simple_expression
+Line:25  statement : expression_statement
 
-1<5
+b=19;
 
-Line:4  logic_expression : rel_expression
-
-1<5
-
-Line:4  expression : variable-ASSIGNOP-logic_expression
-
-b=1<5
-
-Line:4  expression_statement : expression-SEMICOLON
-
-b=1<5;
-
-Line:4  statement : expression_statement
-
-b=1<5;
-
-Line:4  statements : statements-statement
+Line:25  statements : statements-statement
 
 int  a,b,c[3];
-a=1*(2+3)%3; b=1<5;
+a=120; b=19;
 
-Line:5  factor : CONST_INT
+Line:26  variable : ID
 
-0
+a
 
-Line:5  unary_expression : factor
+Line:26  variable : ID
 
-0
+a
 
-Line:5  term : unary_expression
+Line:26  factor : variable
 
-0
+a
 
-Line:5  simple_expression : term
+Line:26  unary_expression : factor
 
-0
+a
 
-Line:5  rel_expression : simple_expression
+Line:26  term : unary_expression
 
-0
+a
 
-Line:5  logic_expression : rel_expression
+Line:26  variable : ID
 
-0
+b
 
-Line:5  expression : logic_expression
+Line:26  factor : variable
 
-0
+b
 
-Line:5  variable : ID-LTHIRD-expression-RTHIRD
+Line:26  unary_expression : factor
 
-c[0]
+b
 
-Line:5  factor : CONST_INT
+Line:26  term : term-MULOP-unary_expression
 
-2
+a%b
 
-Line:5  unary_expression : factor
+Line:26  simple_expression : term
 
-2
+a%b
 
-Line:5  term : unary_expression
+Line:26  rel_expression : simple_expression
 
-2
+a%b
 
-Line:5  simple_expression : term
+Line:26  logic_expression : rel_expression
 
-2
+a%b
 
-Line:5  rel_expression : simple_expression
+Line:26  expression : variable-ASSIGNOP-logic_expression
 
-2
+a=a%b
 
-Line:5  logic_expression : rel_expression
+Line:26  expression_statement : expression-SEMICOLON
 
-2
+a=a%b;
 
-Line:5  expression : variable-ASSIGNOP-logic_expression
+Line:26  statement : expression_statement
 
-c[0]=2
+a=a%b;
 
-Line:5  expression_statement : expression-SEMICOLON
-
-c[0]=2;
-
-Line:5  statement : expression_statement
-
-c[0]=2;
-
-Line:5  statements : statements-statement
+Line:26  statements : statements-statement
 
 int  a,b,c[3];
-a=1*(2+3)%3;
-b=1<5; c[0]=2;
+a=120;
+b=19; a=a%b;
 
-Line:6  variable : ID
-
-a
-
-Line:6  factor : variable
-
-a
-
-Line:6  unary_expression : factor
-
-a
-
-Line:6  term : unary_expression
-
-a
-
-Line:6  simple_expression : term
-
-a
-
-Line:6  rel_expression : simple_expression
-
-a
-
-Line:6  variable : ID
-
-b
-
-Line:6  factor : variable
-
-b
-
-Line:6  unary_expression : factor
-
-b
-
-Line:6  term : unary_expression
-
-b
-
-Line:6  simple_expression : term
-
-b
-
-Line:6  rel_expression : simple_expression
-
-b
-
-Line:6  logic_expression : rel_expression-LOGICOP-rel_expression
-
-a&&b
-
-Line:6  expression : logic_expression
-
-a&&b
-
-Line:7  factor : CONST_INT
-
-0
-
-Line:7  unary_expression : factor
-
-0
-
-Line:7  term : unary_expression
-
-0
-
-Line:7  simple_expression : term
-
-0
-
-Line:7  rel_expression : simple_expression
-
-0
-
-Line:7  logic_expression : rel_expression
-
-0
-
-Line:7  expression : logic_expression
-
-0
-
-Line:7  variable : ID-LTHIRD-expression-RTHIRD
-
-c[0]
-
-Line:7  factor : variable INCOP
-
-c[0]++
-
-Line:7  unary_expression : factor
-
-c[0]++
-
-Line:7  term : unary_expression
-
-c[0]++
-
-Line:7  simple_expression : term
-
-c[0]++
-
-Line:7  rel_expression : simple_expression
-
-c[0]++
-
-Line:7  logic_expression : rel_expression
-
-c[0]++
-
-Line:7  expression : logic_expression
-
-c[0]++
-
-Line:7  expression_statement : expression-SEMICOLON
-
-c[0]++;
-
-Line:7  statement : expression_statement
-
-c[0]++;
-
-Line:9  factor : CONST_INT
-
-1
-
-Line:9  unary_expression : factor
-
-1
-
-Line:9  term : unary_expression
-
-1
-
-Line:9  simple_expression : term
-
-1
-
-Line:9  rel_expression : simple_expression
-
-1
-
-Line:9  logic_expression : rel_expression
-
-1
-
-Line:9  expression : logic_expression
-
-1
-
-Line:9  variable : ID-LTHIRD-expression-RTHIRD
-
-c[1]
-
-Line:9  factor : CONST_INT
-
-0
-
-Line:9  unary_expression : factor
-
-0
-
-Line:9  term : unary_expression
-
-0
-
-Line:9  simple_expression : term
-
-0
-
-Line:9  rel_expression : simple_expression
-
-0
-
-Line:9  logic_expression : rel_expression
-
-0
-
-Line:9  expression : logic_expression
-
-0
-
-Line:9  variable : ID-LTHIRD-expression-RTHIRD
-
-c[0]
-
-Line:9  factor : variable
-
-c[0]
-
-Line:9  unary_expression : factor
-
-c[0]
-
-Line:9  term : unary_expression
-
-c[0]
-
-Line:9  simple_expression : term
-
-c[0]
-
-Line:9  rel_expression : simple_expression
-
-c[0]
-
-Line:9  logic_expression : rel_expression
-
-c[0]
-
-Line:9  expression : variable-ASSIGNOP-logic_expression
-
-c[1]=c[0]
-
-Line:9  expression_statement : expression-SEMICOLON
-
-c[1]=c[0];
-
-Line:9  statement : expression_statement
-
-c[1]=c[0];
-
-Line:9  statement : IF-LPAREN-expression-RPAREN-statement-ELSE-statement
-
-if(a&&b)
-c[0]++;else
-c[1]=c[0];
-
-Line:9  statements : statements-statement
-
-int  a,b,c[3];
-a=1*(2+3)%3;
-b=1<5;
-c[0]=2; if(a&&b)
-c[0]++; else 
-c[1]=c[0];
-
-Line:10  statement : PRINTLN-LPAREN-ID-RPAREN-SEMICOLON
+Line:27  statement : PRINTLN-LPAREN-ID-RPAREN-SEMICOLON
 
 
  (a)
 
-Line:10  statements : statements-statement
+Line:27  statements : statements-statement
 
 int  a,b,c[3];
-a=1*(2+3)%3;
-b=1<5;
-c[0]=2;
-if(a&&b)
-c[0]++; else 
-c[1]=c[0]; 
+a=120;
+b=19;
+a=a%b; 
 (a)
 
-Line:11  statement : PRINTLN-LPAREN-ID-RPAREN-SEMICOLON
-
-
- (b)
-
-Line:11  statements : statements-statement
-
-int  a,b,c[3];
-a=1*(2+3)%3;
-b=1<5;
-c[0]=2;
-if(a&&b)
-c[0]++; else 
-c[1]=c[0];
-
-(a) 
-(b)
-
-Line:12  compound_statement : LCURL-statements-RCURL
+Line:31  compound_statement : LCURL-statements-RCURL
 
 
   SCOPE TABLE #2
@@ -4090,99 +3738,64 @@ Line:12  compound_statement : LCURL-statements-RCURL
 
 
 {int  a,b,c[3];
-a=1*(2+3)%3;
-b=1<5;
-c[0]=2;
-if(a&&b)
-c[0]++; else 
-c[1]=c[0];
+a=120;
+b=19;
+a=a%b;
 
-(a)
+(a)}
 
-(b)}
-
-Line:12  func_definition : type_specifier-ID-LPAREN-RPAREN-compound_statement
+Line:31  func_definition : type_specifier-ID-LPAREN-RPAREN-compound_statement
 
 int  main(){
 int  a,b,c[3];
-a=1*(2+3)%3;
-b=1<5;
-c[0]=2;
-if(a&&b)
-c[0]++; else 
-c[1]=c[0];
+a=120;
+b=19;
+a=a%b;
 
 (a)
-
-(b)
 } {
 int  a,b,c[3];
-a=1*(2+3)%3;
-b=1<5;
-c[0]=2;
-if(a&&b)
-c[0]++; else 
-c[1]=c[0];
+a=120;
+b=19;
+a=a%b;
 
 (a)
-
-(b)
 }
 
-Line:12  unit : func_definition
+Line:31  unit : func_definition
 
 int  main(){
 int  a,b,c[3];
-a=1*(2+3)%3;
-b=1<5;
-c[0]=2;
-if(a&&b)
-c[0]++; else 
-c[1]=c[0];
+a=120;
+b=19;
+a=a%b;
 
 (a)
-
-(b)
 }{
 int  a,b,c[3];
-a=1*(2+3)%3;
-b=1<5;
-c[0]=2;
-if(a&&b)
-c[0]++; else 
-c[1]=c[0];
+a=120;
+b=19;
+a=a%b;
 
 (a)
-
-(b)
 }
 
-Line:12  program : unit
+Line:31  program : unit
 
 int  main(){
 int  a,b,c[3];
-a=1*(2+3)%3;
-b=1<5;
-c[0]=2;
-if(a&&b)
-c[0]++; else 
-c[1]=c[0];
+a=120;
+b=19;
+a=a%b;
 
 (a)
-
-(b)
 }{
 int  a,b,c[3];
-a=1*(2+3)%3;
-b=1<5;
-c[0]=2;
-if(a&&b)
-c[0]++; else 
-c[1]=c[0];
+a=120;
+b=19;
+a=a%b;
 
 (a)
-
-(b)
 }
 
 
@@ -4197,7 +3810,7 @@ Final SymbolTable :
 
 
 
-Total Lines :13
+Total Lines :32
 
 Total Errors :0
 

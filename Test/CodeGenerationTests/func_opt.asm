@@ -32,7 +32,6 @@ f PROC
 	mov BX,a2
 	mul BX
 	mov t1, ax
-	mov ax,t1
 	mov f_return,ax
 	jmp L_Return_f
 	mov t2,9

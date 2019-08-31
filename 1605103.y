@@ -5,8 +5,7 @@
 //#define Util::appendLogError Util::appendLogError
 //#define LOG Util::parserLog
 #define TOKEN new SymbolInfo()
-void optimization(string asmFile);
-
+void optimize(string asmFile);
 
 using namespace std;
 int yyparse(void);
@@ -54,7 +53,7 @@ void yyerror(const char *s){
 %type <s>start
 
 %%
-//@Revised
+
 start: program {
 	if(errors==0){
 		$<Symbol>1->setAssemblyCode(
@@ -65,14 +64,14 @@ start: program {
 
 		string asmFile = currentFile.substr(0,currentFile.size()-2)+".asm";
 		asmGen.generateFinalAsmFile(asmFile,$<Symbol>1->getAssemblyCode());
-		optimization(asmFile);
+		optimize(asmFile);
 
 	}
 
 
 }
 	;
-//@Revised
+
 program: program unit {
 		Util::parserLog(lines,"program : program-unit");
 		Util::parserLog($<Symbol>1->getName()+" "+$<Symbol>2->getName());
@@ -94,7 +93,7 @@ program: program unit {
 
 	;
 
-//@Revised
+
 unit: var_declaration {
 
 		$<Symbol>$ = TOKEN;
@@ -128,7 +127,7 @@ unit: var_declaration {
 
 	}
 	;
-//@Revised
+
 func_declaration: type_specifier ID LPAREN parameter_list RPAREN SEMICOLON {
 		SymbolInfo *func = symbolTable->lookUp($<Symbol>2->getName());
 		Util::parserLog(lines,"func_declaration : type_specifier-ID-LPAREN-parameter_list-RPAREN-SEMICOLON");
@@ -228,7 +227,7 @@ func_declaration: type_specifier ID LPAREN parameter_list RPAREN SEMICOLON {
 		Util::appendLogError(lines,err,PARSER);
 	}
 	;
-//@Revised
+
 func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 
 		$<Symbol>$ = TOKEN;
@@ -371,14 +370,10 @@ func_definition: type_specifier ID LPAREN parameter_list RPAREN {
 	} compound_statement {
 
 		Util::parserLog(lines,"func_definition : type_specifier-ID-LPAREN-RPAREN-compound_statement");
-		$<Symbol>$->setName($<Symbol>1->getName()+$<Symbol>6->getName());
-		Util::parserLog($<Symbol>1->getName()+" "+$<Symbol>6->getName());
-
-		$<Symbol>$->setAssemblyCode($<Symbol>2->getName()+" PROC\n");
-
+		$<Symbol>$->setName($<Symbol>1->getName()+$<Symbol>6->getName());Util::parserLog($<Symbol>1->getName()+" "
+		+$<Symbol>6->getName());$<Symbol>$->setAssemblyCode($<Symbol>2->getName()+" PROC\n");
 		if($<Symbol>2->getName()=="main"){
-			$<Symbol>$->setAssemblyCode($<Symbol>$->getAssemblyCode()
-			+asmGen.getMainIntro()+$<Symbol>6->getAssemblyCode()+"L_Return_"
+			$<Symbol>$->setAssemblyCode($<Symbol>$->getAssemblyCode()+asmGen.getMainIntro()+$<Symbol>6->getAssemblyCode()+"L_Return_"
 			+asmGen.getMainOutro());
 		}
 		else {
@@ -448,7 +443,7 @@ parameter_list: parameter_list COMMA type_specifier ID {
 		paramList.push_back(new SymbolInfo("","ID",$<Symbol>1->getName()));
 	}
 	;
-//@Revised
+
 compound_statement: LCURL {
 
 	symbolTable->enterScope();
@@ -493,7 +488,7 @@ compound_statement: LCURL {
 		symbolTable->exitScope();
 	}
 	;
-//@Revised
+
 var_declaration: type_specifier declarationList SEMICOLON {
 		$<Symbol>$ = TOKEN;
 		Util::parserLog(lines,"var_declaration : type_specifier-declarationList-SEMICOLON");
@@ -533,7 +528,7 @@ var_declaration: type_specifier declarationList SEMICOLON {
 		Util::appendLogError(lines,err,PARSER);
 	}
 	;
-//@Revised
+
 type_specifier: INT {
 		$<Symbol>$ = TOKEN;
 		Util::parserLog(lines,"type_specifier : INT");
@@ -553,7 +548,7 @@ type_specifier: INT {
 		$<Symbol>$->setName("void ");
 	}
 	;
-//@Revised
+
 declarationList: declarationList COMMA ID {
 	Util::parserLog(lines,"declarationList : declarationList-COMMA-ID");
 	$<Symbol>$ = TOKEN;
@@ -594,7 +589,7 @@ declarationList: declarationList COMMA ID {
 		$<Symbol>$->setName($<Symbol>1->getName()+"["+$<Symbol>3->getName()+"]");
 	}
 	;
-//@Revised
+
 statements: statement {
 		Util::parserLog(lines,"statements : statement");
 		Util::parserLog($<Symbol>1->getName());
@@ -609,7 +604,7 @@ statements: statement {
 		$<Symbol>$->setAssemblyCode($<Symbol>1->getAssemblyCode()+$<Symbol>2->getAssemblyCode());
 	}
 	;
-//@Revised
+
 statement: var_declaration {
 		Util::parserLog(lines,"statement : var_declaration");
 		Util::parserLog($<Symbol>1->getName());
@@ -791,7 +786,7 @@ statement: var_declaration {
 		Util::appendLogError(lines,"Missing SEMICOLON",PARSER);
 	}
 	;
-//@Revised
+//TODO: Revise stuff from here
 expression_statement: SEMICOLON	{
 		$<Symbol>$ = TOKEN;
 		Util::parserLog(lines,"expression_statement : SEMICOLON");
@@ -805,7 +800,6 @@ expression_statement: SEMICOLON	{
 		$<Symbol>$->setName($<Symbol>1->getName()+";");
 		$<Symbol>$->setAssemblyCode($<Symbol>1->getAssemblyCode());
 		$<Symbol>$->setIdValue($<Symbol>1->getIdValue());
-
 	}
 	| error{
 		Util::appendLogError(lines,"Missing SEMICOLON",PARSER);
@@ -859,7 +853,6 @@ variable: ID {
 		}
 		if(symbolTable->lookUp($<Symbol>1->getName()) != nullptr){
 
-			if(DEBUG)cout<<lines<<" "<<symbolTable->lookUp($<Symbol>1->getName())->toString()<<endl;
 
 			bool c1 = symbolTable->lookUp($<Symbol>1->getName())->getDeclarationType()!="int array";
 			bool c2 = symbolTable->lookUp($<Symbol>1->getName())->getDeclarationType()!="float array";
@@ -878,10 +871,10 @@ variable: ID {
 
 			if(decType == "int array"){	$<Symbol>1->setDeclarationType("int ");}
 			$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType());
-			AssemblyCode asmCode;asmCode.append("");
-			asmCode.append($<Symbol>3->getAssemblyCode());
-			asmCode.append("\tmov BX,"+$<Symbol>3->getIdValue()+"\n");
-			asmCode.append("\tadd BX,BX\n");
+			AssemblyCode asmCode;
+			asmCode.append("").append($<Symbol>3->getAssemblyCode())
+			.append("\tmov BX,"+$<Symbol>3->getIdValue()+"\n")
+			.append("\tadd BX,BX\n");
 			$<Symbol>$->setIdValue($<Symbol>1->getName()+to_string(symbolTable->findValidIdName($<Symbol>1->getName())));
 			$<Symbol>$->setAssemblyCode(asmCode.getFinalCode());
 
@@ -908,7 +901,7 @@ expression: logic_expression {
 		$<Symbol>$ = TOKEN;
 
 		Util::parserLog(lines,"expression : variable-ASSIGNOP-logic_expression");
-	   	Util::parserLog($<Symbol>1->getName()+"="+$<Symbol>3->getName());
+	  Util::parserLog($<Symbol>1->getName()+"="+$<Symbol>3->getName());
 
 		if($<Symbol>3->getDeclarationType()=="void "){
 
@@ -931,17 +924,13 @@ expression: logic_expression {
 		asmCode.append($<Symbol>3->getAssemblyCode());
 		asmCode.append("\tmov ax,"+$<Symbol>3->getIdValue()+"\n");
 		if($<Symbol>1->getType()=="notarray"){
-
-
-		asmCode.append("\tmov "+$<Symbol>1->getIdValue()+",ax\n");}
+			asmCode.append("\tmov "+$<Symbol>1->getIdValue()+",ax\n");
+		}
 		else{
-
 			asmCode.append("\tmov "+$<Symbol>1->getIdValue()+"[BX],ax\n");
 		}
 		$<Symbol>$->setAssemblyCode(asmCode.getFinalCode());
-
 		$<Symbol>$->setIdValue($<Symbol>1->getIdValue());
-
 		$<Symbol>$->setName($<Symbol>1->getName()+"="+$<Symbol>3->getName());
 		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType());
 
@@ -949,10 +938,12 @@ expression: logic_expression {
 	;
 logic_expression: rel_expression {
 		Util::parserLog(lines,"logic_expression : rel_expression");
-		$<Symbol>$ = TOKEN;$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType());
+		$<Symbol>$ = TOKEN;
+		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType());
 		$<Symbol>$->setAssemblyCode($<Symbol>1->getAssemblyCode());
 		$<Symbol>$->setIdValue($<Symbol>1->getIdValue());
-		string name1 = $<Symbol>1->getName();Util::parserLog(name1);$<Symbol>$->setName(name1);
+		string name1 = $<Symbol>1->getName();
+		Util::parserLog(name1);$<Symbol>$->setName(name1);
 
 	}
 	| rel_expression LOGICOP rel_expression {
@@ -1089,7 +1080,8 @@ simple_expression: term {
 		}
 		else {$<Symbol>$->setDeclarationType("int ");}
 
-		AssemblyCode asmCode;asmCode.append($<Symbol>1->getAssemblyCode()+$<Symbol>3->getAssemblyCode());
+		AssemblyCode asmCode;
+		asmCode.append($<Symbol>1->getAssemblyCode()+$<Symbol>3->getAssemblyCode());
 
 		asmCode.append("\tmov ax,"+$<Symbol>1->getIdValue()+"\n");
 		char *temp=asmGen.newTemp();
@@ -1137,7 +1129,8 @@ term: unary_expression {
 				Util::appendLogError(lines,err,PARSER);yyerror(err.c_str());
 			}
 			$<Symbol>$->setDeclarationType("int ");
-			AssemblyCode asmCode;asmCode.append($<Symbol>1->getAssemblyCode()+$<Symbol>3->getAssemblyCode());
+			AssemblyCode asmCode;
+			asmCode.append($<Symbol>1->getAssemblyCode()+$<Symbol>3->getAssemblyCode());
 			char *temp=asmGen.newTemp();
 			asmCode.append("\tmov ax,"+$<Symbol>1->getIdValue()+"\n");
 			asmCode.append("\tmov BX,"+$<Symbol>3->getIdValue()+"\n");
@@ -1208,13 +1201,18 @@ unary_expression: ADDOP unary_expression {
 		$<Symbol>$->setDeclarationType("int ");
 	}else {
 		$<Symbol>$->setDeclarationType($<Symbol>2->getDeclarationType());
-		AssemblyCode asmCode;asmCode.append($<Symbol>2->getAssemblyCode());
+		AssemblyCode asmCode;
+		asmCode.append($<Symbol>2->getAssemblyCode());
 		//Since Unary Expression and we dont allow +val
 		if($<Symbol>1->getName()=="-"){
 			asmCode.append("\tmov ax,"+$<Symbol>2->getIdValue()+"\n");
-			asmCode.append("\tNEG ax\n");
+			asmCode.append("\tneg ax\n");
 			asmCode.append("\tmov "+$<Symbol>2->getIdValue()+",ax\n");
 		}
+		/**$<symbolinfo>$->set_ASMcode(codes);
+		$<symbolinfo>$->set_idvalue($<symbolinfo>2->get_idvalue());
+
+		 $<symbolinfo>$->setDectype($<symbolinfo>2->get_dectype());**/
 	}
 	Util::parserLog(lines,"unary_expression : ADDOP-unary_expression");
 	$<Symbol>$->setName($<Symbol>1->getName()+$<Symbol>2->getName());
@@ -1240,45 +1238,29 @@ unary_expression: ADDOP unary_expression {
 
 			$<Symbol>$->setAssemblyCode(asmCode.getFinalCode());
 			$<Symbol>$->setIdValue($<Symbol>2->getIdValue());
-
 		}
 		$<Symbol>$->setName("!"+$<Symbol>2->getName());}
-	| factor {
+		| factor {
+
 		if(DEBUG)cout<<$<Symbol>1->toString()<<endl;
-
-		$<Symbol>$ = TOKEN;
-		Util::parserLog(lines,"unary_expression : factor");
-		$<Symbol>$->setName($<Symbol>1->getName());
-
+		$<Symbol>$ = TOKEN;Util::parserLog(lines,"unary_expression : factor");$<Symbol>$->setName($<Symbol>1->getName());
 		Util::parserLog($<Symbol>1->getName());
-		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType());
-		$<Symbol>$->setAssemblyCode($<Symbol>1->getAssemblyCode());
+		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType());$<Symbol>$->setAssemblyCode($<Symbol>1->getAssemblyCode());
 		$<Symbol>$->setIdValue($<Symbol>1->getIdValue());
-
 	}
 	;
 factor: variable {
-		Util::parserLog(lines,"factor : variable");
-		$<Symbol>$ = TOKEN;
-		Util::parserLog($<Symbol>1->getName());
+		Util::parserLog(lines,"factor : variable");	$<Symbol>$ = TOKEN;Util::parserLog($<Symbol>1->getName());
 		$<Symbol>$->setName($<Symbol>1->getName());
 		$<Symbol>$->setDeclarationType($<Symbol>1->getDeclarationType());
 		AssemblyCode asmCode;asmCode.append($<Symbol>1->getAssemblyCode());
-
 		if($<Symbol>1->getType()=="array"){
 			char *temp=asmGen.newTemp();
-			asmCode.append("\tmov ax,"+$<Symbol>1->getIdValue()+"[BX]\n");
-			asmCode.append("\tmov "+string(temp)+",ax\n");
-			asmGen.vars.push_back(temp);
-			$<Symbol>$->setIdValue(temp);
-
+			asmCode.append("\tmov ax,"+$<Symbol>1->getIdValue()+"[BX]\n").append("\tmov "+string(temp)+",ax\n");
+			asmGen.vars.push_back(temp);$<Symbol>$->setIdValue(temp);
 		}
-		else{
-			$<Symbol>$->setIdValue($<Symbol>1->getIdValue());
-		}
-
+		else $<Symbol>$->setIdValue($<Symbol>1->getIdValue());
 		$<Symbol>$->setAssemblyCode(asmCode.getFinalCode());
-
 	}
 	| ID LPAREN argument_list RPAREN {
 		$<Symbol>$ = TOKEN;
@@ -1446,23 +1428,19 @@ factor: variable {
 
 	}
 	;
-//@Revised
+
 argument_list: arguments {
 		Util::parserLog(lines,"argument_list : arguments");
 		$<Symbol>$ = TOKEN;
 		Util::parserLog($<Symbol>1->getName());
 		$<Symbol>$->setName($<Symbol>1->getName());
 		$<Symbol>$->setAssemblyCode($<Symbol>1->getAssemblyCode());
-
-
 	}
 	| %empty {
 		$<Symbol>$ = TOKEN;
-		Util::parserLog(lines,"argument_list : %empty");
-		Util::parserLog(lines,"");
-		$<Symbol>$->setName("");}
+		Util::parserLog(lines,"argument_list : %empty");Util::parserLog(lines,"");$<Symbol>$->setName("");}
 	;
-//@Revised
+
 arguments: arguments COMMA logic_expression {
 
 		$<Symbol>$ = TOKEN;
@@ -1531,8 +1509,6 @@ bool isRedundant(string s1,string s2){
 	s1 = Util::trim(s1);
 	s2 = Util::trim(s2);
 
-	if(s1.size()!=s2.size()) return false;
-
 	if(s1 == s2)return true;
 
 	size_t isMov1 = s1.find("mov"),isMov2 = s2.find("mov");
@@ -1551,7 +1527,7 @@ bool isRedundant(string s1,string s2){
 
 	return false;
 }
-void optimization(string asmFile){
+void optimize(string asmFile){
 	vector<string> lines;
 	Util::readAllFromFile(lines,asmFile);
 	int len = lines.size();

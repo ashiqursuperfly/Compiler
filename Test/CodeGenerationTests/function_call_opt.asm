@@ -47,7 +47,6 @@ L1:
 	mov BX,i2
 	mul BX
 	mov t4, ax
-	mov ax,t4
 	mov f2,ax
 	mov ax,i2
 	mov t3,ax
