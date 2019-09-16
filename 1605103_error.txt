@@ -1,56 +1,6 @@
 
 
-^^^^^^^^^^^Parsing Test/CodeGenerationTests/if_else_loops.c^^^^^^^^^^^
-
-
-
-
-Total Errors :0
-
-
-
-
-^^^^^^^^^^^Parsing Test/CodeGenerationTests/function_call.c^^^^^^^^^^^
-
-
-
-
-Total Errors :0
-
-
-
-
-^^^^^^^^^^^Parsing Test/CodeGenerationTests/arrays.c^^^^^^^^^^^
-
-
-
-
-Total Errors :0
-
-
-
-
-^^^^^^^^^^^Parsing Test/CodeGenerationTests/func.c^^^^^^^^^^^
-
-
-
-
-Total Errors :0
-
-
-
-
-^^^^^^^^^^^Parsing Test/CodeGenerationTests/exp.c^^^^^^^^^^^
-
-
-
-
-Total Errors :0
-
-
-
-
-^^^^^^^^^^^Parsing Test/CodeGenerationTests/loop.c^^^^^^^^^^^
+^^^^^^^^^^^Parsing input.c^^^^^^^^^^^
 
 
 
