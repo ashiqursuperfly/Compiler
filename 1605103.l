@@ -1,6 +1,6 @@
 %option noyywrap
 %{
-#include "headers/1605103_SymbolTable.h"
+#include "../headers/SymbolTable.h"
 #include "y.tab.h"
 
 

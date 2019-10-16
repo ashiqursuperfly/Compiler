@@ -4,7 +4,7 @@
 
 #include <string>
 #include <iostream>
-#include "1605103_SymbolInfo.h"
+#include "SymbolInfo.h"
 
 using namespace std;
 

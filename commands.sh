@@ -1,13 +1,20 @@
+echo 'Parsing ...'
 bison -d -y 1605103.y
-echo '1'
-g++ -w -c -o y.o y.tab.c
-echo '2'
+echo 'Compiling Parser Generated Files ...'
+cp y.tab.c out/ 
+cp y.tab.h out/
+rm y.tab.c
+rm y.tab.h 
+g++ -w -c -o out/y.o out/y.tab.c
+echo 'Scanning ...' 
 flex 1605103.l
-echo '3'
-g++ -w -c -o l.o lex.yy.c
+echo 'Compiling Scanner Generated Files ...'
+cp lex.yy.c out/
+rm lex.yy.c 
+g++ -w -c -o out/l.o out/lex.yy.c
 # if the above command doesn't work try g++ -fpermissive -w -c -o l.o lex.yy.c
-echo '4'
-g++ -o a.out y.o l.o -ly
-echo '5'
-# ./a.out 'Test/CodeGenerationTests/if_else_loops.c' 'Test/CodeGenerationTests/function_call.c' 'Test/CodeGenerationTests/arrays.c' 'Test/CodeGenerationTests/func.c' 'Test/CodeGenerationTests/exp.c' 'Test/CodeGenerationTests/loop.c'
-./a.out 'input.c'
+echo 'Linking Scanner and Parser Files ...'
+g++ -o out/a.out out/y.o out/l.o -ly
+echo 'Generating Assembly Code ...'
+#./a.out 'tests/code_generation/if_else_loops.c' 'tests/code_generation/function_call.c' 'tests/code_generation/arrays.c' 'tests/code_generation/func.c' 'tests/code_generation/exp.c' 'tests/code_generation/loop.c'
+./out/a.out 'tests/syntax_analyser/input0.c'

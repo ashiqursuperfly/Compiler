@@ -1,6 +1,4 @@
-/A3/*
 .vscode/
 *.out
 *.o
-/copy/*
-parser.y
+

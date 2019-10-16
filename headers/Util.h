@@ -14,13 +14,12 @@
 using namespace std;
 #define LEXER 0
 #define PARSER 1
-#define OUTPUT_FILE "output_symbolTable.txt"
-#define TOKEN_FILE "1605103_token.txt"
-#define INPUT_FILE "input_symbolTable.txt"
-#define LEXER_LOG "1605103_lexer_log.txt"
-#define PARSER_LOG "1605103_log.txt"
-#define LEXER_ERROR_FILE "1605103_error.txt"
-#define PARSER_ERROR_FILE "1605103_error.txt"
+#define OUTPUT_FILE "logs/output_symbolTable.txt"
+#define TOKEN_FILE "logs/token.txt"
+#define LEXER_LOG "logs/lexer_log.txt"
+#define PARSER_LOG "logs/parser_log.txt"
+#define LEXER_ERROR_FILE "logs/lexer_error.txt"
+#define PARSER_ERROR_FILE "logs/parser_error.txt"
 
 class Util{
     public:

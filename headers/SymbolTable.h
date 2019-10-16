@@ -5,7 +5,7 @@
 #include <string>
 #include <iostream>
 #include <list>
-#include "1605103_ScopeTable.h"
+#include "ScopeTable.h"
 
 
 class SymbolTable

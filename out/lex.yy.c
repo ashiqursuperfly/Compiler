@@ -596,7 +596,7 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "1605103.l"
 #line 3 "1605103.l"
-#include "headers/1605103_SymbolTable.h"
+#include "../headers/1605103_SymbolTable.h"
 #include "y.tab.h"
 
 

@@ -5,8 +5,8 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "1605103_Util.h"
-#include "1605103_Function.h"
+#include "Util.h"
+#include "Function.h"
 using namespace std;
 
 /**@class SymbolInfo is basically a Symbol LinkedList */

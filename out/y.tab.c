@@ -65,8 +65,8 @@
 #line 1 "1605103.y" /* yacc.c:339  */
 
 #include<iostream>
-#include "headers/1605103_SymbolTable.h"
-#include "headers/1605103_AsmCodeGenerator.h"
+#include "../headers/1605103_SymbolTable.h"
+#include "../headers/1605103_AsmCodeGenerator.h"
 //#define Util::appendLogError Util::appendLogError
 //#define LOG Util::parserLog
 #define TOKEN new SymbolInfo()

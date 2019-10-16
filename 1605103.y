@@ -1,7 +1,7 @@
 %{
 #include<iostream>
-#include "headers/1605103_SymbolTable.h"
-#include "headers/1605103_AsmCodeGenerator.h"
+#include "../headers/SymbolTable.h"
+#include "../headers/AsmCodeGenerator.h"
 //#define Util::appendLogError Util::appendLogError
 //#define LOG Util::parserLog
 #define TOKEN new SymbolInfo()
@@ -50,7 +50,7 @@ void yyerror(const char *s){
 	SymbolInfo* Symbol;
 }
 
-%type <s>start
+%type <s>start 
 
 %%
 
