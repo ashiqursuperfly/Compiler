@@ -1,41 +1,3 @@
-### Compiler
-##### A simple compiler for a subset of the C Programming Language
-
-#### Usage
-###### 1. Keep your input file inside the 'input' folder
-###### 2. Run commands.sh, it will prompt you to provide the 'C' file name. This compiles your input file, checks compile errors (lexical/syntax/symantic) and outputs to console and also the logs inside the 'logs' folder. In case of a successful compilation,the generated assembly code can be found exactly where the input file was kept.
-###### 3. Use debug.sh to use gdb
-###### 4. Use run_tests.sh to execute predefined tests inside the tests folder
-
-
-#### Known Issues
-###### This implementation of compiler uses static allocation and therefore, doesn't support Recursion.
-
-#### Sample Output
-##### Input C code:
-```c
-int f(int a){
-    return 2*a;
-    a=9;
-}
-
-int g(int a, int b){
-    int x;
-    x=f(a)+a+b;
-    return x;
-}
-
-int main(){
-    int a,b;
-    a=1;
-    b=2;
-    a=g(a,b);
-    println(a);
-    return 0;
-}
-```
-##### Generated x86 Assembly
-```
 .model small
 .stack 100H
 .data 
@@ -70,6 +32,7 @@ f PROC
 	mov BX,a2
 	mul BX
 	mov t1, ax
+	mov ax,t1
 	mov f_return,ax
 	jmp L_Return_f
 	mov t2,9
@@ -96,11 +59,15 @@ g PROC
 	call f
 	mov ax,f_return
 	mov t3,ax
+	mov ax,t3
 	add ax,a3
 	mov t4,ax
+	mov ax,t4
 	add ax,b3
 	mov t5,ax
+	mov ax,t5
 	mov x3,ax
+	mov ax,x3
 	mov g_return,ax
 	jmp L_Return_g
 L_Return_g:
@@ -130,7 +97,9 @@ main PROC
 	call g
 	mov ax,g_return
 	mov t8,ax
+	mov ax,t8
 	mov a4,ax
+	mov ax,a4
 	call OUTDEC
 	mov t9,0
 	mov ax,t9
@@ -186,5 +155,3 @@ OUTDEC PROC
             ret 
 OUTDEC ENDP 
 END MAIN
-
-```

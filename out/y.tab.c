@@ -3694,19 +3694,19 @@ void optimize(string asmFile){
 	AssemblyCode optimized;
 	bool isNotRequired[len]={false};
 
-	cout<<"Need to Optimize"<<endl;
+	// cout<<"Need to Optimize"<<endl;
 
 	for(int i=0;i<len-1;i++){
 		if(isRedundant(lines[i],lines[i+1])){
-			cout<<i+1<<":"<<lines[i+1]<<endl;
+			//cout<<i+1<<":"<<lines[i+1]<<endl;
 			isNotRequired[i+1] = true;
 		}
 
 	}
-	cout<<"Skipping"<<endl;
+	// cout<<"Skipping"<<endl;
 	for(int i=0;i<len;i++){
 		if(isNotRequired[i]){
-			cout<<i<<":"<<lines[i]<<endl;
+			//cout<<i<<":"<<lines[i]<<endl;
 			continue;
 		}
 		optimized.append(lines[i]).append("\n");

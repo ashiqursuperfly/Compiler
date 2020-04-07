@@ -1,41 +1,3 @@
-### Compiler
-##### A simple compiler for a subset of the C Programming Language
-
-#### Usage
-###### 1. Keep your input file inside the 'input' folder
-###### 2. Run commands.sh, it will prompt you to provide the 'C' file name. This compiles your input file, checks compile errors (lexical/syntax/symantic) and outputs to console and also the logs inside the 'logs' folder. In case of a successful compilation,the generated assembly code can be found exactly where the input file was kept.
-###### 3. Use debug.sh to use gdb
-###### 4. Use run_tests.sh to execute predefined tests inside the tests folder
-
-
-#### Known Issues
-###### This implementation of compiler uses static allocation and therefore, doesn't support Recursion.
-
-#### Sample Output
-##### Input C code:
-```c
-int f(int a){
-    return 2*a;
-    a=9;
-}
-
-int g(int a, int b){
-    int x;
-    x=f(a)+a+b;
-    return x;
-}
-
-int main(){
-    int a,b;
-    a=1;
-    b=2;
-    a=g(a,b);
-    println(a);
-    return 0;
-}
-```
-##### Generated x86 Assembly
-```
 .model small
 .stack 100H
 .data 
@@ -186,5 +148,3 @@ OUTDEC PROC
             ret 
 OUTDEC ENDP 
 END MAIN
-
-```
