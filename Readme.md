@@ -35,7 +35,7 @@ int main(){
 }
 ```
 ##### Generated x86 Assembly
-```
+```asm
 .model small
 .stack 100H
 .data 
