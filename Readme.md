@@ -2,14 +2,17 @@
 ##### A simple compiler for a subset of the C Programming Language
 
 #### Usage
-###### 1. Keep your input file inside the 'input' folder
-###### 2. Run commands.sh, it will prompt you to provide the 'C' file name. This compiles your input file, checks compile errors (lexical/syntax/symantic) and outputs to console and also the logs inside the 'logs' folder. In case of a successful compilation,the generated assembly code can be found exactly where the input file was kept.
-###### 3. Use debug.sh to use gdb
-###### 4. Use run_tests.sh to execute predefined tests inside the tests folder
+**1. Keep your input file inside the 'input' folder**
+
+**2. Run commands.sh, it will prompt you to provide the 'C' file name. This compiles your input file, checks compile errors (lexical/syntax/symantic) and outputs to console and also the logs inside the 'logs' folder. In case of a successful compilation,the generated assembly code can be found exactly where the input file was kept.**
+
+**3. Use debug.sh to use gdb**
+
+**4. Use run_tests.sh to execute predefined tests inside the tests folder**
 
 
 #### Known Issues
-###### This implementation of compiler uses static allocation and therefore, doesn't support Recursion.
+##### This implementation of compiler uses static allocation and therefore, doesn't support Recursion.
 
 #### Sample Output
 ##### Input C code:
