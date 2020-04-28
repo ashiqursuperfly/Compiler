@@ -1,6 +1,8 @@
 ### Compiler
 ##### A simple compiler for a subset of the C Programming Language
 
+<img src="ss/compiler.jpg" height="200" width="200">
+
 #### Usage
 **1.** Keep your input file inside the 'input' folder
 
